@@ -6,8 +6,6 @@
 /logs
 /error_docs
 /httpdocs
-/storage
-/docs
 /.idea
 /.vagrant
 Homestead.json
