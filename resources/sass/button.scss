@@ -1,0 +1,43 @@
+@import "colors";
+.btn{
+  color: $whitetxt;
+  border:0;
+  //min-width: 120px;
+  &.btn-primary{
+    background-color: $main;
+    border: solid transparent 1px;
+  }
+  &.btn-default{
+    background-color: $lightgray;
+    border: solid transparent 1px;
+    color: $blacktxt;
+  }
+  &.btn-link{
+    color: $blacktxt;
+  }
+  &.btn-dark{
+    background-color:$hover-main;
+    border-radius: 0px;
+  }
+}
+.btn-dark-toggle{
+  & .btn-dark{
+    border: solid $hover-main 1px;
+    background-color:$whitetxt;
+    color: $blacktxt;
+    &.active{
+      background-color:$hover-main !important;
+      border: solid $hover-main 1px !important;
+    }
+    &:focus{
+      box-shadow: none !important;
+    }
+    &:hover{
+      background-color:$hover-main !important;
+      border: solid $hover-main 1px !important;
+      color:$whitetxt;
+    }
+
+
+  }
+}

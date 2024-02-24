@@ -1,0 +1,46 @@
+.btn {
+  color: #fff;
+  border: 0;
+}
+
+.btn.btn-primary {
+  background-color: #4b6c5b;
+  border: solid transparent 1px;
+}
+
+.btn.btn-default {
+  background-color: #e8e8e8;
+  border: solid transparent 1px;
+  color: #000;
+}
+
+.btn.btn-link {
+  color: #000;
+}
+
+.btn.btn-dark {
+  background-color: #608a74;
+  border-radius: 0px;
+}
+
+.btn-dark-toggle .btn-dark {
+  border: solid #608a74 1px;
+  background-color: #fff;
+  color: #000;
+}
+
+.btn-dark-toggle .btn-dark.active {
+  background-color: #608a74 !important;
+  border: solid #608a74 1px !important;
+}
+
+.btn-dark-toggle .btn-dark:focus {
+  box-shadow: none !important;
+}
+
+.btn-dark-toggle .btn-dark:hover {
+  background-color: #608a74 !important;
+  border: solid #608a74 1px !important;
+  color: #fff;
+}
+

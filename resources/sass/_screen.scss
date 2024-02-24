@@ -1,0 +1,116 @@
+@media only screen and (max-device-width: 1200px) {
+    .show-mobile-header-new {
+        display: block;
+    }
+
+    .hide-mobile-header-new {
+        display: none;
+    }
+}
+
+@media only screen and (min-device-width: 1201px) {
+    .show-mobile-header-new {
+        display: none;
+    }
+    .hide-mobile-header-new {
+        display: block;
+    }
+}
+
+@media only screen and (max-device-width: 999px) {
+    .show-mobile-footer {
+        display: block;
+    }
+
+    .hide-mobile-footer {
+        display: none;
+    }
+}
+
+@media only screen and (min-device-width: 1000px) {
+    .show-mobile-footer {
+        display: none;
+    }
+    .hide-mobile-footer {
+        display: block;
+    }
+}
+
+// main page
+@media only screen and (max-device-width: 767px) {
+    .show-mobile-page {
+        display: block;
+    }
+
+    .hide-mobile-page {
+        display: none;
+    }
+}
+
+@media only screen and (min-device-width: 768px) {
+    .show-mobile-page {
+        display: none;
+    }
+    .hide-mobile-page {
+        display: block;
+    }
+}
+
+// main page (dark window)
+@media only screen and (max-device-width: 992px) {
+    .show-mobile-dark {
+        display: block;
+    }
+
+    .hide-mobile-dark {
+        display: none;
+    }
+}
+
+@media only screen and (min-device-width: 993px) {
+    .show-mobile-dark {
+        display: none;
+    }
+    .hide-mobile-dark {
+        display: block;
+    }
+}
+
+// main page (service icons)
+@media only screen and (max-device-width: 576px) {
+    .show-mobile-service {
+        display: block;
+    }
+
+    .hide-mobile-service {
+        display: none;
+    }
+}
+
+@media only screen and (min-device-width: 577px) {
+    .show-mobile-service {
+        display: none;
+    }
+    .hide-mobile-service {
+        display: block;
+    }
+}
+
+@media only screen and (max-device-width: 850px) {
+    .show-mobile-white {
+        display: block;
+    }
+
+    .hide-mobile-white {
+        display: none;
+    }
+}
+
+@media only screen and (min-device-width: 851px) {
+    .show-mobile-white {
+        display: none;
+    }
+    .hide-mobile-white {
+        display: block;
+    }
+}
