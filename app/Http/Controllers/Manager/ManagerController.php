@@ -55,19 +55,23 @@ class ManagerController extends Controller
             ->with('groupList', $groupList);
     }
 
-    public function servicesList(){
+    public function servicesList(Request $request){
         $manager = ProfileDal::getByUserId(Auth::id());
-        $statusList=ProjectDal::getProjectStatusList();
+        $statusList = ProjectDal::getProjectStatusList();
+        
+        $statusId = $request->input('status_id', null);
+        
         $serviceJournalList = ServiceJournalDal::getServiceJournalListByManager(
             $manager->id,
-            false,
-            $statusList[0]->id
+            true, //
+            $statusId
         );
+        
         $curatorList = ProfileDal::getListByRoles([RoleList::Curator], false);
 
         return view('Manager.Services.index')
             ->with('serviceJournalList', $serviceJournalList)
-            ->with('statusList',$statusList)
+            ->with('statusList', $statusList)
             ->with('curatorList', $curatorList);
     }
 

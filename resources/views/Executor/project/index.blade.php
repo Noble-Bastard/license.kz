@@ -1,60 +1,46 @@
-@extends('new.layouts.app')
+@extends('new.layouts.executor')
 
 @section('content')
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="title-main">Список проектов
-
-                </div>
-
-                <div class="card-body">
-                    <div class="row pb-3">
-                        <div class="col-6 flex-align-left">
-                            <span class="badge badge-primary">@lang('messages.executor.hourly_rate') {{$hourlyRate}}</span>
-                        </div>
-                        <div class="col-6 flex-align-right">
-                            <div class="btn-group btn-group-toggle btn-success-toggle ">
-                                @foreach($statusList as $status)
-                                    <a  class="btn btn-success {{$service_status_id == $status->id ? 'active' : ''}}" href="{{route('executor.project.list_by_status', ['service_status_id' => $status->id])}}">{{$status->name}}</a>
-                                @endforeach
-                            </div>
-                        </div>
-
-                    </div>
-                    <div>
-                        <table id="services" class="table table-striped table-responsive-sm col-12">
-                            <thead>
-                            <tr>
-                                <th class="w-90">@lang('messages.all.name')</th>
-                                <th class="w-10">@lang('messages.executor.date')</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($projectList->Where('project_status_id',$service_status_id) as $project)
-                                <tr>
-                                    <td>
-                                        <a class="messageWindowLink"
-                                           href="{{route('executor.project.show', ['projectId'=>$project->id])}}">
-                                        {{$project->description}}
-                                        </a>
-                                    </td>
-                                    <td class="text-center">{{\App\Data\Helper\Assistant::formatDate($project->create_date) }}</td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
-                        <div class="row padding-t-15">
-                            <div class="col">
-                                {{ $projectList->links() }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="page-header">
+        <h1 class="page-title">Проекты</h1>
     </div>
 
+    <div class="services-tabs">
+        @foreach($statusList as $status)
+            <a class="tab-btn {{ $service_status_id == $status->id ? 'active' : '' }}"
+               href="{{ route('executor.project.list_by_status', ['service_status_id' => $status->id]) }}">
+                {{ $status->name }}
+            </a>
+        @endforeach
+    </div>
+
+    <div class="manager-table">
+        <div class="table-header">
+            <div class="table-header-cell">Описание</div>
+            <div class="table-header-cell">Дата</div>
+            <div class="table-header-cell">Действия</div>
+        </div>
+
+        @if(isset($projectList) && $projectList->isNotEmpty())
+            @foreach($projectList->where('project_status_id', $service_status_id) as $project)
+                <div class="table-row">
+                    <div class="table-cell">{{ $project->description }}</div>
+                    <div class="table-cell">{{ \App\Data\Helper\Assistant::formatDate($project->create_date) }}</div>
+                    <div class="table-cell">
+                        <a href="{{ route('executor.project.show', ['projectId' => $project->id]) }}" class="btn btn-sm btn-primary">Детали</a>
+                    </div>
+                </div>
+            @endforeach
+        @else
+            <div class="table-row">
+                <div class="table-cell" colspan="3">Нет проектов для отображения.</div>
+            </div>
+        @endif
+    </div>
+
+    @if(isset($projectList) && $projectList->hasPages())
+        {{ $projectList->links('components.manager-pagination') }}
+    @endif
 @endsection
 
 @section('js')

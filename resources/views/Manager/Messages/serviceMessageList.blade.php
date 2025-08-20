@@ -1,62 +1,77 @@
-@extends('new.layouts.app')
+@extends('new.layouts.manager')
 
 @section('content')
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="title-main">@lang('messages.manager.mail')
-
-                </div>
-
-                <div class="card-body">
-                    <div>
-                        <table class="table table-striped table-responsive-sm col-12">
-                            <thead>
-                            <tr class="">
-                                <th class="w-10">@lang('messages.manager.number')</th>
-                                <th class="w-15">@lang('messages.all.service_number')</th>
-                                <th class="w-50">@lang('messages.manager.name')</th>
-                                <th class="w-15">@lang('messages.manager.last_message')</th>
-                                <th class="w-10"></th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($serviceMessageList as $message)
-                                <tr>
-                                    <td class="text-center">
-                                        @if($message->is_read)
-                                            <span class="badge badge-secondary">&nbsp;</span>
-                                        @else
-                                            <span class="badge badge-success">&nbsp;</span>
-                                        @endif
-                                    </td>
-                                    <td class="text-center">№{{$message->service_no}}</td>
-                                    <td class="text-center">{{$message->service_name}}</td>
-                                    <td class="text-center">{{$message->last_date != null ? \App\Data\Helper\Assistant::formatDateTime($message->last_date) : ''}}</td>
-                                    <td class="text-center">
-                                        <a class="messageWindowLink" href="{{route('Manager.message.list', ['serviceJournalId' => $message->id])}}">
-                                            <i class="fa fa-edit"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="pt-2">
-                        {{ $serviceMessageList->links() }}
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="page-header">
+        <h1 class="page-title">Сообщения</h1>
     </div>
 
-    @include('news._shortNewsPart')
+    <div class="messages-container">
+        <div class="messages-sidebar">
+            <div class="sidebar-header">
+                <div class="search-bar">
+                    <img src="{{ asset('new/images/manager/icon-search-gray.svg') }}" alt="Search"/>
+                    <input type="text" placeholder="Поиск...">
+                </div>
+            </div>
 
-    <div class="modal bd-example-modal-lg" tabindex="-1" role="dialog" id="messageModal">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
+            <div class="sidebar-tabs">
+                <button class="tab-btn active">Исполнители</button>
+                <button class="tab-btn">Клиенты</button>
+            </div>
 
+            <div class="messages-list">
+                @if(isset($serviceMessageList) && $serviceMessageList->isNotEmpty())
+                    @foreach($serviceMessageList as $message)
+                        <div class="message-item {{ !$message->is_read ? 'unread' : '' }}">
+                            <div class="contact-avatar">
+                                <img src="{{ $message->client->avatar ?? asset('images/user1.png') }}" alt="Avatar"/>
+                                <span class="status-dot online"></span>
+                            </div>
+                            <div class="message-details">
+                                <div class="message-header">
+                                    <span class="contact-name">{{ $message->client->full_name ?? 'Клиент' }}</span>
+                                    <span class="message-time">{{ $message->last_date ? $message->last_date->format('H:i') : '' }}</span>
+                                </div>
+                                <div class="message-preview">
+                                    <p>{{ Str::limit($message->last_message->content ?? 'Нет сообщений', 30) }}</p>
+                                    @if(!$message->is_read)
+                                        <span class="unread-count">1</span>
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                @else
+                    <p class="no-messages">Нет сообщений для отображения.</p>
+                @endif
+            </div>
+        </div>
+
+        <div class="chat-window">
+            <div class="chat-header">
+                <div class="contact-info">
+                    <div class="contact-avatar">
+                        <img src="{{ asset('images/user1.png') }}" alt="Avatar"/>
+                        <span class="status-dot online"></span>
+                    </div>
+                    <div class="contact-details">
+                        <span class="contact-name">Данил Минин</span>
+                        <span class="contact-status">В сети</span>
+                    </div>
+                </div>
+                <div class="chat-actions">
+                    <button><i class="bi bi-three-dots-vertical"></i></button>
+                </div>
+            </div>
+
+            <div class="chat-body">
+                <!-- Chat messages will be loaded here -->
+            </div>
+
+            <div class="chat-footer">
+                <button class="attach-btn"><i class="bi bi-paperclip"></i></button>
+                <input type="text" class="message-input" placeholder="Напишите сообщение...">
+                <button class="send-btn"><i class="bi bi-send"></i></button>
             </div>
         </div>
     </div>

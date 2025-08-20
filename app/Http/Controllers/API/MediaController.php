@@ -7,7 +7,7 @@ use App\Http\Requests\MediaFileUploadRequest;
 use App\Http\Requests\MediaRequest;
 use App\Http\Resources\MediaResource;
 use App\Http\Resources\UploadFileResource;
-use App\Repositories\Interface\IMediaRepository;
+use App\Repositories\Interfaces\IMediaRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
 use stdClass;
 

@@ -24,8 +24,12 @@ class ClientController
                     ->all();
             });
 
-        return view('SaleManager.client.index')
-            ->with('agentList', $agentList);
+        $searchText = Input::get('searchText');
+        $clientList = ProfileDal::getListWithAgentInfo(true, $searchText);
+
+        return view('SaleManager.Client.index')
+            ->with('agentList', $agentList)
+            ->with('clientList', $clientList);
     }
 
     public function clientList()

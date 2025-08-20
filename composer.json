@@ -26,7 +26,7 @@
     "laravelcollective/html": "~5.5",
     "lcobucci/jwt": "3.3.3",
     "mcamara/laravel-localization": "^1.5",
-    "mpdf/mpdf": "~7.1",
+    "mpdf/mpdf": "*",
     "mpdf/qrcode": "^1.1",
     "nathanmac/parser": "^4.3",
     "phpoffice/phpspreadsheet": "~1.6",
