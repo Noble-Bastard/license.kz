@@ -16,6 +16,46 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{asset('css/manager_dashboard.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('css/variables.css') }}" rel="stylesheet">
+    
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.tailwind = window.tailwind || {};
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#F3FBF7',
+                            100: '#E7F5EE',
+                            300: '#9FD8BF',
+                            500: '#2EA26A',
+                            600: '#279760',
+                            700: '#1F7A4E',
+                            800: '#176141',
+                            900: '#124F35'
+                        },
+                        text: {
+                            primary: '#191E1D',
+                            secondary: '#1E2B28',
+                            muted: '#6F6F6F',
+                            white: '#FFFFFF'
+                        },
+                        border: {
+                            light: '#E8E8E8',
+                            medium: '#D9D9D9',
+                            muted: '#C2BFBF'
+                        },
+                        neutral: {
+                            50: '#F5F5F5',
+                            100: '#F6F6F6'
+                        }
+                    }
+                }
+            }
+        };
+    </script>
 
 </head>
 <body>

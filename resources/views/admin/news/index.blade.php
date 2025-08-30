@@ -1,136 +1,334 @@
-@extends('new.layouts.app')
+@extends('layouts.modern-app')
 
-@section('content')
-    <div class="container mb-5">
-        <div class="row">
-            <div class="col-12">
-                <div class="title-main">
-                    @lang('messages.admin.news.newses')
+@section('title', 'Управление новостями')
 
-                </div>
+@section('page-header')
+    <div class="py-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-2xl font-bold text-text-primary">@lang('messages.admin.news.newses')</h1>
+                <p class="mt-1 text-sm text-text-secondary">
+                    Управляйте новостями и публикациями
+                </p>
             </div>
-        </div>
-
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row pb-3">
-                            <div class="col-12">
-                                <a class="btn btn-success" href="{{route('admin.news.create')}}"><i
-                                            class="fa fa-plus-square"></i> @lang('messages.all.add')</a>
-                            </div>
-                        </div>
-                        <div>
-                            <table id="news" class="table table-striped table-responsive-sm col-12">
-                                <thead>
-                                <tr>
-                                    <th>@lang('messages.admin.news.header')</th>
-                                    <th>@lang('messages.admin.news.news')</th>
-                                    <th>@lang('messages.admin.news.news_is_actual')</th>
-                                    <th>@lang('messages.all.order_num')</th>
-                                    <th>@lang('messages.admin.countries.country')</th>
-                                    <th>@lang('messages.all.actions')</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($newsList as $news)
-                                    <tr>
-                                        <td>{{$news->header }}</td>
-                                        <td>
-                                            {!! App\Data\Helper\Assistant::subStrCutByWord(str_replace(array("\n","\r"), '', strip_tags($news->content)), 300) !!}
-                                            ...
-                                        </td>
-                                        <td class="text-center">{{($news->is_actual  == 1) ? trans('messages.all.yes') : trans('messages.all.no')}}</td>
-                                        <td>{{$news->orderNum }}</td>
-                                        <td>{{$news->country_name }}</td>
-                                        <td class="text-center">
-                                            <div class="dropdown">
-                                                <button class="btn btn-success dropdown-toggle" type="button"
-                                                        id="dropdownMenuButton" data-toggle="dropdown"
-                                                        aria-haspopup="true" aria-expanded="false">
-                                                    <i class="fa fa-bars"></i>
-                                                </button>
-                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <a class="dropdown-item changePreviewPhoto" href="#"
-                                                       data-news-id="{{$news->id}}">@lang('messages.all.previewPhoto')</a>
-                                                    <a class="dropdown-item"
-                                                       href="{{route('admin.news.edit', ['id' => $news->id])}}">@lang('messages.all.edit')</a>
-                                                    <a class="dropdown-item"
-                                                       href="{{route('admin.news.destroy', $news->id)}}"
-                                                       data-method="delete">@lang('messages.all.delete')</a>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-item"
-                                                       href="{{route('admin.news.commentList', ['id' => $news->id])}}">@lang('messages.news.comments')</a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                            <div class="row padding-t-15">
-                                <div class="col">
-                                    {{ $newsList->links() }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade" id="changePreviewPhotoModal" tabindex="-1" role="dialog"
-             aria-hidden="true">
-            <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <form class="form-horizontal" id="changePreviewPhotoForm" method="post"
-                              action="{{route('admin.news.previewPhoto')}}"
-                              enctype="multipart/form-data">
-                            <input type="hidden" name="_token" value="{{csrf_token()}}"/>
-                            <input type="hidden" name="newsId" id="newsId" value=""/>
-
-                            <div class="form-group">
-                                <label for="ClientRequestResponseTime">@lang('messages.all.previewPhoto')</label>
-                                <input class="form-control" type="file" name="previewPhoto"/>
-                            </div>
-                            <div class="form-row">
-                                <div class="col-xl-12 col-lg-12 col-sm-12">
-                                    <button type="submit" class="btn btn-success float-right">
-                                        @lang('messages.all.set')
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal-dialog -->
+            <div class="flex items-center space-x-3">
+                @component('components.modern.button', [
+                    'variant' => 'primary',
+                    'icon' => 'fas fa-plus',
+                    'href' => route('admin.news.create')
+                ])
+                    @lang('messages.all.add')
+                @endcomponent
             </div>
         </div>
     </div>
 @endsection
 
+@section('content')
+<div x-data="newsManager()" x-init="init()">
+    <!-- Filters -->
+    <div class="mb-6">
+        @component('components.modern.card')
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div>
+                    @component('components.modern.input', [
+                        'type' => 'text',
+                        'name' => 'search',
+                        'placeholder' => 'Поиск по заголовку или содержанию',
+                        'icon' => 'fas fa-search',
+                        'attributes' => 'x-model="filters.search" @input.debounce.300ms="applyFilters()"'
+                    ])
+                    @endcomponent
+                </div>
+                
+                <div>
+                    @component('components.modern.input', [
+                        'type' => 'select',
+                        'name' => 'country',
+                        'placeholder' => 'Все страны',
+                        'attributes' => 'x-model="filters.country" @change="applyFilters()"'
+                    ])
+                        <option value="">Все страны</option>
+                        @foreach(App\Data\Helper\CountryList::getList() as $key => $country)
+                            <option value="{{ $key }}">{{ $country }}</option>
+                        @endforeach
+                    @endcomponent
+                </div>
+                
+                <div>
+                    @component('components.modern.input', [
+                        'type' => 'select',
+                        'name' => 'is_actual',
+                        'placeholder' => 'Все статусы',
+                        'attributes' => 'x-model="filters.is_actual" @change="applyFilters()"'
+                    ])
+                        <option value="">Все статусы</option>
+                        <option value="1">Актуальные</option>
+                        <option value="0">Неактуальные</option>
+                    @endcomponent
+                </div>
+                
+                <div class="flex items-end">
+                    @component('components.modern.button', [
+                        'variant' => 'outline',
+                        'icon' => 'fas fa-redo',
+                        'attributes' => '@click="resetFilters()"'
+                    ])
+                        Сбросить
+                    @endcomponent
+                </div>
+            </div>
+        @endcomponent
+    </div>
+
+    <!-- News Table -->
+    <div class="mb-6">
+        @component('components.modern.card', ['padding' => 'none'])
+            <div class="overflow-x-auto">
+                @component('components.modern.table', ['hoverable' => true])
+                    <x-slot name="head">
+                        <tr>
+                            <th class="table-th">
+                                <div class="flex items-center space-x-1">
+                                    <span>@lang('messages.admin.news.header')</span>
+                                    <button @click="sortBy('header')" class="text-text-tertiary hover:text-text-primary">
+                                        <i class="fas fa-sort text-xs"></i>
+                                    </button>
+                                </div>
+                            </th>
+                            <th class="table-th">@lang('messages.admin.news.news')</th>
+                            <th class="table-th">@lang('messages.admin.news.news_is_actual')</th>
+                            <th class="table-th">@lang('messages.all.order_num')</th>
+                            <th class="table-th">@lang('messages.admin.countries.country')</th>
+                            <th class="table-th">@lang('messages.all.actions')</th>
+                        </tr>
+                    </x-slot>
+
+                    @foreach($newsList as $news)
+                        <tr class="table-tr">
+                            <td class="table-td">
+                                <div class="max-w-xs">
+                                    <div class="font-medium text-text-primary">{{ $news->header }}</div>
+                                </div>
+                            </td>
+                            <td class="table-td">
+                                <div class="max-w-md">
+                                    <p class="text-sm text-text-secondary line-clamp-3">
+                                        {!! App\Data\Helper\Assistant::subStrCutByWord(str_replace(array("\n","\r"), '', strip_tags($news->content)), 200) !!}...
+                                    </p>
+                                </div>
+                            </td>
+                            <td class="table-td">
+                                @if($news->is_actual == 1)
+                                    @component('components.modern.badge', ['variant' => 'success', 'dot' => true])
+                                        @lang('messages.all.yes')
+                                    @endcomponent
+                                @else
+                                    @component('components.modern.badge', ['variant' => 'danger', 'dot' => true])
+                                        @lang('messages.all.no')
+                                    @endcomponent
+                                @endif
+                            </td>
+                            <td class="table-td">
+                                @component('components.modern.badge', ['variant' => 'outline-default'])
+                                    {{ $news->orderNum }}
+                                @endcomponent
+                            </td>
+                            <td class="table-td">
+                                <span class="text-sm text-text-secondary">{{ $news->country_name }}</span>
+                            </td>
+                            <td class="table-td">
+                                <div class="flex items-center space-x-2">
+                                    <button @click="changePreviewPhoto({{ $news->id }})" 
+                                            class="text-blue-600 hover:text-blue-900" 
+                                            title="Изменить фото">
+                                        <i class="fas fa-image"></i>
+                                    </button>
+                                    <a href="{{ route('admin.news.edit', ['id' => $news->id]) }}" 
+                                       class="text-yellow-600 hover:text-yellow-900" 
+                                       title="Редактировать">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="{{ route('admin.news.commentList', ['id' => $news->id]) }}" 
+                                       class="text-green-600 hover:text-green-900" 
+                                       title="Комментарии">
+                                        <i class="fas fa-comments"></i>
+                                    </a>
+                                    <button @click="deleteNews({{ $news->id }})" 
+                                            class="text-red-600 hover:text-red-900" 
+                                            title="Удалить">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+
+                    <!-- Empty state -->
+                    @if($newsList->isEmpty())
+                        <tr>
+                            <td colspan="6" class="table-td text-center py-12">
+                                <div class="text-text-secondary">
+                                    <i class="fas fa-newspaper text-4xl mb-4"></i>
+                                    <p class="text-lg font-medium">Новости не найдены</p>
+                                    <p class="mt-1">Создайте первую новость для начала работы</p>
+                                </div>
+                            </td>
+                        </tr>
+                    @endif
+                @endcomponent
+            </div>
+        @endcomponent
+    </div>
+
+    <!-- Pagination -->
+    @if($newsList->hasPages())
+        @component('components.modern.pagination', ['paginator' => $newsList])
+        @endcomponent
+    @endif
+</div>
+
+<!-- Change Preview Photo Modal -->
+@component('components.modern.modal', [
+    'name' => 'preview-photo-modal',
+    'size' => 'md',
+    'title' => trans('messages.all.previewPhoto')
+])
+    <form x-ref="previewPhotoForm" 
+          method="post" 
+          action="{{ route('admin.news.previewPhoto') }}" 
+          enctype="multipart/form-data"
+          @submit.prevent="submitPreviewPhoto()">
+        @csrf
+        <input type="hidden" name="newsId" x-model="selectedNewsId">
+        
+        <div class="space-y-4">
+            @component('components.modern.input', [
+                'type' => 'file',
+                'name' => 'previewPhoto',
+                'label' => trans('messages.all.previewPhoto'),
+                'required' => true,
+                'help' => 'Поддерживаются форматы: JPG, PNG, GIF. Максимальный размер: 5MB'
+            ])
+            @endcomponent
+        </div>
+    </form>
+    
+    <x-slot name="footer">
+        @component('components.modern.button', [
+            'variant' => 'secondary',
+            'attributes' => '@click="closeModal(\'preview-photo-modal\')"'
+        ])
+            Отмена
+        @endcomponent
+        @component('components.modern.button', [
+            'variant' => 'primary',
+            'attributes' => '@click="submitPreviewPhoto()"'
+        ])
+            @lang('messages.all.set')
+        @endcomponent
+    </x-slot>
+@endcomponent
+@endsection
+
 @section('js')
-    <script>
-        //activeTab('news-list');
+<script>
+function newsManager() {
+    return {
+        selectedNewsId: null,
+        filters: {
+            search: '',
+            country: '',
+            is_actual: ''
+        },
+        sortField: 'header',
+        sortDirection: 'asc',
 
-        $(function () {
-            $(document).on('click', '.changePreviewPhoto', function (e) {
-                let modal = $('#changePreviewPhotoModal');
+        init() {
+            // Инициализация
+        },
 
-                $('#newsId').val($(this).data('news-id'));
+        applyFilters() {
+            // В реальном приложении здесь будет AJAX запрос для фильтрации
+            console.log('Applying filters:', this.filters);
+        },
 
-                modal.modal('show');
-            });
+        resetFilters() {
+            this.filters = {
+                search: '',
+                country: '',
+                is_actual: ''
+            };
+            this.applyFilters();
+        },
 
-            $('#changePreviewPhotoForm').submit(function () {
-                $(this).ajaxSubmit({
-                    success: function () {
-                        $('#changePreviewPhotoModal').modal('hide');
+        sortBy(field) {
+            if (this.sortField === field) {
+                this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+            } else {
+                this.sortField = field;
+                this.sortDirection = 'asc';
+            }
+            
+            // В реальном приложении здесь будет AJAX запрос для сортировки
+            console.log('Sorting by:', field, this.sortDirection);
+        },
+
+        changePreviewPhoto(newsId) {
+            this.selectedNewsId = newsId;
+            openModal('preview-photo-modal');
+        },
+
+        async submitPreviewPhoto() {
+            const form = this.$refs.previewPhotoForm;
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
                     }
                 });
 
-                return false;
-            });
-        })
-    </script>
+                if (response.ok) {
+                    showNotification('success', 'Успешно!', 'Фото превью обновлено');
+                    closeModal('preview-photo-modal');
+                    window.location.reload(); // Перезагружаем страницу для обновления
+                } else {
+                    throw new Error('Ошибка сервера');
+                }
+            } catch (error) {
+                showNotification('error', 'Ошибка!', 'Не удалось обновить фото превью');
+            }
+        },
+
+        async deleteNews(newsId) {
+            if (!confirm('Вы уверены, что хотите удалить эту новость?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`/admin/news/${newsId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    showNotification('success', 'Успешно!', 'Новость удалена');
+                    window.location.reload();
+                } else {
+                    throw new Error('Ошибка сервера');
+                }
+            } catch (error) {
+                showNotification('error', 'Ошибка!', 'Не удалось удалить новость');
+            }
+        }
+    };
+}
+</script>
 @endsection

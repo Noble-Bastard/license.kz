@@ -101,4 +101,17 @@ class ServicesController extends Controller
         ServiceJournalDal::startExecution($serviceJournal);
         return redirect(URL::previous());
     }
+
+    /**
+     * Return Sale Manager service details modal content (Figma-styled partial).
+     */
+    public function serviceJournalModal($servicesJournalId)
+    {
+        $serviceJournal = ServiceJournalDal::getExt($servicesJournalId);
+        $serviceJournalStepList = ServiceJournalDal::getServiceJournalStepList($servicesJournalId);
+
+        return view('SaleManager.service._details_modal')
+            ->with('serviceJournal', $serviceJournal)
+            ->with('serviceJournalStepList', $serviceJournalStepList);
+    }
 }

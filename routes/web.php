@@ -162,6 +162,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             Route::get('services/setInWork/{serviceJournal}', 'SaleManager\ServicesController@setInWork')->name('sale_manager.service.setInWork');
 
             Route::get('servicesJournal/{servicesJournalId}', 'ServicesController@show')->name('sale_manager.serviceJournal.show');
+            // Modal content for service details (Sale Manager)
+            Route::get('vue/servicesJournal/{servicesJournalId}/modal', 'SaleManager\ServicesController@serviceJournalModal')->name('sale_manager.serviceJournal.modal');
 
             Route::get('clients', 'SaleManager\ClientController@index')->name('sale_manager.client.index');
             Route::get('vue/clientList', 'SaleManager\ClientController@clientList')->name('sale_manager.client.list');
@@ -171,6 +173,19 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             Route::get('commercial_offers/create', 'SaleManager\CommercialOfferController@create')->name('sale_manager.commercial_offer.create');
             Route::post('commercial_offers/store', 'SaleManager\CommercialOfferController@store')->name('sale_manager.commercial_offer.store');
             Route::get('commercial_offers/prepareServiceById', 'SaleManager\CommercialOfferController@prepareServiceById')->name('sale_manager.commercial_offer.prepareServiceById');
+            
+            // Test route for debugging
+            Route::get('test-button', function() {
+    return view('test-button');
+})->name('test.button');
+
+Route::get('test-simple', function() {
+    return view('test-simple');
+})->name('test.simple');
+
+Route::get('test-alpine', function() {
+    return view('test-alpine');
+})->name('test.alpine');
 
 
             Route::get('potential_client', 'SaleManager\PotentialClientController@index')->name('sale_manager.potential_client.index');
@@ -467,7 +482,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
 
 
     Route::prefix('company')->group(function () {
-        Route::group(['middleware' => ['auth', 'setLocale', 'role:Administrator']], function () {
+        Route::group(['middleware' => ['auth', 'setLocale']], function () {
             Route::get('standart_contract_template', 'Company\StandartContractTemplateController@index')->name('company.standart_contract_template');
             Route::get('vue/standart_contract_template/list', 'Company\StandartContractTemplateController@entityList');
             Route::get('vue/standart_contract_template/download', 'Company\StandartContractTemplateController@download');
@@ -479,6 +494,10 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             Route::post('vue/standart_contract_template_type/delete', 'Company\StandartContractTemplateTypeController@delete');
             Route::post('vue/standart_contract_template_type/store', 'Company\StandartContractTemplateTypeController@store');
 
+            // Legacy accountant-facing document templates URL -> redirect to new accountant page
+            Route::get('document_template', function() {
+                return redirect()->route('Accountant.document_templates');
+            })->name('company.document_template');
         });
     });
 
@@ -499,6 +518,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             Route::post('task/start/{$taskId}', 'TaskController@start')->name('executor.taskDocument.start');
             Route::post('task/messageList', 'TaskController@messageList')->name('executor.task.messageList');
             Route::post('task/message/create', 'TaskController@messageCreate')->name('executor.task.message.create');
+
+            // Executor Messages page
+            Route::get('messages', 'MessageController@index')->name('executor.messages');
 
         });
     });
@@ -663,6 +685,9 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         Route::group(['middleware' => ['auth', 'setLocale', 'role:Accountant']], function () {
             Route::get('/', 'AccountantController@index')->name('Accountant.index');
             Route::get('services', 'AccountantController@getServiceList')->name('Accountant.services');
+            Route::get('document-templates', 'AccountantController@documentTemplates')->name('Accountant.document_templates');
+            Route::post('document-templates/upload', 'AccountantController@uploadDocument')->name('Accountant.document_templates.upload');
+            Route::get('document-templates/{id}/download', 'AccountantController@downloadDocument')->name('Accountant.document_templates.download');
             Route::get('vue/services/list', 'AccountantController@entityList');
             Route::post('vue/services/confirmPayment', 'AccountantController@confirmPayment')->name('accountant.service.confirmPayment');
             Route::post('services/generateAgreement', 'AccountantController@generateAgreement')->name('accountant.service.generateAgreement');
@@ -680,14 +705,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         });
     });
 
-    Route::prefix('company')->group(function () {
-        Route::group(['middleware' => ['auth', 'setLocale', 'role:Accountant']], function () {
-            Route::get('document_template', 'Company\DocumentTemplateController@index')->name('company.document_template');
-            Route::get('vue/document_template/list', 'Company\DocumentTemplateController@entityList');
-            Route::get('vue/document_template/download', 'Company\DocumentTemplateController@download');
-            Route::post('vue/document_template/store', 'Company\DocumentTemplateController@store');
-        });
-    });
+    // Moved to accountant section
 
     Route::prefix('service_journal')->group(function () {
         Route::group(['middleware' => ['auth', 'setLocale', 'role:Accountant|Head|Client']], function () {

@@ -169,7 +169,7 @@ class UserDal
                 break;
             case RoleList::Client :
             {
-                return Redirect::intended();
+                return redirect()->route('Client.service.list');
                 break;
             }
             case RoleList::Agent:
@@ -183,7 +183,7 @@ class UserDal
                 break;
         }
 
-        return Redirect::intended();
+        return redirect('/profile');
     }
 
     public static function sendNewClientEmailToAdmin($newUser)

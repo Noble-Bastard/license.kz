@@ -23,6 +23,8 @@ return [
             'country_name' => 'Country',
             'file' => 'File',
             'document_template_type_name' => 'Template Type',
+            'search_placeholder' => 'Search by document name',
+            'new_document' => 'New document',
         ],
         'standartContractTemplate' => [
             'id' => '№',

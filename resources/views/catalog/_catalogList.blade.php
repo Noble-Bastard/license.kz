@@ -3,240 +3,143 @@
     $preSelected = isset($preSelected) ? $preSelected : null;
 @endphp
 
-<div class="catalog_list w-100">
+<div class="catalog-list w-full">
     @foreach(collect($catalogRootNode->childNodeList->where('is_visible', 1)->all())->sortBy('name') as $catalogItem)
         @switch($catalogItem->catalog_node_type_id)
             @case(1)
-            <a href="{{route('services.catalog.list', ['catalogId'=>$catalogItem->id])}}"
-               class="service-group__item">
-                {{$catalogItem->name}}
-            </a>
+            {{-- Link Type Catalog --}}
+            <div class="catalog-link-item">
+                <a href="{{ route('services.catalog.list', ['catalogId' => $catalogItem->id]) }}" 
+                   class="block p-4 bg-gradient-to-r from-primary-50 to-primary-100 border border-primary-200 rounded-lg hover:from-primary-100 hover:to-primary-200 transition-all duration-200 group">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-folder-open text-white"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="text-sm font-semibold text-primary-800 group-hover:text-primary-900">
+                                {{ $catalogItem->name }}
+                            </h4>
+                            <p class="text-xs text-primary-600">Перейти к каталогу</p>
+                        </div>
+                        <i class="fas fa-arrow-right text-primary-600 group-hover:text-primary-700"></i>
+                    </div>
+                </a>
+            </div>
             @break
-            @case(2)
-            <a href="{{route('services.groupList', ['serviceCategoryId'=>$catalogItem->pretty_url])}}"
-               class="service-group__item">
-                {{$catalogItem->name}}
-            </a>
-            @break
-            @case(8)
-                        <div class="accordion col-12 subLicense-group @if(!$loop->first) pt-0 @endif"
-                             id="accordion-subLicense-{{$catalogRootNode->id}}_{{$loop->index}}">
 
-                            <div class="subLicense-group_header row"
-                                 id="subLicense-group-heading-{{$catalogItem->id}}">
-                                <div class="col-12 p-0">
-                                    <div class="row no-gutters">
-                                        <div class="col-md-8 col-xl-9 subLicense-group_header-title" data-toggle="collapse"
-                                             data-target="#subLicense-group-{{$catalogItem->id}}" aria-expanded="false"
-                                             aria-controls="subLicense-group-{{$catalogItem->id}}">{{$catalogItem->name}}</div>
-                                        <div class="col-md-4 col-xl-3 text-md-right">
-                                            <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class=" select_all_in_group"
-                                                       id="select_all_in_group_item_{{$catalogItem->id}}">
-                                                <label class="custom-control-label"
-                                                       for="select_all_in_group_item_{{$catalogItem->id}}">@lang('messages.all.check_all')
-                                                    (<span class="select_in_group_cnt">0</span>/{{$catalogItem->childNodeList->where('is_visible', 1)->count() + $catalogItem->serviceCatalogList->count()}}
-                                                    )</label>
-                                            </div>
-                                        </div>
-                                    </div>
+            @case(2)
+            {{-- Group Link Type Catalog --}}
+            <div class="catalog-link-item">
+                <a href="{{ route('services.groupList', ['serviceCategoryId' => $catalogItem->pretty_url]) }}" 
+                   class="block p-4 bg-gradient-to-r from-blue-50 to-blue-100 border border-blue-200 rounded-lg hover:from-blue-100 hover:to-blue-200 transition-all duration-200 group">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-layer-group text-white"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="text-sm font-semibold text-blue-800 group-hover:text-blue-900">
+                                {{ $catalogItem->name }}
+                            </h4>
+                            <p class="text-xs text-blue-600">Просмотр группы услуг</p>
+                        </div>
+                        <i class="fas fa-arrow-right text-blue-600 group-hover:text-blue-700"></i>
+                    </div>
+                </a>
+            </div>
+            @break
+
+            @case(8)
+            {{-- Expandable Catalog Type --}}
+            <div class="catalog-expandable-item bg-white border border-border-light rounded-lg mb-4" 
+                 data-group="{{ $catalogItem->id }}">
+                <!-- Sub-group Header -->
+                <div class="px-4 py-3 border-b border-border-light bg-neutral-50 rounded-t-lg">
+                    <div class="flex items-center justify-between">
+                        <button type="button" 
+                                @click="toggleGroup('sub_{{ $catalogItem->id }}')"
+                                class="flex-1 flex items-center justify-between text-left">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-8 h-8 bg-amber-100 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-sitemap text-amber-600 text-sm"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-sm font-medium text-text-primary">{{ $catalogItem->name }}</h4>
+                                    <p class="text-xs text-text-secondary">
+                                        {{ $catalogItem->childNodeList->where('is_visible', 1)->count() + $catalogItem->serviceCatalogList->count() }} элементов
+                                    </p>
                                 </div>
                             </div>
+                            <i class="fas fa-chevron-down text-text-tertiary transition-transform duration-200"
+                               :class="openGroups.includes('sub_{{ $catalogItem->id }}') ? 'rotate-180' : ''"></i>
+                        </button>
 
-                            @if($catalogItem->catalog_node_type_id == 1)
-                                <div id="subLicense-group{{$catalogItem->id}}" class="subLicense-group_body collapse row"
-                                     aria-labelledby="subLicense-group-heading-{{$catalogItem->id}}"
-                                     data-parent="#accordion-subLicense-{{$catalogRootNode->id}}_{{$loop->index}}"
-                                >
-
-                                    <form method="get" class="compareServiceForm"
-                                          action="{{route('services.servicesCompare')}}">
-
-                                        <div class="form-check mb-3">
-                                            <input class="form-check-input select_all_service_item"
-                                                   id="select_all_service_item_{{$catalogItem->id}}" type="checkbox">
-                                            <label class="form-check-label"
-                                                   for="select_all_service_item_{{$catalogItem->id}}">
-                                                @lang('messages.all.check_all')
-                                            </label>
-                                        </div>
-
-                                        <hr/>
-
-                                        @include('catalog._catalogServiceList', ['catalogItem' => $catalogItem, 'singleNode' => false, 'preSelected' => $preSelected])
-
-                                        @include('catalog._catalogList', ['catalogRootNode' => $catalogItem, 'preSelected' => $preSelected])
-                                        <button type="submit" class="btn btn-success mt-2 compareServiceBtn"
-                                                disabled="disabled">
-                                            @lang('messages.all.show')
-                                        </button>
-                                    </form>
+                        <div class="ml-4 flex items-center space-x-3">
+                            <span class="text-xs text-text-secondary">
+                                Выбрано: <span class="font-medium" x-text="getGroupSelectedCount('{{ $catalogItem->id }}')">0</span>
+                            </span>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" 
+                                       class="sr-only sub-group-select-all"
+                                       data-group="{{ $catalogItem->id }}"
+                                       @change="toggleGroupAll('{{ $catalogItem->id }}', $event.target.checked)">
+                                <div class="relative">
+                                    <div class="w-4 h-4 bg-white border border-border rounded transition-colors"
+                                         :class="isGroupAllSelected('{{ $catalogItem->id }}') ? 'bg-primary-600 border-primary-600' : 'border-border'">
+                                        <i class="fas fa-check text-white text-xs absolute inset-0 flex items-center justify-center"
+                                           x-show="isGroupAllSelected('{{ $catalogItem->id }}')"></i>
+                                    </div>
                                 </div>
-                            @elseif($catalogItem->catalog_node_type_id == 8)
-                                <div id="subLicense-group-{{$catalogItem->id}}" class="collapse row subLicense-group_container pb-1 "
-                                     aria-labelledby="subLicense-group-heading-{{$catalogItem->id}}"
-                                >
-                                    @include('catalog._catalogServiceList', ['catalogItem' => $catalogItem, 'preSelected' => $preSelected])
-
-                                    @include('catalog._catalogList', ['catalogRootNode' => $catalogItem, 'preSelected' => $preSelected])
-                                </div>
-                            @endif
+                                <span class="ml-2 text-xs text-text-secondary">Все</span>
+                            </label>
                         </div>
+                    </div>
+                </div>
+
+                <!-- Sub-group Content -->
+                <div x-show="openGroups.includes('sub_{{ $catalogItem->id }}')" 
+                     x-transition:enter="transition ease-out duration-200"
+                     x-transition:enter-start="opacity-0"
+                     x-transition:enter-end="opacity-100"
+                     x-transition:leave="transition ease-in duration-150"
+                     x-transition:leave-start="opacity-100"
+                     x-transition:leave-end="opacity-0"
+                     class="p-4">
+                    
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
+                        {{-- Include Services --}}
+                        @include('catalog._catalogServiceList', ['catalogItem' => $catalogItem, 'singleNode' => false, 'preSelected' => $preSelected])
+
+                        {{-- Include Nested Catalogs --}}
+                        @include('catalog._catalogList', ['catalogRootNode' => $catalogItem, 'preSelected' => $preSelected])
+                    </div>
+                </div>
+            </div>
             @break
-{{--            @case(9)--}}
-{{--                    @foreach($catalogRootNode->childNodeList as $catalogItem)--}}
-{{--                        @include('catalog._catalogServiceList', ['catalogItem' => $catalogItem, 'singleNode' => false, 'preSelected' => $preSelected])--}}
-{{--                    @endforeach--}}
-{{--            @break--}}
+
+            @default
+            {{-- Default catalog item display --}}
+            <div class="catalog-default-item">
+                <div class="p-3 bg-neutral-50 border border-neutral-200 rounded-lg">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-8 h-8 bg-neutral-400 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-file text-white text-sm"></i>
+                        </div>
+                        <div>
+                            <h4 class="text-sm font-medium text-text-primary">{{ $catalogItem->name }}</h4>
+                            <p class="text-xs text-text-secondary">Тип: {{ $catalogItem->catalog_node_type_id }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         @endswitch
     @endforeach
-
-
-    {{--    @if(isset($subItem) && isset($subItem->catalog_node_type_id) && $subItem->catalog_node_type_id != 9 && $subItem->catalog_node_type_id != 2 && $subItem->catalog_node_type_id != 1)--}}
-    {{--        1--}}
-    {{--        @foreach(collect($catalogRootNode->childNodeList->where('is_visible', 1)->all())->sortBy('name') as $catalogItem)--}}
-    {{--            <div class="accordion col-12 subLicense-group mb-3"--}}
-    {{--                 id="accordion-subLicense-{{$catalogRootNode->id}}_{{$loop->index}}">--}}
-
-    {{--                <div class="subLicense-group_header row"--}}
-    {{--                     id="subLicense-group-heading-{{$catalogItem->id}}">--}}
-    {{--                    <div class="col-12 p-0">--}}
-    {{--                        <div class="row no-gutters">--}}
-    {{--                            <div class="col-md-8 col-xl-9 subLicense-group_header-title" data-toggle="collapse"--}}
-    {{--                                 data-target="#subLicense-group-{{$catalogItem->id}}" aria-expanded="false"--}}
-    {{--                                 aria-controls="subLicense-group-{{$catalogItem->id}}">{{$catalogItem->name}}</div>--}}
-    {{--                            <div class="col-md-4 col-xl-3 text-md-right">--}}
-    {{--                                <div class="custom-control custom-checkbox">--}}
-    {{--                                    <input type="checkbox" class=" select_all_in_group"--}}
-    {{--                                           id="select_all_in_group_item_{{$catalogItem->id}}">--}}
-    {{--                                    <label class="custom-control-label"--}}
-    {{--                                           for="select_all_in_group_item_{{$catalogItem->id}}">@lang('messages.all.check_all')--}}
-    {{--                                        (<span class="select_in_group_cnt">0</span>/{{$catalogItem->childNodeList->where('is_visible', 1)->count() + $catalogItem->serviceCatalogList->count()}}--}}
-    {{--                                        )</label>--}}
-    {{--                                </div>--}}
-    {{--                            </div>--}}
-    {{--                        </div>--}}
-    {{--                    </div>--}}
-    {{--                </div>--}}
-
-    {{--                @if($catalogItem->catalog_node_type_id == 1)--}}
-    {{--                    <div id="subLicense-group{{$catalogItem->id}}" class="subLicense-group_body collapse row"--}}
-    {{--                         aria-labelledby="subLicense-group-heading-{{$catalogItem->id}}"--}}
-    {{--                         data-parent="#accordion-subLicense-{{$catalogRootNode->id}}_{{$loop->index}}"--}}
-    {{--                    >--}}
-
-    {{--                        <form method="get" class="compareServiceForm"--}}
-    {{--                              action="{{route('services.servicesCompare')}}">--}}
-
-    {{--                            <div class="form-check mb-3">--}}
-    {{--                                <input class="form-check-input select_all_service_item"--}}
-    {{--                                       id="select_all_service_item_{{$catalogItem->id}}" type="checkbox">--}}
-    {{--                                <label class="form-check-label"--}}
-    {{--                                       for="select_all_service_item_{{$catalogItem->id}}">--}}
-    {{--                                    @lang('messages.all.check_all')--}}
-    {{--                                </label>--}}
-    {{--                            </div>--}}
-
-    {{--                            <hr/>--}}
-
-    {{--                            @include('catalog._catalogServiceList', ['catalogItem' => $catalogItem, 'singleNode' => false, 'preSelected' => $preSelected])--}}
-
-    {{--                            @include('catalog._catalogList', ['catalogRootNode' => $catalogItem, 'preSelected' => $preSelected])--}}
-    {{--                            <button type="submit" class="btn btn-success mt-2 compareServiceBtn"--}}
-    {{--                                    disabled="disabled">--}}
-    {{--                                @lang('messages.all.show')--}}
-    {{--                            </button>--}}
-    {{--                        </form>--}}
-    {{--                    </div>--}}
-    {{--                @elseif($catalogItem->catalog_node_type_id == 8)--}}
-    {{--                    <div id="subLicense-group-{{$catalogItem->id}}" class="collapse row subLicense-group_container pb-1 "--}}
-    {{--                         aria-labelledby="subLicense-group-heading-{{$catalogItem->id}}"--}}
-    {{--                    >--}}
-    {{--                        @include('catalog._catalogServiceList', ['catalogItem' => $catalogItem, 'preSelected' => $preSelected])--}}
-
-    {{--                        @include('catalog._catalogList', ['catalogRootNode' => $catalogItem, 'preSelected' => $preSelected])--}}
-    {{--                    </div>--}}
-    {{--                @endif--}}
-    {{--            </div>--}}
-    {{--        @endforeach--}}
-    {{--    @elseif(isset($subItem) && isset($subItem->catalog_node_type_id) && $subItem->catalog_node_type_id == 1)--}}
-    {{--        2--}}
-    {{--        @if($catalogRootNode->childNodeList->count() > 1)--}}
-    {{--            s--}}
-    {{--            @foreach($catalogRootNode->childNodeList->groupBy('serviceTypeName')->sortBy('serviceTypeName') as $key => $catalogItemGroup)--}}
-    {{--                <h4 class="title-sub">{{$key}}</h4>--}}
-    {{--                <div class="service-group">--}}
-    {{--                    @foreach($catalogRootNode->childNodeList->sortBy('name') as $catalogItem)--}}
-    {{--                        @if($catalogItem->is_visible == 1)--}}
-    {{--                            @switch($catalogItem->catalog_node_type_id)--}}
-    {{--                                @case(1)--}}
-    {{--                                <a href="{{route('services.catalog.list', ['catalogId'=>$catalogItem->id])}}"--}}
-    {{--                                   class="service-group__item">--}}
-    {{--                                    {{$catalogItem->name}}--}}
-    {{--                                </a>--}}
-    {{--                                @break--}}
-    {{--                                @case(2)--}}
-    {{--                                <a href="{{route('services.groupList', ['serviceCategoryId'=>$catalogItem->id])}}"--}}
-    {{--                                   class="service-group__item">--}}
-    {{--                                    {{$catalogItem->name}}--}}
-    {{--                                </a>--}}
-    {{--                                @break--}}
-    {{--                            @endswitch--}}
-    {{--                        @endif--}}
-    {{--                    @endforeach--}}
-    {{--                </div>--}}
-    {{--            @endforeach--}}
-    {{--        @else--}}
-    {{--            @foreach($catalogRootNode->childNodeList->sortBy('name') as $catalogItem)--}}
-    {{--                <div class="row services-background">--}}
-    {{--                    <div class="col-12">--}}
-    {{--                        <div class="card">--}}
-
-    {{--                            <div class="card-body">--}}
-    {{--                                <h5>{{$catalogItem->name}}</h5>--}}
-    {{--                            </div>--}}
-    {{--                            <div class="card-body">--}}
-    {{--                                <div class="catalog_list">--}}
-    {{--                                    <form method="get" class="compareServiceForm"--}}
-    {{--                                          action="{{route('services.servicesCompare')}}">--}}
-
-    {{--                                        <div class="form-check mb-3">--}}
-    {{--                                            <input class="form-check-input select_all_service_item"--}}
-    {{--                                                   id="select_all_service_item_{{$catalogItem->id}}" type="checkbox">--}}
-    {{--                                            <label class="form-check-label"--}}
-    {{--                                                   for="select_all_service_item_{{$catalogItem->id}}">--}}
-    {{--                                                @lang('messages.all.check_all')--}}
-    {{--                                            </label>--}}
-    {{--                                        </div>--}}
-
-    {{--                                        <hr/>--}}
-
-    {{--                                        @include('catalog._catalogServiceList', ['catalogItem' => $catalogItem, 'singleNode' => false, 'preSelected' => $preSelected])--}}
-
-    {{--                                        @include('catalog._catalogList', ['catalogRootNode' => $catalogItem, 'preSelected' => $preSelected])--}}
-    {{--                                        <button type="submit" class="btn btn-success mt-2 compareServiceBtn"--}}
-    {{--                                                disabled="disabled">--}}
-    {{--                                            @lang('messages.all.show')--}}
-    {{--                                        </button>--}}
-    {{--                                    </form>--}}
-    {{--                                </div>--}}
-    {{--                            </div>--}}
-    {{--                        </div>--}}
-    {{--                    </div>--}}
-    {{--                </div>--}}
-    {{--            @endforeach--}}
-    {{--        @endif--}}
-    {{--    @elseif(isset($subItem) && isset($subItem->catalog_node_type_id) && $subItem->catalog_node_type_id == 9)--}}
-    {{--        3--}}
-    {{--        @foreach($catalogRootNode->childNodeList as $catalogItem)--}}
-    {{--            @include('catalog._catalogServiceList', ['catalogItem' => $catalogItem, 'singleNode' => false, 'preSelected' => $preSelected])--}}
-    {{--        @endforeach--}}
-    {{--    @elseif(isset($subItem) && isset($subItem->catalog_node_type_id) && $subItem->catalog_node_type_id == 2)--}}
-    {{--        4--}}
-    {{--        @foreach($catalogRootNode->childNodeList as $catalogItem)--}}
-    {{--            @include('catalog._catalogServiceList', ['catalogItem' => $catalogItem, 'singleNode' => false, 'preSelected' => $preSelected])--}}
-
-    {{--            @include('catalog._catalogList', ['catalogRootNode' => $catalogItem, 'preSelected' => $preSelected])--}}
-    {{--        @endforeach--}}
-    {{--    @endif--}}
 </div>
+
+<style>
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+</style>

@@ -1,315 +1,288 @@
-@extends('new.layouts.app')
+@extends('layouts.modern-app')
+
+@section('title', 'Наши услуги')
 
 @section('content')
-    <div class="services">
-        <div class="services__get-license">
-            <img class="position-absolute services__get-license__background"
-                 src="{{asset('images/services/BG-first-part.png')}}">
-            <img class="position-absolute services__get-license__background"
-                 src="{{asset('images/services/BG-second-part.png')}}">
-            <img class="position-absolute services__get-license__background"
-                 src="{{asset('images/services/mobile-bg.png')}}">
+<div x-data="servicesPage()" x-init="init()">
+    <!-- Hero Section -->
+    <div class="relative bg-gradient-to-br from-primary-600 via-primary-700 to-primary-800 overflow-hidden">
+        <!-- Background Pattern -->
+        <div class="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23ffffff" fill-opacity="0.1"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')] opacity-10"></div>
+        
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+            <div class="text-center lg:text-left">
+                <h1 class="text-4xl lg:text-6xl font-bold text-white mb-6">
+                    <span class="block">Получите лицензию</span>
+                    <span class="block text-primary-200">в любой отрасли</span>
+                </h1>
+                
+                <p class="text-xl text-primary-100 mb-8 max-w-3xl mx-auto lg:mx-0">
+                    <span class="font-semibold text-white">Онлайн</span> с гарантией и соблюдением сроков
+                </p>
 
-            <div class="container position-relative">
-                <h1 class="services__get-license__header text-center">
-                    <b>@lang('messages.pages.services-page.get_a_license_in_any_industry')</b></h1>
-                <div class="text-center">
-                    <span class="text-center services__get-license__header__upon-text text-center">
-                        <span class="text-primary "><b>@lang('messages.pages.services-page.online')</b></span> @lang('messages.pages.services-page.with_a_guarantee_and_meeting_deadlines')</span>
-                </div>
-                <div class="services__get-license__inputs-container position-relative text-center">
-                    <span class="text-center services__get-license__inputs-container__promt ">@lang('messages.pages.services-page.enter_your_contact_details')</span>
-
-                    <form class="row mt-4 pl-4 pr-4" id="callMe">
-                        <div class="col-md-3 col-12">
-                            <input placeholder="@lang('messages.admin.employee.fio_company_name')"
-                                   id="name"
-                                   class="services__get-license__inputs-container__input">
+                <!-- Quick Contact Form -->
+                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 lg:p-8 max-w-4xl mx-auto lg:mx-0">
+                    <p class="text-white mb-6 text-center lg:text-left">
+                        @lang('messages.pages.services-page.enter_your_contact_details')
+                    </p>
+                    
+                    <form id="quickContactForm" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div>
+                            <input type="text" 
+                                   name="name"
+                                   placeholder="@lang('messages.admin.employee.fio_company_name')"
+                                   class="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/70 focus:bg-white/30 focus:border-white focus:outline-none transition-all duration-200">
                         </div>
-                        <div class="col-md-3 col-12">
-                            <input placeholder="@lang('messages.admin.employee.phone')"
-                                   id="phone"
-                                   class="services__get-license__inputs-container__input">
+                        
+                        <div>
+                            <input type="tel" 
+                                   name="phone"
+                                   placeholder="@lang('messages.admin.employee.phone')"
+                                   class="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/70 focus:bg-white/30 focus:border-white focus:outline-none transition-all duration-200">
                         </div>
-                        <div class="col-md-3 col-12">
-                            <input placeholder="@lang('messages.admin.employee.email')"
-                                   id="email"
-                                   class="services__get-license__inputs-container__input">
+                        
+                        <div>
+                            <input type="email" 
+                                   name="email"
+                                   placeholder="@lang('messages.admin.employee.email')"
+                                   class="w-full px-4 py-3 bg-white/20 border border-white/30 rounded-lg text-white placeholder-white/70 focus:bg-white/30 focus:border-white focus:outline-none transition-all duration-200">
                         </div>
-                        <div class="col-md-3 col-12">
-                            <input placeholder="@lang('messages.pages.services-page.license_type')"
-                                   id="license_type"
-                                   class="services__get-license__inputs-container__input">
-                        </div>
-                        <div class="col-12 mt-3 text-center">
-                            <div class="form-check pl-0">
-                                <input type="checkbox" class="form-check-input" checked id="offerCheck">
-                                <label class="form-check-label" for="offerCheck">
-                                    @lang('messages.pages.setPaymentType.i_accept_the_terms_of_the_public_offer_1')
-                                    <a href="{{route("offer")}}" target="_blank">
-                                        @lang('messages.pages.setPaymentType.i_accept_the_terms_of_the_public_offer_2')
-                                    </a>
-                                    {{--                                                @lang('messages.pages.setPaymentType.i_accept_the_terms_of_the_public_offer_3')--}}
-                                    <span
-                                            class="text-danger">*</span>
-                                </label>
-                            </div>
-                        </div>
-                        <div class="mx-auto position-relative">
+                        
+                        <div>
                             <button type="submit"
-                                    class=" btn btn-success callMe_submit">
-                                @lang('messages.pages.services-page.learn_more')
+                                    class="w-full px-6 py-3 bg-white text-primary-700 font-semibold rounded-lg hover:bg-primary-50 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-primary-600 transition-all duration-200">
+                                <i class="fas fa-paper-plane mr-2"></i>
+                                Отправить
                             </button>
                         </div>
                     </form>
                 </div>
-                <div class="services__get-license__promt-container position-absolute  ">
-                    <div class="services__get-license__promt-container__promt mx-md-auto">
-                        <div class="row">
-                            <div class="col-12 col-md-3 pl-md-4 pr-md-4 text-md-center mb-4 mt-2 mt-mb-0 mb-md-0">
-                                <img class="services__get-license__promt-container__promt__icon mt-2 mt-md-0"
-                                     src="{{asset('images/services/promt-icon-1.png')}}">
-                                <span class="services__get-license__promt-container__promt__icon__text ml-4">@lang('messages.pages.services-page.we_will_help_you_in_obtaining_all_the_documents_required_for_a_license')</span>
-                            </div>
-                            <div class="col-12 col-md-3 pl-md-4 pr-md-4 text-md-center mb-4 mt-2 mt-mb-0 mb-md-0">
-                                <img class="services__get-license__promt-container__promt__icon"
-                                     src="{{asset('images/services/promt-icon-2.png')}}">
-                                <span class="services__get-license__promt-container__promt__icon__text ml-4"> @lang('messages.pages.services-page.you_dont_need_to_go_anywhere_all_documents_are_submitted_online')</span>
-                            </div>
-                            <div class="col-12 col-md-3 pl-md-4 pr-md-4 text-md-center mb-4 mt-2 mt-mb-0 mb-md-0">
-                                <img class="services__get-license__promt-container__promt__icon"
-                                     src="{{asset('images/services/promt-icon-3.png')}}">
-                                <span class="services__get-license__promt-container__promt__icon__text ml-4">@lang('messages.pages.services-page.track_the_process_of_obtaining_a_license_in_your_personal_account')</span>
-                            </div>
-                            <div class="col-12 col-md-3 pl-md-4 pr-md-4 text-md-center mt-2 mt-mb-0">
-                                <img class="services__get-license__promt-container__promt__icon"
-                                     src="{{asset('images/services/promt-icon-4.png')}}">
-                                <span class="services__get-license__promt-container__promt__icon__text ml-4">@lang('messages.pages.services-page.personal_manager_ready_to_help')</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
-        </div>
-        <div class="services__process-for-obtaining-license position-relative">
-            <img class="partners-network__certification__background"
-                 src="{{asset('images/about-us_background/background-section-2.png')}}">
-            <div class="container">
-                <h1 class="text-center services__process-for-obtaining-license__header z-index-primary">
-                    <b>@lang('messages.pages.services-page.process_for_obtaining_a_license_with_UPPERLICENSE')</b>
-                </h1>
-
-                <div class="row">
-                    <div class="col-md-6 col-12">
-                        <ol class="services__process-for-obtaining-license__timeline">
-                            <li>
-                                <h3>@lang('messages.pages.services-page.order_the_license_you_need_in_our_catalog')</h3>
-                                <span class="services__process-for-obtaining-license__timeline__small-text">
-                                    @lang('messages.pages.services-page.or_leave_a_request_for_consultation_we_will_help_you_find_the_right_license')
-                                </span>
-                            </li>
-                            <li>
-                                <h3>@lang('messages.pages.services-page.you_get_access_to_your_personal_account')</h3>
-                                <span class="services__process-for-obtaining-license__timeline__small-text">
-                                    @lang('messages.pages.services-page.in_which_you_can_track_the_process_of_obtaining_a_license_online')
-                                </span>
-                            </li>
-                            <li>
-                                <h3>@lang('messages.pages.services-page.we_carry_out_a_preliminary_check_of_your_documents')</h3>
-                                <span class="services__process-for-obtaining-license__timeline__small-text">
-                                    @lang('messages.pages.services-page.and_if_necessary')
-                                </span>
-                            </li>
-                            <li>
-                                <h3>@lang('messages.pages.services-page.you_pay_the_fees_or_services')</h3>
-                                <span class="services__process-for-obtaining-license__timeline__small-text">
-                                    @lang('messages.pages.services-page.this_can_also_be_done_in_our_personal_account')
-                                </span>
-                            </li>
-                            <li>
-                                <h3>@lang('messages.pages.services-page.we_submit_documents')</h3>
-                                <span class="services__process-for-obtaining-license__timeline__small-text">
-                                    @lang('messages.pages.services-page.your_participation_is_not_required')
-                                </span>
-                            </li>
-                            <li>
-                                <h3>@lang('messages.pages.services-page.authorized_bodies_check')</h3>
-                                <span class="services__process-for-obtaining-license__timeline__small-text">
-                                    @lang('messages.pages.services-page.compliance_with_licensing_requirements')
-                                </span>
-                            </li>
-                            <li>
-                                <h3>@lang('messages.pages.services-page.you_get_all_documents_online')</h3>
-                            </li>
-                        </ol>
-                    </div>
-                    <div class="col-6">
-                        <img class="services__process-for-obtaining-license__img d-none d-md-block"
-                             src="{{asset('images/services/macbook.png')}}">
-                    </div>
-                </div>
-
-            </div>
-        </div>
-        <div class="services__which-license-do-you-need position-relative">
-            <div class="container">
-                <div class="services__which-license-do-you-need__form-container">
-                    <h1 class="text-center">
-                        @lang('messages.pages.services-page.which_license_do_you_need')</h1>
-                    <form class="services__which-license-do-you-need__form-container__form">
-                        <div class="form-group mb-3">
-                            <select class="form-control" id="selectCategory">
-                                <option value="" disabled
-                                        selected>@lang('messages.pages.services-page.select_industry')</option>
-                                @foreach($categoryList as $category)
-                                    <option value="{{$category->id}}">{{$category->name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group mb-3">
-                            <select class="form-control" id="selectServiceType" disabled="true" >
-                                <option selected
-                                        value="" disabled
-                                        selected>@lang('messages.pages.services-page.resolution')</option>
-                                @foreach($serviceTypeList as $serviceType)
-                                    <option value="{{$serviceType->id}}">{{$serviceType->name}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="form-group mb-3">
-                            <select class="form-control select2" id="selectCatalog" name="category" disabled="true">
-                                <option selected
-                                        value="@lang('messages.pages.services-page.select_document')">
-                                    @lang('messages.pages.services-page.select_document')
-                                </option>
-
-                            </select>
-                        </div>
-                        <div class="license_info">
-                            <div class="mb-3 pl-1">
-                                <b>@lang('messages.pages.services-page.type_of_the_issued_license')</b><span
-                                        class="text-secondary pl-4 license_info--name"></span>
-                            </div>
-
-                            <div class="mb-3 pl-1 "><b
-                                        class="pr-4">@lang('messages.pages.services-page.processing_time')</b>
-                                <span class="btn-like-href pl-4 license_info--work_day"></span>
-                            </div>
-
-                            <div class="mb-5 pl-1 "><b
-                                        class="pr-4">@lang('messages.pages.services-page.cost_of_services')</b>
-                                <span class="btn-like-href license_info--price"></span>
-                            </div>
-                            <div class="text-center">
-                                <a href=""
-                                        class=" btn btn-success open_selected_license">@lang('messages.pages.services-page.order_a_license')</a>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="services__which-license-do-you-need__download-cp text-center">
-{{--                    <span--}}
-{{--                            >@lang('messages.pages.services-page.download_a_commercial_offer_with_a_detailed_description_of_the_service') <a href="">@lang('messages.pages.services-page.download_commercial_proposal')</a> </span>--}}
-                </div>
-            </div>
-            <img class="about-us__about-owner__background"
-                 src="{{asset('images/about-us_background/background-section-2.png')}}">
         </div>
     </div>
-@endsection
 
-@section('css')
-    <link href="{{asset('/libs/select2/css/select2.min.css')}}" rel="stylesheet" />
-    <link href="{{asset('/libs/select2/css/select2-bootstrap4.min.css')}}" rel="stylesheet" />
+    <!-- Service Categories Section -->
+    <div class="py-16 lg:py-24 bg-neutral-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header -->
+            <div class="text-center mb-16">
+                <h2 class="text-3xl lg:text-4xl font-bold text-text-primary mb-4">
+                    Категории лицензирования
+                </h2>
+                <p class="text-xl text-text-secondary max-w-3xl mx-auto">
+                    Выберите отрасль для получения детальной информации о лицензировании
+                </p>
+            </div>
+
+            <!-- Categories Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                @foreach($serviceCategories as $category)
+                    <div class="group">
+                        <a href="{{ route('services.groupList', ['serviceCategoryId' => $category->pretty_url]) }}" 
+                           class="block h-full bg-white rounded-xl border border-border-light shadow-sm hover:shadow-lg hover:border-primary-300 transition-all duration-300 overflow-hidden">
+                            
+                            <!-- Category Image/Icon -->
+                            <div class="h-48 bg-gradient-to-br from-primary-100 to-primary-200 flex items-center justify-center relative overflow-hidden">
+                                @if($category->icon_url)
+                                    <img src="{{ asset($category->icon_url) }}" 
+                                         alt="{{ $category->name }}"
+                                         class="w-16 h-16 object-contain group-hover:scale-110 transition-transform duration-300">
+                                @else
+                                    <div class="w-16 h-16 bg-primary-600 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                                        <i class="fas fa-certificate text-white text-2xl"></i>
+                                    </div>
+                                @endif
+                                
+                                <!-- Overlay -->
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                            </div>
+
+                            <!-- Category Info -->
+                            <div class="p-6">
+                                <h3 class="text-lg font-semibold text-text-primary mb-2 group-hover:text-primary-700 transition-colors">
+                                    {{ $category->name }}
+                                </h3>
+                                
+                                @if($category->description)
+                                    <p class="text-sm text-text-secondary mb-4 line-clamp-3">
+                                        {{ $category->description }}
+                                    </p>
+                                @endif
+
+                                <!-- Stats -->
+                                <div class="flex items-center justify-between text-xs text-text-tertiary">
+                                    <span class="flex items-center">
+                                        <i class="fas fa-list mr-1"></i>
+                                        {{ $category->services_count ?? 0 }} услуг
+                                    </span>
+                                    <span class="text-primary-600 group-hover:text-primary-700 font-medium">
+                                        Подробнее →
+                                    </span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+
+    <!-- Benefits Section -->
+    <div class="py-16 lg:py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl lg:text-4xl font-bold text-text-primary mb-4">
+                    Почему выбирают нас
+                </h2>
+                <p class="text-xl text-text-secondary">
+                    Более 10 лет опыта в сфере лицензирования
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-shield-check text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-text-primary mb-2">Гарантия результата</h3>
+                    <p class="text-text-secondary">100% гарантия получения лицензии или возврат средств</p>
+                </div>
+
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-clock text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-text-primary mb-2">Соблюдение сроков</h3>
+                    <p class="text-text-secondary">Получение лицензии в кратчайшие сроки</p>
+                </div>
+
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-users text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-text-primary mb-2">Опытная команда</h3>
+                    <p class="text-text-secondary">Профессиональные юристы и консультанты</p>
+                </div>
+
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-headset text-orange-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-semibold text-text-primary mb-2">Поддержка 24/7</h3>
+                    <p class="text-text-secondary">Круглосуточная поддержка на всех этапах</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="py-16 bg-gradient-to-r from-primary-600 to-primary-700">
+        <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl lg:text-4xl font-bold text-white mb-4">
+                Готовы получить лицензию?
+            </h2>
+            <p class="text-xl text-primary-100 mb-8">
+                Свяжитесь с нами для бесплатной консультации
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="tel:+77212345678" 
+                   class="inline-flex items-center justify-center px-8 py-4 bg-white text-primary-700 font-semibold rounded-lg hover:bg-primary-50 transition-colors">
+                    <i class="fas fa-phone mr-2"></i>
+                    +7 (721) 234-56-78
+                </a>
+                <a href="mailto:info@license.kz" 
+                   class="inline-flex items-center justify-center px-8 py-4 bg-primary-500 text-white font-semibold rounded-lg hover:bg-primary-400 transition-colors">
+                    <i class="fas fa-envelope mr-2"></i>
+                    info@license.kz
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('js')
-    <script src="{{asset('/libs/select2/js/select2.min.js')}}"></script>
-    <script src="{{asset('/libs/jquery.inputmask.min.js')}}"></script>
-    <script>
-        $(document).ready(function () {
-            $('#phone').inputmask("+7 (999) 999-99-99");
+<script>
+function servicesPage() {
+    return {
+        init() {
+            this.initQuickContactForm();
+        },
 
-            $('.license_info').hide()
-
-            $('#selectCategory').select2({
-                minimumResultsForSearch: Infinity,
-                theme: 'bootstrap4',
-            }).on('change', function () {
-                $('#selectServiceType').prop('disabled', false).val('')
-                $('#selectCatalog').empty().append($('<option> @lang('messages.pages.services-page.select_document') </option>')).prop('disabled', true)
-            })
-            $('#selectServiceType').select2({
-                minimumResultsForSearch: Infinity,
-                theme: 'bootstrap4',
-            }).on('change', function () {
-                $.ajax({
-                    url: '{{route('services.catalog.listByServiceCategoryAndType')}}?selectCategory=' + $('#selectCategory').val() + '&type=' + $('#selectServiceType').val(),
-                    method: 'GET',
-                })
-                    .done(function (data) {
-                        let catalog = $('#selectCatalog')
-                        $(catalog).empty();
-                        $(catalog)
-                            .append($('<option> @lang('messages.pages.services-page.select_document') </option>'))
-                        $.each(data, function (i, item) {
-                            $(catalog)
-                                .append(
-                                    $('<option></option>')
-                                    .val(item.id)
-                                    .html(item.name)
-                                    .data('name', item.name)
-                                    .data('min_cost', item.min_cost)
-                                    .data('min_execution_days', item.min_execution_days)
-                                )
-                        });
-                        $(catalog).prop('disabled', false)
-                    })
-            })
-
-            $('#selectCatalog').select2({
-                minimumResultsForSearch: Infinity,
-                theme: 'bootstrap4',
-            }).on('change', function () {
-                let optionSelected = $("option:selected", this)
-
-                let infoPanel = $('.license_info')
-                $('.license_info--name').html($(optionSelected).data('name'))
-                $('.license_info--work_day').html($(optionSelected).data('min_execution_days') + ' рабочих дней')
-                $('.license_info--price').html($(optionSelected).data('min_cost'))
-
-                $('.open_selected_license').prop('href', '/serviceGroup/catalog/' + this.value)
-
-                $(infoPanel).show()
-            })
-
-            $(document).on('change', '#offerCheck', function () {
-                $('.callMe_submit').attr('disabled', !this.checked);
-            })
-
-            $("#callMe").submit(function (event) {
-                event.preventDefault();
-
-                if(!$('#email').val() || !$('#name').val() || !$('#phone').val()){
-                    return
-                }
-
-                $.ajax({
-                    type: 'POST',
-                    url: '{{route('callMe')}}',
-                    data: {
-                        '_token': "{{ csrf_token() }}",
-                        'email': $('#email').val(),
-                        'fio': $('#name').val(),
-                        'phone': $('#phone').val(),
-                        'comment': 'Сфера деятельнсти - ' + $('#license_type').val(),
-                    },
-                    success: function (data) {
-                        gtag('event', 'send', {'event_category': 'callback'});
-                        alert("@lang('messages.client.service_create')")
+        initQuickContactForm() {
+            const form = document.getElementById('quickContactForm');
+            if (form) {
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    
+                    const formData = new FormData(form);
+                    const data = Object.fromEntries(formData);
+                    
+                    if (!data.name || !data.phone) {
+                        showNotification('error', 'Ошибка', 'Заполните обязательные поля');
+                        return;
+                    }
+                    
+                    try {
+                        // Here you would typically send the data to your backend
+                        // const response = await fetch('/api/quick-contact', {
+                        //     method: 'POST',
+                        //     headers: {
+                        //         'Content-Type': 'application/json',
+                        //         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                        //     },
+                        //     body: JSON.stringify(data)
+                        // });
+                        
+                        showNotification('success', 'Успешно!', 'Мы свяжемся с вами в ближайшее время');
+                        form.reset();
+                    } catch (error) {
+                        showNotification('error', 'Ошибка', 'Не удалось отправить заявку');
                     }
                 });
-            });
-        })
-    </script>
+            }
+        }
+    };
+}
+
+// Phone input formatting
+document.addEventListener('DOMContentLoaded', function() {
+    const phoneInputs = document.querySelectorAll('input[name="phone"]');
+    phoneInputs.forEach(input => {
+        input.placeholder = '+7 (___) ___-__-__';
+        
+        input.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.startsWith('7')) {
+                value = value.substring(1);
+            }
+            
+            let formatted = '+7';
+            if (value.length > 0) {
+                formatted += ' (' + value.substring(0, 3);
+            }
+            if (value.length >= 4) {
+                formatted += ') ' + value.substring(3, 6);
+            }
+            if (value.length >= 7) {
+                formatted += '-' + value.substring(6, 8);
+            }
+            if (value.length >= 9) {
+                formatted += '-' + value.substring(8, 10);
+            }
+            
+            e.target.value = formatted;
+        });
+    });
+});
+</script>
 @endsection
+
+<style>
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+</style>

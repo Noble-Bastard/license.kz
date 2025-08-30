@@ -3017,6 +3017,17 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/sass/app_new.scss":
+/*!*************************************!*\
+  !*** ./resources/sass/app_new.scss ***!
+  \*************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+throw new Error("Module build failed (from ./node_modules/css-loader/index.js):\nModuleNotFoundError: Module not found: Error: Can't resolve '../../../images/service_info_bg.png' in 'C:\\Users\\CoolPC\\Documents\\license.kz\\resources\\sass'\n    at C:\\Users\\CoolPC\\Documents\\license.kz\\node_modules\\webpack\\lib\\Compilation.js:925:10\n    at C:\\Users\\CoolPC\\Documents\\license.kz\\node_modules\\webpack\\lib\\NormalModuleFactory.js:401:22\n    at C:\\Users\\CoolPC\\Documents\\license.kz\\node_modules\\webpack\\lib\\NormalModuleFactory.js:130:21\n    at C:\\Users\\CoolPC\\Documents\\license.kz\\node_modules\\webpack\\lib\\NormalModuleFactory.js:224:22\n    at C:\\Users\\CoolPC\\Documents\\license.kz\\node_modules\\neo-async\\async.js:2830:7\n    at C:\\Users\\CoolPC\\Documents\\license.kz\\node_modules\\neo-async\\async.js:6877:13\n    at C:\\Users\\CoolPC\\Documents\\license.kz\\node_modules\\webpack\\lib\\NormalModuleFactory.js:214:25\n    at C:\\Users\\CoolPC\\Documents\\license.kz\\node_modules\\enhanced-resolve\\lib\\Resolver.js:213:14\n    at C:\\Users\\CoolPC\\Documents\\license.kz\\node_modules\\enhanced-resolve\\lib\\Resolver.js:285:5\n    at eval (eval at create (C:\\Users\\CoolPC\\Documents\\license.kz\\node_modules\\tapable\\lib\\HookCodeFactory.js:33:10), <anonymous>:15:1)\n    at C:\\Users\\CoolPC\\Documents\\license.kz\\node_modules\\enhanced-resolve\\lib\\UnsafeCachePlugin.js:44:7\n    at C:\\Users\\CoolPC\\Documents\\license.kz\\node_modules\\enhanced-resolve\\lib\\Resolver.js:285:5\n    at eval (eval at create (C:\\Users\\CoolPC\\Documents\\license.kz\\node_modules\\tapable\\lib\\HookCodeFactory.js:33:10), <anonymous>:15:1)\n    at C:\\Users\\CoolPC\\Documents\\license.kz\\node_modules\\enhanced-resolve\\lib\\Resolver.js:285:5\n    at eval (eval at create (C:\\Users\\CoolPC\\Documents\\license.kz\\node_modules\\tapable\\lib\\HookCodeFactory.js:33:10), <anonymous>:27:1)\n    at C:\\Users\\CoolPC\\Documents\\license.kz\\node_modules\\enhanced-resolve\\lib\\DescriptionFilePlugin.js:67:43\n    at C:\\Users\\CoolPC\\Documents\\license.kz\\node_modules\\enhanced-resolve\\lib\\Resolver.js:285:5\n    at eval (eval at create (C:\\Users\\CoolPC\\Documents\\license.kz\\node_modules\\tapable\\lib\\HookCodeFactory.js:33:10), <anonymous>:16:1)\n    at C:\\Users\\CoolPC\\Documents\\license.kz\\node_modules\\enhanced-resolve\\lib\\RootPlugin.js:37:38\n    at _next43 (eval at create (C:\\Users\\CoolPC\\Documents\\license.kz\\node_modules\\tapable\\lib\\HookCodeFactory.js:33:10), <anonymous>:8:1)\n    at eval (eval at create (C:\\Users\\CoolPC\\Documents\\license.kz\\node_modules\\tapable\\lib\\HookCodeFactory.js:33:10), <anonymous>:31:1)\n    at C:\\Users\\CoolPC\\Documents\\license.kz\\node_modules\\enhanced-resolve\\lib\\Resolver.js:285:5\n    at eval (eval at create (C:\\Users\\CoolPC\\Documents\\license.kz\\node_modules\\tapable\\lib\\HookCodeFactory.js:33:10), <anonymous>:16:1)\n    at C:\\Users\\CoolPC\\Documents\\license.kz\\node_modules\\enhanced-resolve\\lib\\Resolver.js:285:5\n    at eval (eval at create (C:\\Users\\CoolPC\\Documents\\license.kz\\node_modules\\tapable\\lib\\HookCodeFactory.js:33:10), <anonymous>:16:1)\n    at C:\\Users\\CoolPC\\Documents\\license.kz\\node_modules\\enhanced-resolve\\lib\\Resolver.js:285:5\n    at eval (eval at create (C:\\Users\\CoolPC\\Documents\\license.kz\\node_modules\\tapable\\lib\\HookCodeFactory.js:33:10), <anonymous>:15:1)\n    at C:\\Users\\CoolPC\\Documents\\license.kz\\node_modules\\enhanced-resolve\\lib\\DirectoryExistsPlugin.js:27:15\n    at C:\\Users\\CoolPC\\Documents\\license.kz\\node_modules\\enhanced-resolve\\lib\\CachedInputFileSystem.js:85:15\n    at process.processTicksAndRejections (node:internal/process/task_queues:85:11)");
+
+/***/ }),
+
 /***/ "./resources/sass/new/app_1.scss":
 /*!***************************************!*\
   !*** ./resources/sass/new/app_1.scss ***!
@@ -3029,14 +3040,15 @@ __webpack_require__.r(__webpack_exports__);
 /***/ }),
 
 /***/ 0:
-/*!************************************************************************!*\
-  !*** multi ./resources/js/messages.js ./resources/sass/new/app_1.scss ***!
-  \************************************************************************/
+/*!******************************************************************************************************!*\
+  !*** multi ./resources/js/messages.js ./resources/sass/app_new.scss ./resources/sass/new/app_1.scss ***!
+  \******************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/romanbivald/Projects/iPravo/iLicense/resources/js/messages.js */"./resources/js/messages.js");
-module.exports = __webpack_require__(/*! /Users/romanbivald/Projects/iPravo/iLicense/resources/sass/new/app_1.scss */"./resources/sass/new/app_1.scss");
+__webpack_require__(/*! C:\Users\CoolPC\Documents\license.kz\resources\js\messages.js */"./resources/js/messages.js");
+__webpack_require__(/*! C:\Users\CoolPC\Documents\license.kz\resources\sass\app_new.scss */"./resources/sass/app_new.scss");
+module.exports = __webpack_require__(/*! C:\Users\CoolPC\Documents\license.kz\resources\sass\new\app_1.scss */"./resources/sass/new/app_1.scss");
 
 
 /***/ })

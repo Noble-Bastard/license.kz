@@ -1,212 +1,52 @@
-@extends('new.layouts.manager')
+@extends('layouts.figma-app')
 
 @section('content')
-    <div class="page-header">
-        <h1 class="page-title">Группы</h1>
-        <div class="header-actions">
-            <div class="search-bar">
-                <img src="{{ asset('new/images/manager/icon-search.svg') }}" alt="Search"/>
-                <input type="text" placeholder="Поиск по названию группы">
-            </div>
-            <button class="add-group-btn" data-bs-toggle="modal" data-bs-target="#newGroupModal">
-                <img src="{{ asset('new/images/manager/icon-add.svg') }}" alt="Add Group"/>
-                <span>Новая группа</span>
-            </button>
-        </div>
-    </div>
+<div class="w-full">
+	<div class="px-5 py-5" style="padding-left:20px;padding-right:20px;">
+		<div class="flex items-center justify-between gap-[10px] mb-[30px]">
+			<h1 class="text-[39px] leading-[1] font-normal tracking-[-0.02em] text-text-primary">Группы</h1>
+			<div class="flex items-center gap-3">
+				<div class="flex items-center gap-[11px] px-[16px] pr-[22px] py-[11px] h-[46px] border border-border-light rounded-[60px] bg-white">
+					<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.8333 15.8333L13.2083 13.2083" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.33333 15.8333C12.0152 15.8333 15 12.8486 15 9.16667C15 5.48477 12.0152 2.5 8.33333 2.5C4.65143 2.5 1.66667 5.48477 1.66667 9.16667C1.66667 12.8486 4.65143 15.8333 8.33333 15.8333Z" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+					<input type="text" placeholder="Поиск по названию группы" class="bg-transparent border-none outline-none text-[12px] font-medium leading-[1] text-text-primary placeholder:text-text-primary" />
+				</div>
+				<a href="{{ route('Manager.groups.create') }}" class="inline-flex items-center gap-2 h-[46px] px-4 rounded-[60px] bg-primary text-white text-sm font-medium">
+					<svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 4.16675V15.8334" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.1665 10H15.8332" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+					Новая группа
+				</a>
+			</div>
+		</div>
 
-    <div class="groups-list">
-        @if(isset($groupList) && $groupList->isNotEmpty())
-            @foreach($groupList as $group)
-                <div class="group-card" data-bs-toggle="modal" data-bs-target="#editGroupModal"
-                     data-group-id="{{ is_object($group) ? $group->id : '' }}"
-                     data-group-name="{{ is_object($group) ? $group->name : '' }}"
-                     data-group-members="{{ (is_object($group) && $group->members) ? $group->members->toJson() : '[]' }}">
-                    <div class="group-header">
-                        <h3 class="group-title">{{ is_object($group) ? $group->name : '' }}</h3>
-                        <div class="group-actions">
-                            <button class="btn btn-icon">
-                                <img src="{{ asset('new/images/manager/icon-folder.svg') }}" alt="Edit Group"/>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="group-members">
-                        <div class="members-avatars">
-                            @if(is_object($group) && !empty($group->members))
-                                @foreach($group->members->take(4) as $member)
-                                    <div class="member-avatar">
-                                        <img src="{{ $member->avatar ?? asset('images/user1.png') }}" alt="{{ $member->full_name }}" />
-                                    </div>
-                                @endforeach
-                                @if($group->members->count() > 4)
-                                    <div class="more-members">
-                                        <span>+{{ $group->members->count() - 4 }}</span>
-                                    </div>
-                                @endif
-                            @endif
-                        </div>
-                        <span class="members-count">{{ (is_object($group) && !empty($group->members)) ? $group->members->count() : 0 }} исполнителей</span>
-                    </div>
-                </div>
-            @endforeach
-        @else
-            <p>Нет созданных групп.</p>
-        @endif
-    </div>
+		<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+			@forelse($groupList ?? [] as $group)
+				<div class="bg-white rounded-lg p-5 shadow-sm border border-border-light">
+					<div class="flex items-center justify-between">
+						<h3 class="text-[18px] font-medium text-text-primary">{{ $group->name }}</h3>
+						<div class="w-8 h-8 rounded-full bg-[#E9F6EE] flex items-center justify-center">
+							<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18.3333 15C18.3333 15.442 18.1577 15.866 17.845 16.1785C17.5323 16.491 17.1087 16.6667 16.6667 16.6667H3.33333C2.89131 16.6667 2.46738 16.491 2.15482 16.1785C1.84226 15.866 1.66667 15.442 1.66667 15V5C1.66667 4.55797 1.84226 4.13405 2.15482 3.82149C2.46738 3.50893 2.89131 3.33333 3.33333 3.33333H7.5L9.16667 5.83333H16.6667C17.1087 5.83333 17.5323 6.00893 17.845 6.32149C18.1577 6.63405 18.3333 7.05797 18.3333 7.5V15Z" stroke="#279760" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+						</div>
+					</div>
+					<div class="flex items-center gap-2 mt-4">
+						@foreach(($group->members ?? collect())->take(4) as $member)
+							<img class="w-8 h-8 rounded-full object-cover" src="{{ $member->avatar ?? asset('images/user1.png') }}" alt="{{ $member->full_name }}"/>
+						@endforeach
+						@if(($group->members ?? collect())->count() > 4)
+							<span class="ml-2 inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#279760] text-white text-sm">+{{ ($group->members->count() - 4) }}</span>
+						@endif
+						<span class="ml-auto text-sm text-text-secondary">{{ ($group->members ?? collect())->count() }} исполнителей</span>
+					</div>
+				</div>
+			@empty
+				<p class="text-text-secondary">Нет созданных групп.</p>
+			@endforelse
+		</div>
+	</div>
+</div>
 
-    @if(isset($groupList) && $groupList->hasPages())
-        {{ $groupList->links('components.manager-pagination') }}
-    @endif
-
-    <!-- New Group Modal -->
-    <div class="modal fade" id="newGroupModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Новая группа</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="newGroupForm" action="{{ route('Manager.groups.store') }}" method="POST">
-                        @csrf
-                        <div class="mb-3">
-                            <input type="text" class="form-control" name="name" placeholder="Название группы" required>
-                        </div>
-
-                        <div class="mb-3 search-container">
-                            <img src="{{ asset('new/images/manager/icon-search-gray.svg') }}" alt="Search"/>
-                            <input type="text" class="form-control" id="addExecutor" placeholder="Добавить исполнителя">
-                        </div>
-                        <div id="new-group-members-list" class="members-list">
-                            {{-- Dynamically added members will appear here --}}
-                        </div>
-                        <div class="modal-actions">
-                            <button type="submit" class="btn btn-primary w-100">Сохранить</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Edit Group Modal -->
-    <div class="modal fade" id="editGroupModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editGroupModalTitle"></h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="editGroupForm" method="POST" action="">
-                        @csrf
-                        @method('PUT')
-                        <div class="mb-3">
-                            <input type="text" class="form-control" id="editGroupName" name="name" required>
-                        </div>
-                        <div class="mb-3 search-container">
-                            <img src="{{ asset('new/images/manager/icon-search-gray.svg') }}" alt="Search"/>
-                            <input type="text" class="form-control" id="editExecutorSearch" placeholder="Добавить исполнителя">
-                        </div>
-                        <div id="edit-group-members-list" class="members-list">
-                            {{-- Existing and new members will appear here --}}
-                        </div>
-                        <div class="modal-actions">
-                            <button type="submit" class="btn btn-primary">Сохранить</button>
-                            <button type="button" class="btn btn-link delete-group-btn">Удалить группу</button>
-                        </div>
-                    </form>
-                    <form id="deleteGroupForm" method="POST" action="">
-                        @csrf
-                        @method('DELETE')
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+@if(isset($groupList) && $groupList->hasPages())
+	{{ $groupList->links('components.manager-pagination') }}
+@endif
 @endsection
 
 @section('js')
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // New Group Modal Logic
-            const newGroupModal = document.getElementById('newGroupModal');
-            const addExecutorInput = document.getElementById('addExecutor');
-            const newGroupMembersList = document.getElementById('new-group-members-list');
-            // Mock data for executors - in a real app, this would be an AJAX call
-            const executors = [
-                {id: 1, name: 'Никита Худяков', avatar: '{{ asset('images/user1.png') }}'},
-                {id: 2, name: 'Игорь Фадеев', avatar: '{{ asset('images/user1.png') }}'},
-                {id: 3, name: 'Руслан Тошаков', avatar: '{{ asset('images/user1.png') }}'},
-                {id: 4, name: 'Ирена Понарошку', avatar: '{{ asset('images/user1.png') }}'},
-            ];
-
-            function renderMemberItem(member, listElement) {
-                const memberItem = document.createElement('div');
-                memberItem.classList.add('member-item');
-                memberItem.innerHTML = `
-                    <img src="${member.avatar}" alt="${member.name}" class="member-avatar">
-                    <span class="member-name">${member.name}</span>
-                    <input type="hidden" name="members[]" value="${member.id}">
-                    <button type="button" class="btn-icon remove-member-btn">
-                        <img src="{{ asset('new/images/manager/icon-trash.svg') }}" alt="Remove"/>
-                    </button>
-                `;
-                listElement.appendChild(memberItem);
-                memberItem.querySelector('.remove-member-btn').addEventListener('click', () => {
-                    memberItem.remove();
-                });
-            }
-
-            addExecutorInput.addEventListener('keydown', function(event) {
-                if (event.key === 'Enter' && this.value.trim() !== '') {
-                    event.preventDefault();
-                    // Mock adding first user from list for demonstration
-                    const foundExecutor = executors.find(e => e.name.toLowerCase().includes(this.value.toLowerCase()));
-                    if(foundExecutor) {
-                        renderMemberItem(foundExecutor, newGroupMembersList);
-                        this.value = '';
-                    } else {
-                        alert('Исполнитель не найден');
-                    }
-                }
-            });
-
-
-            // Edit Group Modal Logic
-            const editGroupModal = document.getElementById('editGroupModal');
-            editGroupModal.addEventListener('show.bs.modal', function (event) {
-                const card = event.relatedTarget;
-                const groupId = card.getAttribute('data-group-id');
-                const groupName = card.getAttribute('data-group-name');
-                const groupMembers = JSON.parse(card.getAttribute('data-group-members'));
-
-                const modalTitle = editGroupModal.querySelector('.modal-title');
-                const form = editGroupModal.querySelector('#editGroupForm');
-                const nameInput = editGroupModal.querySelector('#editGroupName');
-                const membersList = editGroupModal.querySelector('#edit-group-members-list');
-                const deleteForm = document.getElementById('deleteGroupForm');
-
-                modalTitle.textContent = groupName;
-                nameInput.value = groupName;
-                form.action = `/manager/groups/${groupId}`;
-                deleteForm.action = `/manager/groups/${groupId}`;
-
-                membersList.innerHTML = '';
-                groupMembers.forEach(member => {
-                    renderMemberItem({
-                        id: member.id,
-                        name: member.full_name,
-                        avatar: member.avatar || '{{ asset('images/user1.png') }}'
-                    }, membersList);
-                });
-            });
-
-            document.querySelector('.delete-group-btn').addEventListener('click', function() {
-                if(confirm('Вы уверены, что хотите удалить эту группу?')) {
-                    document.getElementById('deleteGroupForm').submit();
-                }
-            });
-        });
-    </script>
 @endsection

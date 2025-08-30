@@ -19,9 +19,9 @@ class ServiceJournalExt extends Model
         return $this->hasOne('App\Data\Service\Model\ServiceStatus','id','service_status_id');
     }
 
-    public function service()
+    public function projectStatus()
     {
-        return $this->hasOne('App\Data\Service\Model\Service','id','service_id');
+        return $this->hasOne('App\Data\Project\Model\ProjectStatusTable','id','project_status_id');
     }
 
     public function manager()

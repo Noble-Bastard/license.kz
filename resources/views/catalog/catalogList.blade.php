@@ -1,126 +1,68 @@
-@extends('new.layouts.app')
+@extends('layouts.modern-app')
 
-@section('meta-description')
-    {{$catalogRootNode->name}}
-@endsection
+@section('title', $catalogRootNode->name)
 
-@section('header__background')
-    <div class="header__background header__background-{{$serviceCategory->id}}"></div>
-@endsection
-@section('footer__background')footer__background-{{$serviceCategory->id}}@endsection
+@section('page-header')
+    <div class="py-8">
+        <!-- Breadcrumb -->
+        <nav class="flex mb-6" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                <li class="inline-flex items-center">
+                    <a href="{{ route('services') }}" 
+                       class="inline-flex items-center text-sm font-medium text-text-secondary hover:text-primary-600">
+                        <i class="fas fa-home mr-2"></i>
+                        Услуги
+                    </a>
+                </li>
+                <li>
+                    <div class="flex items-center">
+                        <i class="fas fa-chevron-right text-text-tertiary mx-2"></i>
+                        <span class="text-sm font-medium text-text-primary">{{ $serviceCategory->description }}</span>
+                    </div>
+                </li>
+            </ol>
+        </nav>
 
-@section('content')
-    <div class="container mb-5">
-        <div class="row services-background">
-            <div class="col-12">
-                <h1 class="title-main pt-3">
-                    {{$serviceCategory->description}}
+        <!-- Header -->
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between">
+            <div class="flex-1">
+                <h1 class="text-3xl font-bold text-text-primary">
+                    {{ $serviceCategory->description }}
                 </h1>
-
-                <div class="service subLicense pt-3">
-                    <div class="subLicense-label mb-3">@lang('messages.pages.services.activity_licensing'):</div>
-                    <h2 class="subLicense-title mb-4">{{$catalogRootNode->name}}</h2>
-
-                    <div class="row justify-content-end">
-                        <div class="col-12 col-md-11">
-                            @if($catalogRootNode->id === 400)
-                                <p class="mt-1 mb-3">@lang('messages.pages.services.note_400')</p>
-                            @endif
-                            <div class="subLicense-subtitle mb-3">@lang('messages.pages.services.mark_necessary'):
-                            </div>
-                            <form method="get" class="compareServiceForm"
-                                  action="{{route('services.servicesCompare')}}">
-                                @foreach(collect($catalogRootNode->childNodeList->where('is_visible', 1)->all())->sortBy('name') as $catalogItem)
-                                    <div class="accordion col-12 subLicense-group mb-3"
-                                         id="accordion-subLicense-{{$catalogRootNode->id}}_{{$loop->index}}">
-
-                                        <div class="subLicense-group_header row"
-                                             id="subLicense-group-heading-{{$catalogItem->id}}">
-                                            <div class="col-12 p-0">
-                                                <div class="row no-gutters">
-                                                    <div class="col-md-8 col-xl-9 subLicense-group_header-title"
-                                                         data-toggle="collapse"
-                                                         data-target="#subLicense-group-{{$catalogItem->id}}"
-                                                         aria-expanded="false"
-                                                         aria-controls="subLicense-group-{{$catalogItem->id}}">{{$catalogItem->name}}</div>
-                                                    <div class="col-md-4 col-xl-3 text-md-right">
-                                                        <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" class=" select_all_in_group"
-                                                                   id="select_all_in_group_item_{{$catalogItem->id}}">
-                                                            <label class="custom-control-label"
-                                                                   for="select_all_in_group_item_{{$catalogItem->id}}">@lang('messages.all.check_all')
-                                                                (<span class="select_in_group_cnt">0</span>/{{$catalogItem->childNodeList->where('is_visible', 1)->count() + $catalogItem->serviceCatalogList->count()}}
-                                                                )</label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        @if($catalogItem->catalog_node_type_id == 1)
-                                            <div id="subLicense-group{{$catalogItem->id}}" class="subLicense-group_body collapse row"
-                                                 aria-labelledby="subLicense-group-heading-{{$catalogItem->id}}"
-                                                 data-parent="#accordion-subLicense-{{$catalogRootNode->id}}_{{$loop->index}}"
-                                            >
-
-{{--                                                <form method="get" class="compareServiceForm"--}}
-{{--                                                      action="{{route('services.servicesCompare')}}">--}}
-
-                                                    <div class="form-check mb-3">
-                                                        <input class="form-check-input select_all_service_item"
-                                                               id="select_all_service_item_{{$catalogItem->id}}" type="checkbox">
-                                                        <label class="form-check-label"
-                                                               for="select_all_service_item_{{$catalogItem->id}}">
-                                                            @lang('messages.all.check_all')
-                                                        </label>
-                                                    </div>
-
-                                                    <hr/>
-
-                                                    @include('catalog._catalogServiceList', ['catalogItem' => $catalogItem, 'singleNode' => false, 'preSelected' => $preSelected])
-
-                                                    @include('catalog._catalogList', ['catalogRootNode' => $catalogItem, 'preSelected' => $preSelected])
-                                                    <button type="submit" class="btn btn-success mt-2 compareServiceBtn"
-                                                            disabled="disabled">
-                                                        @lang('messages.all.show')
-                                                    </button>
-{{--                                                </form>--}}
-                                            </div>
-                                        @elseif($catalogItem->catalog_node_type_id == 8)
-                                            <div id="subLicense-group-{{$catalogItem->id}}" class="collapse row subLicense-group_container pb-1 "
-                                                 aria-labelledby="subLicense-group-heading-{{$catalogItem->id}}"
-                                            >
-                                                @include('catalog._catalogServiceList', ['catalogItem' => $catalogItem, 'preSelected' => $preSelected])
-
-                                                @include('catalog._catalogList', ['catalogRootNode' => $catalogItem, 'preSelected' => $preSelected])
-                                            </div>
-                                        @endif
-                                    </div>
-                                @endforeach
-                                {{--                                @include('catalog._catalogServiceList', ['catalogItem' => $catalogRootNode, 'singleNode' => true, 'preSelected' => $preSelected])--}}
-
-                                {{--                                @include('catalog._catalogList', ['catalogRootNode' => $catalogRootNode, 'preSelected' => $preSelected])--}}
-
-                                <div class="row mt-4">
-                                    <div class="col-12 text-center text-md-left">
-                                        <button type="button"
-                                                class="btn btn-default btn-lg select_all_service_item mr-3 mb-3 mb-sm-0">@lang('messages.all.check_all')</button>
-
-                                        <span class="select_all_service_cnt d-none d-sm-inline">@lang('messages.pages.services.selected'): </span>
-                                        <span class="select_all_service_cnt-span d-none d-sm-inline">0</span>
-                                        <div class="mb-3 d-block d-sm-none">
-                                            <span class="select_all_service_cnt"> @lang('messages.pages.services.selected'): </span>
-                                            <span class="select_all_service_cnt-span">0</span>
-                                        </div>
-                                        <button type="submit"
-                                                class="btn btn-success btn-lg compareServiceBtn float-md-right text-uppercase"
-                                                disabled="disabled">
-                                            @lang('messages.all.next')
-                                            <i class="ml-2 fal fa-long-arrow-right"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
+                <div class="mt-2">
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primary-100 text-primary-800">
+                        <i class="fas fa-certificate mr-2"></i>
+                        @lang('messages.pages.services.activity_licensing')
+                    </span>
+                </div>
+                <h2 class="text-xl font-semibold text-text-secondary mt-4">
+                    {{ $catalogRootNode->name }}
+                </h2>
+                
+                @if($catalogRootNode->id === 400)
+                    <div class="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+                        <div class="flex items-start space-x-3">
+                            <i class="fas fa-exclamation-triangle text-amber-600 mt-0.5"></i>
+                            <p class="text-sm text-amber-800">@lang('messages.pages.services.note_400')</p>
                         </div>
+                    </div>
+                @endif
+            </div>
+
+            <!-- Selected Counter -->
+            <div class="mt-6 lg:mt-0 lg:ml-8">
+                <div class="bg-white rounded-lg border border-border-light p-4 shadow-sm">
+                    <div class="flex items-center space-x-4">
+                        <div class="text-center">
+                            <div class="text-2xl font-bold text-primary-600" id="selectedCounter">0</div>
+                            <div class="text-xs text-text-secondary">Выбрано</div>
+                        </div>
+                        <button type="button" 
+                                id="selectAllBtn"
+                                class="px-4 py-2 bg-neutral-100 hover:bg-neutral-200 text-text-primary font-medium rounded-lg transition-colors">
+                            <i class="fas fa-check-square mr-2"></i>
+                            Выбрать все
+                        </button>
                     </div>
                 </div>
             </div>
@@ -128,76 +70,226 @@
     </div>
 @endsection
 
+@section('content')
+<div x-data="catalogData()" x-init="initCatalog()">
+    <!-- Instructions -->
+    <div class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+        <div class="flex items-start space-x-3">
+            <i class="fas fa-info-circle text-blue-600 mt-0.5"></i>
+            <div>
+                <h3 class="text-sm font-medium text-blue-800 mb-1">@lang('messages.pages.services.mark_necessary')</h3>
+                <p class="text-sm text-blue-700">Выберите необходимые лицензии и сравните услуги по их получению</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Services Form -->
+    <form method="get" action="{{ route('services.servicesCompare') }}" class="space-y-6">
+        @foreach(collect($catalogRootNode->childNodeList->where('is_visible', 1)->all())->sortBy('name') as $catalogItem)
+            <div class="bg-white rounded-lg border border-border-light shadow-sm">
+                <!-- Group Header -->
+                <div class="px-6 py-4 border-b border-border-light">
+                    <div class="flex items-center justify-between">
+                        <button type="button" 
+                                @click="toggleGroup('{{ $catalogItem->id }}')"
+                                class="flex-1 flex items-center justify-between text-left">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-primary-100 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-folder text-primary-600"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-text-primary">{{ $catalogItem->name }}</h3>
+                                    <p class="text-sm text-text-secondary">
+                                        {{ $catalogItem->childNodeList->where('is_visible', 1)->count() + $catalogItem->serviceCatalogList->count() }} услуг
+                                    </p>
+                                </div>
+                            </div>
+                            <i class="fas fa-chevron-down transition-transform duration-200"
+                               :class="openGroups.includes('{{ $catalogItem->id }}') ? 'rotate-180' : ''"></i>
+                        </button>
+
+                        <div class="ml-4 flex items-center space-x-4">
+                            <span class="text-sm text-text-secondary">
+                                Выбрано: <span class="font-medium" x-text="getGroupSelectedCount('{{ $catalogItem->id }}')">0</span>
+                            </span>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" 
+                                       class="sr-only group-select-all"
+                                       data-group="{{ $catalogItem->id }}"
+                                       @change="toggleGroupAll('{{ $catalogItem->id }}', $event.target.checked)">
+                                <div class="relative">
+                                    <div class="w-5 h-5 bg-white border-2 border-border rounded transition-colors"
+                                         :class="isGroupAllSelected('{{ $catalogItem->id }}') ? 'bg-primary-600 border-primary-600' : 'border-border'">
+                                        <i class="fas fa-check text-white text-xs absolute inset-0 flex items-center justify-center"
+                                           x-show="isGroupAllSelected('{{ $catalogItem->id }}')"></i>
+                                    </div>
+                                </div>
+                                <span class="ml-2 text-sm text-text-secondary">Выбрать все</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Group Content -->
+                <div x-show="openGroups.includes('{{ $catalogItem->id }}')" 
+                     x-transition:enter="transition ease-out duration-200"
+                     x-transition:enter-start="opacity-0 transform scale-95"
+                     x-transition:enter-end="opacity-100 transform scale-100"
+                     x-transition:leave="transition ease-in duration-150"
+                     x-transition:leave-start="opacity-100 transform scale-100"
+                     x-transition:leave-end="opacity-0 transform scale-95"
+                     class="px-6 py-4">
+                    
+                    @if($catalogItem->catalog_node_type_id == 1 || $catalogItem->catalog_node_type_id == 8)
+                        <!-- Services Grid -->
+                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            @include('catalog._catalogServiceList', ['catalogItem' => $catalogItem, 'singleNode' => false, 'preSelected' => $preSelected])
+                            @include('catalog._catalogList', ['catalogRootNode' => $catalogItem, 'preSelected' => $preSelected])
+                        </div>
+                    @endif
+                </div>
+            </div>
+        @endforeach
+
+        <!-- Bottom Actions -->
+        <div class="sticky bottom-0 bg-white border-t border-border-light p-6 shadow-lg">
+            <div class="flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0">
+                <div class="flex items-center space-x-4">
+                    <button type="button" 
+                            id="selectAllServicesBtn"
+                            class="inline-flex items-center px-4 py-2 bg-neutral-100 hover:bg-neutral-200 text-text-primary font-medium rounded-lg transition-colors">
+                        <i class="fas fa-check-square mr-2"></i>
+                        @lang('messages.all.check_all')
+                    </button>
+                    <div class="text-sm text-text-secondary">
+                        <span>@lang('messages.pages.services.selected'): </span>
+                        <span class="font-medium text-primary-600" x-text="getTotalSelectedCount()">0</span>
+                    </div>
+                </div>
+
+                <button type="submit" 
+                        :disabled="getTotalSelectedCount() === 0"
+                        class="inline-flex items-center px-6 py-3 bg-primary-600 hover:bg-primary-700 disabled:bg-neutral-300 text-white font-medium rounded-lg transition-colors disabled:cursor-not-allowed">
+                    <span class="uppercase">@lang('messages.all.next')</span>
+                    <i class="fas fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+@endsection
+
 @section('js')
-    <script>
-        let selectedServices = 0
+<script>
+function catalogData() {
+    return {
+        openGroups: [],
+        selectedServices: [],
 
-        ////activeTab('services');
+        initCatalog() {
+            // Initialize with preselected services
+            @if(isset($preSelected) && is_array($preSelected))
+                this.selectedServices = @json($preSelected);
+            @endif
+            this.updateCounters();
+        },
 
-        $(function () {
-            $(document).on('click', '.subLicense-group .select_all_in_group', function (e) {
-                e.stopPropagation();
+        toggleGroup(groupId) {
+            const index = this.openGroups.indexOf(groupId);
+            if (index > -1) {
+                this.openGroups.splice(index, 1);
+            } else {
+                this.openGroups.push(groupId);
+            }
+        },
 
-                let isChecked = this.checked
-                let licenseGroup = $(this).parents('.subLicense-group')[0];
-
-                let serviceItem = $('.service_item', licenseGroup);
-                serviceItem.prop("checked", this.checked);
-
-                let select_all_in_group = $('.select_all_in_group', licenseGroup);
-                select_all_in_group.prop("checked", this.checked);
-
-                setSelectedItemInGroupCnt(licenseGroup, isChecked ? serviceItem.length : 0);
-
-                $('.subLicense-group', licenseGroup).each(function () {
-                    $('.select_in_group_cnt', this).html(isChecked ? $('.select_in_group_cnt', this).length : 0);
-                });
-
-                changeParentCnt(licenseGroup, isChecked ? serviceItem.length : serviceItem.length*-1)
+        toggleGroupAll(groupId, isChecked) {
+            const groupServices = document.querySelectorAll(`[data-group="${groupId}"] .service-checkbox`);
+            groupServices.forEach(checkbox => {
+                checkbox.checked = isChecked;
+                this.toggleService(checkbox.value, isChecked);
             });
+            this.updateCounters();
+        },
 
-            $(document).on('click', '.subLicense-group .service_item', function (e) {
-                e.stopPropagation();
+        toggleService(serviceId, isSelected) {
+            const index = this.selectedServices.indexOf(serviceId);
+            if (isSelected && index === -1) {
+                this.selectedServices.push(serviceId);
+            } else if (!isSelected && index > -1) {
+                this.selectedServices.splice(index, 1);
+            }
+        },
 
-                let licenseGroup = $(this).parents('.accordion.subLicense-group')[0];
+        isGroupAllSelected(groupId) {
+            const groupServices = document.querySelectorAll(`[data-group="${groupId}"] .service-checkbox`);
+            if (groupServices.length === 0) return false;
+            
+            return Array.from(groupServices).every(checkbox => 
+                this.selectedServices.includes(checkbox.value)
+            );
+        },
 
-                let selectedItemCnt = $('.service_item:checked', licenseGroup).length;
-                let allItemCnt = $('.service_item', licenseGroup).length;
+        getGroupSelectedCount(groupId) {
+            const groupServices = document.querySelectorAll(`[data-group="${groupId}"] .service-checkbox`);
+            return Array.from(groupServices).filter(checkbox => 
+                this.selectedServices.includes(checkbox.value)
+            ).length;
+        },
 
-                setSelectedItemInGroupCnt(licenseGroup, selectedItemCnt);
+        getTotalSelectedCount() {
+            return this.selectedServices.length;
+        },
 
-                $('.select_all_in_group', licenseGroup).prop("checked", selectedItemCnt === allItemCnt);
-            });
-
-            $(document).on('click', '.select_all_service_item', function (e) {
-                e.stopPropagation();
-
-                $('.accordion.subLicense-group .select_all_in_group').each(function (index, value) {
-                    $(this).click();
-                });
-
-                $('.singleNode  .service_item').each(function (index, value) {
-                    $(this).click();
-                });
-            });
-        });
-
-        function setSelectedItemInGroupCnt(group, cnt) {
-            $('.select_in_group_cnt', group).html(cnt);
-
-            let selectedServices = $('.service_item:checked').length
-            $('.select_all_service_cnt-span').html(selectedServices);
-
-            $('.compareServiceBtn').attr('disabled', selectedServices <= 0)
-        }
-
-        function changeParentCnt(item, cnt){
-            let catalog_list = $(item).parents('.catalog_list')
-            if(catalog_list.length > 0){
-                let licenseGroup = $(catalog_list).parents('.accordion.subLicense-group')[0];
-                let elm = $('.subLicense-group_header .select_in_group_cnt', licenseGroup)[0]
-                $(elm).html($(elm).html()*1 + cnt)
+        updateCounters() {
+            // Update counter in header
+            const counter = document.getElementById('selectedCounter');
+            if (counter) {
+                counter.textContent = this.getTotalSelectedCount();
             }
         }
-    </script>
+    };
+}
+
+// Legacy support for existing scripts
+document.addEventListener('DOMContentLoaded', function() {
+    // Select all button in header
+    const selectAllBtn = document.getElementById('selectAllBtn');
+    if (selectAllBtn) {
+        selectAllBtn.addEventListener('click', function() {
+            const allCheckboxes = document.querySelectorAll('.service-checkbox');
+            const allChecked = Array.from(allCheckboxes).every(cb => cb.checked);
+            
+            allCheckboxes.forEach(checkbox => {
+                checkbox.checked = !allChecked;
+                checkbox.dispatchEvent(new Event('change'));
+            });
+        });
+    }
+
+    // Select all services button
+    const selectAllServicesBtn = document.getElementById('selectAllServicesBtn');
+    if (selectAllServicesBtn) {
+        selectAllServicesBtn.addEventListener('click', function() {
+            const allCheckboxes = document.querySelectorAll('.service-checkbox');
+            const allChecked = Array.from(allCheckboxes).every(cb => cb.checked);
+            
+            allCheckboxes.forEach(checkbox => {
+                checkbox.checked = !allChecked;
+                checkbox.dispatchEvent(new Event('change'));
+            });
+        });
+    }
+
+    // Service checkbox change handler
+    document.addEventListener('change', function(e) {
+        if (e.target.classList.contains('service-checkbox')) {
+            // Update Alpine.js data
+            const catalogComponent = document.querySelector('[x-data]').__x.$data;
+            catalogComponent.toggleService(e.target.value, e.target.checked);
+            catalogComponent.updateCounters();
+        }
+    });
+});
+</script>
 @endsection

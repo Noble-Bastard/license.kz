@@ -1,0 +1,7 @@
+# Project rules
+- Шаблонизатор: Laravel Blade (@extends, @section, @include, @props).
+- Нельзя ломать роуты и серверный код.
+- Верстка строго по Figma: пикс-перфект.
+- Переиспользуем компоненты Blade: layouts/app.blade.php, components/Card, components/Button, components/Form/*
+- Все цвета/spacing/типографика — из resources/css/variables.css и tailwind.config.js (если Tailwind).
+- Сетка: CSS Grid/Flex, mobile-first.
