@@ -345,7 +345,7 @@
 @else
     <li class="" data-menutag="main">
         <a class="nav-link px-2 header-new__menu-item px-2" href="{{route('new-index')}}">
-            @lang('messages.layouts.main')
+            @lang('messages.partner_form.company_information')
         </a>
     </li>
     <li class="" data-menutag="about">

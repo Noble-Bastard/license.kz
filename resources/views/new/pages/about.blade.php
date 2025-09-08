@@ -6,197 +6,362 @@
 
 @push('css')
     <link href="{{mix('css/app_new.css')}}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 @endpush
 
 @section('content')
     <div class="about-us">
-        <div class="about-us__get-all-info">
+        <!-- Hero Section -->
+        <div class="about-us__hero">
             <div class="container">
-                <div class="row mr-0 ml-0 col-12 pl-0 pr-0">
-                    <div class="col-lg-8  pl-0 pr-0 pr-lg-3 col-12  z-index-primary text-left order-lg-first order-second">
-                        <div class="about-us__get-all-info__header col-7 col-lg-12 pl-0 pr-2">
-                            <h1>
-                                UPPERLICENSE-
+                <div class="row">
+                    <div class="col-lg-6 col-12">
+                        <div class="about-us__hero__content">
+                            <h1 class="about-us__hero__title">
+                                <span class="text-primary">UPPERLICENSE</span> — инновационная онлайн-платформа, предлагающая комплексные решения для ведения бизнеса в Казахстане
                             </h1>
-                            <span class="about-us__get-all-info__header__header-text">
-                                @lang('messages.pages.about-us.this_is_a_portal_where_you_can_collect_all_the_necessary_information')
-                            </span>
-                        </div>
-                        <div class="about-us__get-all-info__icons row col-12 col-lg-10 pl-0 pr-0">
-                            <div class="col-4 text-center">
-                                <img src="{{asset('images/about-us_explanatory-icons/1.png')}}"
-                                     class="about-us__get-all-info__icons__icon d-block mx-auto">
-                                <span class="mt-3 d-block">@lang('messages.pages.about-us.free_access_to_information')</span>
-                            </div>
-                            <div class="col-4 text-center">
-                                <img src="{{asset('images/about-us_explanatory-icons/2.png')}}"
-                                     class="about-us__get-all-info__icons__icon d-block mx-auto">
-                                <span class="mt-3 d-block">@lang('messages.pages.about-us.always_up-to-date_data')</span>
-                            </div>
-                            <div class="col-4 text-center">
-                                <img src="{{asset('images/about-us_explanatory-icons/3.png')}}"
-                                     class="about-us__get-all-info__icons__icon d-block mx-auto">
-                                <span class="mt-2 d-block">@lang('messages.pages.about-us.everything_you_need_to_get_a_license_in_one_place')</span>
+                            <p class="about-us__hero__description">
+                                Мы объединяем передовые технологии и профессиональную экспертизу, чтобы максимально упростить взаимодействие предпринимателей с государственными органами - от регистрации ТОО и открытия банковских счетов до получения лицензий и разрешений.
+                            </p>
+                            <div class="about-us__hero__buttons">
+                                <a href="{{route('new-index') . '#listOfIndustries'}}" class="btn btn-primary">
+                                    Стать клиентом
+                                </a>
+                                <a href="{{route('new-partners')}}" class="btn btn-outline-primary">
+                                    Стать партнёром
+                                </a>
                             </div>
                         </div>
                     </div>
-                    <div class="col-4 order-first order-lg-second">
-                        <img src="{{asset('images/about-us_macbook.png')}}"
-                             class="about-us__get-all-info__macbook-background d-lg-block d-none">
-                        <img src="{{asset('images/about-us_background/about-us-mobile-phone.png')}}"
-                             class="about-us__get-all-info__iphone-background d-block d-lg-none">
+                    <div class="col-lg-6 col-12">
+                        <div class="about-us__hero__image-container">
+                            <img src="{{asset('images/aboutmain.png')}}" alt="UPPERLICENSE" class="about-us__hero__image img-fluid" onerror="this.onerror=null;this.src='{{ asset('images/aboutmain.png') }}';">
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="about-us__what-is-upperlicense">
+
+        <!-- Main Features Section -->
+        <div class="about-us__features">
             <div class="container">
-                <div class="row ml-0 mr-0">
-                    <div class="col-lg-5 col-md-4 col-12 pl-0 order-md-1 order-2 mt-4 mt-md-0">
-                        <div class="about-us__what-is-upperlicense__video">
-                            <img src="{{asset('images/video-img.png')}}"
-                                 class="about-us__what-is-upperlicense__video__background">
-                            <img
-                                    src="{{asset('images/play-button.png')}}"
-                                    data-url="https://www.youtube.com/embed/ZdUFNtPZeXM"
-                                    class="about-us__what-is-upperlicense__video__play-button pulse-animation play-video">
-                        </div>
-                    </div>
-                    <div class="col-lg-7 col-md-8 col-12 pl-lg-5 pr-lg-0 order-md-2 order-1">
-                        <div class="about-us__what-is-upperlicense__header"><h1>@lang('messages.pages.about.what_is')
-                                <img src="{{asset('images/upperLicense.png')}}"></h1></div>
-                        <div class="about-us__what-is-upperlicense__text">
-                            <span>@lang('messages.pages.about.platform_on_which_you_can_collect_everything_online')</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <img class="about-us__what-is-upperlicense__background"
-                 src="{{asset('images/about-us_background/background-section-2.png')}}">
-        </div>
-        <div class="about-us__here-you-will-find">
-            <div class="container ">
-                <div class="about-us__here-you-will-find__header">
-                    <h1><b>@lang('messages.pages.about-us.here_you_will_find_everything')</b></h1>
-                    <span class="about-us__here-you-will-find__header__mini">@lang('messages.pages.about-us.what_is_needed_to_obtain_licenses_and_permits')</span>
-                </div>
-                <div class="about-us__here-you-will-find__list-of-adv row z-index-primary">
-                    <div class="col-lg-3 col-12 row ml-0 mr-0  pr-0 about-us__here-you-will-find__list-of-adv__adv-col">
-                        <div class="col-2 pr-2">
-                            <div class="about-us__here-you-will-find__list-of-adv__adv-number">1</div>
-                        </div>
-                        <div class="col-10 pl-2">
-                            <h5 class="mb-2 pb-1"><span
-                                        class="about-us__here-you-will-find__list-of-adv__adv-header">@lang('messages.pages.about-us.information')</span>
-                            </h5>
-                            <span class="about-us__here-you-will-find__list-of-adv__adv-text">@lang('messages.pages.about-us.you_no_longer_need_to_collect_information_from_different_sources_and_check_its_accuracy_and_relevance')</span>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-12 row ml-0 mr-0 pr-0 about-us__here-you-will-find__list-of-adv__adv-col">
-                        <div class="col-2">
-                            <div class="about-us__here-you-will-find__list-of-adv__adv-number">2</div>
-                        </div>
-                        <div class="col-10 pr-1">
-                            <h5 class="mb-2 pb-1"><span
-                                        class="about-us__here-you-will-find__list-of-adv__adv-header">@lang('messages.pages.about-us.services')</span>
-                            </h5>
-                            <span class="about-us__here-you-will-find__list-of-adv__adv-text">@lang('messages.pages.about-us.You_do_not_need_to_collect_documents_yourself_to_submit')</span>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-12 row ml-0 mr-0 pr-0 pl-lg-0 about-us__here-you-will-find__list-of-adv__adv-col">
-                        <div class="col-2">
-                            <div class="about-us__here-you-will-find__list-of-adv__adv-number">3</div>
-                        </div>
-                        <div class="col-10 pr-0">
-                            <h5 class="mb-2 pb-1"><span
-                                        class="about-us__here-you-will-find__list-of-adv__adv-header">@lang('messages.pages.about-us.accompanying_services')</span>
-                            </h5>
-                            <span class="about-us__here-you-will-find__list-of-adv__adv-text">@lang('messages.pages.about-us.we_have_selected_companies_with_useful_services_and_agreed_with_them')</span>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-12 row ml-0 mr-0 pr-0 about-us__here-you-will-find__list-of-adv__adv-col d-none d-lg-flex">
-                        <div class="col-2">
-                            <div class="about-us__here-you-will-find__list-of-adv__adv-number">4</div>
-                        </div>
-                        <div class="col-10 pr-0">
-                            <h5 class="mb-2 pb-1"><span
-                                        class="about-us__here-you-will-find__list-of-adv__adv-header ">@lang('messages.pages.about-us.video_content_from_government_agencies')</span>
-                            </h5>
-                            <span class="about-us__here-you-will-find__list-of-adv__adv-text">@lang('messages.pages.about-us.we_cooperate_with_government_agencies')</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <img class="about-us__here-you-will-find__background"
-                 src="{{asset('images/about-us_background/bg-here-you-will-find.png')}}">
-        </div>
-        <div class="about-us__about-owner">
-            <div class="container ">
-                <div class="about-us__about-owner__header z-index-primary">
-                    <div class="about-us__about-owner__header__logo">
-                        <a href="https://uppercase.group" target="_blank">
-                            <img src="{{asset('images/dark-logo.png')}}">
-                        </a>
-                    </div>
-                    <div class="about-us__about-owner__header__text">
-                        @lang('messages.pages.about-us.owner_and_developer_of_the_UPPERLICENSE_product')
-                    </div>
+                <div class="about-us__features__header">
+                    <h2>С UPPERLICENSE вы  <span class="text-primary">легко соберете и оформите все необходимые документы</span> и всегда будете в курсе актуальных изменений законодательства.</h2>
                 </div>
                 <div class="row">
-                    <div class="col-lg-3 col-12 about-us__about-owner__col mb-lg-5  row ml-0 mr-0 pl-0">
-                        <div class="col-3 text-center"><img src="{{asset('images/about-owner-icons/1.png')}}"></div>
-                        <div class="col-9 pl-lg-4 pr-0">@lang('messages.pages.about-us.more_than_10_years')</div>
+                    <div class="col-lg-4 col-md-6 col-12">
+                        <div class="about-us__features__card about-us__features__card--white">
+                        <h3>Бесплатный доступ к информации</h3>
+                            <div class="about-us__features__card__image">
+                                <img src="{{ asset('images/Rectangleabout.png') }}" alt="Бесплатный доступ" class="img-fluid">
+                            </div>
+                            
+                            <p>Уникальная онлайн-платформа с постоянно обновляемой базой данных.</p>
+                        </div>
                     </div>
-                    <div class="col-lg-5 col-12 about-us__about-owner__col row ml-0 mr-0">
-                        <div class="col-3 text-center"><img src="{{asset('images/about-owner-icons/2.png')}}"></div>
-                        <div class="col-9">@lang('messages.pages.about-us.more_than_2500_clients')</div>
+                    <div class="col-lg-4 col-md-6 col-12">
+                        <div class="about-us__features__card about-us__features__card--green">
+                        <h3>Всегда актуальные данные</h3>
+                            <div class="about-us__features__card__image">
+                                <img src="{{ asset('images/Rectangleabout2.png') }}" alt="Актуальные данные" class="img-fluid">
+                            </div>
+                            
+                            <p>Оперируйте самыми свежими и достоверными данными о бизнес-процессах, включая открытие ТОО, создание банковских счётов и лицензирование в различных отраслях.</p>
+                        </div>
                     </div>
-                    <div class="col-lg-4 col-12 about-us__about-owner__col row ml-0 mr-0 pr-0">
-                        <div class="col-3 text-center"><img src="{{asset('images/about-owner-icons/3.png')}}"></div>
-                        <div class="col-9">@lang('messages.pages.about-us.8_branches')</div>
-                    </div>
-                    <div class="col-lg-3 col-12 about-us__about-owner__col row ml-0 mr-0 pl-0 pr-0">
-                        <div class="col-3 text-center"><img src="{{asset('images/about-owner-icons/4.png')}}"></div>
-                        <div class="col-9 pl-lg-4 pr-0">@lang('messages.pages.about-us.it_solutions_developer')</div>
-                    </div>
-                    <div class="col-lg-5 col-12 about-us__about-owner__col row ml-0 mr-0">
-                        <div class="col-3 text-center"><img src="{{asset('images/about-owner-icons/5.png')}}"></div>
-                        <div class="col-9">@lang('messages.pages.about-us.3_offices_in_Kazakhstan')</div>
-                    </div>
-                    <div class="col-lg-4 col-12 about-us__about-owner__col row ml-0 mr-0">
-                        <div class="col-3 text-center"><img src="{{asset('images/about-owner-icons/6.png')}}"></div>
-                        <div class="col-9">@lang('messages.pages.about-us.head_office_in_the_UAE')</div>
+                    <div class="col-lg-4 col-md-6 col-12">
+                        <div class="about-us__features__card about-us__features__card--beige">
+                        <h3>Все документы для бизнеса в одном месте</h3>
+                            <div class="about-us__features__card__image">
+                                <img src="{{ asset('images/Rectangleabout3.png') }}" alt="Документы в одном месте" class="img-fluid">
+                            </div>
+                            
+                            <p>Легко и быстро собирайте и оформляйте полные комплекты документов для получения лицензий, разрешений и других бизнес-услуг.</p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <img class="about-us__about-owner__background"
-                 src="{{asset('images/about-us_background/background-section-2.png')}}">
         </div>
-        <div class="about-us__near-footer">
-            <div class="container text-center">
-                <div class="about-us__near-footer__container z-index-primary">
-                    <div class="about-us__near-footer__container__header mb-lg-4 mb-3">
-                        <h1><b>@lang('messages.pages.about-us.we_make_it_easier_to_get')</b></h1>
 
+        <!-- Mission Section -->
+        <div class="about-us__mission">
+            <div class="container">
+                <div class="about-us__mission__content">
+                    <p><span class="text-primary">Наша миссия</span> — содействовать улучшению деловой среды в Казахстане, предоставляя современные цифровые решения и сервисы для упрощения взаимодействия бизнеса и государства.</p>
+                </div>
+            </div>
+        </div>
+
+        
+
+        <!-- What You Will Find Section -->
+        <div class="about-us__find">
+            <div class="about-us__find__header">
+                <h2>Все, что нужно для получения<br>лицензий и разрешений</h2>
+            </div>
+            <div class="about-us__find__cards-container">
+                <div class="about-us__find__card">
+                    <div class="about-us__find__card__image">
+                        <img src="{{asset('images/aboutactual.png')}}" alt="Актуальная информация">
                     </div>
-                    <div class="about-us__near-footer__container__join">
-                        <div class="about-us__near-footer__container__join__text ">
-                            @lang('messages.pages.about-us.join')
-                        </div>
+                    <div class="about-us__find__card__content">
+                        <p class="about-us__find__card__number">01</p>
+                        <h3 class="about-us__find__card__title">Актуальная информация</h3>
+                        <p class="about-us__find__card__description">Больше не нужно тратить время на поиск разрозненной информации - на нашей платформе вся необходимая информация собрана в одном месте, тщательно проверена и всегда актуальна.</p>
+                    </div>
+                </div>
+                <div class="about-us__find__card">
+                    <div class="about-us__find__card__image">
+                    <img src="{{asset('images/aboutprof.png')}}" alt="Профессиональные услуги">
+                    </div>
+                    <div class="about-us__find__card__content">
+                        <p class="about-us__find__card__number">02</p>
+                        <h3 class="about-us__find__card__title">Профессиональные услуги</h3>
+                        <p class="about-us__find__card__description">Доверьте сбор документов и отслеживание заявок профессионалам нашей команде, которая оперативно подготовит все необходимые материалы.</p>
+                    </div>
+                </div>
+                <div class="about-us__find__card">
+                    <div class="about-us__find__card__image">
+                    <img src="{{asset('images/aboutserv.png')}}" alt="Сопутствующие сервисы">
+                    </div>
+                    <div class="about-us__find__card__content">
+                        <p class="about-us__find__card__number">03</p>
+                        <h3 class="about-us__find__card__title">Сопутствующие сервисы</h3>
+                        <p class="about-us__find__card__description">Воспользуйтесь дополнительными сервисами и специальными условиями от наших партнеров для полного соответствия лицензионным требованиям.</p>
+                    </div>
+                </div>
+                <div class="about-us__find__card">
+                    <div class="about-us__find__card__image">
+                    <img src="{{asset('images/aboutvideo.png')}}" alt="Видеоконтент от госорганов">
+                    </div>
+                    <div class="about-us__find__card__content">
+                        <p class="about-us__find__card__number">04</p>
+                        <h3 class="about-us__find__card__title">Видеоконтент от госорганов</h3>
+                        <p class="about-us__find__card__description">Смотрите разъясняющие видеоматериалы с пояснениями требований и условий для лицензирования непосредственно от представителей государственных органов.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
 
-                        <div class="text-center ">
-                            <a class="btn btn-success about-us__near-footer__container__join__button" href="{{route('new-index') . '#listOfIndustries'}}">
-                                @lang('messages.layouts.become_client')
-                            </a>
-                            <a class="btn btn-success about-us__near-footer__container__join__button" href="{{route('new-partners')}}">
-                                @lang('messages.layouts.become_partner')
-                            </a>
+        <!-- Services Grid Section -->
+        <div class="services-section bg-white py-5">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2 class="section-title">Предоставляем качественные</h2>
+                    <h2 class="section-title">и комплексные <span class="text-success">решения</span></h2>
+                    <h2 class="section-title">для вашего бизнеса</h2>
+                </div>
+
+                <div class="row g-4">
+                    <!-- Card 1 -->
+                    <div class="col-md-6">
+                        <div class="service-card">
+                            <div class="card-content">
+                                <h3>Регистрация компании</h3>
+                                <ul class="service-list">
+                                    <li>Подготовка учредительных документов филиала/представительств</li>
+                                    <li>Сдача документов в регистрирующий орган</li>
+                                    <li>Заполнение формы на регистрацию</li>
+                                </ul>
+                            </div>
+                            <div class="card-button">
+                                <button class="btn btn-outline-dark rounded-pill">Оформить заявку</button>
+                            </div>
+                            <div class="card-image">
+                                <img src="{{ asset('new/images/icons/documentsIcon.png') }}" alt="Регистрация компании">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="col-md-6">
+                        <div class="service-card card-green">
+                            <div class="card-content">
+                                <h3>Регистрация компаний в СЭЗ и МФЦА</h3>
+                                <ul class="service-list">
+                                    <li>Регистрация в качестве участника Astana Hub International Technology Park</li>
+                                </ul>
+                            </div>
+                            <div class="card-button">
+                                <button class="btn btn-outline-dark rounded-pill">Оформить заявку</button>
+                            </div>
+                            <div class="card-image">
+                                <img src="{{ asset('new/images/icons/astanahub.png') }}" alt="Регистрация в СЭЗ">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="col-md-6">
+                        <div class="service-card card-blue">
+                            <div class="card-content">
+                                <h3>Открытие банковских счетов</h3>
+                                <ul class="service-list">
+                                    <li>Сбор документов</li>
+                                    <li>Подача заявки на открытие счета</li>
+                                </ul>
+                            </div>
+                            <div class="card-button">
+                                <button class="btn btn-outline-dark rounded-pill">Оформить заявку</button>
+                            </div>
+                            <div class="card-image">
+                                <img src="{{ asset('new/images/icons/uslugibank.png') }}" alt="Банковские счета">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div class="col-md-6">
+                        <div class="service-card card-orange">
+                            <div class="card-content">
+                                <h3>Лицензирование</h3>
+                                <ul class="service-list">
+                                    <li>Получение лицензий и разрешительных документов для всех видов деятельности</li>
+                                </ul>
+                            </div>
+                            <div class="card-button">
+                                <button class="btn btn-outline-dark rounded-pill">Оформить заявку</button>
+                            </div>
+                            <div class="card-image">
+                                <img src="{{ asset('new/images/icons/uslugilicense.png') }}" alt="Лицензирование">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 5 -->
+                    <div class="col-md-6">
+                        <div class="service-card card-purple">
+                            <div class="card-content">
+                                <h3>Получение визы С3 и С5</h3>
+                                <ul class="service-list">
+                                    <li>Сбор документов и оформление приглашения</li>
+                                    <li>Оформление визы в консульстве РК</li>
+                                </ul>
+                            </div>
+                            <div class="card-button">
+                                <button class="btn btn-outline-dark rounded-pill">Оформить заявку</button>
+                            </div>
+                            <div class="card-image">
+                                <img src="{{ asset('new/images/icons/uslugivisa.png') }}" alt="Визы">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 6 -->
+                    <div class="col-md-6">
+                        <div class="service-card card-yellow">
+                            <div class="card-content">
+                                <h3>Предоставление отраслевого юриста</h3>
+                                <ul class="service-list">
+                                    <li>Услуги юриста на аутсорсе для вашего бизнеса</li>
+                                </ul>
+                            </div>
+                            <div class="card-button">
+                                <button class="btn btn-outline-dark rounded-pill">Оформить заявку</button>
+                            </div>
+                            <div class="card-image">
+                                <img src="{{ asset('new/images/icons/uslugilaw.png') }}" alt="Юрист">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 7 -->
+                    <div class="col-md-6">
+                        <div class="service-card card-red">
+                            <div class="card-content">
+                                <h3>Бухгалтерский аутсорсинг</h3>
+                                <ul class="service-list">
+                                    <li>Подписание документов в банке (работа с менеджером банка)</li>
+                                    <li>Сбор данных клиентов</li>
+                                </ul>
+                            </div>
+                            <div class="card-button">
+                                <button class="btn btn-outline-dark rounded-pill">Оформить заявку</button>
+                            </div>
+                            <div class="card-image">
+                                <img src="{{ asset('new/images/icons/uslugibuh.png') }}" alt="Бухгалтерия">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 8 -->
+                    <div class="col-md-6">
+                        <div class="service-card card-gray">
+                            <div class="card-content">
+                                <h3>Дополнительные услуги</h3>
+                                <ul class="service-list">
+                                    <li>Получение ИИН, БИН</li>
+                                    <li>Получение ЭЦП</li>
+                                    <li>Оформление РВП</li>
+                                </ul>
+                            </div>
+                            <div class="card-button">
+                                <button class="btn btn-outline-dark rounded-pill">Оформить заявку</button>
+                            </div>
+                            <div class="card-image">
+                                <img src="{{ asset('new/images/icons/uslugiplus.png') }}" alt="Дополнительные услуги">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <img class="about-us__near-footer__background"
-                 src="{{asset('images/about-us_background/bg-near-footer.png')}}">
+        </div>
+
+        
+
+        <!-- Statistics Section -->
+        <div class="about-us__stats">
+            <div class="container">
+                <div class="about-us__stats__grid">
+                    <div class="about-us__stats__header">
+                        <div class="about-us__stats__logo">
+                            <i class="fas fa-chevron-up"></i>
+                            <span>UPPERCASE</span>
+                        </div>
+                        <p>UPPERLICENSE создан и разработан<br>экспертами группы компаний UPPERCASE</p>
+                    </div>
+                    <div class="about-us__stats__item">
+                        <div class="about-us__stats__number">13+</div>
+                        <p>лет</p>
+                        <span>На рынке юридических услуг и консалтинга</span>
+                    </div>
+                    <div class="about-us__stats__item">
+                        <div class="about-us__stats__number">6</div>
+                        <p>Филиалов в ОАЭ и РК</p>
+                    </div>
+                    <div class="about-us__stats__item">
+                        <div class="about-us__stats__number">500+</div>
+                        <p>Успешно завершенных проектов</p>
+                    </div>
+                    <div class="about-us__stats__item">
+                        <div class="about-us__stats__number">300+</div>
+                        <p>Опытных специалистов в команде</p>
+                    </div>
+                    <div class="about-us__stats__item">
+                        <div class="about-us__stats__number">3000+</div>
+                        <p>Клиентов в области регистрации, лицензирования, сопровождения международных сделок и корпоративного права</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="about-us__cta">
+            <div class="container">
+                <div class="about-us__cta__content">
+                    <h2>Присоединяйтесь к UPPERLICENSE!</h2>
+                    <p>Мы делаем процесс получения лицензий и разрешений в Казахстане максимально простым и удобным.</p>
+                    <div class="about-us__cta__buttons">
+                        <a href="{{route('new-index') . '#listOfIndustries'}}" class="btn btn-primary">
+                            Стать клиентом
+                        </a>
+                        <a href="{{route('new-partners')}}" class="btn btn-outline-primary">
+                            Стать партнёром
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 @endsection

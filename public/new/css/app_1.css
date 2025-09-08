@@ -3,7 +3,7 @@
 }
 
 #app {
-  padding-top: 136px;
+  padding-top: 0;
 }
 
 .header-new__language_dropdown .submenu {
@@ -235,7 +235,7 @@
   display: flex;
   justify-content: flex-end;
   height: 100%;
-  align-items: end;
+  align-items: flex-end;
 }
 
 .reviews_block-card {
@@ -394,7 +394,7 @@
 
 .service-content-data-total-btn {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   align-items: center;
 }
 
@@ -1409,7 +1409,7 @@
     display: flex;
     justify-content: flex-end;
     height: 100%;
-    align-items: end;
+    align-items: flex-end;
   }
 
   .reviews_block-card {

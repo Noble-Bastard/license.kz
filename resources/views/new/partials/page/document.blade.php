@@ -26,7 +26,7 @@
 
 <div class="container documents__window_layout_access">
   <div class="col-12 text-md-start text-center">
-    <p class="documents__window_title-access">Выберите разрешительный документ</p>
+    <p class="documents__window_title-access">Выберите разрешительный  документ</p>
   </div>
 
   <div class="col-12 documents__window_cards">

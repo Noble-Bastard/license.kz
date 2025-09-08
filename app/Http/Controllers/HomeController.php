@@ -252,4 +252,9 @@ class HomeController extends Controller
     {
         return view('checkPartner');
     }
+
+    public function constructionNew()
+    {
+        return view('new.pages.construction');
+    }
 }

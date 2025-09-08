@@ -23,14 +23,9 @@
     <meta name="facebook-domain-verification" content="q94r2el0gik2luew169nft0lnmyy5j" />
 
     @stack('css')
-    {{-- <link href="/css/app_new.css" rel="stylesheet" type="text/css"> --}}
+    <link href="{{asset('css/app_new.css')}}" rel="stylesheet" type="text/css">
     <link href="{{mix('new/css/app.css')}}" rel="stylesheet">
-    {{-- <link href="{{mix('new/css/app_1.css')}}" rel="stylesheet"> --}}
-    
-    <!-- Tailwind CSS для новых страниц клиента -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Alpine.js для интерактивности -->
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link href="{{mix('new/css/app_1.css')}}" rel="stylesheet">
     <link href="{{asset('libs/jquery-ui.min.css')}}" rel="stylesheet" type="text/css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
@@ -155,8 +150,6 @@
         $('.video-overlay.open').removeClass('open').find('iframe').remove();
     };
 </script>
-
-@stack('scripts')
     @include('layouts.metrix')
 </body>
 </html>
