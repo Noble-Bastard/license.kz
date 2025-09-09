@@ -53,7 +53,15 @@
                                     <span class="question-text">Каковы сроки регистрации бизнеса в Казахстане?</span>
                                 </summary>
                                 <div class="faq-answer">
-                                    <div class="answer-content"></div>
+                                    <div class="answer-content">
+                                        <p>Сроки регистрации бизнеса в Казахстане зависят от формы регистрации:</p>
+                                        <ul>
+                                            <li><strong>ТОО (Товарищество с ограниченной ответственностью):</strong> 3-5 рабочих дней</li>
+                                            <li><strong>ИП (Индивидуальный предприниматель):</strong> 1-2 рабочих дня</li>
+                                            <li><strong>АО (Акционерное общество):</strong> 5-7 рабочих дней</li>
+                                        </ul>
+                                        <p>С UPPERLICENSE процесс может быть ускорен благодаря нашему опыту и готовым шаблонам документов.</p>
+                                    </div>
                                 </div>
                             </details>
 
@@ -71,7 +79,18 @@
                                     <span class="question-text">Какие документы понадобятся для регистрации юридического лица в Казахстане?</span>
                                 </summary>
                                 <div class="faq-answer">
-                                    <div class="answer-content"></div>
+                                    <div class="answer-content">
+                                        <p>Для регистрации ТОО в Казахстане потребуются следующие документы:</p>
+                                        <ul>
+                                            <li>Устав компании</li>
+                                            <li>Заявление о государственной регистрации</li>
+                                            <li>Документы, подтверждающие личность учредителей</li>
+                                            <li>Справка о юридическом адресе</li>
+                                            <li>Документ об уплате государственной пошлины</li>
+                                            <li>Решение единственного учредителя или протокол собрания учредителей</li>
+                                        </ul>
+                                        <p>UPPERLICENSE поможет подготовить все необходимые документы в соответствии с требованиями законодательства.</p>
+                                    </div>
                                 </div>
                             </details>
 
@@ -80,7 +99,16 @@
                                     <span class="question-text">Можно ли в казахстанском банке открыть счет для ИП удаленно?</span>
                                 </summary>
                                 <div class="faq-answer">
-                                    <div class="answer-content"></div>
+                                    <div class="answer-content">
+                                        <p>Да, в некоторых казахстанских банках возможно удаленное открытие счета для ИП. Однако процедура может включать:</p>
+                                        <ul>
+                                            <li>Подачу заявки онлайн</li>
+                                            <li>Видеоидентификацию</li>
+                                            <li>Предоставление документов в электронном виде</li>
+                                            <li>Последующее посещение банка для подписания договора</li>
+                                        </ul>
+                                        <p>Мы поможем выбрать банк с наиболее удобными условиями открытия счета.</p>
+                                    </div>
                                 </div>
                             </details>
 
@@ -89,7 +117,16 @@
                                     <span class="question-text">Какие налоги потребуется платить в Казахстане?</span>
                                 </summary>
                                 <div class="faq-answer">
-                                    <div class="answer-content"></div>
+                                    <div class="answer-content">
+                                        <p>В Казахстане действуют следующие основные налоговые режимы:</p>
+                                        <ul>
+                                            <li><strong>Обычный режим:</strong> КПН (корпоративный подоходный налог) - 20%</li>
+                                            <li><strong>Упрощенная декларация:</strong> 1-3% с оборота (в зависимости от вида деятельности)</li>
+                                            <li><strong>Статус "Международная IT-компания":</strong> льготное налогообложение</li>
+                                            <li><strong>НДС:</strong> 12% (при превышении лимита)</li>
+                                        </ul>
+                                        <p>Наши специалисты помогут выбрать оптимальный налоговый режим для вашего бизнеса.</p>
+                                    </div>
                                 </div>
                             </details>
 
@@ -98,7 +135,16 @@
                                     <span class="question-text">Как долго обычно занимает процесс получения разрешений в стране?</span>
                                 </summary>
                                 <div class="faq-answer">
-                                    <div class="answer-content"></div>
+                                    <div class="answer-content">
+                                        <p>Сроки получения разрешений зависят от типа деятельности:</p>
+                                        <ul>
+                                            <li><strong>Уведомление о начале деятельности:</strong> 1-3 рабочих дня</li>
+                                            <li><strong>Лицензия на строительство:</strong> 10-15 рабочих дней</li>
+                                            <li><strong>Лицензия на образовательную деятельность:</strong> 20-30 рабочих дней</li>
+                                            <li><strong>Медицинская лицензия:</strong> 15-20 рабочих дней</li>
+                                        </ul>
+                                        <p>С UPPERLICENSE процесс ускоряется благодаря профессиональной подготовке документов.</p>
+                                    </div>
                                 </div>
                             </details>
 
@@ -107,7 +153,20 @@
                                     <span class="question-text">Какие отрасли и виды деятельности подлежат обязательной лицензированию в Казахстане?</span>
                                 </summary>
                                 <div class="faq-answer">
-                                    <div class="answer-content"></div>
+                                    <div class="answer-content">
+                                        <p>Обязательному лицензированию подлежат следующие виды деятельности:</p>
+                                        <ul>
+                                            <li>Строительно-монтажные работы</li>
+                                            <li>Медицинская деятельность</li>
+                                            <li>Образовательная деятельность</li>
+                                            <li>Фармацевтическая деятельность</li>
+                                            <li>Банковские и страховые услуги</li>
+                                            <li>Телекоммуникационные услуги</li>
+                                            <li>Деятельность в области использования атомной энергии</li>
+                                            <li>Нотариальная деятельность</li>
+                                        </ul>
+                                        <p>Полный список лицензируемых видов деятельности можно получить у наших консультантов.</p>
+                                    </div>
                                 </div>
                             </details>
                         </div>
@@ -260,9 +319,179 @@
     </div>
 
     <script>
+        // Основной JavaScript для FAQ
+        document.addEventListener('DOMContentLoaded', function() {
+            // Поиск по FAQ
+            const searchInput = document.querySelector('.search-input');
+            const searchBtn = document.querySelector('.search-btn');
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            function performSearch() {
+                const searchTerm = searchInput.value.toLowerCase().trim();
+                let visibleCount = 0;
+                
+                faqItems.forEach(item => {
+                    const questionText = item.querySelector('.question-text').textContent.toLowerCase();
+                    const answerText = item.querySelector('.answer-content').textContent.toLowerCase();
+                    
+                    if (searchTerm === '' || questionText.includes(searchTerm) || answerText.includes(searchTerm)) {
+                        item.style.display = 'block';
+                        visibleCount++;
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+                
+                // Показать сообщение если ничего не найдено
+                const noResultsMsg = document.querySelector('.no-results-message');
+                if (visibleCount === 0 && searchTerm !== '') {
+                    if (!noResultsMsg) {
+                        const message = document.createElement('div');
+                        message.className = 'no-results-message';
+                        message.innerHTML = '<p style="text-align: center; padding: 20px; color: #666;">По вашему запросу ничего не найдено. Попробуйте изменить поисковый запрос или <button class="ask-question-btn" onclick="openModal()" style="background: none; border: none; color: #279760; text-decoration: underline; cursor: pointer;">задать свой вопрос</button>.</p>';
+                        document.querySelector('.faq-accordion').appendChild(message);
+                    }
+                } else if (noResultsMsg) {
+                    noResultsMsg.remove();
+                }
+            }
+            
+            if (searchInput && searchBtn) {
+                searchInput.addEventListener('input', performSearch);
+                searchBtn.addEventListener('click', performSearch);
+            }
+            
+            // Фильтры по категориям
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const contentTitle = document.querySelector('.faq-content-title');
+            
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Убираем активный класс со всех кнопок
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    // Добавляем активный класс к нажатой кнопке
+                    this.classList.add('active');
+                    
+                    const filterText = this.textContent.trim();
+                    if (contentTitle) {
+                        contentTitle.textContent = filterText;
+                    }
+                    
+                    // Фильтруем FAQ по категориям
+                    faqItems.forEach(item => {
+                        item.style.display = 'block';
+                    });
+                    
+                    // Очищаем поиск при смене фильтра
+                    if (searchInput) {
+                        searchInput.value = '';
+                    }
+                    const noResultsMsg = document.querySelector('.no-results-message');
+                    if (noResultsMsg) {
+                        noResultsMsg.remove();
+                    }
+                });
+            });
+            
+            // Кнопка "Загрузить ещё"
+            const loadMoreBtn = document.querySelector('.load-more-btn');
+            if (loadMoreBtn) {
+                loadMoreBtn.addEventListener('click', function() {
+                    this.textContent = 'Загрузка...';
+                    this.disabled = true;
+                    
+                    // Имитация загрузки дополнительных FAQ
+                    setTimeout(() => {
+                        this.textContent = 'Загрузить ещё';
+                        this.disabled = false;
+                        alert('Дополнительные вопросы будут добавлены позже');
+                    }, 1000);
+                });
+            }
+            
+            // Форма консультации
+            const consultationForm = document.querySelector('.consultation-form-content');
+            if (consultationForm) {
+                consultationForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const submitBtn = this.querySelector('button[type="submit"]');
+                    const originalText = submitBtn.textContent;
+                    
+                    submitBtn.textContent = 'Отправка...';
+                    submitBtn.disabled = true;
+                    
+                    // Имитация отправки формы
+                    setTimeout(() => {
+                        alert('Спасибо за обращение! Наш специалист свяжется с вами в течение 30 минут.');
+                        submitBtn.textContent = originalText;
+                        submitBtn.disabled = false;
+                        this.reset();
+                    }, 1500);
+                });
+            }
+            
+            // Форма модального окна "Задать вопрос"
+            const modalForm = document.getElementById('formFaqNewQuestion');
+            if (modalForm) {
+                modalForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const submitBtn = this.querySelector('.submit-button');
+                    const originalText = submitBtn.textContent;
+                    
+                    submitBtn.textContent = 'Отправка...';
+                    submitBtn.disabled = true;
+                    
+                    // Собираем данные формы
+                    const formData = new FormData(this);
+                    
+                    // Имитация отправки (в реальности здесь будет AJAX запрос)
+                    setTimeout(() => {
+                        alert('Спасибо за ваш вопрос! Мы ответим на него в ближайшее время.');
+                        submitBtn.textContent = originalText;
+                        submitBtn.disabled = false;
+                        this.reset();
+                        closeModal();
+                    }, 1500);
+                });
+            }
+            
+            // Маска для телефона в модальном окне
+            const modalPhoneInput = document.getElementById('faqPhone');
+            if (modalPhoneInput) {
+                modalPhoneInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    if (value.length > 0) {
+                        if (value.length <= 1) {
+                            value = '+7 (' + value;
+                        } else if (value.length <= 4) {
+                            value = '+7 (' + value.substring(1);
+                        } else if (value.length <= 7) {
+                            value = '+7 (' + value.substring(1, 4) + ') ' + value.substring(4);
+                        } else if (value.length <= 9) {
+                            value = '+7 (' + value.substring(1, 4) + ') ' + value.substring(4, 7) + '-' + value.substring(7);
+                        } else {
+                            value = '+7 (' + value.substring(1, 4) + ') ' + value.substring(4, 7) + '-' + value.substring(7, 9) + '-' + value.substring(9, 11);
+                        }
+                    }
+                    e.target.value = value;
+                });
+            }
+        });
+
         function openModal() {
-            document.getElementById('modalNewQuestion').style.display = 'flex';
-            document.body.style.overflow = 'hidden';
+            const modal = document.getElementById('modalNewQuestion');
+            if (modal) {
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            } else {
+                // Fallback если модальное окно не найдено
+                const question = prompt('Введите ваш вопрос:');
+                if (question && question.trim()) {
+                    alert('Спасибо за ваш вопрос! Мы ответим на него в ближайшее время.\n\nВаш вопрос: ' + question);
+                }
+            }
         }
 
         function closeModal() {

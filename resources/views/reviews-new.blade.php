@@ -43,35 +43,50 @@
                 <div class="reviews-grid">
                     @if(isset($reviewList) && count($reviewList) > 0)
                         @foreach($reviewList as $review)
-                    <article class="review-card">
-                        <div class="review-card__thumb">
-                                    @if($review->image)
-                                        <img src="{{asset('images/' . $review->image)}}" alt="{{$review->title}}">
+                            <article class="review-card" data-category="{{$review->service_category ?? 'ОБЩЕЕ'}}">
+                                <div class="review-card__thumb">
+                                    @if($review->youtube_preview)
+                                        <img src="{{$review->youtube_preview}}" alt="{{$review->company_name ?? 'Отзыв клиента'}}">
+                                    @elseif($review->image)
+                                        <img src="{{asset('images/' . $review->image)}}" alt="{{$review->company_name ?? 'Отзыв клиента'}}">
                                     @else
-                                        <img src="https://via.placeholder.com/300x200/F3F4F6/9CA3AF?text=Review+Image" alt="{{$review->title}}">
+                                        <img src="https://via.placeholder.com/300x200/F3F4F6/9CA3AF?text=Review+Image" alt="{{$review->company_name ?? 'Отзыв клиента'}}">
                                     @endif
-                                    @if($review->video_url)
-                            <button class="play-button" aria-label="Воспроизвести видео">
-                                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                                    <circle cx="24" cy="24" r="24" fill="rgba(0,0,0,0.5)"/>
-                                    <polygon points="20,16 36,24 20,32" fill="#fff"/>
-                                </svg>
-                            </button>
+                                    @if($review->youtube_url || $review->video_url)
+                                        <button class="play-button" aria-label="Воспроизвести видео" data-video-url="{{$review->youtube_url ?? $review->video_url}}">
+                                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                                                <circle cx="24" cy="24" r="24" fill="rgba(0,0,0,0.5)"/>
+                                                <polygon points="20,16 36,24 20,32" fill="#fff"/>
+                                            </svg>
+                                        </button>
+                                        <span class="duration">{{$review->duration ?? '06:24'}}</span>
                                     @endif
-                        </div>
-                        <div class="review-card__content">
-                                    <div class="category">{{$review->category ?? 'ОБЩЕЕ'}}</div>
-                                    <h3 class="review-title">{{$review->title}}</h3>
-                                    <p class="review-text">{{Illuminate\Support\Str::limit($review->content, 150)}}</p>
-                            <div class="review-date">
+                                </div>
+                                <div class="review-card__content">
+                                    <div class="category">
+                                        @if($review->service_category)
+                                            {{strtoupper($review->service_category)}}
+                                        @elseif(isset($review->review_type_id) && $review->review_type_id == 1)
+                                            ЛИЦЕНЗИРОВАНИЕ
+                                        @else
+                                            ОБЩЕЕ
+                                        @endif
+                                    </div>
+                                    <h3 class="review-title">
+                                        {{$review->title ?? $review->company_name ?? 'Отзыв довольного клиента'}}
+                                    </h3>
+                                    <p class="review-text">
+                                        {{Illuminate\Support\Str::limit($review->content ?? $review->company_description ?? 'Благодарим команду UPPERLICENSE за профессиональную помощь в получении лицензии. Все было сделано быстро и качественно.', 150)}}
+                                    </p>
+                                    <div class="review-date">
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <rect x="3" y="4" width="18" height="18" rx="2"/>
-                                    <path d="M16 2v4M8 2v4M3 10h18"/>
-                                </svg>
-                                        {{$review->created_at ? $review->created_at->format('d F Y') : 'Дата не указана'}}
-                            </div>
-                        </div>
-                    </article>
+                                            <rect x="3" y="4" width="18" height="18" rx="2"/>
+                                            <path d="M16 2v4M8 2v4M3 10h18"/>
+                                        </svg>
+                                        {{$review->created_at ? $review->created_at->format('d F Y') : '10 февраля 2024'}}
+                                    </div>
+                                </div>
+                            </article>
                         @endforeach
                     @else
                         <!-- Placeholder review cards if no data -->
@@ -253,3 +268,181 @@
         </section>
     </main>
 @endsection
+
+@push('js')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Фильтры отзывов
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const reviewCards = document.querySelectorAll('.review-card');
+    
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            // Убираем активный класс со всех кнопок
+            filterBtns.forEach(b => b.classList.remove('filter-btn--active'));
+            // Добавляем активный класс к нажатой кнопке
+            this.classList.add('filter-btn--active');
+            
+            const filterText = this.textContent.trim();
+            
+            reviewCards.forEach(card => {
+                if (filterText === 'Все Отзывы') {
+                    card.style.display = 'block';
+                } else {
+                    const category = card.querySelector('.category').textContent;
+                    const dataCategory = card.getAttribute('data-category');
+                    
+                    let shouldShow = false;
+                    
+                    // Проверяем соответствие фильтра
+                    if (filterText === 'Лицензирование') {
+                        shouldShow = category.includes('ЛИЦЕНЗИРОВАНИЕ') || 
+                                   dataCategory?.includes('лицензирование') ||
+                                   dataCategory?.includes('licensing');
+                    } else if (filterText === 'Регистрация компании') {
+                        shouldShow = category.includes('РЕГИСТРАЦИЯ') || 
+                                   dataCategory?.includes('регистрация') ||
+                                   dataCategory?.includes('registration');
+                    } else if (filterText === 'Юридическое сопровождение') {
+                        shouldShow = category.includes('ЮРИДИЧЕСКОЕ') || 
+                                   dataCategory?.includes('юридическое') ||
+                                   dataCategory?.includes('legal');
+                    } else if (filterText === 'Бухгалтерия') {
+                        shouldShow = category.includes('БУХГАЛТЕРИЯ') || 
+                                   dataCategory?.includes('бухгалтерия') ||
+                                   dataCategory?.includes('accounting');
+                    } else {
+                        shouldShow = category.includes(filterText.toUpperCase());
+                    }
+                    
+                    card.style.display = shouldShow ? 'block' : 'none';
+                }
+            });
+        });
+    });
+    
+    // Кнопка "Загрузить еще"
+    const loadMoreBtn = document.querySelector('.load-more-btn');
+    if (loadMoreBtn) {
+        loadMoreBtn.addEventListener('click', function() {
+            // Имитация загрузки дополнительных отзывов
+            this.textContent = 'Загрузка...';
+            this.disabled = true;
+            
+            setTimeout(() => {
+                this.textContent = 'Загрузить ещё';
+                this.disabled = false;
+                // Здесь можно добавить AJAX запрос для загрузки реальных данных
+            }, 1000);
+        });
+    }
+    
+    // Кнопки воспроизведения видео
+    const playBtns = document.querySelectorAll('.play-button');
+    playBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const videoUrl = this.getAttribute('data-video-url');
+            if (videoUrl) {
+                window.open(videoUrl, '_blank');
+            } else {
+                alert('Видео временно недоступно');
+            }
+        });
+    });
+    
+    // Навигация кейсов клиентов
+    const prevBtn = document.querySelector('.client-cases__nav-btn--prev');
+    const nextBtn = document.querySelector('.client-cases__nav-btn--next');
+    
+    if (prevBtn) {
+        prevBtn.addEventListener('click', function() {
+            // Логика переключения на предыдущий кейс
+            console.log('Предыдущий кейс');
+        });
+    }
+    
+    if (nextBtn) {
+        nextBtn.addEventListener('click', function() {
+            // Логика переключения на следующий кейс
+            console.log('Следующий кейс');
+        });
+    }
+    
+    // Кнопка "Показать полностью" в кейсах
+    const showMoreBtn = document.querySelector('.client-case-detail__show-more-btn');
+    if (showMoreBtn) {
+        showMoreBtn.addEventListener('click', function() {
+            const hiddenItems = document.querySelectorAll('.client-case-detail__list-item[style*="display: none"]');
+            if (hiddenItems.length > 0) {
+                hiddenItems.forEach(item => item.style.display = 'flex');
+                this.textContent = 'Скрыть';
+            } else {
+                // Скрыть дополнительные элементы (если есть)
+                this.textContent = 'Показать полностью';
+            }
+        });
+    }
+    
+    // Кнопка видео-отзыва
+    const videoBtn = document.querySelector('.client-case-detail__video-btn');
+    if (videoBtn) {
+        videoBtn.addEventListener('click', function() {
+            alert('Видео-отзыв будет добавлен позже');
+        });
+    }
+    
+    // Форма обратной связи
+    const contactForm = document.querySelector('.contact-section__form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = this.querySelector('.contact-section__submit');
+            const originalText = submitBtn.textContent;
+            
+            submitBtn.textContent = 'Отправка...';
+            submitBtn.disabled = true;
+            
+            // Имитация отправки формы
+            setTimeout(() => {
+                alert('Спасибо за обращение! Мы свяжемся с вами в ближайшее время.');
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+                this.reset();
+            }, 1500);
+        });
+    }
+    
+    // Маска для телефона
+    const phoneInput = document.querySelector('#phone');
+    if (phoneInput) {
+        phoneInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 0) {
+                if (value.length <= 1) {
+                    value = '8 (' + value;
+                } else if (value.length <= 4) {
+                    value = '8 (' + value.substring(1);
+                } else if (value.length <= 7) {
+                    value = '8 (' + value.substring(1, 4) + ') ' + value.substring(4);
+                } else if (value.length <= 9) {
+                    value = '8 (' + value.substring(1, 4) + ') ' + value.substring(4, 7) + '-' + value.substring(7);
+                } else {
+                    value = '8 (' + value.substring(1, 4) + ') ' + value.substring(4, 7) + '-' + value.substring(7, 9) + '-' + value.substring(9, 11);
+                }
+            }
+            e.target.value = value;
+        });
+    }
+    
+    // Кнопка "Показать ещё" фильтров
+    const showMoreFiltersBtn = document.querySelector('.show-more-btn');
+    if (showMoreFiltersBtn) {
+        showMoreFiltersBtn.addEventListener('click', function() {
+            // Здесь можно добавить логику показа дополнительных фильтров
+            alert('Дополнительные фильтры будут добавлены позже');
+        });
+    }
+});
+</script>
+@endpush

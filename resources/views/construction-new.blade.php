@@ -1877,4 +1877,129 @@
                         }
                     });
                 </script>
+
+                <script>
+                    // Дополнительный JavaScript для интерактивности
+                    document.addEventListener('DOMContentLoaded', function () {
+                        // Селекторы документов (радио кнопки)
+                        const documentOptions = document.querySelectorAll('.document-option');
+                        
+                        documentOptions.forEach(option => {
+                            option.addEventListener('click', function() {
+                                // Убираем выделение со всех опций
+                                documentOptions.forEach(opt => opt.classList.remove('selected'));
+                                // Добавляем выделение к нажатой опции
+                                this.classList.add('selected');
+                                // Отмечаем соответствующий radio button
+                                const radio = this.querySelector('input[type="radio"]');
+                                if (radio) {
+                                    radio.checked = true;
+                                }
+                            });
+                        });
+                        
+                        // Аккордионы для подвидов работ
+                        const toggleBtns = document.querySelectorAll('.btn-toggle');
+                        
+                        toggleBtns.forEach(btn => {
+                            btn.addEventListener('click', function() {
+                                const workTypeItem = this.closest('.work-type-item');
+                                const content = workTypeItem.querySelector('.work-type-content');
+                                
+                                if (workTypeItem.classList.contains('active')) {
+                                    // Закрываем аккордион
+                                    workTypeItem.classList.remove('active');
+                                    this.textContent = '+';
+                                    if (content) {
+                                        content.style.display = 'none';
+                                    }
+                                } else {
+                                    // Закрываем все остальные аккордионы
+                                    document.querySelectorAll('.work-type-item.active').forEach(item => {
+                                        item.classList.remove('active');
+                                        const itemBtn = item.querySelector('.btn-toggle');
+                                        if (itemBtn) itemBtn.textContent = '+';
+                                        const itemContent = item.querySelector('.work-type-content');
+                                        if (itemContent) itemContent.style.display = 'none';
+                                    });
+                                    
+                                    // Открываем текущий аккордион
+                                    workTypeItem.classList.add('active');
+                                    this.textContent = '−';
+                                    if (content) {
+                                        content.style.display = 'block';
+                                    }
+                                }
+                            });
+                        });
+                        
+                        // Чекбоксы подкатегорий
+                        const subcategoryItems = document.querySelectorAll('.subcategory-item');
+                        const subcategoryCheckboxes = document.querySelectorAll('.custom-checkbox');
+                        
+                        subcategoryItems.forEach(item => {
+                            item.addEventListener('click', function(e) {
+                                if (e.target.type !== 'checkbox') {
+                                    const checkbox = this.querySelector('.custom-checkbox');
+                                    if (checkbox) {
+                                        checkbox.checked = !checkbox.checked;
+                                        updateSubcategorySelection(this, checkbox.checked);
+                                    }
+                                }
+                            });
+                        });
+                        
+                        subcategoryCheckboxes.forEach(checkbox => {
+                            checkbox.addEventListener('change', function() {
+                                const item = this.closest('.subcategory-item');
+                                updateSubcategorySelection(item, this.checked);
+                            });
+                        });
+                        
+                        function updateSubcategorySelection(item, isSelected) {
+                            if (isSelected) {
+                                item.classList.add('selected');
+                            } else {
+                                item.classList.remove('selected');
+                            }
+                            updateSelectedCount();
+                        }
+                        
+                        function updateSelectedCount() {
+                            const selectedCheckboxes = document.querySelectorAll('.custom-checkbox:checked');
+                            const countElements = document.querySelectorAll('.work-type-header .selected');
+                            countElements.forEach(el => {
+                                if (el.textContent.includes('Выбрано:')) {
+                                    el.textContent = `Выбрано: ${selectedCheckboxes.length}`;
+                                }
+                            });
+                        }
+                        
+                        // Кнопки "Оставить заявку"
+                        const applicationBtns = document.querySelectorAll('.btn-success:not(.btn-outline-success)');
+                        applicationBtns.forEach(btn => {
+                            btn.addEventListener('click', function(e) {
+                                e.preventDefault();
+                                
+                                const serviceName = 'Строительно-монтажные работы';
+                                
+                                if (confirm(`Оставить заявку на "${serviceName}"?`)) {
+                                    showApplicationForm(serviceName);
+                                }
+                            });
+                        });
+                        
+                        function showApplicationForm(serviceName) {
+                            const name = prompt('Введите ваше имя:');
+                            if (!name) return;
+                            
+                            const phone = prompt('Введите ваш телефон:');
+                            if (!phone) return;
+                            
+                            const email = prompt('Введите ваш email (необязательно):') || '';
+                            
+                            alert(`Заявка принята!\n\nУслуга: ${serviceName}\nИмя: ${name}\nТелефон: ${phone}\nEmail: ${email}\n\nНаш специалист свяжется с вами в течение 30 минут.`);
+                        }
+                    });
+                </script>
 @endsection

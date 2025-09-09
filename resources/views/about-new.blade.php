@@ -365,3 +365,135 @@
         </div>
     </div>
 @endsection
+
+@push('js')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Кнопки "Оформить заявку" в сервисных карточках
+    const serviceButtons = document.querySelectorAll('.service-card .btn');
+    serviceButtons.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Получаем название услуги из родительской карточки
+            const serviceCard = this.closest('.service-card');
+            const serviceName = serviceCard.querySelector('h3').textContent;
+            
+            // Показываем форму заявки (можно заменить на модальное окно)
+            if (confirm(`Оформить заявку на "${serviceName}"?`)) {
+                // Здесь можно открыть модальное окно или перенаправить на форму
+                alert('Форма заявки будет добавлена позже. Пока что свяжитесь с нами по телефону: 7 (747) 135-00-00');
+            }
+        });
+    });
+    
+    // Кнопки "Стать клиентом" и "Стать партнёром"
+    const ctaButtons = document.querySelectorAll('.about-us__hero__buttons .btn, .about-us__cta__buttons .btn');
+    ctaButtons.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            const buttonText = this.textContent.trim();
+            
+            if (buttonText.includes('Стать клиентом')) {
+                // Прокрутка к списку услуг или форме
+                const servicesSection = document.querySelector('.services-section');
+                if (servicesSection) {
+                    servicesSection.scrollIntoView({ behavior: 'smooth' });
+                }
+            } else if (buttonText.includes('Стать партнёром')) {
+                // Перенаправление на страницу партнеров или показ информации
+                alert('Для получения информации о партнерстве свяжитесь с нами:\nТелефон: 7 (747) 135-00-00\nEmail: info@license.kz');
+            }
+        });
+    });
+    
+    // Анимация появления статистики при прокрутке
+    const statsNumbers = document.querySelectorAll('.about-us__stats__number');
+    
+    function animateStats() {
+        statsNumbers.forEach(numberEl => {
+            const finalNumber = numberEl.textContent.replace(/\D/g, '');
+            if (finalNumber) {
+                let currentNumber = 0;
+                const increment = Math.ceil(finalNumber / 50);
+                const suffix = numberEl.textContent.replace(/\d/g, '');
+                
+                const timer = setInterval(() => {
+                    currentNumber += increment;
+                    if (currentNumber >= finalNumber) {
+                        currentNumber = finalNumber;
+                        clearInterval(timer);
+                    }
+                    numberEl.textContent = currentNumber + suffix;
+                }, 30);
+            }
+        });
+    }
+    
+    // Intersection Observer для анимации статистики
+    const statsSection = document.querySelector('.about-us__stats');
+    if (statsSection) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateStats();
+                    observer.unobserve(entry.target);
+                }
+            });
+        });
+        observer.observe(statsSection);
+    }
+    
+    // Плавная прокрутка для внутренних ссылок
+    const smoothScrollLinks = document.querySelectorAll('a[href*="#"]');
+    smoothScrollLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if (href.includes('#')) {
+                const targetId = href.split('#')[1];
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    e.preventDefault();
+                    targetElement.scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            }
+        });
+    });
+    
+    // Добавляем интерактивность к карточкам преимуществ
+    const featureCards = document.querySelectorAll('.about-us__features__card');
+    featureCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px)';
+            this.style.transition = 'transform 0.3s ease';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+    
+    // Добавляем интерактивность к карточкам "Что вы найдете"
+    const findCards = document.querySelectorAll('.about-us__find__card');
+    findCards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            const image = this.querySelector('.about-us__find__card__image img');
+            if (image) {
+                image.style.transform = 'scale(1.05)';
+                image.style.transition = 'transform 0.3s ease';
+            }
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            const image = this.querySelector('.about-us__find__card__image img');
+            if (image) {
+                image.style.transform = 'scale(1)';
+            }
+        });
+    });
+});
+</script>
+@endpush
