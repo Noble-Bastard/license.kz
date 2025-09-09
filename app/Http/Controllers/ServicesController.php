@@ -816,4 +816,18 @@ class ServicesController extends Controller
         return $result;
     }
 
+    public function constructionServices()
+    {
+        // Возвращаем страницу услуг строительства
+        $countryId = 1; // KZ
+        $categoryList = ServiceCategoryDal::getServiceCategoryWithRootCatalog(
+            false,
+            false,
+            $countryId
+        );
+
+        return view('construction-new')
+            ->with('categoryList', $categoryList);
+    }
+
 }

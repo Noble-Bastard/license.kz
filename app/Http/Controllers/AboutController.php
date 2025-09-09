@@ -51,6 +51,11 @@ class AboutController extends Controller
         return view('new.pages.about');
     }
 
+    public function indexRedesign()
+    {
+        return view('about-new');
+    }
+
     public function showEmployee($emplyeeId)
     {
         $employee = EmployeeDal::get($emplyeeId);

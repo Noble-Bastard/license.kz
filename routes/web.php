@@ -35,16 +35,27 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
 //    Route::prefix('new-version')->group(function () {
         Route::get('/', [\App\Http\Controllers\HomeController::class, 'indexNew'])->name('new-index');
         Route::get('home', [\App\Http\Controllers\HomeController::class, 'indexNew'])->name('new-home');
-        Route::get('about', [\App\Http\Controllers\AboutController::class, 'indexNew'])->name('new-about');
-        Route::get('/partners', [\App\Http\Controllers\ExternalPartnerController::class, 'indexNew'])->name('new-partners');
-        Route::get('/reviews', [\App\Http\Controllers\ReviewController::class, 'indexNew'])->name('new-reviews');
+        Route::get('about', [\App\Http\Controllers\AboutController::class, 'indexRedesign'])->name('about');
+        Route::get('new-about', [\App\Http\Controllers\AboutController::class, 'indexRedesign'])->name('new-about');
+        Route::get('/partners', [\App\Http\Controllers\ExternalPartnerController::class, 'indexNew'])->name('partners');
+        Route::get('/new-partners', [\App\Http\Controllers\ExternalPartnerController::class, 'indexNew'])->name('new-partners');
+        Route::get('/reviews', [\App\Http\Controllers\ReviewController::class, 'indexRedesign'])->name('reviews');
+        Route::get('/new-reviews', [\App\Http\Controllers\ReviewController::class, 'indexRedesign'])->name('new-reviews');
+        Route::get('/faq', [\App\Http\Controllers\FaqController::class, 'indexRedesign'])->name('faq');
+
+        // Заредизайненные страницы из license.com
+        Route::get('/about-redesign', [\App\Http\Controllers\AboutController::class, 'indexRedesign'])->name('about-redesign');
+        Route::get('/reviews-redesign', [\App\Http\Controllers\ReviewController::class, 'indexRedesign'])->name('reviews-redesign');
+        Route::get('/faq-redesign', [\App\Http\Controllers\FaqController::class, 'indexRedesign'])->name('faq-redesign');
+        Route::get('/news', [\App\Http\Controllers\NewsController::class, 'index'])->name('news');
+        Route::post('/callback', [\App\Http\Controllers\CallbackController::class, 'store'])->name('callback.store');
 
         Route::get('/service-group/{serviceGroupName}', [\App\Http\Controllers\ServicesController::class, 'serviceGroupInfoNew'])->name('new.services-group.info');
         Route::get('/service-group/catalog/{catalogName}', [\App\Http\Controllers\ServicesController::class, 'serviceGroupCatalogNew'])->name('new.services-group.catalog');
         Route::post('/service-group/compare/', [\App\Http\Controllers\ServicesController::class, 'serviceGroupCompareNew'])->name('new.services-group.compare');
 
-        Route::get('/construction', [\App\Http\Controllers\HomeController::class, 'constructionNew'])->name('new-construction');
-        Route::get('/services', [\App\Http\Controllers\HomeController::class, 'servicesNew'])->name('new-services');
+        Route::get('/construction', [\App\Http\Controllers\ServicesController::class, 'constructionServices'])->name('new-construction');
+        Route::get('/new-services', [\App\Http\Controllers\HomeController::class, 'servicesNew'])->name('new-services');
         Route::get('/services/child-nodes/{serviceCategoryId}', [\App\Http\Controllers\ServicesController::class, 'childNodesNew'])->name('new-services.child-nodes');
 
 //    });
@@ -66,11 +77,11 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
 //    Route::get('contacts', 'ContactsController@index')->name('contacts');
 //    Route::get('about', 'AboutController@index')->name('about');
 
-    Route::get('news/list', 'Admin\NewsController@newsList')->name('news.list');
+    Route::get('news/list', 'NewsController@newsList')->name('news.list');
     Route::get('government_agencies_news/list', 'Admin\NewsController@governmentAgenciesNewsList')->name('news.government_agencies.list');
     Route::get('npa_news/list', 'Admin\NewsController@npaNewsList')->name('news.npa.list');
     Route::get('expert_news/list', 'Admin\NewsController@expertNewsList')->name('news.expert.list');
-    Route::get('faq/list', 'Admin\NewsController@faqList')->name('news.faq.list');
+    Route::get('faq/list', 'NewsController@faqList')->name('news.faq.list');
     Route::post('faq', 'Admin\NewsController@faqNew')->name('news.faq.new');
 
 //    Route::get('news/{tag}/list', 'Admin\NewsController@newsListByTag')->name('news.listByTag');

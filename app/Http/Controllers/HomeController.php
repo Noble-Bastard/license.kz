@@ -93,7 +93,15 @@ class HomeController extends Controller
   
     public function servicesNew()
     {
-        return view('new.pages.services');
+        $countryId = 1; // KZ
+        $categoryList = ServiceCategoryDal::getServiceCategoryWithRootCatalog(
+            false,
+            false,
+            $countryId
+        );
+
+        return view('services-new')
+            ->with('categoryList', $categoryList);
     }
 
     public function callMe()

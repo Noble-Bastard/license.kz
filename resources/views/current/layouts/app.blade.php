@@ -19,26 +19,40 @@
         <header class="header-IO3Fu5">
             <img class="frame-7" src="{{asset('current/img/frame-7-2.svg')}}" alt="Frame 7" />
             <div class="frame-9-74EEvB">
-                <div class="button-9jl6u0">
+                <div class="button-9jl6u0" onclick="toggleServicesDropdown()" style="cursor: pointer; position: relative;">
                     <img class="icons" src="{{asset('current/img/icons-12.svg')}}" alt="Icons" />
                     <div class="text_label-VdZ3eK manrope-medium-white-14px">Услуги</div>
+                    <div id="servicesDropdown" class="services-dropdown" style="display: none; position: absolute; top: 100%; left: 0; background: white; border: 1px solid #ccc; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); z-index: 1000; min-width: 200px;">
+                        <a href="{{ route('new-construction') }}" style="display: block; padding: 10px 15px; text-decoration: none; color: #333; border-bottom: 1px solid #eee;">Строительство</a>
+                        <a href="{{ route('new-services') }}" style="display: block; padding: 10px 15px; text-decoration: none; color: #333;">Все услуги</a>
+                    </div>
                 </div>
             </div>
             <div class="frame-5-74EEvB">
                 <article class="button-pdI5V2">
-                    <div class="text_label-rCmJVt manrope-medium-eerie-black-14px">О компании</div>
+                    <a href="{{ route('about') }}" style="text-decoration: none; color: inherit;">
+                        <div class="text_label-rCmJVt manrope-medium-eerie-black-14px">О компании</div>
+                    </a>
                 </article>
                 <article class="button-PxPIY7">
-                    <div class="text_label-WD0CeE manrope-medium-eerie-black-14px">Блог</div>
+                    <a href="{{ route('news.list') }}" style="text-decoration: none; color: inherit;">
+                        <div class="text_label-WD0CeE manrope-medium-eerie-black-14px">Блог</div>
+                    </a>
                 </article>
                 <article class="button-9FHqNF">
-                    <div class="text_label-n3ZnTb manrope-medium-eerie-black-14px">Отзывы</div>
+                    <a href="{{ route('reviews') }}" style="text-decoration: none; color: inherit;">
+                        <div class="text_label-n3ZnTb manrope-medium-eerie-black-14px">Отзывы</div>
+                    </a>
                 </article>
                 <article class="button-hn63ZD">
-                    <div class="text_label-dvxp0h manrope-medium-eerie-black-14px">Faq</div>``
+                    <a href="{{ route('faq') }}" style="text-decoration: none; color: inherit;">
+                        <div class="text_label-dvxp0h manrope-medium-eerie-black-14px">FAQ</div>
+                    </a>
                 </article>
                 <article class="button-1PTh0q">
-                    <div class="text_label-COTesI manrope-medium-eerie-black-14px">Партнёрам</div>
+                    <a href="{{ route('partners') }}" style="text-decoration: none; color: inherit;">
+                        <div class="text_label-COTesI manrope-medium-eerie-black-14px">Партнёрам</div>
+                    </a>
                 </article>
             </div>
             <div class="frame-6-74EEvB">
@@ -1958,6 +1972,25 @@
         $('input[name="tags"]', parent).val(tag)
         $('input[name="comment"]', parent).val(comment)
     }
+
+    function toggleServicesDropdown() {
+        const dropdown = document.getElementById('servicesDropdown');
+        if (dropdown.style.display === 'none') {
+            dropdown.style.display = 'block';
+        } else {
+            dropdown.style.display = 'none';
+        }
+    }
+
+    // Закрыть dropdown при клике вне его
+    document.addEventListener('click', function(event) {
+        const dropdown = document.getElementById('servicesDropdown');
+        const button = event.target.closest('.button-9jl6u0');
+        
+        if (!button && dropdown) {
+            dropdown.style.display = 'none';
+        }
+    });
 </script>
 </body>
 </html>

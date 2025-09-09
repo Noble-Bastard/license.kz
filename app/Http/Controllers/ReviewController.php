@@ -24,6 +24,13 @@ class ReviewController extends Controller
 
     }
 
+    public function indexRedesign()
+    {
+        $reviewList = $this->reviewRepository->all();
+        return view('reviews-new')
+            ->with('reviewList', $reviewList);
+    }
+
     public function indexNew()
     {
         $reviewList = $this->reviewRepository->all();
