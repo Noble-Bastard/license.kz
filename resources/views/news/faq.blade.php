@@ -175,7 +175,7 @@
                 filterStr = '?' + filterStr
             }
 
-            window.location = '{{route('news.faq.list')}}' + filterStr
+            window.location = '{{route('faq')}}' + filterStr
         }
 
         $('.new_question').click(function (event) {

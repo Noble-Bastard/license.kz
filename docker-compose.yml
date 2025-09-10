@@ -1,0 +1,85 @@
+version: '3.8'
+
+services:
+  # Laravel приложение
+  app:
+    build: .
+    container_name: license_kz_app
+    ports:
+      - "8000:80"
+    volumes:
+      # Монтируем только storage и logs для персистентности данных
+      - ./storage:/var/www/html/storage
+      - ./public/uploads:/var/www/html/public/uploads
+    environment:
+      # Основные настройки Laravel
+      - APP_NAME=UPPERLICENSE
+      - APP_ENV=production
+      - APP_KEY=${APP_KEY:-}
+      - APP_DEBUG=false
+      - APP_URL=http://localhost:8000
+      
+      # Настройки базы данных (подключение к внешней БД)
+      - DB_CONNECTION=${DB_CONNECTION:-mysql}
+      - DB_HOST=${DB_HOST:-host.docker.internal}
+      - DB_PORT=${DB_PORT:-3306}
+      - DB_DATABASE=${DB_DATABASE:-license_kz}
+      - DB_USERNAME=${DB_USERNAME:-root}
+      - DB_PASSWORD=${DB_PASSWORD:-}
+      
+      # Настройки кеша и сессий
+      - CACHE_DRIVER=file
+      - SESSION_DRIVER=file
+      - QUEUE_CONNECTION=sync
+      
+      # Настройки почты
+      - MAIL_MAILER=${MAIL_MAILER:-smtp}
+      - MAIL_HOST=${MAIL_HOST:-smtp.gmail.com}
+      - MAIL_PORT=${MAIL_PORT:-587}
+      - MAIL_USERNAME=${MAIL_USERNAME:-}
+      - MAIL_PASSWORD=${MAIL_PASSWORD:-}
+      - MAIL_ENCRYPTION=${MAIL_ENCRYPTION:-tls}
+      - MAIL_FROM_ADDRESS=${MAIL_FROM_ADDRESS:-noreply@license.kz}
+      - MAIL_FROM_NAME=${MAIL_FROM_NAME:-UPPERLICENSE}
+      
+      # Дополнительные настройки
+      - RUN_MIGRATIONS=${RUN_MIGRATIONS:-false}
+      
+    depends_on:
+      - redis
+    networks:
+      - license_network
+
+  # Redis для кеширования (опционально)
+  redis:
+    image: redis:7-alpine
+    container_name: license_kz_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - license_network
+
+  # Nginx для статических файлов (опционально)
+  nginx:
+    image: nginx:alpine
+    container_name: license_kz_nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./public:/var/www/html/public:ro
+    depends_on:
+      - app
+    networks:
+      - license_network
+
+volumes:
+  redis_data:
+    driver: local
+
+networks:
+  license_network:
+    driver: bridge

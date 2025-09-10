@@ -35,7 +35,7 @@
                 <div class="side-menu-item__icon"><img src="{{asset('images/side-menu_icons/review-icon.png')}}"></div>
                 <div class="side-menu-item__content  ">@lang('messages.layouts.review')</div>
             </a>
-            <a class="side-menu-item" href="{{route('news.faq.list')}}">
+            <a class="side-menu-item" href="{{route('faq')}}">
                 <div class="side-menu-item__icon"><img src="{{asset('images/side-menu_icons/chat-icon.png')}}"></div>
                 <div class="side-menu-item__content ">@lang('messages.layouts.faq')</div>
             </a>

@@ -20,9 +20,8 @@
                 <span class="services-text">{{ __('Услуги') }}</span>
             </button>
             <ul class="dropdown-menu" aria-labelledby="servicesDropdown">
-                <li><a class="dropdown-item" href="#">{{ __('Услуга 1') }}</a></li>
-                <li><a class="dropdown-item" href="#">{{ __('Услуга 2') }}</a></li>
-                <li><a class="dropdown-item" href="#">{{ __('Услуга 3') }}</a></li>
+                <li><a class="dropdown-item" href="{{ route('new-construction') }}">{{ __('Строительство') }}</a></li>
+                <li><a class="dropdown-item" href="{{ route('new-services') }}">{{ __('Все услуги') }}</a></li>
             </ul>
         </div>
     </div>
@@ -38,7 +37,7 @@
         <a href="{{ route('new-reviews') }}" class="header-redesigned__nav-link" style="width: 72px;">
             <span>{{ __('Отзывы') }}</span>
         </a>
-        <a href="{{ route('news.faq.list') }}" class="header-redesigned__nav-link" style="width: 44px;">
+        <a href="{{ route('faq') }}" class="header-redesigned__nav-link" style="width: 44px;">
             <span>{{ __('FAQ') }}</span>
         </a>
         <a href="#" class="header-redesigned__nav-link" style="width: 97px;">
