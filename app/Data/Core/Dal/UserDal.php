@@ -150,40 +150,54 @@ class UserDal
     }
 
     public static function login($user){
+        \Log::info("UserDal::login called for user: " . $user->id);
+        
         ProfileDal::setLastLoginDate($user->id, new \DateTime());
 
-        switch(ProfileDal::getByUserId($user->id)->role_id){
+        $userProfile = ProfileDal::getByUserId($user->id);
+        $roleId = $userProfile ? $userProfile->role_id : null;
+        
+        \Log::info("User profile found. Role ID: " . ($roleId ?? 'null'));
+
+        switch($roleId){
             case RoleList::Administrator :
                 return Redirect::intended(route('admin.users.list'));
-                break;
+                
             case RoleList::SaleManager:
+                file_put_contents(storage_path('logs/debug.txt'), "Redirecting SaleManager to: " . route('sale_manager.service.list') . " at " . date('Y-m-d H:i:s') . "\n", FILE_APPEND);
                 return Redirect::intended(route('sale_manager.service.list'));
+                
             case RoleList::Curator:
                 return Redirect::intended(route('curator.review.list'));
-                break;
+                
             case RoleList::Manager:
+                file_put_contents(storage_path('logs/debug.txt'), "Redirecting Manager to: " . route('manager.services.list') . " at " . date('Y-m-d H:i:s') . "\n", FILE_APPEND);
                 return Redirect::intended(route('manager.services.list'));
-                break;
+                
             case RoleList::Executor:
                 return Redirect::intended(route('executor.project.list'));
-                break;
-            case RoleList::Client :
-            {
+                
+            case RoleList::Client:
                 return redirect()->route('Client.service.list');
-                break;
-            }
+                
             case RoleList::Agent:
                 return Redirect::intended(route('agent.client.index'));
-                break;
+                
             case RoleList::Head:
                 return Redirect::intended(route('Report.index'));
-                break;
+                
             case RoleList::Accountant:
                 return Redirect::intended(route('Accountant.services'));
-                break;
+                
+            case RoleList::Partner:
+                // Если есть маршрут для партнеров, добавляем его
+                return redirect()->route('Client.service.list'); // Временно как клиент
+                
+            default:
+                // Если роль неизвестна, направляем в клиентский ЛК по умолчанию
+                Log::warning("Unknown role for user {$user->id}: {$roleId}");
+                return redirect()->route('Client.service.list');
         }
-
-        return redirect('/profile');
     }
 
     public static function sendNewClientEmailToAdmin($newUser)

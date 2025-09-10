@@ -42,6 +42,11 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         Route::get('/reviews', [\App\Http\Controllers\ReviewController::class, 'indexRedesign'])->name('reviews');
         Route::get('/new-reviews', [\App\Http\Controllers\ReviewController::class, 'indexRedesign'])->name('new-reviews');
         Route::get('/faq', [\App\Http\Controllers\FaqController::class, 'indexRedesign'])->name('faq');
+    
+    // Тестовый роут для проверки перенаправления
+    Route::get('/test-redirect', function() {
+        return \App\Data\Core\Dal\UserDal::login(Auth::user());
+    })->name('test.redirect')->middleware('auth');
 
         // Заредизайненные страницы из license.com
         Route::get('/about-redesign', [\App\Http\Controllers\AboutController::class, 'indexRedesign'])->name('about-redesign');
