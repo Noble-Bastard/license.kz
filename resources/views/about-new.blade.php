@@ -318,7 +318,7 @@
                         <div class="about-us__stats__logo">
                             <i class="fas fa-chevron-up"></i>
                             <span>UPPERCASE</span>
-                        </div>
+                    </div>
                         <p>UPPERLICENSE создан и разработан<br>экспертами группы компаний UPPERCASE</p>
                     </div>
                     <div class="about-us__stats__item">
@@ -367,7 +367,7 @@
 @endsection
 
 @push('js')
-<script>
+    <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Кнопки "Оформить заявку" в сервисных карточках
     const serviceButtons = document.querySelectorAll('.service-card .btn');
@@ -494,6 +494,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
-});
-</script>
+        });
+    </script>
 @endpush
