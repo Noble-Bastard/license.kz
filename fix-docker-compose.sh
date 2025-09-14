@@ -84,3 +84,4 @@ else
     echo "❌ Ошибка при запуске. Проверьте логи:"
     echo "docker-compose logs"
 fi
+

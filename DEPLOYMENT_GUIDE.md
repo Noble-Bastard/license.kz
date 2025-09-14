@@ -224,3 +224,4 @@ git checkout COMMIT_HASH
 2. Убедитесь что все сервисы запущены: `docker-compose -f docker-compose.prod.yml ps`
 3. Проверьте доступность портов: `netstat -tlnp | grep :8001`
 4. Проверьте настройки .env файла
+
