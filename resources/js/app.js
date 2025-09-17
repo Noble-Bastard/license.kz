@@ -134,10 +134,10 @@ Lang.prototype._parseKey = function(key, locale) {
     };
 };
 
-window.Errors = require('./Errors.js');
+window.Errors = require('./errors.js');
 Vue.use(window.Errors);
 
-window.Form = require('./Form.js');
+window.Form = require('./form.js');
 Vue.use(window.Form);
 
 Vue.use(moment);
