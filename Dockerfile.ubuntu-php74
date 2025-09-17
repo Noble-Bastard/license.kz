@@ -1,0 +1,87 @@
+FROM ubuntu:20.04
+
+# Устанавливаем переменные окружения
+ENV DEBIAN_FRONTEND=noninteractive
+ENV TZ=UTC
+
+# Обновляем пакеты и устанавливаем зависимости
+RUN apt-get update && apt-get install -y \
+    software-properties-common \
+    curl \
+    wget \
+    unzip \
+    git \
+    && add-apt-repository ppa:ondrej/php -y \
+    && apt-get update \
+    && apt-get install -y \
+    apache2 \
+    php7.4 \
+    php7.4-cli \
+    php7.4-common \
+    php7.4-mysql \
+    php7.4-zip \
+    php7.4-gd \
+    php7.4-mbstring \
+    php7.4-curl \
+    php7.4-xml \
+    php7.4-bcmath \
+    php7.4-tokenizer \
+    php7.4-fileinfo \
+    php7.4-openssl \
+    php7.4-dom \
+    php7.4-simplexml \
+    php7.4-pdo \
+    php7.4-pdo_mysql \
+    php7.4-json \
+    php7.4-session \
+    libapache2-mod-php7.4 \
+    composer \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Включаем mod_rewrite
+RUN a2enmod rewrite
+
+# Настраиваем Apache для Laravel
+RUN echo '<VirtualHost *:80>' > /etc/apache2/sites-available/laravel.conf && \
+    echo '    ServerName localhost' >> /etc/apache2/sites-available/laravel.conf && \
+    echo '    DocumentRoot /var/www/html/public' >> /etc/apache2/sites-available/laravel.conf && \
+    echo '    <Directory /var/www/html/public>' >> /etc/apache2/sites-available/laravel.conf && \
+    echo '        AllowOverride All' >> /etc/apache2/sites-available/laravel.conf && \
+    echo '        Require all granted' >> /etc/apache2/sites-available/laravel.conf && \
+    echo '    </Directory>' >> /etc/apache2/sites-available/laravel.conf && \
+    echo '    ErrorLog ${APACHE_LOG_DIR}/laravel_error.log' >> /etc/apache2/sites-available/laravel.conf && \
+    echo '    CustomLog ${APACHE_LOG_DIR}/laravel_access.log combined' >> /etc/apache2/sites-available/laravel.conf && \
+    echo '</VirtualHost>' >> /etc/apache2/sites-available/laravel.conf
+
+# Отключаем дефолтный сайт и включаем наш
+RUN a2dissite 000-default && a2ensite laravel
+
+# Устанавливаем рабочую директорию
+WORKDIR /var/www/html
+
+# Копируем composer файлы
+COPY composer.json composer.lock ./
+
+# Устанавливаем зависимости
+RUN composer install --no-dev --optimize-autoloader --no-scripts
+
+# Копируем остальные файлы
+COPY . .
+
+# Устанавливаем права
+RUN chown -R www-data:www-data /var/www/html && \
+    chmod -R 755 /var/www/html/storage && \
+    chmod -R 755 /var/www/html/bootstrap/cache
+
+# Создаем директории
+RUN mkdir -p /var/www/html/storage/logs && \
+    mkdir -p /var/www/html/storage/framework/cache && \
+    mkdir -p /var/www/html/storage/framework/sessions && \
+    mkdir -p /var/www/html/storage/framework/views
+
+# Открываем порт
+EXPOSE 80
+
+# Запускаем Apache
+CMD ["apache2ctl", "-D", "FOREGROUND"]

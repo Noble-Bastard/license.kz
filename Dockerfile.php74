@@ -1,0 +1,70 @@
+FROM alpine:3.16
+
+# Устанавливаем PHP 7.4 и Apache
+RUN apk add --no-cache \
+    apache2 \
+    php74 \
+    php74-apache2 \
+    php74-session \
+    php74-mysqli \
+    php74-pdo_mysql \
+    php74-mbstring \
+    php74-xml \
+    php74-zip \
+    php74-gd \
+    php74-curl \
+    php74-json \
+    php74-bcmath \
+    php74-tokenizer \
+    php74-fileinfo \
+    php74-openssl \
+    php74-dom \
+    php74-simplexml \
+    php74-pdo \
+    composer \
+    curl
+
+# Создаем символическую ссылку для PHP
+RUN ln -sf /usr/bin/php74 /usr/bin/php
+
+# Настраиваем Apache
+RUN echo 'ServerName localhost' >> /etc/apache2/httpd.conf
+RUN sed -i 's/#LoadModule rewrite_module/LoadModule rewrite_module/' /etc/apache2/httpd.conf
+
+# Создаем конфигурацию для Laravel
+RUN echo '<VirtualHost *:80>' > /etc/apache2/conf.d/laravel.conf && \
+    echo '    DocumentRoot /var/www/html/public' >> /etc/apache2/conf.d/laravel.conf && \
+    echo '    <Directory /var/www/html/public>' >> /etc/apache2/conf.d/laravel.conf && \
+    echo '        AllowOverride All' >> /etc/apache2/conf.d/laravel.conf && \
+    echo '        Require all granted' >> /etc/apache2/conf.d/laravel.conf && \
+    echo '    </Directory>' >> /etc/apache2/conf.d/laravel.conf && \
+    echo '</VirtualHost>' >> /etc/apache2/conf.d/laravel.conf
+
+# Устанавливаем рабочую директорию
+WORKDIR /var/www/html
+
+# Копируем composer файлы
+COPY composer.json composer.lock ./
+
+# Устанавливаем зависимости
+RUN composer install --no-dev --optimize-autoloader --no-scripts
+
+# Копируем остальные файлы
+COPY . .
+
+# Устанавливаем права
+RUN chown -R apache:apache /var/www/html && \
+    chmod -R 755 /var/www/html/storage && \
+    chmod -R 755 /var/www/html/bootstrap/cache
+
+# Создаем директории
+RUN mkdir -p /var/www/html/storage/logs && \
+    mkdir -p /var/www/html/storage/framework/cache && \
+    mkdir -p /var/www/html/storage/framework/sessions && \
+    mkdir -p /var/www/html/storage/framework/views
+
+# Открываем порт
+EXPOSE 80
+
+# Запускаем Apache
+CMD ["httpd", "-D", "FOREGROUND"]
