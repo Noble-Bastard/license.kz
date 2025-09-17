@@ -77,14 +77,18 @@
     
     .menu-icon {
       width: 14px;
-      height: 20px;
+      height: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       flex: none;
       order: 0;
       flex-grow: 0;
       
       svg {
-        width: 9.33px;
-        height: 8.17px;
+        width: 12px;
+        height: 12px;
+        display: block;
         
         path {
           stroke: #FFFFFF;
@@ -245,16 +249,17 @@
     .login-icon {
       width: 14px;
       height: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       flex: none;
       order: 0;
       flex-grow: 0;
-      position: relative;
-      top: 1.75px;
-      left: 2.33px;
       
       svg {
-        width: 9.333px;
-        height: 10.5px;
+        width: 12px;
+        height: 12px;
+        display: block;
         transform: rotate(-180deg);
         opacity: 1;
         

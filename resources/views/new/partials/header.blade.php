@@ -78,7 +78,7 @@
         @else
             <a href="{{ route('login') }}" class="header-redesigned__login-btn">
                 <div class="login-icon">
-                    <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" style="width: 9.333px; height: 10.5px; transform: rotate(-180deg);">
+                    <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <rect x="5.83" y="1.75" width="2.33" height="2.33" rx="0.4" stroke="#191E1D" stroke-width="1.2"/>
                         <path d="M2.33 5.54H5.83" stroke="#191E1D" stroke-width="1.2"/>
                     </svg>
