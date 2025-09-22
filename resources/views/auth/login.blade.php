@@ -7,8 +7,8 @@
     <div class="max-w-md w-full space-y-8">
         <!-- Logo and Header -->
         <div class="text-center">
-            <div class="mx-auto h-16 w-16 bg-primary-100 rounded-full flex items-center justify-center mb-6">
-                <img src="{{ asset('images/green-logo.png') }}" alt="UpperLicense" class="h-10 w-auto">
+            <div class="mx-auto mb-6 login-logo flex items-center justify-center">
+                <img src="{{ asset('images/green-logo.png') }}" alt="UpperLicense">
             </div>
             <h2 class="text-3xl font-bold text-text-primary">
                 Добро пожаловать

@@ -29,11 +29,40 @@
     {{--          type="text/css"/>--}}
     {{--    <link href="{{asset('libs/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">--}}
     <link href="{{asset('libs/font-awesome/css/all.min.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('css/variables.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('css/app_new.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('new/css/app_1.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('libs/jquery-ui.min.css')}}" rel="stylesheet" type="text/css">
     {{--    <link href="https://db.onlinewebfonts.com/c/13ab13418f633c1b0516fed6e30bedbc?family=Suisse+Int'l" rel="stylesheet" type="text/css"/>--}}
     <link rel="stylesheet" href="{{asset('libs/splide/splide.min.css')}}">
+
+    <!-- Tailwind for auth pages -->
+    <script>
+        window.tailwind = window.tailwind || {};
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#279760',
+                        'text-primary': '#191E1D',
+                        'text-secondary': '#1E2B28',
+                        'text-muted': '#6F6F6F',
+                        'bg-primary': '#FFFFFF',
+                        'bg-secondary': '#F5F5F5',
+                        'bg-tertiary': '#F3FBF7',
+                        'border-light': '#E8E8E8',
+                        'border-medium': '#D9D9D9',
+                        'border-muted': '#C2BFBF'
+                    }
+                }
+            }
+        };
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .login-logo img{ height:40px; width:auto; display:inline-block; }
+        @media (min-width: 640px){ .login-logo img{ height:48px; } }
+    </style>
 
     @if(Auth::check() && !Auth::user()->isUserInRole(\App\Data\Helper\RoleList::Client))
         <link href="{{asset('libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css')}}" rel="stylesheet"
