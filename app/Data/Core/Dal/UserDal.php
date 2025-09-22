@@ -159,44 +159,45 @@ class UserDal
         
         \Log::info("User profile found. Role ID: " . ($roleId ?? 'null'));
 
+        $locale = app()->getLocale();
         switch($roleId){
             case RoleList::Administrator :
-                return Redirect::intended(route('admin.users.list'));
+                return redirect()->to("/{$locale}/admin/users");
                 
             case RoleList::SaleManager:
-                file_put_contents(storage_path('logs/debug.txt'), "Redirecting SaleManager to: " . route('sale_manager.service.list') . " at " . date('Y-m-d H:i:s') . "\n", FILE_APPEND);
-                return Redirect::intended(route('sale_manager.service.list'));
+                file_put_contents(storage_path('logs/debug.txt'), "Redirecting SaleManager to: /{$locale}/salemanager/services at " . date('Y-m-d H:i:s') . "\n", FILE_APPEND);
+                return redirect()->to("/{$locale}/salemanager/services");
                 
             case RoleList::Curator:
-                return Redirect::intended(route('curator.review.list'));
+                return redirect()->to("/{$locale}/curator/reviewList");
                 
             case RoleList::Manager:
-                file_put_contents(storage_path('logs/debug.txt'), "Redirecting Manager to: " . route('manager.services.list') . " at " . date('Y-m-d H:i:s') . "\n", FILE_APPEND);
-                return Redirect::intended(route('manager.services.list'));
+                file_put_contents(storage_path('logs/debug.txt'), "Redirecting Manager to: /{$locale}/manager/servicesList at " . date('Y-m-d H:i:s') . "\n", FILE_APPEND);
+                return redirect()->to("/{$locale}/manager/servicesList");
                 
             case RoleList::Executor:
-                return Redirect::intended(route('executor.project.list'));
+                return redirect()->to("/{$locale}/executor/projects");
                 
             case RoleList::Client:
-                return redirect()->route('Client.service.list');
+                return redirect()->to("/{$locale}/profile/services");
                 
             case RoleList::Agent:
-                return Redirect::intended(route('agent.client.index'));
+                return redirect()->to("/{$locale}/agent/client");
                 
             case RoleList::Head:
-                return Redirect::intended(route('Report.index'));
+                return redirect()->to("/{$locale}/report/");
                 
             case RoleList::Accountant:
-                return Redirect::intended(route('Accountant.services'));
+                return redirect()->to("/{$locale}/accountant/services");
                 
             case RoleList::Partner:
-                // Если есть маршрут для партнеров, добавляем его
-                return redirect()->route('Client.service.list'); // Временно как клиент
+                // Временно перенаправляем как клиента
+                return redirect()->to("/{$locale}/profile/services");
                 
             default:
                 // Если роль неизвестна, направляем в клиентский ЛК по умолчанию
                 Log::warning("Unknown role for user {$user->id}: {$roleId}");
-                return redirect()->route('Client.service.list');
+                return redirect()->to("/{$locale}/profile/services");
         }
     }
 
