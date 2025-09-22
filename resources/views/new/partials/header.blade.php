@@ -31,7 +31,7 @@
         <a href="{{ route('new-about') }}" class="header-redesigned__nav-link" style="width: 100px;">
             <span>{{ __('О компании') }}</span>
         </a>
-        <a href="#" class="header-redesigned__nav-link" style="width: 52px;">
+        <a href="{{ route('news.list') }}" class="header-redesigned__nav-link" style="width: 52px;">
             <span>{{ __('Блог') }}</span>
         </a>
         <a href="{{ route('new-reviews') }}" class="header-redesigned__nav-link" style="width: 72px;">
@@ -40,7 +40,7 @@
         <a href="{{ route('faq') }}" class="header-redesigned__nav-link" style="width: 44px;">
             <span>{{ __('FAQ') }}</span>
         </a>
-        <a href="#" class="header-redesigned__nav-link" style="width: 97px;">
+        <a href="{{ route('partners') }}" class="header-redesigned__nav-link" style="width: 97px;">
             <span>{{ __('Партнёрам') }}</span>
         </a>
     </div>
@@ -142,10 +142,10 @@
         <!-- Navigation -->
         <nav class="nav flex-column">
             <a class="nav-link" href="{{ route('new-about') }}" style="color: #191E1D; font-family: 'Manrope', sans-serif;">{{ __('О компании') }}</a>
-            <a class="nav-link" href="#" style="color: #191E1D; font-family: 'Manrope', sans-serif;">{{ __('Блог') }}</a>
-            <a class="nav-link" href="#" style="color: #191E1D; font-family: 'Manrope', sans-serif;">{{ __('Отзывы') }}</a>
-            <a class="nav-link" href="#" style="color: #191E1D; font-family: 'Manrope', sans-serif;">{{ __('FAQ') }}</a>
-            <a class="nav-link" href="#" style="color: #191E1D; font-family: 'Manrope', sans-serif;">{{ __('Партнёрам') }}</a>
+            <a class="nav-link" href="{{ route('news.list') }}" style="color: #191E1D; font-family: 'Manrope', sans-serif;">{{ __('Блог') }}</a>
+            <a class="nav-link" href="{{ route('new-reviews') }}" style="color: #191E1D; font-family: 'Manrope', sans-serif;">{{ __('Отзывы') }}</a>
+            <a class="nav-link" href="{{ route('faq') }}" style="color: #191E1D; font-family: 'Manrope', sans-serif;">{{ __('FAQ') }}</a>
+            <a class="nav-link" href="{{ route('partners') }}" style="color: #191E1D; font-family: 'Manrope', sans-serif;">{{ __('Партнёрам') }}</a>
         </nav>
 
         <hr>
