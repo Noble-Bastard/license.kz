@@ -3,182 +3,222 @@
 @section('title', 'Услуги')
 
 @section('content')
-<div class="min-h-screen bg-gray-50 p-6" x-data="clientServices()" x-init="init()">
+<div class="w-full" x-data="clientServices()" x-init="init()">
     <!-- Page Header -->
-    <div class="flex items-center justify-between mb-6">
-        <h1 class="text-2xl font-semibold text-gray-900">Услуги</h1>
-        <div class="relative">
-            <input type="text" 
-                   placeholder="Поиск по номеру услуги или компании"
-                   class="w-80 px-4 py-2 pl-10 pr-4 text-gray-500 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                   x-model="searchQuery"
-                   @input="filterServices()">
-            <svg class="absolute left-3 top-3 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-            </svg>
+    <div class="flex items-center justify-between px-5 py-3" style="padding-left:20px;padding-right:20px;">
+        <h1 class="text-[32px] md:text-[39px] leading-[1] font-normal tracking-[-0.02em] text-text-primary">Услуги</h1>
+        <div class="hidden md:flex items-center gap-[11px] px-[16px] pr-[22px] py-[11px] h-[46px] border border-border-light rounded-[60px] bg-white">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.8333 15.8333L13.2083 13.2083" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.33333 15.8333C12.0152 15.8333 15 12.8486 15 9.16667C15 5.48477 12.0152 2.5 8.33333 2.5C4.65143 2.5 1.66667 5.48477 1.66667 9.16667C1.66667 12.8486 4.65143 15.8333 8.33333 15.8333Z" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <input type="text" placeholder="Поиск по номеру услуги или компании" class="bg-transparent border-none outline-none text-[12px] font-medium leading-[1] text-text-primary placeholder:text-text-primary" x-model="searchQuery" @input="filterServices()" />
+        </div>
+    </div>
+    
+    <!-- Mobile Search -->
+    <div class="md:hidden mb-3 px-5" style="padding-left:20px;padding-right:20px;">
+        <div class="flex justify-end">
+            <div class="flex items-center justify-center w-[46px] h-[46px] border border-border-light rounded-[60px] bg-white">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.8333 15.8333L13.2083 13.2083" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.33333 15.8333C12.0152 15.8333 15 12.8486 15 9.16667C15 5.48477 12.0152 2.5 8.33333 2.5C4.65143 2.5 1.66667 5.48477 1.66667 9.16667C1.66667 12.8486 4.65143 15.8333 8.33333 15.8333Z" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
         </div>
     </div>
 
     <!-- Status Filter Tabs -->
-    <div class="flex space-x-1 mb-6">
-        <button @click="filterStatus = 'all'" 
-                :class="filterStatus === 'all' ? 'bg-gray-200 text-gray-900' : 'text-gray-500 hover:text-gray-700'"
-                class="px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-            Все услуги
-        </button>
-        <button @click="filterStatus = 'open'" 
-                :class="filterStatus === 'open' ? 'bg-gray-200 text-gray-900' : 'text-gray-500 hover:text-gray-700'"
-                class="px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-            Открытые
-        </button>
-        <button @click="filterStatus = 'closed'" 
-                :class="filterStatus === 'closed' ? 'bg-gray-200 text-gray-900' : 'text-gray-500 hover:text-gray-700'"
-                class="px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-            Закрытые
-        </button>
+    <div class="px-5" style="padding-left:20px;padding-right:20px;">
+        <div class="flex items-center gap-[10px] mb-[16px] md:flex-wrap overflow-x-auto md:overflow-x-visible">
+            <button @click="filterStatus = 'all'" 
+                    :class="filterStatus === 'all' ? 'bg-[#279760] text-white' : 'bg-white text-text-primary border border-border-light'"
+                    class="px-[14px] py-[10px] rounded-[60px] text-[12px] font-medium flex-shrink-0">
+                Все услуги
+            </button>
+            <button @click="filterStatus = 'open'" 
+                    :class="filterStatus === 'open' ? 'bg-[#279760] text-white' : 'bg-white text-text-primary border border-border-light'"
+                    class="px-[14px] py-[10px] rounded-[60px] text-[12px] font-medium flex-shrink-0">
+                Открытые
+            </button>
+            <button @click="filterStatus = 'closed'" 
+                    :class="filterStatus === 'closed' ? 'bg-[#279760] text-white' : 'bg-white text-text-primary border border-border-light'"
+                    class="px-[14px] py-[10px] rounded-[60px] text-[12px] font-medium flex-shrink-0">
+                Закрытые
+            </button>
+        </div>
     </div>
 
-    <!-- Services Table -->
-    <div class="bg-white rounded-lg shadow">
-        <div class="overflow-x-auto">
-            <table class="min-w-full">
-                <thead class="bg-gray-50 border-b border-gray-200">
-                    <tr>
-                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Номер услуги</th>
-                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Менеджер</th>
-                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Статус</th>
-                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Процесс выполнения</th>
-                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    @if(isset($serviceJournalList) && $serviceJournalList->isNotEmpty())
-                        @foreach($serviceJournalList as $service)
-                            <tr class="hover:bg-gray-50">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                    УСЛ-{{ $service->service_no }}
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    @if($service->manager && $service->manager->first_name)
-                                        <div class="flex items-center">
-                                            <div class="flex-shrink-0 h-8 w-8">
-                                                <div class="h-8 w-8 rounded-full bg-gray-300 flex items-center justify-center">
-                                                    <span class="text-xs font-medium text-gray-700">
-                                                        {{ substr($service->manager->first_name, 0, 1) }}{{ substr($service->manager->last_name ?? '', 0, 1) }}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="ml-3">
-                                                <div class="text-sm font-medium text-gray-900">{{ $service->manager->first_name }} {{ $service->manager->last_name }}</div>
-                                            </div>
-                                        </div>
-                                    @else
-                                        <div class="flex items-center">
-                                            <div class="flex-shrink-0 h-8 w-8">
-                                                <div class="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center">
-                                                    <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                                                    </svg>
-                                                </div>
-                                            </div>
-                                            <div class="ml-3">
-                                                <div class="text-sm text-gray-500">Не назначен</div>
-                                            </div>
-                                        </div>
-                                    @endif
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    @php
-                                        $statusClass = 'bg-gray-100 text-gray-800';
-                                        $statusText = $service->serviceStatus->name ?? 'Неизвестно';
-                                        
-                                        switch(strtolower($statusText)) {
-                                            case 'выполнено':
-                                            case 'завершено':
-                                                $statusClass = 'bg-green-100 text-green-800';
-                                                break;
-                                            case 'проверка':
-                                                $statusClass = 'bg-yellow-100 text-yellow-800';
-                                                break;
-                                            case 'выставлен счет':
-                                                $statusClass = 'bg-red-100 text-red-800';
-                                                break;
-                                            case 'выполнение услуги':
-                                            case 'создание':
-                                            default:
-                                                $statusClass = 'bg-yellow-100 text-yellow-800';
-                                                break;
-                                        }
-                                    @endphp
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $statusClass }}">
-                                        {{ $statusText }}
-                                    </span>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    @php
-                                        $statusName = $service->serviceStatus->name ?? '';
-                                        $progress = 'Шаг 1/7';
-                                        $progressText = 'Услуга проверяется менеджером';
-                                        
-                                        switch(strtolower($statusName)) {
-                                            case 'выполнено':
-                                            case 'завершено':
-                                                $progress = 'Выполнено';
-                                                $progressText = 'Выполнено';
-                                                break;
-                                            case 'проверка':
-                                                $progress = 'Шаг 1/3';
-                                                $progressText = 'Услуга проверяется менеджером';
-                                                break;
-                                            case 'выставлен счет':
-                                                $progress = 'Требуется оплата';
-                                                $progressText = 'Требуется оплата';
-                                                break;
-                                            case 'создание':
-                                                $progress = 'Назначение менеджера';
-                                                $progressText = 'Назначение менеджера';
-                                                break;
-                                            default:
-                                                $totalSteps = $service->serviceStepList ? $service->serviceStepList->count() : 7;
-                                                $completedSteps = $service->serviceStepList ? $service->serviceStepList->where('is_completed', true)->count() : 1;
-                                                $progress = "Шаг {$completedSteps}/{$totalSteps}";
-                                                $progressText = 'Услуга проверяется менеджером';
-                                                break;
-                                        }
-                                    @endphp
-                                    <div class="text-sm text-gray-900">{{ $progress }}</div>
-                                    <div class="text-sm text-gray-500">{{ $progressText }}</div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <button @click="openServiceModal('{{ $service->id }}')" 
-                                            class="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
-                                        Связаться
-                                    </button>
-                                </td>
-                            </tr>
-                        @endforeach
-                    @else
-                        <tr>
-                            <td colspan="5" class="px-6 py-12 text-center text-gray-500">
-                                Услуги не найдены
-                            </td>
-                        </tr>
-                    @endif
-                </tbody>
-            </table>
+    <!-- Services List -->
+    <div class="px-5" style="padding-left:20px;padding-right:20px;">
+        <!-- Desktop Headers -->
+        <div class="hidden md:grid grid-cols-[200px,150px,200px,200px] gap-[60px,120px,60px,0px] items-center mx-5 mb-3 px-5">
+            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Номер услуги</div>
+            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Менеджер</div>
+            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Статус</div>
+            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider text-right pr-5">Процесс выполнения</div>
         </div>
+        
+        @if(isset($serviceJournalList) && $serviceJournalList->isNotEmpty())
+            @foreach($serviceJournalList as $service)
+                <!-- Desktop Card View -->
+                <div class="hidden md:grid grid-cols-[200px,150px,200px,200px] gap-[60px,120px,60px,0px] items-center bg-white rounded-lg shadow-sm mx-5 mb-3 p-5">
+                    <!-- Service Number -->
+                    <div class="flex items-center gap-[10px]">
+                        <span class="text-sm font-medium text-[#1E2B28] leading-[1]">УСЛ-{{ $service->service_no }}</span>
+                    </div>
+                    
+                    <!-- Manager -->
+                    <div class="flex items-center gap-[10px]">
+                        @if($service->manager && $service->manager->first_name)
+                            <div class="w-[26px] h-[26px] rounded-full bg-neutral-300 overflow-hidden">
+                                <div class="w-full h-full bg-neutral-300 flex items-center justify-center">
+                                    <span class="text-xs font-medium text-gray-700">
+                                        {{ substr($service->manager->first_name, 0, 1) }}{{ substr($service->manager->last_name ?? '', 0, 1) }}
+                                    </span>
+                                </div>
+                            </div>
+                            <span class="text-[13px] font-medium text-[#1E2B28] leading-[1]">{{ $service->manager->first_name }} {{ $service->manager->last_name }}</span>
+                        @else
+                            <div class="w-[26px] h-[26px] rounded-full bg-neutral-300 overflow-hidden">
+                                <div class="w-full h-full bg-neutral-200 flex items-center justify-center">
+                                    <svg class="h-3 w-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                            <span class="text-[13px] text-gray-500">Не назначен</span>
+                        @endif
+                    </div>
+                    
+                    <!-- Status -->
+                    <div class="flex items-center justify-end gap-[5px] pr-5">
+                        @php
+                            $statusClass = 'bg-gray-100 text-gray-800';
+                            $statusText = $service->serviceStatus->name ?? 'Неизвестно';
+                            
+                            switch(strtolower($statusText)) {
+                                case 'выполнено':
+                                case 'завершено':
+                                    $statusClass = 'bg-green-100 text-green-800';
+                                    break;
+                                case 'проверка':
+                                    $statusClass = 'bg-yellow-100 text-yellow-800';
+                                    break;
+                                case 'выставлен счет':
+                                    $statusClass = 'bg-red-100 text-red-800';
+                                    break;
+                                case 'выполнение услуги':
+                                case 'создание':
+                                default:
+                                    $statusClass = 'bg-yellow-100 text-yellow-800';
+                                    break;
+                            }
+                        @endphp
+                        <div class="w-2 h-2 rounded-full {{ $statusClass }}"></div>
+                        <span class="text-[13px] font-medium text-[#1E2B28] leading-[1]">{{ $statusText }}</span>
+                    </div>
+                    
+                    <!-- Process Execution -->
+                    <div class="flex items-center justify-end gap-[5px] pr-5">
+                        @php
+                            $totalSteps = $service->serviceStepList ? $service->serviceStepList->count() : 0;
+                            $completedSteps = $service->serviceStepList ? $service->serviceStepList->where('is_completed', 1)->count() : 0;
+                            $processText = $totalSteps > 0 ? "Шаг {$completedSteps}/{$totalSteps}" : "В процессе";
+                        @endphp
+                        <span class="text-[13px] font-medium text-[#1E2B28] leading-[1]">{{ $processText }}</span>
+                    </div>
+                </div>
+
+                <!-- Mobile Card View -->
+                <div class="md:hidden bg-white rounded-lg shadow-sm mx-4 mb-3 p-4">
+                    <!-- Header with service number and status -->
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-[10px]">
+                            <span class="text-base font-medium text-[#1E2B28] leading-[1]">УСЛ-{{ $service->service_no }}</span>
+                        </div>
+                        <div class="flex items-center gap-[6px] flex-shrink-0">
+                            @php
+                                $statusClass = 'bg-gray-100 text-gray-800';
+                                $statusText = $service->serviceStatus->name ?? 'Неизвестно';
+                                
+                                switch(strtolower($statusText)) {
+                                    case 'выполнено':
+                                    case 'завершено':
+                                        $statusClass = 'bg-green-100 text-green-800';
+                                        break;
+                                    case 'проверка':
+                                        $statusClass = 'bg-yellow-100 text-yellow-800';
+                                        break;
+                                    case 'выставлен счет':
+                                        $statusClass = 'bg-red-100 text-red-800';
+                                        break;
+                                    case 'выполнение услуги':
+                                    case 'создание':
+                                    default:
+                                        $statusClass = 'bg-yellow-100 text-yellow-800';
+                                        break;
+                                }
+                            @endphp
+                            <div class="w-2 h-2 rounded-full {{ $statusClass }}"></div>
+                            <span class="text-sm font-medium text-[#1E2B28] leading-[1]">{{ $statusText }}</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Details - Vertical Layout -->
+                    <div class="space-y-2">
+                        <div class="flex flex-col">
+                            <span class="text-xs font-medium text-gray-500 mb-1">Дата</span>
+                            <span class="text-sm font-medium text-[#1E2B28]">
+                                {{ $service->created_at ? \App\Data\Helper\Assistant::formatDate($service->created_at) : '-' }}
+                            </span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-xs font-medium text-gray-500 mb-1">Менеджер</span>
+                            <div class="flex items-center gap-[10px]">
+                                @if($service->manager && $service->manager->first_name)
+                                    <div class="w-[32px] h-[32px] rounded-full bg-neutral-300 overflow-hidden flex-shrink-0">
+                                        <div class="w-full h-full bg-neutral-300 flex items-center justify-center">
+                                            <span class="text-xs font-medium text-gray-700">
+                                                {{ substr($service->manager->first_name, 0, 1) }}{{ substr($service->manager->last_name ?? '', 0, 1) }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <span class="text-sm font-medium text-[#1E2B28]">{{ $service->manager->first_name }} {{ $service->manager->last_name }}</span>
+                                @else
+                                    <div class="w-[32px] h-[32px] rounded-full bg-neutral-300 overflow-hidden flex-shrink-0">
+                                        <div class="w-full h-full bg-neutral-200 flex items-center justify-center">
+                                            <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <span class="text-sm font-medium text-[#1E2B28]">Не назначен</span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        @else
+            <div class="bg-white rounded-lg shadow-sm mx-5 mb-3 p-5">
+                <div class="text-center text-text-secondary">Услуги не найдены</div>
+            </div>
+        @endif
     </div>
 
     <!-- Pagination -->
     @if(is_object($serviceJournalList) && method_exists($serviceJournalList, 'hasPages') && $serviceJournalList->hasPages())
-        <div class="flex justify-center mt-6">
-            <nav class="flex items-center space-x-2">
-                <button class="px-3 py-2 text-sm font-medium text-white bg-green-600 rounded-md">1</button>
-                <button class="px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900">2</button>
-                <button class="px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900">3</button>
-                <span class="px-3 py-2 text-sm text-gray-500">...</span>
-                <button class="px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900">10</button>
-            </nav>
+        <div class="flex justify-center items-center mt-8">
+            <div class="flex items-center space-x-2">
+                {{-- Pagination Numbers --}}
+                @php
+                    $currentPage = $serviceJournalList->currentPage();
+                    $lastPage = $serviceJournalList->lastPage();
+                    $startPage = max(1, $currentPage - 2);
+                    $endPage = min($lastPage, $currentPage + 2);
+                @endphp
+                
+                @for($i = $startPage; $i <= $endPage; $i++)
+                    <button class="w-8 h-8 rounded-full text-sm font-medium {{ $i === $currentPage ? 'bg-[#279760] text-white' : 'bg-white text-text-primary border border-border-light hover:bg-bg-tertiary' }} transition-colors">
+                        {{ $i }}
+                    </button>
+                @endfor
+            </div>
         </div>
     @endif
                 </div>

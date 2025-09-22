@@ -54,54 +54,52 @@
         <header class="bg-bg-primary">
             <div class="w-full">
                 <!-- Top bar -->
-                <div class="flex items-center justify-between gap-5 px-5 py-2" style="padding-left: 40px; padding-right: 40px;">
-                    <!-- Logo -->
-                    <div class="flex items-center gap-5">
+                <div class="flex items-center justify-between px-3 py-2" style="padding-left: 10px; padding-right: 10px;">
+                    <!-- Left side: Logo + Navigation -->
+                    <div class="flex items-center gap-3">
+                        <!-- Logo -->
                         <a href="{{ url('/') }}" class="inline-flex items-center">
                             <img src="{{ asset('images/green-logo.png') }}" alt="UpperLicense" class="h-[31px] w-auto" style="width:150px;height:31px;"/>
                         </a>
+
+                        <!-- Navigation Pills -->
+                        <nav class="hidden md:flex items-center gap-1">
+                            <a href="{{ Route::has('executor.project.list') ? route('executor.project.list') : '#' }}"
+                               class="flex items-center gap-[6px] px-[12px] py-[8px] rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] hover:bg-bg-tertiary transition-colors {{ request()->routeIs('executor.project.*') ? 'bg-bg-tertiary' : '' }}">
+                                <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M2.5 5.83333H17.5" stroke="#279760" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M2.5 10H17.5" stroke="#279760" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M2.5 14.1667H17.5" stroke="#279760" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Проекты
+                            </a>
+                            <a href="{{ Route::has('executor.messages') ? route('executor.messages') : '#' }}"
+                               class="flex items-center gap-[6px] px-[12px] py-[8px] rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] hover:bg-bg-tertiary transition-colors {{ request()->routeIs('executor.messages') ? 'bg-bg-tertiary' : '' }}">
+                                <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M17.5 12.5C17.5 13.163 17.2366 13.7989 16.7678 14.2678C16.2989 14.7366 15.663 15 15 15H5L2.5 17.5V5C2.5 4.33696 2.76339 3.70107 3.23223 3.23223C3.70107 2.76339 4.33696 2.5 5 2.5H15C15.663 2.5 16.2989 2.76339 16.7678 3.23223C17.2366 3.70107 17.5 4.33696 17.5 5V12.5Z" stroke="#C2BFBF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Сообщения
+                            </a>
+                        </nav>
                     </div>
 
-                    <!-- Navigation Pills -->
-                    <nav class="flex items-center gap-[10px] px-4 py-4">
-                        <a href="{{ Route::has('executor.project.list') ? route('executor.project.list') : '#' }}"
-                           class="flex items-center gap-[6px] px-[18px] py-[13px] rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] hover:bg-bg-tertiary transition-colors {{ request()->routeIs('executor.project.*') ? 'bg-bg-tertiary' : '' }}">
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M2.5 5.83333H17.5" stroke="#279760" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M2.5 10H17.5" stroke="#279760" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M2.5 14.1667H17.5" stroke="#279760" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <!-- Right side: Controls -->
+                    <div class="flex items-center gap-1">
+                        <!-- Notifications -->
+                        <button class="hidden md:flex items-center justify-center w-[40px] h-[40px] rounded-[60px] border border-border-light hover:bg-bg-tertiary transition-colors">
+                            <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M15 6.66667C15 5.34058 14.4732 4.06881 13.5355 3.13114C12.5979 2.19348 11.3261 1.66667 10 1.66667C8.67392 1.66667 7.40215 2.19348 6.46447 3.13114C5.52678 4.06881 5 5.34058 5 6.66667C5 12.5 2.5 14.1667 2.5 14.1667H17.5C17.5 14.1667 15 12.5 15 6.66667Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M11.4417 17.5C11.2952 17.7526 11.0849 17.9622 10.8319 18.1088C10.5789 18.2553 10.292 18.333 10 18.333C9.70804 18.333 9.42117 18.2553 9.16816 18.1088C8.91515 17.9622 8.70486 17.7526 8.55835 17.5" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
-                            Проекты
-                        </a>
-                        <a href="{{ Route::has('executor.messages') ? route('executor.messages') : '#' }}"
-                           class="flex items-center gap-[6px] px-[18px] py-[13px] rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] hover:bg-bg-tertiary transition-colors {{ request()->routeIs('executor.messages') ? 'bg-bg-tertiary' : '' }}">
-                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M17.5 12.5C17.5 13.163 17.2366 13.7989 16.7678 14.2678C16.2989 14.7366 15.663 15 15 15H5L2.5 17.5V5C2.5 4.33696 2.76339 3.70107 3.23223 3.23223C3.70107 2.76339 4.33696 2.5 5 2.5H15C15.663 2.5 16.2989 2.76339 16.7678 3.23223C17.2366 3.70107 17.5 4.33696 17.5 5V12.5Z" stroke="#C2BFBF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            Сообщения
-                        </a>
-                    </nav>
-
-                    <!-- Controls -->
-                    <div class="flex items-center gap-5 px-4 py-4">
-                        <!-- Notifications (optional) -->
-                        <div class="relative">
-                            <button class="flex items-center justify-center w-[46px] h-[46px] rounded-[60px] border border-border-light hover:bg-bg-tertiary transition-colors">
-                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M15 6.66667C15 5.34058 14.4732 4.06881 13.5355 3.13114C12.5979 2.19348 11.3261 1.66667 10 1.66667C8.67392 1.66667 7.40215 2.19348 6.46447 3.13114C5.52678 4.06881 5 5.34058 5 6.66667C5 12.5 2.5 14.1667 2.5 14.1667H17.5C17.5 14.1667 15 12.5 15 6.66667Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                    <path d="M11.4417 17.5C11.2952 17.7526 11.0849 17.9622 10.8319 18.1088C10.5789 18.2553 10.292 18.333 10 18.333C9.70804 18.333 9.42117 18.2553 9.16816 18.1088C8.91515 17.9622 8.70486 17.7526 8.55835 17.5" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                </svg>
-                                <div class="absolute top-1 right-1 w-[10px] h-[10px] bg-status-error rounded-full"></div>
-                            </button>
-                        </div>
+                        </button>
 
                         <!-- Logout -->
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
                             @csrf
                         </form>
                         <button type="submit" form="logout-form"
-                                class="flex items-center gap-[6px] px-4 py-4 rounded-[60px] border border-border-light text-text-primary text-sm font-medium leading-[1] hover:bg-bg-tertiary transition-colors">
-                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                class="flex items-center gap-[4px] px-3 py-2 rounded-[60px] border border-border-light text-text-primary text-xs font-medium leading-[1] hover:bg-bg-tertiary transition-colors">
+                            <svg width="12" height="12" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M5.25 12.25H2.625C2.42609 12.25 2.23532 12.171 2.09467 12.0303C1.95402 11.8897 1.875 11.6989 1.875 11.5V2.5C1.875 2.30109 1.95402 2.11032 2.09467 1.96967C2.23532 1.82902 2.42609 1.75 2.625 1.75H5.25" stroke="#191E1D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
                                 <path d="M9.1875 9.625L12.125 7L9.1875 4.375" stroke="#191E1D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
                                 <path d="M12.125 7H5.25" stroke="#191E1D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>

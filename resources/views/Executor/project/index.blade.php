@@ -3,70 +3,153 @@
 @section('content')
     <div class="w-full">
         <!-- Page header -->
-        <div class="flex items-center justify-between px-5 py-5" style="padding-left:20px;padding-right:20px;">
-            <h1 class="text-[39px] leading-[1] font-normal tracking-[-0.02em] text-text-primary">Проекты</h1>
-            <div class="flex items-center gap-[11px] px-[16px] pr-[22px] py-[11px] h-[46px] border border-border-light rounded-[60px] bg-white">
+        <div class="flex items-center justify-between px-5 py-3" style="padding-left:20px;padding-right:20px;">
+            <h1 class="text-[32px] md:text-[39px] leading-[1] font-normal tracking-[-0.02em] text-text-primary">Проекты</h1>
+            <div class="hidden md:flex items-center gap-[11px] px-[16px] pr-[22px] py-[11px] h-[46px] border border-border-light rounded-[60px] bg-white">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.8333 15.8333L13.2083 13.2083" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.33333 15.8333C12.0152 15.8333 15 12.8486 15 9.16667C15 5.48477 12.0152 2.5 8.33333 2.5C4.65143 2.5 1.66667 5.48477 1.66667 9.16667C1.66667 12.8486 4.65143 15.8333 8.33333 15.8333Z" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 <input type="text" placeholder="Поиск по проектам" class="bg-transparent border-none outline-none text-[12px] font-medium leading-[1] text-text-primary placeholder:text-text-primary" />
             </div>
         </div>
+        
+        <!-- Mobile Search -->
+        <div class="md:hidden mb-3 px-5" style="padding-left:20px;padding-right:20px;">
+            <div class="flex justify-end">
+                <div class="flex items-center justify-center w-[46px] h-[46px] border border-border-light rounded-[60px] bg-white">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.8333 15.8333L13.2083 13.2083" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.33333 15.8333C12.0152 15.8333 15 12.8486 15 9.16667C15 5.48477 12.0152 2.5 8.33333 2.5C4.65143 2.5 1.66667 5.48477 1.66667 9.16667C1.66667 12.8486 4.65143 15.8333 8.33333 15.8333Z" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+            </div>
+        </div>
+        
 
         <!-- Status tabs -->
         <div class="px-5" style="padding-left:20px;padding-right:20px;">
-            <div class="flex items-center gap-[10px] mb-[16px]">
+            <div class="flex items-center gap-[10px] mb-[16px] md:flex-wrap overflow-x-auto md:overflow-x-visible">
                 @php $active = $service_status_id ?? null; @endphp
-                <a href="{{ route('executor.project.list') }}" class="px-[14px] py-[10px] rounded-[60px] text-[12px] font-medium {{ !$active ? 'bg-[#279760] text-white' : 'bg-white text-text-primary border border-border-light' }}">Все</a>
+                <a href="{{ route('executor.project.list') }}" class="px-[14px] py-[10px] rounded-[60px] text-[12px] font-medium flex-shrink-0 {{ !$active ? 'bg-[#279760] text-white' : 'bg-white text-text-primary border border-border-light' }}">Все</a>
                 @foreach(($statusList ?? []) as $status)
-                    <a href="{{ route('executor.project.list_by_status', ['service_status_id' => $status->id]) }}" class="px-[14px] py-[10px] rounded-[60px] text-[12px] font-medium {{ (int)$active === (int)$status->id ? 'bg-[#279760] text-white' : 'bg-white text-text-primary border border-border-light' }}">{{ $status->name }}</a>
+                    <a href="{{ route('executor.project.list_by_status', ['service_status_id' => $status->id]) }}" class="px-[14px] py-[10px] rounded-[60px] text-[12px] font-medium flex-shrink-0 {{ (int)$active === (int)$status->id ? 'bg-[#279760] text-white' : 'bg-white text-text-primary border border-border-light' }}">{{ $status->name }}</a>
                 @endforeach
             </div>
         </div>
 
-        <!-- Projects table/list -->
-        <div class="mb-6 px-5" style="padding-left:20px;padding-right:20px;">
-            <div class="bg-white rounded-lg border border-border-light shadow-md overflow-hidden">
-                <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-border-light">
-                        <thead class="bg-neutral-50">
-                            <tr>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Описание</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Дата</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Действия</th>
-                            </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-border-light">
-                        @if(isset($projectList) && $projectList->isNotEmpty())
-                            @foreach($projectList->where('project_status_id', $service_status_id) as $project)
-                                <tr class="hover:bg-neutral-50">
-                                    <td class="px-6 py-4 align-top">
-                                        <div class="text-sm text-text-primary">{{ $project->description }}</div>
-                                    </td>
-                                    <td class="px-6 py-4 align-top">
-                                        <div class="text-sm text-text-primary">{{ \App\Data\Helper\Assistant::formatDate($project->create_date) }}</div>
-                                    </td>
-                                    <td class="px-6 py-4 align-top">
-                                        <a href="{{ route('executor.project.show', ['projectId' => $project->id]) }}" class="inline-flex items-center gap-2 px-3 py-2 rounded-[10px] border border-border-light text-text-primary text-sm hover:bg-neutral-50">
-                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="#191E1D" stroke-width="1.5"/></svg>
-                                            Детали
-                                        </a>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        @else
-                            <tr>
-                                <td colspan="3" class="px-6 py-12 text-center text-text-secondary">Нет проектов для отображения.</td>
-                            </tr>
-                        @endif
-                        </tbody>
-                    </table>
+        <!-- Заголовки колонок -->
+        <div class="hidden md:grid grid-cols-[200px,150px,1fr,150px] items-center gap-[60px,120px,60px,0px] text-[12px] font-semibold text-[#6F6F6F] leading-[1] mx-5 px-5">
+            <div>Номер услуги</div>
+            <div>Дата обращения</div>
+            <div>Менеджер</div>
+            <div class="text-right pr-5">Статус</div>
+        </div>
+
+        <!-- Список проектов -->
+        <div class="flex flex-col gap-[10px] pb-[30px]">
+            @if(isset($projectList) && $projectList->isNotEmpty())
+                @foreach($projectList->where('project_status_id', $service_status_id) as $project)
+                    <!-- Desktop Table View -->
+                    <div class="hidden md:block bg-white rounded-lg shadow-sm mx-5 mb-3">
+                        <div class="grid grid-cols-[200px,150px,1fr,150px] items-center gap-[60px,120px,60px,0px] w-full p-5">
+                            <!-- Номер услуги -->
+                            <div class="text-[13px] font-medium text-[#1E2B28] leading-[1]">
+                                {{ $project->description }}
+                            </div>
+                            <!-- Дата обращения -->
+                            <div class="text-[13px] font-medium text-[#1E2B28] leading-[1]">
+                                {{ \App\Data\Helper\Assistant::formatDate($project->create_date) }}
+                            </div>
+                            <!-- Менеджер -->
+                            <div class="flex items-center gap-[10px]">
+                                <div class="w-[26px] h-[26px] rounded-full bg-neutral-300 overflow-hidden">
+                                    <img src="{{ asset('images/user1.png') }}" alt="{{ $project->manager_name ?? 'Manager' }}" class="w-full h-full object-cover"/>
+                                </div>
+                                <span class="text-[13px] font-medium text-[#1E2B28] leading-[1]">{{ $project->manager_name ?? '-' }}</span>
+                            </div>
+                            <!-- Статус -->
+                            <div class="flex items-center justify-end gap-[5px] pr-5">
+                                <div class="w-2 h-2 rounded-full {{ $project->status_color ?? 'bg-[#279760]' }}"></div>
+                                <span class="text-[13px] font-medium text-[#1E2B28] leading-[1]">{{ $project->status_name ?? '-' }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mobile Card View -->
+                    <div class="md:hidden bg-white rounded-lg shadow-sm mx-4 mb-3 p-4">
+                        <!-- Header with project number and date -->
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-[10px]">
+                                <span class="text-base font-medium text-[#1E2B28] leading-[1]">{{ $project->description }}</span>
+                            </div>
+                            <div class="flex items-center gap-[6px] flex-shrink-0">
+                                <span class="text-sm font-medium text-[#1E2B28] leading-[1]">
+                                    {{ \App\Data\Helper\Assistant::formatDate($project->create_date) }}
+                                </span>
+                            </div>
+                        </div>
+                        
+                        <!-- Details - Vertical Layout -->
+                        <div class="space-y-2">
+                            <div class="flex flex-col">
+                                <span class="text-xs font-medium text-gray-500 mb-1">Статус</span>
+                                <div class="flex items-center gap-[6px]">
+                                    <div class="w-[8px] h-[8px] rounded-full {{ $project->status_color ?? 'bg-[#279760]' }}"></div>
+                                    <span class="text-sm font-medium text-[#1E2B28]">{{ $project->status_name ?? '-' }}</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col">
+                                <span class="text-xs font-medium text-gray-500 mb-1">Менеджер</span>
+                                <div class="flex items-center gap-[10px]">
+                                    <div class="w-[32px] h-[32px] rounded-full bg-neutral-300 overflow-hidden flex-shrink-0">
+                                        <img src="{{ asset('images/user1.png') }}" alt="{{ $project->manager_name ?? 'Manager' }}" class="w-full h-full object-cover"/>
+                                    </div>
+                                    <span class="text-sm font-medium text-[#1E2B28]">{{ $project->manager_name ?? '-' }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            @else
+                <div class="bg-white rounded-lg shadow-sm mx-5 mb-3 p-5">
+                    <div class="text-center text-text-secondary">Нет проектов для отображения.</div>
                 </div>
-            </div>
+            @endif
         </div>
 
         <!-- Pagination -->
         @if(isset($projectList) && $projectList->hasPages())
-            <div class="px-5" style="padding-left:20px;padding-right:20px;">
-                {{ $projectList->links('components.manager-pagination') }}
+            <div class="flex justify-center items-center mt-8">
+                <div class="flex items-center space-x-2">
+                    {{-- Pagination Numbers --}}
+                    @php
+                        $currentPage = $projectList->currentPage();
+                        $lastPage = $projectList->lastPage();
+                        $start = max(1, $currentPage - 2);
+                        $end = min($lastPage, $currentPage + 2);
+                    @endphp
+
+                    @if($start > 1)
+                        <a href="{{ $projectList->url(1) }}" class="w-8 h-8 flex items-center justify-center text-gray-700 bg-white border border-gray-300 rounded-full hover:bg-gray-50">1</a>
+                        @if($start > 2)
+                            <span class="w-8 h-8 flex items-center justify-center text-gray-700 bg-white border border-gray-300 rounded-full">...</span>
+                        @endif
+                    @endif
+
+                    @for($page = $start; $page <= $end; $page++)
+                        @if($page == $currentPage)
+                            <span class="w-8 h-8 flex items-center justify-center text-white bg-[#279760] border border-[#279760] rounded-full">
+                                {{ $page }}
+                            </span>
+                        @else
+                            <a href="{{ $projectList->url($page) }}" class="w-8 h-8 flex items-center justify-center text-gray-700 bg-white border border-gray-300 rounded-full hover:bg-gray-50">
+                                {{ $page }}
+                            </a>
+                        @endif
+                    @endfor
+
+                    @if($end < $lastPage)
+                        @if($end < $lastPage - 1)
+                            <span class="w-8 h-8 flex items-center justify-center text-gray-700 bg-white border border-gray-300 rounded-full">...</span>
+                        @endif
+                        <a href="{{ $projectList->url($lastPage) }}" class="w-8 h-8 flex items-center justify-center text-gray-700 bg-white border border-gray-300 rounded-full hover:bg-gray-50">{{ $lastPage }}</a>
+                    @endif
+                </div>
             </div>
         @endif
     </div>

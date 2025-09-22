@@ -768,9 +768,11 @@
                     <div class="col-12 reviews_block mb-5">
                         <div class="container my-5">
                             <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
-                                <h2 class="reviews-title mb-0">Отзывы и кейсы клиентов</h2>
+                                <div class="d-flex align-items-center">
+                                    <h2 class="reviews-title mb-0 me-4">Отзывы и кейсы клиентов</h2>
+                                    <a href="#" class="see-all-btn">Смотреть все</a>
+                                </div>
                                 <div class="d-flex align-items-center mt-3 mt-md-0">
-                                    <a href="#" class="see-all-btn me-4">Смотреть все</a>
                                     <span class="slider-counter me-3">01 / 08</span>
                                     <button class="slider-arrow me-2" aria-label="prev"><span>&lt;</span></button>
                                     <button class="slider-arrow" aria-label="next"><span>&gt;</span></button>
@@ -792,6 +794,7 @@
                                         </div>
                                         <div class="review-tags mb-2 mt-3">
                                             <span>СТРОИТЕЛЬСТВО</span>
+                                            <span class="tag-separator">•</span>
                                             <span>ЛИЦЕНЗИРОВАНИЕ</span>
                                         </div>
                                         <div class="review-title mb-1">Уведомление о начале строительно-монтажных работ</div>
@@ -821,6 +824,7 @@
                                         </div>
                                         <div class="review-tags mb-2 mt-3">
                                             <span>СТРОИТЕЛЬСТВО</span>
+                                            <span class="tag-separator">•</span>
                                             <span>МЕДИЦИНА</span>
                                         </div>
                                         <div class="review-title mb-1">Медицинские лицензии для расширения спектра услуг</div>
@@ -850,6 +854,7 @@
                                         </div>
                                         <div class="review-tags mb-2 mt-3">
                                             <span>ЛИЦЕНЗИРОВАНИЕ</span>
+                                            <span class="tag-separator">•</span>
                                             <span>СТРОИТЕЛЬСТВО</span>
                                         </div>
                                         <div class="review-title mb-1">Медицинские лицензии для расширения спектра услуг</div>
@@ -865,6 +870,9 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="text-center mt-4 d-block d-md-none">
+                                <a href="#" class="see-all-btn">Смотреть все</a>
+                            </div>
                         </div>
                     </div>
 
@@ -874,6 +882,27 @@
                 <style>
                     * {
                         font-family: 'Manrope', sans-serif !important;
+                    }
+                    
+                    /* General responsive improvements */
+                    .container {
+                        max-width: 100%;
+                        overflow-x: hidden;
+                    }
+                    
+                    img {
+                        max-width: 100%;
+                        height: auto;
+                    }
+                    
+                    .row {
+                        margin-left: 0;
+                        margin-right: 0;
+                    }
+                    
+                    .col-md-4, .col-md-6, .col-md-8 {
+                        padding-left: 15px;
+                        padding-right: 15px;
                     }
                     
                     .construction-page {
@@ -1011,9 +1040,95 @@
                         border-color: #4CAF50;
                     }
 
+                    @media (max-width: 992px) {
+                        .service-card-info,
+                        .info-card {
+                            margin: 0 auto 20px auto;
+                            max-width: 90%;
+                        }
+                        
+                        .reviews_block .row {
+                            margin: 0;
+                        }
+                        
+                        .reviews_block .col-md-4 {
+                            margin-bottom: 20px;
+                        }
+                    }
+
                     @media (max-width: 768px) {
                         .document-option {
                             margin-bottom: 16px;
+                        }
+                        
+                        .step-title {
+                            font-size: 20px;
+                            flex-direction: column;
+                            align-items: flex-start;
+                            gap: 8px;
+                        }
+                        
+                        .work-type-header {
+                            flex-direction: column;
+                            align-items: flex-start;
+                            gap: 15px;
+                        }
+                        
+                        .work-type-header > div:last-child {
+                            align-self: flex-end;
+                        }
+                        
+                        .subcategory-item {
+                            padding: 12px;
+                        }
+                        
+                        .pricing-card .card-body {
+                            padding: 20px;
+                        }
+                        
+                        .section-title {
+                            font-size: 24px;
+                        }
+                        
+                        .service-card {
+                            height: auto;
+                            min-height: 400px;
+                        }
+                        
+                        .card-image {
+                            position: relative;
+                            right: auto;
+                            bottom: auto;
+                            width: 100%;
+                            height: auto;
+                            margin-top: 20px;
+                        }
+                        
+                        .card-image img {
+                            max-width: 200px;
+                        }
+                        
+                        /* Additional mobile fixes */
+                        .row.g-4 {
+                            margin: 0 -10px;
+                        }
+                        
+                        .row.g-4 > * {
+                            padding: 0 10px;
+                            margin-bottom: 20px;
+                        }
+                        
+                        .d-flex.justify-content-between {
+                            flex-direction: column;
+                            align-items: flex-start !important;
+                        }
+                        
+                        .d-flex.justify-content-between > * {
+                            margin-bottom: 10px;
+                        }
+                        
+                        .d-flex.justify-content-between > *:last-child {
+                            margin-bottom: 0;
                         }
                     }
 
@@ -1423,15 +1538,12 @@
 
                     .service-card-info,
                     .info-card {
-                        width: 620px;
-                        min-width: 620px;
-                        max-width: 620px;
-                        height: 140px;
+                        width: 100%;
+                        max-width: 100%;
                         min-height: 140px;
-                        max-height: 140px;
                         gap: 20px;
                         opacity: 1;
-                        padding: 30px;
+                        padding: 20px;
                         border-width: 1px;
                         border-style: solid;
                         border-color: #E0E0E0;
@@ -1441,27 +1553,266 @@
                         display: flex;
                         align-items: center;
                         margin-bottom: 20px;
-
+                        flex-wrap: wrap;
                     }
 
                     .info-card {
-                        height: 136px;
                         min-height: 136px;
-                        max-height: 136px;
                     }
 
                     .service-card-info img {
                         width: 48px;
                         height: 48px;
                         margin-right: 20px;
+                        flex-shrink: 0;
                     }
 
-                    @media (max-width: 700px) {
+                    .info-card .info-img {
+                        margin-right: 20px;
+                        flex-shrink: 0;
+                    }
+
+                    .info-card .info-img img {
+                        width: 48px;
+                        height: 48px;
+                    }
+
+                    .info-card > div:not(.info-img):not(.download-btn) {
+                        flex: 1;
+                        min-width: 200px;
+                    }
+
+                    .download-btn {
+                        flex-shrink: 0;
+                        margin-left: auto;
+                    }
+
+                    @media (max-width: 768px) {
                         .service-card-info,
                         .info-card {
+                            flex-direction: column;
+                            align-items: flex-start;
+                            padding: 15px;
+                            min-height: auto;
+                        }
+
+                        .service-card-info img,
+                        .info-card .info-img {
+                            margin-right: 0;
+                            margin-bottom: 15px;
+                        }
+
+                        .info-card > div:not(.info-img):not(.download-btn) {
                             width: 100%;
                             min-width: unset;
-                            max-width: 100%;
+                            margin-bottom: 15px;
+                        }
+
+                        .download-btn {
+                            margin-left: 0;
+                            align-self: flex-start;
+                        }
+                    }
+
+                    @media (max-width: 480px) {
+                        .container {
+                            padding-left: 15px;
+                            padding-right: 15px;
+                        }
+                        
+                        .construction-title {
+                            font-size: 24px;
+                        }
+                        
+                        .step-title {
+                            font-size: 18px;
+                        }
+                        
+                        .document-option {
+                            padding: 15px;
+                        }
+                        
+                        .work-type-header {
+                            padding: 15px;
+                        }
+                        
+                        .subcategory-item {
+                            padding: 10px;
+                        }
+                        
+                        .pricing-card .card-body {
+                            padding: 15px;
+                        }
+                        
+                        .section-title {
+                            font-size: 20px;
+                        }
+                        
+                        .service-card {
+                            padding: 15px;
+                        }
+                        
+                        .info-card {
+                            padding: 15px;
+                        }
+                        
+                        .reviews-title {
+                            font-size: 2rem;
+                            text-align: center;
+                        }
+                        
+                        .accordion-button {
+                            padding: 15px 0;
+                            font-size: 16px;
+                        }
+                        
+                        .accordion-body {
+                            padding: 0 0 15px 40px;
+                            font-size: 14px;
+                        }
+                        
+                        /* Reviews section mobile fixes */
+                        .reviews_block .container {
+                            padding-left: 15px;
+                            padding-right: 15px;
+                        }
+                        
+                        .reviews_block .d-flex {
+                            flex-direction: column;
+                            align-items: flex-start !important;
+                        }
+                        
+                        .reviews_block .d-flex .d-flex {
+                            margin-top: 15px;
+                            width: 100%;
+                            justify-content: space-between;
+                            align-items: center;
+                        }
+                        
+                        .see-all-btn {
+                            padding: 6px 16px;
+                            font-size: 13px;
+                            margin-right: 0;
+                            margin-bottom: 10px;
+                        }
+                        
+                        .slider-arrow {
+                            width: 35px;
+                            height: 35px;
+                            font-size: 1rem;
+                        }
+                        
+                        .slider-counter {
+                            font-size: 0.9rem;
+                        }
+                        
+                        .reviews_block .row.g-4 {
+                            margin: 0;
+                        }
+                        
+                        .reviews_block .col-md-4 {
+                            padding: 0 7.5px;
+                            margin-bottom: 20px;
+                        }
+                    }
+
+                    @media (max-width: 360px) {
+                        .container {
+                            padding-left: 10px;
+                            padding-right: 10px;
+                        }
+                        
+                        .construction-title {
+                            font-size: 20px;
+                        }
+                        
+                        .step-title {
+                            font-size: 16px;
+                        }
+                        
+                        .section-title {
+                            font-size: 18px;
+                        }
+                        
+                        .reviews-title {
+                            font-size: 2rem;
+                            text-align: center;
+                        }
+                        
+                        .document-option {
+                            padding: 12px;
+                        }
+                        
+                        .work-type-header {
+                            padding: 12px;
+                        }
+                        
+                        .subcategory-item {
+                            padding: 8px;
+                        }
+                        
+                        .pricing-card .card-body {
+                            padding: 12px;
+                        }
+                        
+                        .service-card {
+                            padding: 12px;
+                        }
+                        
+                        .info-card {
+                            padding: 12px;
+                        }
+                        
+                        .review-card {
+                            margin-bottom: 15px;
+                        }
+                        
+                        .review-thumb {
+                            height: 150px;
+                        }
+                        
+                        .review-title {
+                            font-size: 14px;
+                        }
+                        
+                        .review-desc {
+                            font-size: 12px;
+                        }
+                        
+                        .reviews_block .col-md-4 {
+                            padding: 0 5px;
+                            margin-bottom: 15px;
+                        }
+                        
+                        .see-all-btn {
+                            padding: 5px 12px;
+                            font-size: 12px;
+                        }
+                        
+                        .slider-arrow {
+                            width: 30px;
+                            height: 30px;
+                            font-size: 0.9rem;
+                        }
+                        
+                        .slider-counter {
+                            font-size: 0.8rem;
+                        }
+                        
+                        .accordion-button {
+                            padding: 12px 0;
+                            font-size: 14px;
+                        }
+                        
+                        .accordion-body {
+                            padding: 0 0 12px 35px;
+                            font-size: 13px;
+                        }
+                        
+                        .accordion-button .number {
+                            width: 35px;
+                            height: 35px;
+                            font-size: 16px;
                         }
                     }
 
@@ -1500,19 +1851,21 @@
                     }
 
                     .reviews-title {
-                        font-size: 2.5rem;
+                        font-size: 2rem;
                         font-weight: 500;
                         margin-bottom: 0;
+                        text-align: center;
                     }
 
                     .see-all-btn {
                         background: #fff;
                         border: 1.5px solid #E0E0E0;
                         border-radius: 24px;
-                        padding: 8px 24px;
+                        padding: 12px 32px;
                         color: #222;
                         font-weight: 500;
-                        text-decoration: none;
+                        font-size: 16px;
+                        text-decoration: none !important;
                         transition: background 0.2s, color 0.2s, border-color 0.2s;
                         margin-right: 16px;
                     }
@@ -1521,6 +1874,7 @@
                         background: #e6f9f0;
                         color: #00B569;
                         border-color: #00B569;
+                        text-decoration: none !important;
                     }
 
                     .slider-counter {
@@ -1559,12 +1913,14 @@
                         display: flex;
                         flex-direction: column;
                         height: 100%;
+                        padding: 0;
+                        margin-bottom: 20px;
                     }
 
                     .review-thumb {
                         position: relative;
                         width: 100%;
-                        height: 200px; /* Adjust as needed */
+                        height: 200px;
                         overflow: hidden;
                     }
 
@@ -1615,15 +1971,21 @@
                         gap: 8px;
                         margin-bottom: 8px;
                         flex-wrap: wrap;
+                        padding: 15px 15px 0 15px;
                     }
 
                     .review-tags span {
-                        background: #E0E0E0;
-                        color: #333;
-                        padding: 4px 10px;
-                        border-radius: 12px;
+                        background: transparent;
+                        color: #00B569;
+                        padding: 0;
+                        border-radius: 0;
                         font-size: 12px;
                         font-weight: 500;
+                    }
+                    
+                    .tag-separator {
+                        color: #999;
+                        margin: 0 4px;
                     }
 
                     .review-title {
@@ -1631,6 +1993,8 @@
                         font-weight: 600;
                         color: #333;
                         margin-bottom: 8px;
+                        padding: 0 15px;
+                        line-height: 1.3;
                     }
 
                     .review-desc {
@@ -1638,6 +2002,7 @@
                         color: #666;
                         line-height: 1.6;
                         margin-bottom: 15px;
+                        padding: 0 15px;
                     }
 
                     .review-meta {
@@ -1646,6 +2011,8 @@
                         gap: 10px;
                         font-size: 13px;
                         color: #888;
+                        padding: 0 15px 15px 15px;
+                        margin-top: auto;
                     }
 
                     .review-meta svg {
@@ -1664,6 +2031,142 @@
                         width: 14px;
                         height: 14px;
                         fill: #00B569;
+                    }
+
+                    /* Mobile specific styles for review cards */
+                    @media (max-width: 768px) {
+                        .review-card {
+                            margin-bottom: 15px;
+                            border-radius: 8px;
+                        }
+                        
+                        .review-thumb {
+                            height: 180px;
+                        }
+                        
+                        .play-btn {
+                            width: 50px;
+                            height: 50px;
+                        }
+                        
+                        .play-btn svg {
+                            width: 25px;
+                            height: 25px;
+                        }
+                        
+                        .review-duration {
+                            font-size: 11px;
+                            padding: 3px 6px;
+                        }
+                        
+                        .review-tags {
+                            padding: 12px 12px 0 12px;
+                            gap: 6px;
+                        }
+                        
+                        .review-tags span {
+                            font-size: 11px;
+                        }
+                        
+                        .tag-separator {
+                            margin: 0 3px;
+                        }
+                        
+                        .review-title {
+                            font-size: 16px;
+                            padding: 0 12px;
+                            margin-bottom: 6px;
+                        }
+                        
+                        .review-desc {
+                            font-size: 13px;
+                            padding: 0 12px;
+                            margin-bottom: 12px;
+                            line-height: 1.5;
+                        }
+                        
+                        .review-meta {
+                            padding: 0 12px 12px 12px;
+                            font-size: 12px;
+                        }
+                    }
+
+                    @media (max-width: 480px) {
+                        .review-thumb {
+                            height: 160px;
+                        }
+                        
+                        .play-btn {
+                            width: 45px;
+                            height: 45px;
+                        }
+                        
+                        .play-btn svg {
+                            width: 20px;
+                            height: 20px;
+                        }
+                        
+                        .review-tags {
+                            padding: 10px 10px 0 10px;
+                        }
+                        
+                        .review-tags span {
+                            font-size: 10px;
+                        }
+                        
+                        .tag-separator {
+                            margin: 0 2px;
+                        }
+                        
+                        .review-title {
+                            font-size: 15px;
+                            padding: 0 10px;
+                        }
+                        
+                        .review-desc {
+                            font-size: 12px;
+                            padding: 0 10px;
+                        }
+                        
+                        .review-meta {
+                            padding: 0 10px 10px 10px;
+                            font-size: 11px;
+                        }
+                    }
+
+                    @media (max-width: 360px) {
+                        .review-thumb {
+                            height: 140px;
+                        }
+                        
+                        .play-btn {
+                            width: 40px;
+                            height: 40px;
+                        }
+                        
+                        .play-btn svg {
+                            width: 18px;
+                            height: 18px;
+                        }
+                        
+                        .review-tags {
+                            padding: 8px 8px 0 8px;
+                        }
+                        
+                        .review-title {
+                            font-size: 14px;
+                            padding: 0 8px;
+                        }
+                        
+                        .review-desc {
+                            font-size: 11px;
+                            padding: 0 8px;
+                        }
+                        
+                        .review-meta {
+                            padding: 0 8px 8px 8px;
+                            font-size: 10px;
+                        }
                     }
 
                     /* Accordion Styles */
@@ -1758,7 +2261,7 @@
                         transform: none;
                     }
                     .info-img {
-                        margin-right: -100px;
+                        margin-right: 20px;
                     }
 
                 </style>

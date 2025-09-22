@@ -108,7 +108,7 @@
 
 .about-us__features {
   padding: 100px 0;
-  background: white;
+  background: transparent;
   position: relative;
 }
 
@@ -153,7 +153,7 @@
 }
 
 .about-us__features__card {
-  background: white;
+  background: transparent;
   border-radius: 20px;
   padding: 40px 30px;
   text-align: center;
@@ -170,7 +170,7 @@
 }
 
 .about-us__features__card--white {
-  background: white;
+  background: transparent;
 }
 
 .about-us__features__card--green {
@@ -214,7 +214,7 @@
 
 .about-us__mission {
   padding: 80px 0;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  background: transparent;
   text-align: center;
 }
 
@@ -237,7 +237,7 @@
 
 .about-us__services {
   padding: 100px 0;
-  background: white;
+  background: transparent;
 }
 
 .about-us__services__header {
@@ -259,7 +259,7 @@
 }
 
 .about-us__services__card {
-  background: white;
+  background: transparent;
   border-radius: 20px;
   padding: 40px 30px;
   height: 100%;
@@ -328,140 +328,6 @@
   transition: all 0.3s ease;
 }
 
-.about-us__find {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 120px 60px 0px;
-  gap: 60px;
-  background: #FFFFFF;
-}
-
-.about-us__find__header {
-  text-align: center;
-}
-
-.about-us__find__header h2 {
-  font-family: 'Manrope', sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 52px;
-  line-height: 100%;
-  text-align: center;
-  letter-spacing: -0.02em;
-  color: #191E1D;
-  max-width: 874px;
-  margin: 0 auto;
-}
-
-.about-us__find__cards-container {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 0px;
-  gap: 20px;
-  width: 100%;
-  max-width: 1320px;
-  flex-wrap: nowrap;
-}
-
-.about-us__find__card {
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0px 0px 0px 20px;
-  gap: 30px;
-  flex: 1;
-  max-width: 315px;
-  min-width: 280px;
-  height: 342px;
-  border-left: 1px solid #E8E8E8;
-  position: relative;
-}
-
-.about-us__find__card__image {
-  width: 80px;
-  height: 80px;
-  background: #f0f0f0;
-  border: 1px solid #E8E8E8;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #999;
-  font-size: 12px;
-  position: relative;
-  overflow: hidden;
-}
-
-.about-us__find__card__image img {
-  width: 390px;
-  height: 390px;
-  object-fit: cover;
-}
-
-.about-us__find__card__image::before {
-  content: '';
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  left: 0px;
-  top: 0px;
-  border: 1px solid #279760;
-}
-
-.about-us__find__card__image::after {
-  content: '';
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  right: -215px;
-  bottom: -262px;
-  border: 1px solid #279760;
-  transform: rotate(180deg);
-}
-
-.about-us__find__card__content {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 0px;
-  gap: 10px;
-  width: 295px;
-}
-
-.about-us__find__card__number {
-  font-family: 'Manrope', sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 150%;
-  color: #999999;
-  margin: 0;
-}
-
-.about-us__find__card__title {
-  font-family: 'Manrope', sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 20px;
-  line-height: 120%;
-  letter-spacing: -0.02em;
-  color: #191E1D;
-  margin: 0;
-}
-
-.about-us__find__card__description {
-  font-family: 'Manrope', sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 150%;
-  color: #999999;
-  margin: 0;
-}
 
 /* Services Section Styles */
 .services-section {
@@ -656,7 +522,7 @@
 
 .about-us__stats {
   padding: 100px 0;
-  background: white;
+  background: transparent;
 }
 
 .about-us__stats__grid {
@@ -702,7 +568,7 @@
 }
 
 .about-us__stats__item {
-  background: white;
+  background: transparent;
   padding: 30px 20px;
   text-align: center;
   display: flex;
@@ -799,7 +665,7 @@
 }
 
 .about-us__cta__buttons .btn.btn-outline-primary {
-  background: white;
+  background: transparent;
   border: 2px solid #1b8d4c;
   color: #1b8d4c;
 }
@@ -1503,6 +1369,121 @@
   .review-title {
     font-size: 15px;
   }
+}
+
+  /* Мобильная версия секции отзывов */
+@media (max-width: 768px) {
+  /* Контейнер для карточек с горизонтальной прокруткой */
+  .reviews_block .container {
+    overflow: visible;
+  }
+  
+  /* Горизонтальная лента карточек */
+  .reviews_block .row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    gap: 16px;
+    padding: 0 16px;
+    margin: 0;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    -ms-overflow-style: auto;
+  }
+  
+  .reviews_block .row::-webkit-scrollbar {
+    height: 4px;
+  }
+  
+  .reviews_block .row::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 2px;
+  }
+  
+  .reviews_block .row::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 2px;
+  }
+  
+         .reviews_block .col-md-4 {
+             flex: 0 0 280px;
+             max-width: 280px;
+             width: 280px;
+             margin: 0;
+             padding: 0;
+         }
+  
+         .review-card {
+             width: 100%;
+             min-width: 280px;
+             height: auto;
+         }
+  
+  /* Убираем Bootstrap отступы */
+  .reviews_block .row.g-4 {
+    --bs-gutter-x: 0;
+    --bs-gutter-y: 0;
+  }
+  
+  /* Секция отзывов */
+  .reviews_block {
+    overflow: visible;
+    padding-bottom: 40px;
+  }
+  
+         /* Заголовок */
+         .reviews-title {
+             white-space: nowrap;
+             font-size: 2rem;
+             font-weight: bold;
+             max-width: 280px;
+             overflow: hidden;
+             text-overflow: ellipsis;
+             text-align: center;
+         }
+  
+         /* Заголовок и навигация */
+         .reviews_block .d-flex.justify-content-between {
+             flex-direction: column;
+             align-items: center;
+             max-width: 280px;
+         }
+  
+  .reviews_block .d-flex.justify-content-between > div:first-child {
+    margin-bottom: 15px;
+  }
+  
+  .reviews_block .d-flex.justify-content-between > div:last-child {
+    align-self: flex-end;
+  }
+  
+  /* Кнопка "Смотреть все" */
+  .reviews_block .d-flex.justify-content-between .see-all-btn {
+    display: none;
+  }
+  
+  .reviews_block .text-center {
+    display: block;
+    margin: 30px 0 20px;
+    padding: 0 16px 20px;
+    overflow: visible;
+  }
+  
+  .reviews_block .text-center .see-all-btn {
+    width: 100%;
+    max-width: 100%;
+    display: block;
+    text-align: center;
+  }
+  
+  /* Скрыть навигацию */
+  .reviews_block .slider-counter,
+  .reviews_block .slider-arrow {
+    display: none;
+  }
+}
 
   .review-text {
     font-size: 12px;
@@ -2210,15 +2191,18 @@
 
 .header-redesigned__services-btn .menu-icon {
   width: 14px;
-  height: 20px;
+  height: 14px;
   flex: none;
   order: 0;
   flex-grow: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .header-redesigned__services-btn .menu-icon svg {
-  width: 9.33px;
-  height: 8.17px;
+  width: 14px;
+  height: 14px;
 }
 
 .header-redesigned__services-btn .menu-icon svg path {
@@ -2359,46 +2343,29 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 16px;
-  gap: 6px;
-  width: 93px;
-  height: 46px;
+  padding: 12px 20px;
+  gap: 8px;
+  height: 40px;
   border: 1px solid #E8E8E8;
-  border-radius: 60px;
-  background: transparent;
+  border-radius: 20px;
+  background: white;
   flex: none;
   order: 1;
   flex-grow: 0;
   text-decoration: none;
 }
 
-.header-redesigned__login-btn .login-icon {
+.header-redesigned__login-btn svg {
   width: 14px;
   height: 14px;
   flex: none;
   order: 0;
   flex-grow: 0;
-  position: relative;
-  top: 1.75px;
-  left: 2.33px;
-}
-
-.header-redesigned__login-btn .login-icon svg {
-  width: 9.333px;
-  height: 10.5px;
-  transform: rotate(-180deg);
-  opacity: 1;
-}
-
-.header-redesigned__login-btn .login-icon svg rect,
-.header-redesigned__login-btn .login-icon svg path {
-  stroke: #191E1D;
-  stroke-width: 1.2px;
+  display: flex;
+  align-items: center;
 }
 
 .header-redesigned__login-btn .login-text {
-  width: 41px;
-  height: 14px;
   font-family: "Manrope", sans-serif;
   font-style: normal;
   font-weight: 500;
@@ -2408,6 +2375,8 @@
   flex: none;
   order: 1;
   flex-grow: 0;
+  display: flex;
+  align-items: center;
 }
 
 .header-redesigned__login-btn:hover {
@@ -13587,7 +13556,7 @@ input[type=checkbox] + label:before {
   vertical-align: text-top;
   border: 5px solid white;
   border-radius: 50%;
-  background: white;
+  background: transparent;
 }
 
 input[type=radio]:checked + label:before,
@@ -15018,7 +14987,7 @@ footer .footer_info_text {
 .services__process-for-obtaining-license__timeline li:before {
   position: absolute;
   margin-left: -88px;
-  background: white;
+  background: transparent;
   border-radius: 25px;
   border: 1px solid #1b8d4c;
   padding: 10px 15px;
@@ -15406,7 +15375,7 @@ footer .footer_info_text {
   vertical-align: text-top;
   border: 1px solid #1b8d4c;
   border-radius: 50%;
-  background: white;
+  background: transparent;
   left: 0px;
   top: 0px;
   position: absolute;
@@ -16578,7 +16547,7 @@ footer .footer_info_text {
   vertical-align: text-top;
   border: 1px solid #1b8d4c;
   border-radius: 50%;
-  background: white;
+  background: transparent;
   left: 0px;
   top: 3px;
   position: absolute;
@@ -16599,7 +16568,7 @@ footer .footer_info_text {
   vertical-align: text-top;
   border: 5px solid white;
   border-radius: 50%;
-  background: white;
+  background: transparent;
 }
 
 .custom-checkbox input[type=radio]:checked + label:before,
@@ -18722,7 +18691,7 @@ footer .footer_info_text {
 }
 
 .calendar .day.today.has-event:after {
-  background: white;
+  background: transparent;
 }
 
 .calendar .day.has-event {
@@ -18901,7 +18870,7 @@ footer .footer_info_text {
 .about-us__hero__laptop-screen {
   width: 100%;
   height: 100%;
-  background: white;
+  background: transparent;
   border-radius: 6px;
   display: flex;
   flex-direction: column;
@@ -18966,7 +18935,7 @@ footer .footer_info_text {
 .about-us__hero__badge {
   position: absolute;
   bottom: -40px;
-  background: white;
+  background: transparent;
   padding: 12px 20px;
   border-radius: 25px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
@@ -18993,7 +18962,7 @@ footer .footer_info_text {
 
 .about-us__features {
   padding: 100px 0;
-  background: white;
+  background: transparent;
   position: relative;
 }
 
@@ -19038,7 +19007,7 @@ footer .footer_info_text {
 }
 
 .about-us__features__card {
-  background: white;
+  background: transparent;
   border-radius: 20px;
   padding: 40px 30px;
   text-align: center;
@@ -19055,7 +19024,7 @@ footer .footer_info_text {
 }
 
 .about-us__features__card--white {
-  background: white;
+  background: transparent;
 }
 
 .about-us__features__card--green {
@@ -19099,7 +19068,7 @@ footer .footer_info_text {
 
 .about-us__mission {
   padding: 80px 0;
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  background: transparent;
   text-align: center;
 }
 
@@ -19122,7 +19091,7 @@ footer .footer_info_text {
 
 .about-us__services {
   padding: 100px 0;
-  background: white;
+  background: transparent;
 }
 
 .about-us__services__header {
@@ -19144,7 +19113,7 @@ footer .footer_info_text {
 }
 
 .about-us__services__card {
-  background: white;
+  background: transparent;
   border-radius: 20px;
   padding: 40px 30px;
   height: 100%;
@@ -19215,7 +19184,7 @@ footer .footer_info_text {
 
 .about-us__find {
   padding: 100px 0;
-  background: white;
+  background: transparent;
 }
 
 .about-us__find__header {
@@ -19288,7 +19257,7 @@ footer .footer_info_text {
 
 .about-us__stats {
   padding: 100px 0;
-  background: white;
+  background: transparent;
 }
 
 .about-us__stats__grid {
@@ -19334,7 +19303,7 @@ footer .footer_info_text {
 }
 
 .about-us__stats__item {
-  background: white;
+  background: transparent;
   padding: 30px 20px;
   text-align: center;
   display: flex;
@@ -19431,7 +19400,7 @@ footer .footer_info_text {
 }
 
 .about-us__cta__buttons .btn.btn-outline-primary {
-  background: white;
+  background: transparent;
   border: 2px solid #1b8d4c;
   color: #1b8d4c;
 }

@@ -10,29 +10,32 @@
 
 <div class="max-w-[1440px] mx-auto px-6 py-8 bg-white min-h-screen font-inter">
   <!-- Page Title -->
-  <div class="flex items-center justify-between mb-6">
-    <h1 class="text-[22px] leading-[28px] font-semibold text-gray-900">Шаблоны документов</h1>
+  <div class="flex items-center justify-between mb-6 w-full">
+    <h1 class="text-[22px] leading-[28px] font-semibold text-gray-900">
+      <span class="hidden md:inline">Шаблоны документов</span>
+      <span class="md:hidden block">Шаблоны<br/>документов</span>
+    </h1>
 
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-2 md:gap-3 justify-end">
       <!-- Search -->
-      <label class="relative block">
-        <span class="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-          <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="none">
+      <label class="relative block w-10 md:w-auto">
+        <span class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none md:left-3 md:top-1/2 md:-translate-y-1/2 md:translate-x-0">
+          <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="none" aria-hidden="true">
             <path d="M17.5 17.5L12.5 12.5M14.1667 8.33333C14.1667 11.555 11.555 14.1667 8.33333 14.1667C5.11167 14.1667 2.5 11.555 2.5 8.33333C2.5 5.11167 5.11167 2.5 8.33333 2.5C11.555 2.5 14.1667 5.11167 14.1667 8.33333Z"
                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </span>
-        <input id="searchInput" type="text" placeholder="Поиск по названию документа"
-               class="h-10 w-[320px] rounded-full bg-gray-50 border border-gray-200 pl-10 pr-4 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#00A389] focus:border-transparent">
+        <input id="searchInput" type="search" aria-label="Поиск" placeholder="Поиск по названию документа"
+               class="h-10 w-10 md:w-[320px] rounded-full bg-white border border-gray-300 pl-0 pr-0 md:pl-10 md:pr-4 text-sm placeholder-transparent md:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#00A389] focus:border-transparent transition-all">
       </label>
 
       <!-- New doc -->
       <button onclick="openModal('upload-document-modal')"
-              class="inline-flex items-center h-10 px-5 rounded-full bg-[#279760] text-white text-sm font-medium hover:bg-[#218655] transition-colors">
-        <svg class="w-5 h-5 mr-2" viewBox="0 0 20 20" fill="none">
+              class="inline-flex items-center justify-center h-10 w-10 md:w-auto px-0 md:px-5 rounded-full bg-[#279760] text-white text-sm font-medium hover:bg-[#218655] transition-colors">
+        <svg class="w-5 h-5 md:mr-2" viewBox="0 0 20 20" fill="none">
           <path d="M10 4.16667V15.8333M4.16667 10H15.8333" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        Новый документ
+        <span class="hidden md:inline">Новый документ</span>
       </button>
     </div>
   </div>
@@ -47,14 +50,15 @@
       'ae' => 'uae-flag.png',
     ];
   @endphp
-  <div class="flex gap-3 mb-6">
+  <div class="flex gap-1 md:gap-3 mb-6 overflow-x-auto whitespace-nowrap pb-1" style="scrollbar-width:none; -ms-overflow-style:none;"> 
+    <style>.overflow-x-auto::-webkit-scrollbar{display:none}</style>
     @foreach($countries as $country)
       <button
-        class="inline-flex items-center gap-2 h-8 px-3 rounded-full border {{ $country->id === $selectedCountry->id ? 'bg-[#F3FBF7] border-[#279760]' : 'bg-white border-gray-200 hover:bg-gray-50' }}"
+        class="inline-flex items-center gap-1 md:gap-2 h-7 md:h-8 px-2 md:px-3 rounded-full border whitespace-nowrap max-w-[120px] md:max-w-none overflow-hidden {{ $country->id === $selectedCountry->id ? 'bg-[#F3FBF7] border-[#279760]' : 'bg-white border-gray-200 hover:bg-gray-50' }}"
         data-country-id="{{ $country->id }}">
         <img src="{{ asset('images/flags/' . ($flagMap[$country->code] ?? 'russia-flag.png')) }}" alt="{{ $country->name }}"
              class="w-4 h-4 rounded-full object-cover">
-        <span class="text-sm {{ $country->id === $selectedCountry->id ? 'text-[#279760]' : 'text-gray-700' }}">
+        <span class="text-[10px] md:text-sm {{ $country->id === $selectedCountry->id ? 'text-[#279760]' : 'text-gray-700' }} block truncate max-w-[88px] md:max-w-none">
           {{ $country->name }}
         </span>
       </button>
@@ -64,44 +68,39 @@
   <div class="border-t border-gray-100 mb-6"></div>
 
   <!-- Grid -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-6 gap-6">
+  <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 sm:gap-5">
     @forelse($templates as $template)
-      <div
-        class="group document-card bg-white border border-gray-200 rounded-xl p-5 shadow-sm hover:shadow-md transition-[box-shadow,transform]"
-        data-title="{{ strtolower($template->name) }}"
-        data-type="{{ strtolower($template->document_template_type_name) }}"
-      >
-        <!-- File icon -->
+      <div class="flex flex-col items-start">
+        <div class="group document-card bg-white border border-gray-200 rounded-xl p-4 shadow-sm hover:shadow-md transition-[box-shadow,transform]"
+             data-title="{{ strtolower($template->name) }}"
+             data-type="{{ strtolower($template->document_template_type_name) }}" style="aspect-ratio:1/1; width:45vw; max-width:180px; min-width:140px;">
+        <!-- File icon only inside card -->
         @php 
           $ext = strtolower(pathinfo($template->name, PATHINFO_EXTENSION));
           $displayExt = ($ext === 'doc' || $ext === 'docx') ? 'docx' : 'xlsx';
         @endphp
-        <div class="flex justify-center mb-4">
+        <div class="flex items-center justify-center h-full">
           <div class="file-icon" onclick="event.stopPropagation(); downloadDocument('{{ $template->id }}')" title="Скачать">
             <svg class="w-[60px] h-[74px]" viewBox="0 0 48 60" fill="none" xmlns="http://www.w3.org/2000/svg">
               <!-- sheet -->
-              <path d="M8 2h22l10 10v46H8V2z" fill="#EAFBF7" stroke="#D9E8E5"/>
+              <path d="M8 2h22l10 10v46H8V2z" fill="#279760" stroke="#279760"/>
               <!-- dog-ear -->
-              <path d="M30 2v10h10" fill="#DFF6F1"/>
-              <!-- bottom bar (type color) -->
-              <rect x="8" y="36" width="32" height="18" rx="2" class="fill-type"/>
-              <!-- extension -->
-              <text x="24" y="49" text-anchor="middle" font-size="12" font-weight="700" fill="white" font-family="Inter, Arial">{{ $displayExt }}</text>
+              <path d="M30 2v10h10" fill="#279760"/>
+              <!-- bottom bar (type area) -->
+              <rect x="8" y="36" width="32" height="18" rx="2" fill="#218655" stroke="#218655"/>
+              <!-- extension text (centered) -->
+              <text x="24" y="32" text-anchor="middle" dominant-baseline="middle" font-size="11" font-weight="500" fill="#FFFFFF" font-family="Inter, Arial">.{{ $displayExt }}</text>
             </svg>
           </div>
         </div>
 
-        <!-- Title + subtitle -->
-        <div class="text-center">
-          <h3 class="text-sm font-medium text-gray-900 truncate" title="{{ $template->name }}">
-            {{ $template->name }}
-          </h3>
-          <p class="mt-1 text-[11px] leading-4 text-gray-500">
-            {{ $template->document_template_type_name }}
-          </p>
+          <!-- No text inside the card -->
         </div>
-
-        <!-- no corner download button; click on icon to download -->
+        <!-- Title + subtitle outside (below card) -->
+        <div class="mt-2">
+          <h3 class="text-sm font-medium text-gray-900 truncate" title="{{ $template->name }}">{{ $template->name }}</h3>
+          <p class="mt-1 text-[11px] leading-4 text-gray-500">{{ $template->document_template_type_name }}</p>
+        </div>
       </div>
     @empty
       <div class="col-span-full text-center py-12">
@@ -284,7 +283,13 @@ input:focus, select:focus {
 <style>
   .document-card{transition:transform .15s ease, box-shadow .15s ease}
   .document-card:hover{transform:translateY(-2px)}
-  .file-icon .fill-type{ fill:#279760 } /* зелёная плашка как на скрине */
+  /* нижняя плашка светлая, текст расширения зелёный */
+  .file-icon .ext-bar{ fill:#FFFFFF; stroke:#279760 }
+  .file-icon .ext-text{ fill:#279760 }
+  /* Сделать иконку зеленой: все линии в зеленый */
+  .file-icon svg path[stroke]{ stroke:#279760 }
+  .file-icon svg rect[stroke]{ stroke:#279760 }
+  /* Центровка по вертикали в контейнере уже через flex items-center */
   /* Гладкая фильтрация карточек */
   .doc-hidden{opacity:0; pointer-events:none; transition:opacity .2s}
 </style>

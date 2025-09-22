@@ -2,348 +2,322 @@
 
 @section('content')
 <div class="w-full">
-    <div class="flex items-center justify-between px-5 py-5" style="padding-left:20px;padding-right:20px;">
-        <h1 class="text-[39px] leading-[1] font-normal tracking-[-0.02em] text-text-primary">Услуги</h1>
-        <div class="flex items-center gap-[11px] px-[16px] pr-[22px] py-[11px] h-[46px] border border-border-light rounded-[60px] bg-white">
+    <div class="flex items-center justify-between px-5 py-3" style="padding-left:20px;padding-right:20px;">
+        <h1 class="text-[32px] md:text-[39px] leading-[1] font-normal tracking-[-0.02em] text-text-primary">Услуги</h1>
+        <div class="hidden md:flex items-center gap-[11px] px-[16px] pr-[22px] py-[11px] h-[46px] border border-border-light rounded-[60px] bg-white">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.8333 15.8333L13.2083 13.2083" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.33333 15.8333C12.0152 15.8333 15 12.8486 15 9.16667C15 5.48477 12.0152 2.5 8.33333 2.5C4.65143 2.5 1.66667 5.48477 1.66667 9.16667C1.66667 12.8486 4.65143 15.8333 8.33333 15.8333Z" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             <input type="text" placeholder="Поиск по номеру услуги или компании" class="bg-transparent border-none outline-none text-[12px] font-medium leading-[1] text-text-primary placeholder:text-text-primary" />
         </div>
     </div>
+    
+    <!-- Mobile Search -->
+    <div class="md:hidden mb-3 px-5" style="padding-left:20px;padding-right:20px;">
+        <div class="flex justify-end">
+            <div class="flex items-center justify-center w-[46px] h-[46px] border border-border-light rounded-[60px] bg-white">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.8333 15.8333L13.2083 13.2083" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.33333 15.8333C12.0152 15.8333 15 12.8486 15 9.16667C15 5.48477 12.0152 2.5 8.33333 2.5C4.65143 2.5 1.66667 5.48477 1.66667 9.16667C1.66667 12.8486 4.65143 15.8333 8.33333 15.8333Z" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+        </div>
+    </div>
 
     <div class="px-5" style="padding-left:20px;padding-right:20px;">
-        <div class="flex items-center gap-[10px] mb-[16px]">
+        <div class="flex items-center gap-[10px] mb-[16px] md:flex-wrap overflow-x-auto md:overflow-x-visible">
             @php $active = request('status_id'); @endphp
-            <a href="{{ route('manager.services.list') }}" class="px-[14px] py-[10px] rounded-[60px] text-[12px] font-medium {{ !$active ? 'bg-[#279760] text-white' : 'bg-white text-text-primary border border-border-light' }}">Все услуги</a>
+            <a href="{{ route('manager.services.list') }}" class="px-[14px] py-[10px] rounded-[60px] text-[12px] font-medium flex-shrink-0 {{ !$active ? 'bg-[#279760] text-white' : 'bg-white text-text-primary border border-border-light' }}">Все услуги</a>
             @if(isset($statusList))
                 @foreach($statusList as $status)
-                    <a href="{{ route('manager.services.list', ['status_id' => $status->id]) }}" class="px-[14px] py-[10px] rounded-[60px] text-[12px] font-medium {{ $active == $status->id ? 'bg-[#279760] text-white' : 'bg-white text-text-primary border border-border-light' }}">{{ $status->name }}</a>
+                    <a href="{{ route('manager.services.list', ['status_id' => $status->id]) }}" class="px-[14px] py-[10px] rounded-[60px] text-[12px] font-medium flex-shrink-0 {{ $active == $status->id ? 'bg-[#279760] text-white' : 'bg-white text-text-primary border border-border-light' }}">{{ $status->name }}</a>
                 @endforeach
             @endif
         </div>
     </div>
 
-    <!-- Filters -->
+    <!-- Services List -->
     <div class="mb-6">
-        <div class="bg-white rounded-lg border border-border-light shadow-md p-6">
-            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
-                <div>
-                    <input type="text" 
-                           name="search"
-                           placeholder="Поиск по номеру или клиенту"
-                           x-model="filters.search" 
-                           @input.debounce.300ms="applyFilters()"
-                           class="w-full px-4 py-3 border border-border-light rounded-lg focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all duration-200">
-                </div>
-                
-                <div>
-                    <select name="executor" 
-                            x-model="filters.executor" 
-                            @change="applyFilters()"
-                            class="w-full px-4 py-3 border border-border-light rounded-lg focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all duration-200">
-                        <option value="">Все исполнители</option>
-                        <!-- Список исполнителей из базы -->
-                    </select>
-                </div>
-                
-                <div>
-                    <select name="payment_status" 
-                            x-model="filters.payment_status" 
-                            @change="applyFilters()"
-                            class="w-full px-4 py-3 border border-border-light rounded-lg focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all duration-200">
-                        <option value="">Все</option>
-                        <option value="prepaid">Предоплачено</option>
-                        <option value="fully_paid">Полностью оплачено</option>
-                        <option value="unpaid">Не оплачено</option>
-                    </select>
-                </div>
-                
-                <div>
-                    <select name="date_range" 
-                            x-model="filters.date_range" 
-                            @change="applyFilters()"
-                            class="w-full px-4 py-3 border border-border-light rounded-lg focus:ring-2 focus:ring-[var(--color-primary)] focus:border-transparent transition-all duration-200">
-                        <option value="">Все периоды</option>
-                        <option value="today">Сегодня</option>
-                        <option value="week">Эта неделя</option>
-                        <option value="month">Этот месяц</option>
-                    </select>
-                </div>
+        <!-- Desktop Headers -->
+        <div class="hidden md:grid grid-cols-[200px,150px,200px,200px,200px,150px,150px,150px] gap-[60px,120px,60px,60px,60px,60px,60px,0px] items-center bg-white mx-5 px-5 py-3 rounded-t-lg">
+            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Номер услуги</div>
+            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Статус</div>
+            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Дата обращения</div>
+            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Исполнитель</div>
+            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Клиент</div>
+            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Проверка клиента</div>
+            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Предоплата</div>
+            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider text-right pr-5">Полная оплата</div>
         </div>
 
-                <div class="flex items-end">
-                    <button type="button" 
-                            @click="resetFilters()"
-                            class="w-full inline-flex items-center justify-center px-4 py-3 bg-white border border-border-light text-text-primary font-medium rounded-lg hover:bg-neutral-50 focus:ring-2 focus:ring-[var(--color-primary)] focus:ring-offset-2 transition-all duration-200">
-                        <svg class="mr-2" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 12a9 9 0 11-3.09-6.7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 3v7h-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        Сбросить
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Services Table -->
-    <div class="mb-6">
-        <div class="bg-white rounded-lg border border-border-light shadow-md overflow-hidden">
-            <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-border-light">
-                    <thead class="bg-neutral-50">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Номер услуги</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Статус</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Дата обращения</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Исполнитель</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Клиент</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Проверка клиента</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Предоплата</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Полная оплата</th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-text-secondary uppercase tracking-wider">Действия</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-border-light">
         @if(isset($serviceJournalList) && $serviceJournalList->isNotEmpty())
             @foreach($serviceJournalList as $service)
-                                <tr class="hover:bg-neutral-50 cursor-pointer" 
-                                    @if(Route::has('Manager.services.show'))
-                                        onclick="window.location='{{ route('Manager.services.show', $service->id) }}';"
-                                    @endif>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center space-x-3">
-                                            <div class="flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center" style="background:#E9F6EE">
-                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3c-3.866 0-7 3.134-7 7v3.5L3 16v1h18v-1l-2-2.5V10c0-3.866-3.134-7-7-7z" stroke="#279760" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 19a3 3 0 006 0" stroke="#279760" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <!-- Desktop Card View -->
+                <div class="hidden md:grid grid-cols-[200px,150px,200px,200px,200px,150px,150px,150px] gap-[60px,120px,60px,60px,60px,60px,60px,0px] items-center bg-white rounded-lg shadow-sm mx-5 mb-3 p-5">
+                    <!-- Service Number -->
+                    <div class="flex items-center gap-[10px]">
+                        <span class="text-sm font-medium text-[#1E2B28] leading-[1]">УСЛ-{{ $service->id }}</span>
                                             </div>
-                                            <div>
-                                                <div class="text-sm font-medium text-text-primary">УСЛ-{{ $service->id }}</div>
-                                                <div class="text-xs text-text-secondary">{{ $service->service_name ?? 'Название услуги' }}</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        @php
-                                            $statusName = $service->projectStatus->name ?? 'Неизвестен';
-                                            
-                                            $badgeClass = 'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium';
-                                            if (str_contains(strtolower($statusName), 'завершен')) {
-                                                $badgeClass .= ' bg-green-100 text-green-800';
-                                            } elseif (str_contains(strtolower($statusName), 'процесс') || str_contains(strtolower($statusName), 'работе')) {
-                                                $badgeClass .= ' bg-yellow-100 text-yellow-800';
-                                            } elseif (str_contains(strtolower($statusName), 'новый')) {
-                                                $badgeClass .= ' bg-blue-100 text-blue-800';
-                                            } elseif (str_contains(strtolower($statusName), 'отменен')) {
-                                                $badgeClass .= ' bg-red-100 text-red-800';
-                                            } else {
-                                                $badgeClass .= ' bg-neutral-100 text-neutral-800';
-                                            }
-                                        @endphp
-                                        
-                                        <span class="{{ $badgeClass }}">
-                                            <span class="w-1.5 h-1.5 bg-current rounded-full mr-1.5"></span>
-                                            {{ $statusName }}
+                    
+                    <!-- Status -->
+                    <div class="flex items-center gap-[6px]">
+                        @php
+                            $statusName = $service->projectStatus->name ?? 'Неизвестен';
+                            $statusClass = 'bg-gray-100 text-gray-800';
+                            
+                            if (str_contains(strtolower($statusName), 'завершен') || str_contains(strtolower($statusName), 'выполнен') || str_contains(strtolower($statusName), 'выполнено')) {
+                                $statusClass = 'bg-green-100 text-green-800';
+                            } elseif (str_contains(strtolower($statusName), 'ожидает') || str_contains(strtolower($statusName), 'процесс') || str_contains(strtolower($statusName), 'работе')) {
+                                $statusClass = 'bg-yellow-100 text-yellow-800';
+                            } elseif (str_contains(strtolower($statusName), 'новый')) {
+                                $statusClass = 'bg-blue-100 text-blue-800';
+                            } elseif (str_contains(strtolower($statusName), 'отменен')) {
+                                $statusClass = 'bg-red-100 text-red-800';
+                            }
+                        @endphp
+                        <div class="w-2 h-2 rounded-full {{ $statusClass }}"></div>
+                        <span class="text-[13px] font-medium text-[#1E2B28] leading-[1]">{{ $statusName }}</span>
+                    </div>
+                    
+                    <!-- Date -->
+                    <div class="flex items-center gap-[10px]">
+                        <span class="text-[13px] font-medium text-[#1E2B28] leading-[1]">
+                            {{ $service->created_at ? $service->created_at->format('d.m.Y') : 'N/A' }}
                                         </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm">
-                                            <div class="font-medium text-text-primary">
-                                                {{ $service->created_at ? $service->created_at->format('d.m.Y') : 'N/A' }}
                                             </div>
-                                            <div class="text-text-secondary">
-                                                {{ $service->created_at ? $service->created_at->format('H:i') : '' }}
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                    
+                    <!-- Executor -->
+                    <div class="flex items-center gap-[10px]">
                         @if($service->executor)
-                                            <div class="flex items-center space-x-3">
-                                                <div class="flex-shrink-0">
+                            <div class="w-[26px] h-[26px] rounded-full bg-neutral-300 overflow-hidden">
                                                     @if($service->executor->profile->photo_id)
                                                         <img src="/storage_/{{ $service->executor->profile->photo_path }}" 
                                                              alt="Executor" 
-                                                             class="w-8 h-8 rounded-full object-cover">
+                                         class="w-full h-full object-cover">
+                                @else
+                                    <div class="w-full h-full bg-neutral-200 flex items-center justify-center">
+                                        <svg class="h-3 w-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                        </svg>
+                                    </div>
+                                @endif
+                            </div>
+                            <span class="text-[13px] font-medium text-[#1E2B28] leading-[1]">
+                                {{ $service->executor->profile->first_name }} {{ $service->executor->profile->last_name }}
+                            </span>
                                                     @else
-                                                        <div class="w-8 h-8 bg-neutral-200 rounded-full flex items-center justify-center">
-                                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" stroke="#6F6F6F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 11a4 4 0 100-8 4 4 0 000 8z" stroke="#6F6F6F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            <div class="w-[26px] h-[26px] rounded-full bg-neutral-300 overflow-hidden">
+                                <div class="w-full h-full bg-neutral-200 flex items-center justify-center">
+                                    <svg class="h-3 w-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                    </svg>
+                                </div>
                                                         </div>
+                            <span class="text-[13px] font-medium text-[#1E2B28] leading-[1]">Не назначен</span>
                         @endif
                     </div>
-                                                <div class="min-w-0 flex-1">
-                                                    <p class="text-sm font-medium text-text-primary truncate">
-                                                        {{ $service->executor->profile->first_name }} {{ $service->executor->profile->last_name }}
-                                                    </p>
-                                                </div>
-                                            </div>
+                    
+                    <!-- Client -->
+                    <div class="flex items-center gap-[10px]">
+                        @php
+                            $clientName = '';
+                            if (isset($service->client)) {
+                                $profile = $service->client->profile ?? null;
+                                if ($profile) {
+                                    $clientName = $profile->user_name
+                                        ?: trim(($profile->first_name ?? '') . ' ' . ($profile->last_name ?? ''));
+                                }
+                                if (!$clientName) {
+                                    $clientName = $service->client->user_name
+                                        ?? ($service->client->email ?? '');
+                                }
+                            }
+                        @endphp
+                        <span class="text-[13px] font-medium text-[#1E2B28] leading-[1]">{{ $clientName !== '' ? $clientName : 'Не указан' }}</span>
+                    </div>
+                    
+                    <!-- Client Verification -->
+                    <div class="flex items-center gap-[6px]">
+                        @if($service->client_verification_status)
+                            <div class="w-2 h-2 rounded-full bg-green-100"></div>
+                            <span class="text-[13px] font-medium text-green-800 leading-[1]">Проверен</span>
                                         @else
-                                            <span class="text-sm text-text-secondary">Не назначен</span>
+                            <div class="w-2 h-2 rounded-full bg-yellow-100"></div>
+                            <span class="text-[13px] font-medium text-yellow-800 leading-[1]">Требует проверки</span>
                                         @endif
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                         @if($service->client)
-                                            <div>
-                                                <p class="text-sm font-medium text-text-primary">
-                                                    {{ $service->client->profile->user_name ?? 'Клиент' }}
-                                                </p>
-                                                <p class="text-xs text-text-secondary">
-                                                    {{ $service->client->email ?? '' }}
-                                                </p>
                                             </div>
+                    
+                    <!-- Prepayment -->
+                    <div class="flex items-center gap-[6px]">
+                        @if($service->prepayment_status)
+                            <div class="w-2 h-2 rounded-full bg-green-100"></div>
+                            <span class="text-[13px] font-medium text-green-800 leading-[1]">Оплачено</span>
                                         @else
-                                            <span class="text-sm text-text-secondary">Не указан</span>
+                            <div class="w-2 h-2 rounded-full bg-yellow-100"></div>
+                            <span class="text-[13px] font-medium text-yellow-800 leading-[1]">Ожидается</span>
                                         @endif
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        @if($service->client_verification_status)
-                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                                Проверен
-                                            </span>
+                    </div>
+                    
+                    <!-- Full Payment -->
+                    <div class="flex items-center justify-end gap-[6px] pr-5">
+                        @if($service->full_payment_status)
+                            <div class="w-2 h-2 rounded-full bg-green-100"></div>
+                            <span class="text-[13px] font-medium text-green-800 leading-[1]">Оплачено</span>
                         @else
-                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                                                Требует проверки
-                                            </span>
+                            <div class="w-2 h-2 rounded-full bg-red-100"></div>
+                            <span class="text-[13px] font-medium text-red-800 leading-[1]">Не оплачено</span>
                         @endif
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        @if($service->prepayment_status)
-                                            <div class="flex items-center space-x-2 text-green-700">
-                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                                <span class="text-sm">Оплачено</span>
-                                            </div>
-                                        @else
-                                            <div class="flex items-center space-x-2 text-yellow-700">
-                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 8v5l3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/></svg>
-                                                <span class="text-sm">Ожидается</span>
-                                            </div>
-                                        @endif
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        @if($service->full_payment_status)
-                                            <div class="flex items-center space-x-2 text-green-700">
-                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                                <span class="text-sm">Оплачено</span>
-                                            </div>
-                                        @else
-                                            <div class="flex items-center space-x-2 text-red-700">
-                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-                                                <span class="text-sm">Не оплачено</span>
-                                            </div>
-                                        @endif
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="flex items-center space-x-2">
-                                            @if(Route::has('Manager.services.show'))
-                                                <a href="{{ route('Manager.services.show', $service->id) }}" 
-                                                   class="text-text-primary hover:opacity-80" 
-                                                   title="Просмотр">
-                                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg>
-                                                </a>
-                                            @else
-                                                <span class="text-neutral-400" title="Просмотр недоступен">
-                                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg>
-                                                </span>
-                                            @endif
-                                            <a href="#" 
-                                               class="text-yellow-700 hover:text-yellow-900" 
-                                               title="Редактировать">
-                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 20h9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M16.5 3.5a2.121 2.121 0 113 3L7 19l-4 1 1-4 12.5-12.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                            </a>
-                                            <button class="text-green-700 hover:text-green-900" 
-                                                    title="Назначить исполнителя">
-                                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 11a4 4 0 100-8 4 4 0 000 8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 8v6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M23 11h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-                                            </button>
+                    </div>
                 </div>
-                                    </td>
-                                </tr>
+                
+                <!-- Mobile Card View -->
+                <div class="md:hidden bg-white rounded-lg shadow-sm mx-4 mb-3 p-4">
+                    <!-- Header with service number and status -->
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-[10px]">
+                            <span class="text-base font-medium text-[#1E2B28] leading-[1]">УСЛ-{{ $service->id }}</span>
+                        </div>
+                        <div class="flex items-center gap-[6px] flex-shrink-0">
+                        @php
+                            $statusName = $service->projectStatus->name ?? 'Неизвестен';
+                            $statusClass = 'bg-gray-100 text-gray-800';
+                            
+                            if (str_contains(strtolower($statusName), 'завершен') || str_contains(strtolower($statusName), 'выполнен') || str_contains(strtolower($statusName), 'выполнено')) {
+                                $statusClass = 'bg-green-100 text-green-800';
+                            } elseif (str_contains(strtolower($statusName), 'ожидает') || str_contains(strtolower($statusName), 'процесс') || str_contains(strtolower($statusName), 'работе')) {
+                                $statusClass = 'bg-yellow-100 text-yellow-800';
+                            } elseif (str_contains(strtolower($statusName), 'новый')) {
+                                $statusClass = 'bg-blue-100 text-blue-800';
+                            } elseif (str_contains(strtolower($statusName), 'отменен')) {
+                                $statusClass = 'bg-red-100 text-red-800';
+                            }
+                        @endphp
+                            <div class="w-2 h-2 rounded-full {{ $statusClass }}"></div>
+                            <span class="text-sm font-medium text-[#1E2B28] leading-[1]">{{ $statusName }}</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Details - Vertical Layout -->
+                    <div class="space-y-2">
+                        <div class="flex flex-col">
+                            <span class="text-xs font-medium text-gray-500 mb-1">Дата</span>
+                            <span class="text-sm font-medium text-[#1E2B28]">
+                                {{ $service->created_at ? $service->created_at->format('d.m.Y') : 'N/A' }}
+                            </span>
+                                            </div>
+                        <div class="flex flex-col">
+                            <span class="text-xs font-medium text-gray-500 mb-1">Исполнитель</span>
+                            <div class="flex items-center gap-[10px]">
+                                @if($service->executor)
+                                    <div class="w-[32px] h-[32px] rounded-full bg-neutral-300 overflow-hidden flex-shrink-0">
+                                        @if($service->executor->profile->photo_id)
+                                            <img src="/storage_/{{ $service->executor->profile->photo_path }}" 
+                                                 alt="Executor" 
+                                                 class="w-full h-full object-cover">
+                                        @else
+                                            <div class="w-full h-full bg-neutral-200 flex items-center justify-center">
+                                                <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                                </svg>
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <span class="text-sm font-medium text-[#1E2B28]">
+                                        {{ $service->executor->profile->first_name }} {{ $service->executor->profile->last_name }}
+                                    </span>
+                                @else
+                                    <div class="w-[32px] h-[32px] rounded-full bg-neutral-300 overflow-hidden flex-shrink-0">
+                                        <div class="w-full h-full bg-neutral-200 flex items-center justify-center">
+                                            <svg class="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                    <span class="text-sm font-medium text-[#1E2B28]">Не назначен</span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-xs font-medium text-gray-500 mb-1">Клиент</span>
+                            @php
+                                $clientName = '';
+                                if (isset($service->client)) {
+                                    $profile = $service->client->profile ?? null;
+                                    if ($profile) {
+                                        $clientName = $profile->user_name
+                                            ?: trim(($profile->first_name ?? '') . ' ' . ($profile->last_name ?? ''));
+                                    }
+                                    if (!$clientName) {
+                                        $clientName = $service->client->user_name
+                                            ?? ($service->client->email ?? '');
+                                    }
+                                }
+                            @endphp
+                            <span class="text-sm font-medium text-[#1E2B28]">{{ $clientName !== '' ? $clientName : 'Не указан' }}</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-xs font-medium text-gray-500 mb-1">Проверка клиента</span>
+                            <div class="flex items-center gap-[6px]">
+                                @if($service->client_verification_status)
+                                    <div class="w-2 h-2 rounded-full bg-green-100"></div>
+                                    <span class="text-sm font-medium text-green-800">Проверен</span>
+                                        @else
+                                    <div class="w-2 h-2 rounded-full bg-yellow-100"></div>
+                                    <span class="text-sm font-medium text-yellow-800">Требует проверки</span>
+                                @endif
+                            </div>
+                                            </div>
+                        <div class="flex flex-col">
+                            <span class="text-xs font-medium text-gray-500 mb-1">Предоплата</span>
+                            <div class="flex items-center gap-[6px]">
+                                @if($service->prepayment_status)
+                                    <div class="w-2 h-2 rounded-full bg-green-100"></div>
+                                    <span class="text-sm font-medium text-green-800">Оплачено</span>
+                                @else
+                                    <div class="w-2 h-2 rounded-full bg-yellow-100"></div>
+                                    <span class="text-sm font-medium text-yellow-800">Ожидается</span>
+                                        @endif
+                            </div>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-xs font-medium text-gray-500 mb-1">Полная оплата</span>
+                            <div class="flex items-center gap-[6px]">
+                                @if($service->full_payment_status)
+                                    <div class="w-2 h-2 rounded-full bg-green-100"></div>
+                                    <span class="text-sm font-medium text-green-800">Оплачено</span>
+                                            @else
+                                    <div class="w-2 h-2 rounded-full bg-red-100"></div>
+                                    <span class="text-sm font-medium text-red-800">Не оплачено</span>
+                                            @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
             @endforeach
         @else
-                            <tr>
-                                <td colspan="9" class="px-6 py-12 text-center">
+            <div class="text-center py-12">
                                     <div class="text-text-secondary">
                                         <svg class="mx-auto mb-4" width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3c-3.866 0-7 3.134-7 7v3.5L3 16v1h18v-1l-2-2.5V10c0-3.866-3.134-7-7-7z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 19a3 3 0 006 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                                         <p class="text-lg font-medium">Услуги не найдены</p>
                                         <p class="mt-1">Попробуйте изменить параметры фильтрации</p>
                                     </div>
-                                </td>
-                            </tr>
-                        @endif
-                    </tbody>
-                </table>
             </div>
-        </div>
+        @endif
     </div>
 
     <!-- Pagination -->
     @if(isset($serviceJournalList) && $serviceJournalList->hasPages())
-        <div class="flex items-center justify-between border-t border-border-light bg-white px-4 py-3 sm:px-6">
-            <div class="flex flex-1 justify-between sm:hidden">
-                @if($serviceJournalList->onFirstPage())
-                    <span class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-text-secondary bg-white border border-border-light cursor-default rounded-md">
-                        Предыдущая
-                    </span>
-                @else
-                    <a href="{{ $serviceJournalList->previousPageUrl() }}" class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-text-primary bg-white border border-border-light rounded-md hover:bg-neutral-50">
-                        Предыдущая
-                    </a>
-                @endif
-
-                @if($serviceJournalList->hasMorePages())
-                    <a href="{{ $serviceJournalList->nextPageUrl() }}" class="relative ml-3 inline-flex items-center px-4 py-2 text-sm font-medium text-text-primary bg-white border border-border-light rounded-md hover:bg-neutral-50">
-                        Следующая
-                    </a>
-                @else
-                    <span class="relative ml-3 inline-flex items-center px-4 py-2 text-sm font-medium text-text-secondary bg-white border border-border-light cursor-default rounded-md">
-                        Следующая
-                    </span>
-                @endif
-            </div>
-            <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-                <div>
-                    <p class="text-sm text-text-secondary">
-                        Показано
-                        <span class="font-medium">{{ $serviceJournalList->firstItem() }}</span>
-                        по
-                        <span class="font-medium">{{ $serviceJournalList->lastItem() }}</span>
-                        из
-                        <span class="font-medium">{{ $serviceJournalList->total() }}</span>
-                        результатов
-                    </p>
-                </div>
-                <div>
-                    {{ $serviceJournalList->links() }}
-                </div>
+        <div class="flex justify-center items-center mt-8">
+            <div class="flex items-center space-x-2">
+                @php
+                    $currentPage = $serviceJournalList->currentPage();
+                    $lastPage = $serviceJournalList->lastPage();
+                    $startPage = max(1, $currentPage - 2);
+                    $endPage = min($lastPage, $currentPage + 2);
+                @endphp
+                
+                @for($i = $startPage; $i <= $endPage; $i++)
+                    <button class="w-8 h-8 rounded-full text-sm font-medium {{ $i === $currentPage ? 'bg-[#279760] text-white' : 'bg-white text-text-primary border border-border-light hover:bg-bg-tertiary' }} transition-colors">
+                        {{ $i }}
+                    </button>
+                @endfor
             </div>
         </div>
     @endif
 </div>
-@endsection
-
-@section('js')
-    <script>
-function servicesManager() {
-    return {
-        filters: {
-            search: '',
-            executor: '',
-            payment_status: '',
-            date_range: ''
-        },
-
-        init() {
-            // Инициализация
-        },
-
-        applyFilters() {
-            // В реальном приложении здесь будет AJAX запрос
-            console.log('Applying filters:', this.filters);
-        },
-
-        resetFilters() {
-            this.filters = {
-                search: '',
-                executor: '',
-                payment_status: '',
-                date_range: ''
-            };
-            this.applyFilters();
-        }
-    };
-}
-    </script>
 @endsection

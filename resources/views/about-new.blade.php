@@ -6,6 +6,7 @@
 
 @push('css')
     <link href="{{asset('css/app_new.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('css/about-new-styles.css')}}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 @endpush
 
@@ -104,8 +105,8 @@
                     <div class="about-us__find__card__image">
                         <img src="{{asset('images/aboutactual.png')}}" alt="Актуальная информация">
                     </div>
+                    <p class="about-us__find__card__number">01</p>
                     <div class="about-us__find__card__content">
-                        <p class="about-us__find__card__number">01</p>
                         <h3 class="about-us__find__card__title">Актуальная информация</h3>
                         <p class="about-us__find__card__description">Больше не нужно тратить время на поиск разрозненной информации - на нашей платформе вся необходимая информация собрана в одном месте, тщательно проверена и всегда актуальна.</p>
                     </div>
@@ -114,8 +115,8 @@
                     <div class="about-us__find__card__image">
                     <img src="{{asset('images/aboutprof.png')}}" alt="Профессиональные услуги">
                     </div>
+                    <p class="about-us__find__card__number">02</p>
                     <div class="about-us__find__card__content">
-                        <p class="about-us__find__card__number">02</p>
                         <h3 class="about-us__find__card__title">Профессиональные услуги</h3>
                         <p class="about-us__find__card__description">Доверьте сбор документов и отслеживание заявок профессионалам нашей команде, которая оперативно подготовит все необходимые материалы.</p>
                     </div>
@@ -124,8 +125,8 @@
                     <div class="about-us__find__card__image">
                     <img src="{{asset('images/aboutserv.png')}}" alt="Сопутствующие сервисы">
                     </div>
+                    <p class="about-us__find__card__number">03</p>
                     <div class="about-us__find__card__content">
-                        <p class="about-us__find__card__number">03</p>
                         <h3 class="about-us__find__card__title">Сопутствующие сервисы</h3>
                         <p class="about-us__find__card__description">Воспользуйтесь дополнительными сервисами и специальными условиями от наших партнеров для полного соответствия лицензионным требованиям.</p>
                     </div>
@@ -134,8 +135,8 @@
                     <div class="about-us__find__card__image">
                     <img src="{{asset('images/aboutvideo.png')}}" alt="Видеоконтент от госорганов">
                     </div>
+                    <p class="about-us__find__card__number">04</p>
                     <div class="about-us__find__card__content">
-                        <p class="about-us__find__card__number">04</p>
                         <h3 class="about-us__find__card__title">Видеоконтент от госорганов</h3>
                         <p class="about-us__find__card__description">Смотрите разъясняющие видеоматериалы с пояснениями требований и условий для лицензирования непосредственно от представителей государственных органов.</p>
                     </div>

@@ -15,8 +15,8 @@
 				</div>
 			</div>
 
-			<!-- Заголовки колонок -->
-			<div class="grid grid-cols-[251px,167px,137px,1fr,100px,120px] items-center px-5 text-[12px] font-semibold text-[#6F6F6F] leading-[1]">
+		<!-- Заголовки колонок -->
+		<div class="grid grid-cols-[300px,250px,200px,1fr,150px,150px] items-center gap-[60px,60px,60px,120px,60px] text-[12px] font-semibold text-[#6F6F6F] leading-[1] mx-5 px-5">
 				<div>Имя исполнителя</div>
 				<div>E-mail</div>
 				<div>Телефон</div>
@@ -27,10 +27,11 @@
 		</div>
 
 		<!-- Список исполнителей -->
-		<div class="flex flex-col gap-[10px] px-5 pb-[30px]">
+		<div class="flex flex-col gap-[10px] pb-[30px]">
 			@foreach($executorList as $executor)
-				<div class="bg-white rounded-lg p-5 shadow-sm">
-					<div class="grid grid-cols-[251px,167px,137px,1fr,100px,120px] items-center gap-[30px] w-full">
+				<!-- Desktop Table View -->
+				<div class="bg-white rounded-lg shadow-sm mx-5 mb-3">
+					<div class="grid grid-cols-[300px,250px,200px,1fr,150px,150px] items-center gap-[60px,60px,60px,120px,60px] w-full p-5">
 						<!-- Имя -->
 						<div class="flex items-center gap-[10px]">
 							<div class="w-[26px] h-[26px] rounded-full bg-neutral-300 overflow-hidden">

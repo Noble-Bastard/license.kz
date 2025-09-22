@@ -52,12 +52,14 @@
 
     <!-- Variables CSS served from public -->
     <link href="{{ asset('css/variables.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-oqVuAfXRKap7fdgcCY5uykM6+R9GqQ8K/ux0ZtK6xZbVjQm0wW1G5GJbG4Gx7nQ8yYk6n4I1lqXfZCwZ0j+8Q==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
 
     <style>[x-cloak]{ display:none !important; }</style>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     @yield('head')
     @stack('head')
+    @stack('table-styles')
 </head>
 
 <body class="h-full font-sans antialiased" style="font-family: 'Manrope', sans-serif;">
@@ -66,14 +68,13 @@
         <header class="bg-bg-primary">
             <div class="w-full">
                 <!-- Top section with logo, navigation, and user controls -->
-                <div class="flex items-center justify-between gap-5 px-5 py-2" style="padding-left: 40px; padding-right: 40px;">
-                    <!-- Logo -->
-                    <div class="flex items-center gap-5">
+                <div class="flex items-center justify-between gap-3 px-3 py-2" style="padding-left: 10px; padding-right: 10px;">
+                    <!-- Left: Logo + Nav -->
+                    <div class="flex items-center gap-3">
                         <img src="{{ asset('images/green-logo.png') }}" alt="UpperLicense" class="h-[31px] w-auto" style="width:150px;height:31px;"/>
-                    </div>
 
-                    <!-- Navigation Pills (Sale Manager) -->
-                    <div class="flex items-center gap-[10px] px-4 py-4">
+                        <!-- Navigation Pills (Sale Manager) -->
+                        <nav class="flex items-center gap-[10px] px-2 py-2">
                         <!-- Услуги -->
                         <a href="{{ Route::has('sale_manager.service.list') ? route('sale_manager.service.list') : '#' }}"
                            class="flex items-center gap-[6px] px-[18px] py-[13px] rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] hover:bg-bg-tertiary transition-colors {{ request()->routeIs('sale_manager.service.*') ? 'bg-bg-tertiary' : '' }}">
@@ -110,13 +111,14 @@
                             </svg>
                             КП
                         </a>
+                        </nav>
                     </div>
 
                     <!-- Right side controls -->
-                    <div class="flex items-center gap-5 px-4 py-4">
+                    <div class="flex items-center gap-2 px-2 py-2">
                         <!-- Notifications -->
-                        <div class="relative">
-                            <button class="flex items-center justify-center w-[46px] h-[46px] rounded-[60px] border border-border-light hover:bg-bg-tertiary transition-colors">
+                        <div class="relative hidden md:flex">
+                            <button class="flex items-center justify-center w-[40px] h-[40px] rounded-[60px] border border-border-light hover:bg-bg-tertiary transition-colors">
                                 <!-- Bell icon -->
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M15 6.66667C15 5.34058 14.4732 4.06881 13.5355 3.13114C12.5979 2.19348 11.3261 1.66667 10 1.66667C8.67392 1.66667 7.40215 2.19348 6.46447 3.13114C5.52678 4.06881 5 5.34058 5 6.66667C5 12.5 2.5 14.1667 2.5 14.1667H17.5C17.5 14.1667 15 12.5 15 6.66667Z" stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>

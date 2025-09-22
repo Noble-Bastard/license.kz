@@ -3,93 +3,86 @@
 @section('content')
 <div class="px-6 lg:px-8">
     <!-- Page Header -->
-    <div class="mb-8">
+    <div class="mb-6">
         <div class="flex items-center justify-between">
-            <div>
-                <h1 class="text-2xl font-semibold text-text-primary">Услуги</h1>
-                <p class="mt-2 text-sm text-text-muted">Управление услугами и их статусами</p>
-            </div>
-            <div class="flex items-center space-x-3">
-                <button class="inline-flex items-center px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+            <h1 class="text-2xl font-semibold text-text-primary">Услуги</h1>
+            <div class="relative w-[320px]">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                    <svg class="h-5 w-5 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
-                    Добавить услугу
-                </button>
+                </div>
+                <input type="text" placeholder="Поиск по услугам..." class="block w-full pl-10 pr-3 py-3 border border-border-medium rounded-[20px] text-sm placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500">
             </div>
         </div>
     </div>
 
     <!-- Search and Filter Section -->
     <div class="mb-6">
-        <!-- Search Bar -->
-        <div class="mb-4">
-            <div class="relative max-w-md">
-                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <svg class="h-5 w-5 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                    </svg>
-                </div>
-                <input type="text" placeholder="Поиск по услугам..." class="block w-full pl-10 pr-3 py-2 border border-border-medium rounded-lg text-sm placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500">
-            </div>
-        </div>
         
         <!-- Status Filters -->
-        <div class="flex flex-wrap items-center gap-2 mb-4">
-            <span class="text-sm font-medium text-text-primary mr-2">Статус:</span>
-            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full text-white transition-colors" style="background-color: #279760;" onmouseover="this.style.backgroundColor='#1e7a50'" onmouseout="this.style.backgroundColor='#279760'">
-                Все
+        <div class="flex items-center gap-2 mb-4 overflow-x-auto whitespace-nowrap md:flex-wrap md:whitespace-normal scroll-smooth -mx-1 px-1" style="scrollbar-width: none; -ms-overflow-style: none;">
+            <style>
+                /* hide scrollbar in webkit */
+                .overflow-x-auto::-webkit-scrollbar{display:none}
+            </style>
+            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full text-white transition-colors flex-shrink-0 inline-block" style="background-color: #279760;" onmouseover="this.style.backgroundColor='#1e7a50'" onmouseout="this.style.backgroundColor='#279760'">
+                Все услуги
             </button>
-            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors">
+            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors flex-shrink-0 inline-block">
                 Создание
             </button>
-            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors">
+            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors flex-shrink-0 inline-block">
                 Оплата
             </button>
-            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors">
+            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors flex-shrink-0 inline-block">
                 Сбор данных
             </button>
-            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors">
+            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors flex-shrink-0 inline-block">
                 Проверка
             </button>
-            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors">
+            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors flex-shrink-0 inline-block">
                 Выполнение
             </button>
-            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors">
+            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors flex-shrink-0 inline-block">
                 Завершено
             </button>
-            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors">
+            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors flex-shrink-0 inline-block">
                 Предоплата
             </button>
-            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors">
+            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors flex-shrink-0 inline-block">
                 Отклонено
             </button>
         </div>
     </div>
 
-    <!-- Services Table -->
-    <div class="bg-white rounded-lg border border-border-medium shadow-sm overflow-hidden">
-        <div class="overflow-x-auto">
-            <table class="min-w-full divide-y divide-border-light">
-                <thead class="bg-neutral-50">
+    <!-- Services Table (desktop) -->
+    <div class="hidden md:block">
+        <div class="overflow-x-auto px-1">
+            <table class="min-w-full border-separate" style="border-spacing: 0 14px;">
+                <thead class="bg-white">
                     <tr>
-                        <th class="px-6 py-3 text-left text-xs font-semibold text-text-muted uppercase tracking-wider">ID</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold text-text-muted uppercase tracking-wider">Клиент</th>
                         <th class="px-6 py-3 text-left text-xs font-semibold text-text-muted uppercase tracking-wider">Услуга</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold text-text-muted uppercase tracking-wider">Сумма</th>
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-text-muted uppercase tracking-wider">ФИО/Название компании</th>
+                        
+                        <th class="px-6 py-3 text-left text-xs font-semibold text-text-muted uppercase tracking-wider">Стоимость</th>
                         <th class="px-6 py-3 text-left text-xs font-semibold text-text-muted uppercase tracking-wider">Срок</th>
                         <th class="px-6 py-3 text-left text-xs font-semibold text-text-muted uppercase tracking-wider">Статус</th>
                         <th class="px-6 py-3 text-left text-xs font-semibold text-text-muted uppercase tracking-wider">Менеджер</th>
                         <th class="px-6 py-3 text-left text-xs font-semibold text-text-muted uppercase tracking-wider">Действия</th>
                     </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-border-light">
+                <tbody>
                     @if(isset($serviceJournalList) && is_iterable($serviceJournalList) && $serviceJournalList->isNotEmpty())
                         @foreach($serviceJournalList as $service)
-                            <tr class="hover:bg-neutral-50 transition-colors">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-text-primary">
-                                    #{{ $service->id }}
+                            <tr class="bg-white shadow-sm transition-shadow hover:shadow rounded-lg">
+                                <!-- Услуга -->
+                                <td class="px-6 py-4 whitespace-nowrap rounded-l-lg">
+                                    <div class="text-sm text-text-primary">
+                                        {{ $service->service_no ?? 'N/A' }}
+                                    </div>
                                 </td>
+                                <!-- ФИО/Название компании -->
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center">
                                         <div class="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
@@ -100,11 +93,6 @@
                                         <div class="ml-3">
                                             <div class="text-sm font-medium text-text-primary">{{ $service->client_full_name ?? 'N/A' }}</div>
                                         </div>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-text-primary">
-                                        {{ $service->service_no ?? 'N/A' }}
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
@@ -120,20 +108,20 @@
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     @php
                                         $statusConfig = [
-                                            'active' => ['color' => 'bg-green-100 text-green-800', 'icon' => 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'],
-                                            'completed' => ['color' => 'bg-blue-100 text-blue-800', 'icon' => 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'],
-                                            'pending' => ['color' => 'bg-yellow-100 text-yellow-800', 'icon' => 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z'],
-                                            'cancelled' => ['color' => 'bg-red-100 text-red-800', 'icon' => 'M6 18L18 6M6 6l12 12'],
-                                            'execution' => ['color' => 'bg-blue-100 text-blue-800', 'icon' => 'M13 10V3L4 14h7v7l9-11h-7z'],
-                                            'client_check' => ['color' => 'bg-purple-100 text-purple-800', 'icon' => 'M15 12a3 3 0 11-6 0 3 3 0 016 0z'],
-                                            'prepayment' => ['color' => 'bg-orange-100 text-orange-800', 'icon' => 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1'],
-                                            'payment' => ['color' => 'bg-green-100 text-green-800', 'icon' => 'M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z'],
-                                            'rejected' => ['color' => 'bg-red-100 text-red-800', 'icon' => 'M6 18L18 6M6 6l12 12']
+                                            'active' => ['text' => 'text-green-700', 'border' => 'border-green-200', 'icon' => 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'],
+                                            'completed' => ['text' => 'text-blue-700', 'border' => 'border-blue-200', 'icon' => 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'],
+                                            'pending' => ['text' => 'text-yellow-700', 'border' => 'border-yellow-200', 'icon' => 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z'],
+                                            'cancelled' => ['text' => 'text-red-700', 'border' => 'border-red-200', 'icon' => 'M6 18L18 6M6 6l12 12'],
+                                            'execution' => ['text' => 'text-blue-700', 'border' => 'border-blue-200', 'icon' => 'M13 10V3L4 14h7v7l9-11h-7z'],
+                                            'client_check' => ['text' => 'text-purple-700', 'border' => 'border-purple-200', 'icon' => 'M15 12a3 3 0 11-6 0 3 3 0 016 0z'],
+                                            'prepayment' => ['text' => 'text-orange-700', 'border' => 'border-orange-200', 'icon' => 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1'],
+                                            'payment' => ['text' => 'text-green-700', 'border' => 'border-green-200', 'icon' => 'M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z'],
+                                            'rejected' => ['text' => 'text-red-700', 'border' => 'border-red-200', 'icon' => 'M6 18L18 6M6 6l12 12']
                                         ];
                                         $statusName = strtolower($service->service_status_name ?? 'pending');
                                         $statusConfig = $statusConfig[$statusName] ?? $statusConfig['pending'];
                                     @endphp
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium {{ $statusConfig['color'] }}">
+                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-white border border-border-light text-text-primary">
                                         <svg class="w-3 h-3 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $statusConfig['icon'] }}"></path>
                                         </svg>
@@ -152,7 +140,7 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium rounded-r-lg">
                                     <div class="flex items-center space-x-2">
                                         <button class="text-green-600 hover:text-green-700 transition-colors" title="Просмотр">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -196,6 +184,72 @@
                 </tbody>
             </table>
         </div>
+    </div>
+
+    <!-- Services List (mobile cards) -->
+    <div class="md:hidden space-y-3">
+        @if(isset($serviceJournalList) && is_iterable($serviceJournalList) && $serviceJournalList->isNotEmpty())
+            @foreach($serviceJournalList as $service)
+                <div class="bg-white rounded-lg shadow-sm px-4 py-3 mx-1">
+                    <!-- Top: Услуга + Стоимость -->
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="text-sm font-medium text-text-primary">УСЛ-{{ $service->service_no ?? 'N/A' }}</div>
+                        <div class="text-sm font-semibold text-text-primary">{{ number_format($service->amount ?? 0, 0, ',', ' ') }} ₸</div>
+                    </div>
+                    <!-- Клиент -->
+                    <div class="mb-2">
+                        <div class="text-[11px] text-text-muted mb-1">ФИО/Название компании</div>
+                        <div class="flex items-center">
+                            <div class="w-7 h-7 bg-primary-100 rounded-full flex items-center justify-center">
+                                <span class="text-xs font-medium text-green-600">{{ substr($service->client_full_name ?? 'N/A', 0, 1) }}</span>
+                            </div>
+                            <div class="ml-2 text-sm text-text-primary">{{ $service->client_full_name ?? 'N/A' }}</div>
+                        </div>
+                    </div>
+                    <!-- Срок и Статус -->
+                    <div class="flex items-center justify-between mb-2">
+                        <div>
+                            <div class="text-[11px] text-text-muted mb-1">Срок</div>
+                            <div class="text-sm text-text-primary">{{ $service->deadline ? \Carbon\Carbon::parse($service->deadline)->format('d.m.Y') : 'N/A' }}</div>
+                        </div>
+                        <div>
+                            <div class="text-[11px] text-text-muted mb-1">Статус</div>
+                            @php
+                                $statusName = strtolower($service->service_status_name ?? 'pending');
+                                $textClass = 'text-text-primary';
+                                if (str_contains($statusName,'выполн')||str_contains($statusName,'заверш')) $textClass='text-green-700';
+                                elseif (str_contains($statusName,'ожид')||str_contains($statusName,'pending')) $textClass='text-yellow-700';
+                                elseif (str_contains($statusName,'откл')||str_contains($statusName,'cancel')) $textClass='text-red-700';
+                                elseif (str_contains($statusName,'провер')||str_contains($statusName,'client')) $textClass='text-purple-700';
+                            @endphp
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-white border border-border-light {{ $textClass }}">{{ $service->service_status_name ?? 'N/A' }}</span>
+                        </div>
+                    </div>
+                    <!-- Менеджер и Действия -->
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center">
+                                <span class="text-[10px] font-medium text-gray-600">{{ substr($service->manager_name ?? 'N/A', 0, 1) }}</span>
+                            </div>
+                            <div class="ml-2 text-sm text-text-primary">{{ $service->manager_name ?? 'N/A' }}</div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button class="text-green-600" title="Просмотр">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                            </button>
+                            <button class="text-text-muted" title="Редактировать">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 113 3L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                            </button>
+                            <button class="text-red-600" title="Удалить">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        @else
+            <div class="bg-white rounded-lg shadow-sm px-4 py-6 text-center text-sm text-text-secondary">Нет услуг</div>
+        @endif
     </div>
 
     <!-- Pagination -->

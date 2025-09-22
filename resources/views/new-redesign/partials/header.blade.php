@@ -55,12 +55,10 @@
         @auth
             <div class="dropdown">
                 <button class="header-redesigned__login-btn dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    <div class="login-icon">
-                        <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect x="5.83" y="1.75" width="2.33" height="2.33" rx="0.4" stroke="#191E1D" stroke-width="1.2" transform="matrix(-1, 0, 0, 1, 0, 0)"/>
-                            <path d="M2.33 5.54H5.83" stroke="#191E1D" stroke-width="1.2" transform="matrix(-1, 0, 0, 1, 0, 0)"/>
-                        </svg>
-                    </div>
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 7C8.933 7 10.5 5.433 10.5 3.5C10.5 1.567 8.933 0 7 0C5.067 0 3.5 1.567 3.5 3.5C3.5 5.433 5.067 7 7 7Z" stroke="#191E1D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M13.125 14C13.125 11.186 10.439 8.5 7 8.5C3.561 8.5 0.875 11.186 0.875 14" stroke="#191E1D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
                     <span class="login-text">{{ Auth::user()->name }}</span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="userDropdown">
@@ -77,12 +75,11 @@
             </div>
         @else
             <a href="{{ route('login') }}" class="header-redesigned__login-btn">
-                <div class="login-icon">
-                    <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="5.83" y="1.75" width="2.33" height="2.33" rx="0.4" stroke="#191E1D" stroke-width="1.2"/>
-                        <path d="M2.33 5.54H5.83" stroke="#191E1D" stroke-width="1.2"/>
-                    </svg>
-                </div>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M5.25 12.25H2.625C2.42609 12.25 2.23532 12.171 2.09467 12.0303C1.95402 11.8897 1.875 11.6989 1.875 11.5V2.5C1.875 2.30109 1.95402 2.11032 2.09467 1.96967C2.23532 1.82902 2.42609 1.75 2.625 1.75H5.25" stroke="#191E1D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M9.1875 9.625L12.125 7L9.1875 4.375" stroke="#191E1D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M12.125 7H5.25" stroke="#191E1D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
                 <span class="login-text">{{ __('Войти') }}</span>
             </a>
         @endauth
