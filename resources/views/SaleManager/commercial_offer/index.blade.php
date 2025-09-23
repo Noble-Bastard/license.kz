@@ -3,13 +3,13 @@
 @section('title', 'Коммерческие предложения')
 
 @section('content')
-<div class="px-5 py-6" style="padding-left: 40px; padding-right: 40px;">
+<div class="py-6 px-4 md:px-10">
     <!-- Local header (ensures logo and nav visible) -->
-    <div class="flex items-center justify-between gap-3 mb-4">
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
         <!-- Left: Logo + Nav -->
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-3 w-full md:w-auto">
             <img src="{{ asset('images/green-logo.png') }}" alt="UpperLicense" class="h-[31px] w-auto" style="width:150px;height:31px;"/>
-            <nav class="flex items-center gap-[10px]">
+            <nav class="flex items-center gap-[10px] overflow-x-auto md:overflow-visible -mx-4 px-4 md:mx-0 md:px-0">
                 <a href="{{ route('sale_manager.service.list') }}" class="flex items-center gap-[6px] px-[12px] py-[8px] rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] hover:bg-bg-tertiary {{ request()->routeIs('sale_manager.service.*') ? 'bg-bg-tertiary' : '' }}">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M17.5 5H6.66667" stroke="#C2BFBF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -40,7 +40,7 @@
             </nav>
         </div>
         <!-- Right: Logout -->
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2 ml-auto md:ml-0">
             <form id="logout-form-sales" action="{{ route('logout') }}" method="POST" class="hidden">@csrf</form>
             <button type="submit" form="logout-form-sales"
                     class="flex items-center gap-[6px] px-4 py-4 rounded-[60px] border border-border-light text-text-primary text-sm font-medium leading-[1] hover:bg-bg-tertiary">
@@ -54,115 +54,177 @@
         </div>
     </div>
     <div class="">
-        <div class="flex items-center justify-between mb-6">
-            <h1 class="text-2xl font-bold text-text-primary">@lang('messages.sale_manager.commercial_offer.title')</h1>
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+            <div>
+                <h1 class="text-[24px] leading-[1.2] font-semibold text-text-primary">Коммерческие предложения</h1>
+            </div>
             <div class="flex items-center gap-3">
-                @component('components.modern.input', [
-                    'type' => 'text',
-                    'name' => 'search',
-                    'placeholder' => 'Поиск по имени',
-                    'icon' => 'fas fa-search',
-                    'attributes' => 'x-model="filters.search" @input.debounce.300ms="applyFilters()"'
-                ])
-                @endcomponent
-                @component('components.modern.button', [
-                    'variant' => 'primary',
-                    'icon' => 'fas fa-plus',
-                    'attributes' => 'onclick="openModal(\'create-commercial-offer\')" type="button"',
-                    'content' => 'Создать КП'
-                ])
-                @endcomponent
+                <!-- Search -->
+                <div class="relative w-full md:max-w-[360px]">
+                    <input type="text" placeholder="Поиск по имени"
+                           class="w-full h-[48px] rounded-[14px] border border-border-light bg-white pl-12 pr-4 text-sm text-text-primary placeholder-text-muted outline-none focus:ring-2 focus:ring-primary/20"/>
+                    <svg class="absolute left-4 top-1/2 -translate-y-1/2" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9.58333 16.25C13.0651 16.25 15.9167 13.3984 15.9167 9.91667C15.9167 6.43492 13.0651 3.58333 9.58333 3.58333C6.10158 3.58333 3.25 6.43492 3.25 9.91667C3.25 13.3984 6.10158 16.25 9.58333 16.25Z" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M16.75 17.0833L14.4167 14.75" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <!-- Create KP Button -->
+                <a href="#" onclick="openModal('create-commercial-offer')" class="inline-flex items-center gap-2 px-5 py-3 rounded-[14px] bg-primary text-white text-sm font-medium hover:bg-primary-700 transition">
+                    <i class="fas fa-plus text-sm"></i>
+                    Создать КП
+                </a>
             </div>
         </div>
     </div>
     
     <div x-data="commercialOffers()" x-init="loadOffers()">
 
+        <!-- Status pills -->
+        <div class="flex items-center gap-2 mb-5 overflow-x-auto md:flex-wrap md:overflow-x-visible">
+            <button class="status-filter-btn px-[14px] py-[8px] rounded-[60px] text-xs font-medium transition flex-shrink-0 bg-[#279760] text-white">
+                Все КП
+            </button>
+            <button class="status-filter-btn px-[14px] py-[8px] rounded-[60px] text-xs font-medium transition flex-shrink-0 text-text-primary hover:bg-bg-tertiary">
+                Новые
+            </button>
+            <button class="status-filter-btn px-[14px] py-[8px] rounded-[60px] text-xs font-medium transition flex-shrink-0 text-text-primary hover:bg-bg-tertiary">
+                В работе
+            </button>
+            <button class="status-filter-btn px-[14px] py-[8px] rounded-[60px] text-xs font-medium transition flex-shrink-0 text-text-primary hover:bg-bg-tertiary">
+                Отправлены
+            </button>
+            <button class="status-filter-btn px-[14px] py-[8px] rounded-[60px] text-xs font-medium transition flex-shrink-0 text-text-primary hover:bg-bg-tertiary">
+                Приняты
+            </button>
+            <button class="status-filter-btn px-[14px] py-[8px] rounded-[60px] text-xs font-medium transition flex-shrink-0 text-text-primary hover:bg-bg-tertiary">
+                Отклонены
+            </button>
+        </div>
+
         <!-- Table -->
 
-        <!-- Commercial Offers Table (styled like potential_client) -->
-        <div class="bg-white rounded-[14px] border border-border-light overflow-hidden">
-            <table class="min-w-full">
-                <thead class="bg-bg-secondary">
-                    <tr>
-                        <th class="text-left text-xs font-medium text-text-secondary px-6 py-3">Дата</th>
-                        <th class="text-left text-xs font-medium text-text-secondary px-6 py-3">Имя</th>
-                        <th class="text-left text-xs font-medium text-text-secondary px-6 py-3">Email</th>
-                        <th class="text-left text-xs font-medium text-text-secondary px-6 py-3">Телефон</th>
-                        <th class="text-left text-xs font-medium text-text-secondary px-6 py-3">Тип</th>
-                        <th class="text-left text-xs font-medium text-text-secondary px-6 py-3">Лицензии</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-border-light">
-                    @forelse($commercialOfferList as $commercialOffer)
-                        <tr class="hover:bg-bg-tertiary/30">
-                            <td class="px-6 py-4 text-sm text-text-primary">
-                                <div class="text-sm">
-                                    <div class="font-medium text-text-primary">{{ \App\Data\Helper\Assistant::formatDate($commercialOffer->created_at) }}</div>
-                                    <div class="text-text-secondary text-xs">{{ $commercialOffer->created_at->format('H:i') }}</div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 text-sm text-text-primary">
-                                <div class="flex items-center space-x-3">
-                                    <div class="flex-shrink-0 w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
-                                        <i class="fas fa-user text-primary-600 text-sm"></i>
-                                    </div>
-                                    <div>
-                                        <div class="text-sm font-medium text-text-primary">{{ $commercialOffer->name }}</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 text-sm text-text-primary">
-                                <a href="mailto:{{ $commercialOffer->email }}" class="text-primary hover:underline">{{ $commercialOffer->email }}</a>
-                            </td>
-                            <td class="px-6 py-4 text-sm text-text-primary">
-                                <a href="tel:{{ $commercialOffer->phone }}" class="text-primary hover:underline">{{ $commercialOffer->phone }}</a>
-                            </td>
-                            <td class="px-6 py-4 text-sm text-text-primary">
-                                @php
-                                    $typeName = $commercialOffer->type->name ?? 'Неизвестно';
-                                    $badgeVariant ='default';
-                                    if (str_contains(strtolower($typeName), 'кп')) {
-                                        $badgeVariant = 'primary';
-                                    } elseif (str_contains(strtolower($typeName), 'требования')) {
-                                        $badgeVariant = 'warning';
-                                    } elseif (str_contains(strtolower($typeName), 'консультация')) {
-                                        $badgeVariant = 'info';
-                                    }
-                                @endphp
-                                @component('components.modern.badge', ['variant' => $badgeVariant, 'content' => $typeName])
-                            </td>
-                            <td class="px-6 py-4 text-sm text-text-primary">
-                                @php
-                                    $servicesText = collect($commercialOffer->serviceList ?? [])->map(function($s){
-                                        return optional($s->service)->name;
-                                    })->filter()->implode(', ');
-                                @endphp
-                                <div class="flex items-center justify-between">
-                                    <div class="text-sm text-text-primary line-clamp-1" title="{{ $servicesText }}">{{ $servicesText }}</div>
-                                    @if(strlen($servicesText) > 50)
-                                        <button onclick="toggleAccordion({{ $loop->index }})" class="ml-2 flex-shrink-0 text-text-muted hover:text-text-primary">
-                                            <i class="fas fa-chevron-down" id="accordion-icon-{{ $loop->index }}"></i>
-                                        </button>
-                                    @endif
-                                </div>
-                            </td>
-                        </tr>
-                        @if(strlen($servicesText) > 50)
-                            <tr id="accordion-row-{{ $loop->index }}" style="display: none;">
-                                <td colspan="6" class="px-6 py-4 bg-bg-secondary border-b border-border-light last:border-b-0">
-                                    <div class="text-sm text-text-primary whitespace-pre-line">{{ $servicesText }}</div>
-                                </td>
-                            </tr>
-                        @endif
-                    @empty
-                        <tr>
-                            <td colspan="6" class="px-6 py-8 text-center text-sm text-text-secondary">Нет записей для отображения.</td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
+        <!-- Desktop Headers -->
+        <div class="hidden md:grid grid-cols-[200px,200px,200px,200px,200px,150px] gap-[60px,60px,60px,60px,60px,0px] items-center bg-white mx-5 px-5 py-3 rounded-t-lg">
+            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Дата</div>
+            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Имя</div>
+            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Email</div>
+            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Телефон</div>
+            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Тип</div>
+            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider text-right pr-5">Лицензии</div>
         </div>
+
+        @if(isset($commercialOfferList) && $commercialOfferList->isNotEmpty())
+            @foreach($commercialOfferList as $commercialOffer)
+                <!-- Desktop Card View -->
+                <div class="hidden md:grid grid-cols-[200px,200px,200px,200px,200px,150px] gap-[60px,60px,60px,60px,60px,0px] items-center bg-white rounded-lg shadow-sm mx-5 mb-3 p-5">
+                    <!-- Date -->
+                    <div class="flex items-center gap-[10px]">
+                        <span class="text-[13px] font-medium text-[#1E2B28] leading-[1]">{{ \App\Data\Helper\Assistant::formatDate($commercialOffer->created_at) }}</span>
+                    </div>
+                    
+                    <!-- Name -->
+                    <div class="flex items-center gap-[10px]">
+                        <span class="text-[13px] font-medium text-[#1E2B28] leading-[1]">{{ $commercialOffer->name }}</span>
+                    </div>
+                    
+                    <!-- Email -->
+                    <div class="flex items-center gap-[10px]">
+                        <a href="mailto:{{ $commercialOffer->email }}" class="text-[13px] font-medium text-[#1E2B28] leading-[1] hover:underline">{{ $commercialOffer->email }}</a>
+                    </div>
+                    
+                    <!-- Phone -->
+                    <div class="flex items-center gap-[10px]">
+                        <a href="tel:{{ $commercialOffer->phone }}" class="text-[13px] font-medium text-[#1E2B28] leading-[1] hover:underline">{{ $commercialOffer->phone }}</a>
+                    </div>
+                    
+                    <!-- Type -->
+                    <div class="flex items-center gap-[10px]">
+                        @php
+                            $typeName = $commercialOffer->type->name ?? 'Неизвестно';
+                            $badgeVariant ='default';
+                            if (str_contains(strtolower($typeName), 'кп')) {
+                                $badgeVariant = 'primary';
+                            } elseif (str_contains(strtolower($typeName), 'требования')) {
+                                $badgeVariant = 'warning';
+                            } elseif (str_contains(strtolower($typeName), 'консультация')) {
+                                $badgeVariant = 'info';
+                            }
+                        @endphp
+                        @component('components.modern.badge', ['variant' => $badgeVariant, 'content' => $typeName])
+                                </div>
+                    
+                    <!-- Services -->
+                    <div class="flex items-center justify-end gap-[6px] pr-5">
+                        @php
+                            $servicesText = collect($commercialOffer->serviceList ?? [])->map(function($s){
+                                return optional($s->service)->name;
+                            })->filter()->implode(', ');
+                        @endphp
+                        <span class="text-[13px] font-medium text-[#1E2B28] leading-[1] truncate" title="{{ $servicesText }}">{{ \Illuminate\Support\Str::limit($servicesText, 30) }}</span>
+                                </div>
+                            </div>
+                
+                <!-- Mobile Card View -->
+                <div class="md:hidden bg-white rounded-lg shadow-sm mx-4 mb-3 p-4">
+                    <!-- Header with name and date -->
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-[10px]">
+                            <span class="text-base font-medium text-[#1E2B28] leading-[1]">{{ $commercialOffer->name }}</span>
+                                </div>
+                        <div class="flex items-center gap-[6px] flex-shrink-0">
+                            <span class="text-sm font-medium text-[#1E2B28] leading-[1]">{{ \App\Data\Helper\Assistant::formatDate($commercialOffer->created_at) }}</span>
+                                </div>
+                            </div>
+                    
+                    <!-- Details - Vertical Layout -->
+                    <div class="space-y-2">
+                        <div class="flex flex-col">
+                            <span class="text-xs font-medium text-gray-500 mb-1">Email</span>
+                            <a href="mailto:{{ $commercialOffer->email }}" class="text-sm font-medium text-[#1E2B28] hover:underline">{{ $commercialOffer->email }}</a>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-xs font-medium text-gray-500 mb-1">Телефон</span>
+                            <a href="tel:{{ $commercialOffer->phone }}" class="text-sm font-medium text-[#1E2B28] hover:underline">{{ $commercialOffer->phone }}</a>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-xs font-medium text-gray-500 mb-1">Тип</span>
+                            @php
+                                $typeName = $commercialOffer->type->name ?? 'Неизвестно';
+                                $badgeVariant ='default';
+                                if (str_contains(strtolower($typeName), 'кп')) {
+                                    $badgeVariant = 'primary';
+                                } elseif (str_contains(strtolower($typeName), 'требования')) {
+                                    $badgeVariant = 'warning';
+                                } elseif (str_contains(strtolower($typeName), 'консультация')) {
+                                    $badgeVariant = 'info';
+                                }
+                            @endphp
+                            @component('components.modern.badge', ['variant' => $badgeVariant, 'content' => $typeName])
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-xs font-medium text-gray-500 mb-1">Лицензии</span>
+                            @php
+                                $servicesText = collect($commercialOffer->serviceList ?? [])->map(function($s){
+                                    return optional($s->service)->name;
+                                })->filter()->implode(', ');
+                            @endphp
+                            <span class="text-sm font-medium text-[#1E2B28] truncate" title="{{ $servicesText }}">{{ \Illuminate\Support\Str::limit($servicesText, 50) }}</span>
+                        </div>
+                            </div>
+                                </div>
+            @endforeach
+        @else
+            <div class="text-center py-12">
+                            <div class="text-text-secondary">
+                    <svg class="mx-auto mb-4" width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 3c-3.866 0-7 3.134-7 7v3.5L3 16v1h18v-1l-2-2.5V10c0-3.866-3.134-7-7-7z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M9 19a3 3 0 006 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <p class="text-lg font-medium">КП не найдены</p>
+                    <p class="mt-1">Попробуйте изменить параметры фильтрации</p>
+                                </div>
+                            </div>
+        @endif
 
         <!-- Pagination -->
         @if($commercialOfferList->hasPages())

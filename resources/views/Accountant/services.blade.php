@@ -33,7 +33,10 @@
                 Создание
             </button>
             <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors flex-shrink-0 inline-block">
-                Оплата
+                Проверка клиента
+            </button>
+            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors flex-shrink-0 inline-block">
+                Предоплата
             </button>
             <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors flex-shrink-0 inline-block">
                 Сбор данных
@@ -42,16 +45,19 @@
                 Проверка
             </button>
             <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors flex-shrink-0 inline-block">
-                Выполнение
+                Выполнение услуги
             </button>
             <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors flex-shrink-0 inline-block">
-                Завершено
+                Оплата
             </button>
             <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors flex-shrink-0 inline-block">
-                Предоплата
+                Выполнена
             </button>
             <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors flex-shrink-0 inline-block">
-                Отклонено
+                Выставлен счет
+            </button>
+            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors flex-shrink-0 inline-block">
+                Отклонена
             </button>
         </div>
     </div>

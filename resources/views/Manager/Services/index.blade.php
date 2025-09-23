@@ -20,7 +20,7 @@
     </div>
 
     <div class="px-5" style="padding-left:20px;padding-right:20px;">
-        <div class="flex items-center gap-[10px] mb-[16px] md:flex-wrap overflow-x-auto md:overflow-x-visible">
+        <div class="flex items-center gap-[10px] mb-[16px] overflow-x-auto md:flex-wrap md:overflow-x-visible">
             @php $active = request('status_id'); @endphp
             <a href="{{ route('manager.services.list') }}" class="px-[14px] py-[10px] rounded-[60px] text-[12px] font-medium flex-shrink-0 {{ !$active ? 'bg-[#279760] text-white' : 'bg-white text-text-primary border border-border-light' }}">Все услуги</a>
             @if(isset($statusList))
@@ -167,39 +167,38 @@
                 
                 <!-- Mobile Card View -->
                 <div class="md:hidden bg-white rounded-lg shadow-sm mx-4 mb-3 p-4">
-                    <!-- Header with service number and status -->
+                    <!-- Header with service number and date (right) -->
                     <div class="flex items-center justify-between mb-4">
                         <div class="flex items-center gap-[10px]">
                             <span class="text-base font-medium text-[#1E2B28] leading-[1]">УСЛ-{{ $service->id }}</span>
                         </div>
                         <div class="flex items-center gap-[6px] flex-shrink-0">
-                        @php
-                            $statusName = $service->projectStatus->name ?? 'Неизвестен';
-                            $statusClass = 'bg-gray-100 text-gray-800';
-                            
-                            if (str_contains(strtolower($statusName), 'завершен') || str_contains(strtolower($statusName), 'выполнен') || str_contains(strtolower($statusName), 'выполнено')) {
-                                $statusClass = 'bg-green-100 text-green-800';
-                            } elseif (str_contains(strtolower($statusName), 'ожидает') || str_contains(strtolower($statusName), 'процесс') || str_contains(strtolower($statusName), 'работе')) {
-                                $statusClass = 'bg-yellow-100 text-yellow-800';
-                            } elseif (str_contains(strtolower($statusName), 'новый')) {
-                                $statusClass = 'bg-blue-100 text-blue-800';
-                            } elseif (str_contains(strtolower($statusName), 'отменен')) {
-                                $statusClass = 'bg-red-100 text-red-800';
-                            }
-                        @endphp
-                            <div class="w-2 h-2 rounded-full {{ $statusClass }}"></div>
-                            <span class="text-sm font-medium text-[#1E2B28] leading-[1]">{{ $statusName }}</span>
+                            <span class="text-sm font-medium text-[#1E2B28] leading-[1]">{{ $service->created_at ? $service->created_at->format('d.m.Y') : 'N/A' }}</span>
                         </div>
                     </div>
                     
                     <!-- Details - Vertical Layout -->
                     <div class="space-y-2">
                         <div class="flex flex-col">
-                            <span class="text-xs font-medium text-gray-500 mb-1">Дата</span>
-                            <span class="text-sm font-medium text-[#1E2B28]">
-                                {{ $service->created_at ? $service->created_at->format('d.m.Y') : 'N/A' }}
-                            </span>
-                                            </div>
+                            <span class="text-xs font-medium text-gray-500 mb-1">Статус</span>
+                            @php
+                                $statusName = $service->projectStatus->name ?? 'Неизвестен';
+                                $statusClass = 'bg-gray-100 text-gray-800';
+                                if (str_contains(strtolower($statusName), 'завершен') || str_contains(strtolower($statusName), 'выполнен') || str_contains(strtolower($statusName), 'выполнено')) {
+                                    $statusClass = 'bg-green-100 text-green-800';
+                                } elseif (str_contains(strtolower($statusName), 'ожидает') || str_contains(strtolower($statusName), 'процесс') || str_contains(strtolower($statusName), 'работе')) {
+                                    $statusClass = 'bg-yellow-100 text-yellow-800';
+                                } elseif (str_contains(strtolower($statusName), 'новый')) {
+                                    $statusClass = 'bg-blue-100 text-blue-800';
+                                } elseif (str_contains(strtolower($statusName), 'отменен')) {
+                                    $statusClass = 'bg-red-100 text-red-800';
+                                }
+                            @endphp
+                            <div class="flex items-center gap-[6px]">
+                                <div class="w-2 h-2 rounded-full {{ $statusClass }}"></div>
+                                <span class="text-sm font-medium text-[#1E2B28]">{{ $statusName }}</span>
+                            </div>
+                        </div>
                         <div class="flex flex-col">
                             <span class="text-xs font-medium text-gray-500 mb-1">Исполнитель</span>
                             <div class="flex items-center gap-[10px]">
@@ -250,28 +249,30 @@
                             @endphp
                             <span class="text-sm font-medium text-[#1E2B28]">{{ $clientName !== '' ? $clientName : 'Не указан' }}</span>
                         </div>
-                        <div class="flex flex-col">
-                            <span class="text-xs font-medium text-gray-500 mb-1">Проверка клиента</span>
-                            <div class="flex items-center gap-[6px]">
-                                @if($service->client_verification_status)
-                                    <div class="w-2 h-2 rounded-full bg-green-100"></div>
-                                    <span class="text-sm font-medium text-green-800">Проверен</span>
-                                        @else
-                                    <div class="w-2 h-2 rounded-full bg-yellow-100"></div>
-                                    <span class="text-sm font-medium text-yellow-800">Требует проверки</span>
-                                @endif
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="flex flex-col">
+                                <span class="text-xs font-medium text-gray-500 mb-1">Проверка клиента</span>
+                                <div class="flex items-center gap-[6px]">
+                                    @if($service->client_verification_status)
+                                        <div class="w-2 h-2 rounded-full bg-green-100"></div>
+                                        <span class="text-sm font-medium text-green-800">Проверен</span>
+                                    @else
+                                        <div class="w-2 h-2 rounded-full bg-yellow-100"></div>
+                                        <span class="text-sm font-medium text-yellow-800">Требует проверки</span>
+                                    @endif
+                                </div>
                             </div>
-                                            </div>
-                        <div class="flex flex-col">
-                            <span class="text-xs font-medium text-gray-500 mb-1">Предоплата</span>
-                            <div class="flex items-center gap-[6px]">
-                                @if($service->prepayment_status)
-                                    <div class="w-2 h-2 rounded-full bg-green-100"></div>
-                                    <span class="text-sm font-medium text-green-800">Оплачено</span>
-                                @else
-                                    <div class="w-2 h-2 rounded-full bg-yellow-100"></div>
-                                    <span class="text-sm font-medium text-yellow-800">Ожидается</span>
-                                        @endif
+                            <div class="flex flex-col">
+                                <span class="text-xs font-medium text-gray-500 mb-1">Предоплата</span>
+                                <div class="flex items-center gap-[6px]">
+                                    @if($service->prepayment_status)
+                                        <div class="w-2 h-2 rounded-full bg-green-100"></div>
+                                        <span class="text-sm font-medium text-green-800">Оплачено</span>
+                                    @else
+                                        <div class="w-2 h-2 rounded-full bg-yellow-100"></div>
+                                        <span class="text-sm font-medium text-yellow-800">Ожидается</span>
+                                    @endif
+                                </div>
                             </div>
                         </div>
                         <div class="flex flex-col">

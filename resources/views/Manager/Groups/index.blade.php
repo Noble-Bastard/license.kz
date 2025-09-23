@@ -3,18 +3,20 @@
 @section('content')
 <div class="w-full">
 	<div class="px-5 py-5" style="padding-left:20px;padding-right:20px;">
-		<div class="flex items-center justify-between gap-[10px] mb-[30px]">
+			<div class="flex items-center justify-between gap-[10px] mb-[30px]">
 			<h1 class="text-[39px] leading-[1] font-normal tracking-[-0.02em] text-text-primary">Группы</h1>
-			<div class="flex items-center gap-3">
-				<div class="flex items-center gap-[11px] px-[16px] pr-[22px] py-[11px] h-[46px] border border-border-light rounded-[60px] bg-white">
-					<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.8333 15.8333L13.2083 13.2083" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.33333 15.8333C12.0152 15.8333 15 12.8486 15 9.16667C15 5.48477 12.0152 2.5 8.33333 2.5C4.65143 2.5 1.66667 5.48477 1.66667 9.16667C1.66667 12.8486 4.65143 15.8333 8.33333 15.8333Z" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-					<input type="text" placeholder="Поиск по названию группы" class="bg-transparent border-none outline-none text-[12px] font-medium leading-[1] text-text-primary placeholder:text-text-primary" />
+				<div class="flex items-center gap-3">
+					<div class="flex items-center gap-[11px] h-[46px] border border-border-light rounded-[60px] bg-white w-[46px] md:w-[230px] px-0 md:px-[16px] justify-center md:justify-start">
+						<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.8333 15.8333L13.2083 13.2083" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.33333 15.8333C12.0152 15.8333 15 12.8486 15 9.16667C15 5.48477 12.0152 2.5 8.33333 2.5C4.65143 2.5 1.66667 5.48477 1.66667 9.16667C1.66667 12.8486 4.65143 15.8333 8.33333 15.8333Z" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+						<input type="text" placeholder="Поиск по названию группы" class="hidden md:block bg-transparent border-0 outline-none text-[12px] font-medium leading-[1] text-[#191E1D] w-full" />
+					</div>
+					<a href="{{ route('Manager.groups.create') }}" aria-label="Новая группа"
+					   class="inline-flex items-center justify-center gap-2 h-[46px] w-[46px] md:w-auto md:px-4 rounded-[60px] text-white text-sm font-medium"
+					   style="background-color: #279760; display: inline-flex; align-items: center; gap: 8px; height: 46px; border-radius: 60px; color: white; font-size: 14px; font-weight: 500; text-decoration: none;">
+						<svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 4.16675V15.8334" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.1665 10H15.8332" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+						<span class="hidden md:inline">Новая группа</span>
+					</a>
 				</div>
-				<a href="{{ route('Manager.groups.create') }}" class="inline-flex items-center gap-2 h-[46px] px-4 rounded-[60px] bg-primary text-white text-sm font-medium">
-					<svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 4.16675V15.8334" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.1665 10H15.8332" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-					Новая группа
-				</a>
-			</div>
 		</div>
 
 		<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
@@ -44,7 +46,20 @@
 </div>
 
 @if(isset($groupList) && $groupList->hasPages())
-	{{ $groupList->links('components.manager-pagination') }}
+	<div class="flex justify-center items-center mt-8">
+		<div class="flex items-center space-x-2">
+			@php
+				$currentPage = $groupList->currentPage();
+				$lastPage = $groupList->lastPage();
+			@endphp
+			
+			@for($i = 1; $i <= $lastPage; $i++)
+				<a href="{{ $groupList->url($i) }}" class="w-8 h-8 rounded-full text-sm font-medium flex items-center justify-center {{ $i === $currentPage ? 'bg-[#279760] text-white' : 'bg-white text-text-primary border border-border-light hover:bg-bg-tertiary' }} transition-colors">
+					{{ $i }}
+				</a>
+			@endfor
+		</div>
+	</div>
 @endif
 @endsection
 
