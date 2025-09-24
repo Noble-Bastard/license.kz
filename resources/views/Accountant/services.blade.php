@@ -62,56 +62,58 @@
         </div>
     </div>
 
-    <!-- Services Table (desktop) -->
-    <div class="hidden md:block">
-        <div class="overflow-x-auto px-1">
-            <table class="min-w-full border-separate" style="border-spacing: 0 14px;">
-                <thead class="bg-white">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-semibold text-text-muted uppercase tracking-wider">Услуга</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold text-text-muted uppercase tracking-wider">ФИО/Название компании</th>
-                        
-                        <th class="px-6 py-3 text-left text-xs font-semibold text-text-muted uppercase tracking-wider">Стоимость</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold text-text-muted uppercase tracking-wider">Срок</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold text-text-muted uppercase tracking-wider">Статус</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold text-text-muted uppercase tracking-wider">Менеджер</th>
-                        <th class="px-6 py-3 text-left text-xs font-semibold text-text-muted uppercase tracking-wider">Действия</th>
-                    </tr>
-                </thead>
+    <!-- Desktop Headers -->
+    <div class="hidden md:grid bg-white px-4 py-3 text-xs font-semibold text-text-muted uppercase tracking-wider" style="grid-template-columns: 140px 1fr 140px 120px 160px 180px 140px; gap: 20px;">
+        <div>Услуга</div>
+        <div>ФИО/Название компании</div>
+        <div>Стоимость</div>
+        <div>Срок</div>
+        <div>Статус</div>
+        <div>Менеджер</div>
+        <div>Действия</div>
+    </div>
+
+    <!-- Services List -->
+    <div class="mx-[-100vw] px-[100vw] py-5" style="background-color: var(--color-bg-secondary);">
+        <div class="px-[40px]">
+            <!-- Services Table (desktop) -->
+            <div class="hidden md:block">
+                <div class="overflow-x-auto px-1">
+                    <table class="w-full border-separate" style="border-spacing: 0 14px; table-layout: fixed;">
                 <tbody>
                     @if(isset($serviceJournalList) && is_iterable($serviceJournalList) && $serviceJournalList->isNotEmpty())
                         @foreach($serviceJournalList as $service)
                             <tr class="bg-white shadow-sm transition-shadow hover:shadow rounded-lg">
                                 <!-- Услуга -->
-                                <td class="px-6 py-4 whitespace-nowrap rounded-l-lg">
+                                <td class="px-4 py-4 whitespace-nowrap rounded-l-lg" style="width: 140px;">
                                     <div class="text-sm text-text-primary">
                                         {{ $service->service_no ?? 'N/A' }}
                                     </div>
                                 </td>
                                 <!-- ФИО/Название компании -->
-                                <td class="px-6 py-4 whitespace-nowrap">
+                                <td class="px-4 py-4" style="width: auto;">
                                     <div class="flex items-center">
-                                        <div class="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center">
+                                        <div class="w-8 h-8 bg-primary-100 rounded-full flex items-center justify-center flex-shrink-0">
                                             <span class="text-sm font-medium text-green-600">
                                                 {{ substr($service->client_full_name ?? 'N/A', 0, 1) }}
                                             </span>
                                         </div>
-                                        <div class="ml-3">
-                                            <div class="text-sm font-medium text-text-primary">{{ $service->client_full_name ?? 'N/A' }}</div>
+                                        <div class="ml-3 min-w-0">
+                                            <div class="text-sm font-medium text-text-primary truncate" title="{{ $service->client_full_name ?? 'N/A' }}">{{ $service->client_full_name ?? 'N/A' }}</div>
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
+                                <td class="px-4 py-4 whitespace-nowrap" style="width: 140px;">
                                     <div class="text-sm font-medium text-text-primary">
                                         {{ number_format($service->amount ?? 0, 0, ',', ' ') }} ₸
                                     </div>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
+                                <td class="px-4 py-4 whitespace-nowrap" style="width: 120px;">
                                     <div class="text-sm text-text-muted">
                                         {{ $service->deadline ? \Carbon\Carbon::parse($service->deadline)->format('d.m.Y') : 'N/A' }}
                                     </div>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
+                                <td class="px-4 py-4" style="width: 160px;">
                                     @php
                                         $statusConfig = [
                                             'active' => ['text' => 'text-green-700', 'border' => 'border-green-200', 'icon' => 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'],
@@ -128,25 +130,25 @@
                                         $statusConfig = $statusConfig[$statusName] ?? $statusConfig['pending'];
                                     @endphp
                                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-white border border-border-light text-text-primary">
-                                        <svg class="w-3 h-3 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="w-3 h-3 mr-1.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $statusConfig['icon'] }}"></path>
                                         </svg>
-                                        {{ $service->service_status_name ?? 'N/A' }}
+                                        <span class="truncate">{{ $service->service_status_name ?? 'N/A' }}</span>
                                     </span>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
+                                <td class="px-4 py-4" style="width: 180px;">
                                     <div class="flex items-center">
-                                        <div class="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center">
+                                        <div class="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center flex-shrink-0">
                                             <span class="text-xs font-medium text-gray-600">
                                                 {{ substr($service->manager_name ?? 'N/A', 0, 1) }}
                                             </span>
                                         </div>
-                                        <div class="ml-2">
-                                            <div class="text-sm text-text-primary">{{ $service->manager_name ?? 'N/A' }}</div>
+                                        <div class="ml-2 min-w-0">
+                                            <div class="text-sm text-text-primary truncate" title="{{ $service->manager_name ?? 'N/A' }}">{{ $service->manager_name ?? 'N/A' }}</div>
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium rounded-r-lg">
+                                <td class="px-4 py-4 whitespace-nowrap text-sm font-medium rounded-r-lg" style="width: 140px;">
                                     <div class="flex items-center space-x-2">
                                         <button class="text-green-600 hover:text-green-700 transition-colors" title="Просмотр">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -188,15 +190,15 @@
                         </tr>
                     @endif
                 </tbody>
-            </table>
-        </div>
-    </div>
+                    </table>
+                </div>
+            </div>
 
-    <!-- Services List (mobile cards) -->
-    <div class="md:hidden space-y-3">
+            <!-- Services List (mobile cards) -->
+            <div class="md:hidden space-y-3">
         @if(isset($serviceJournalList) && is_iterable($serviceJournalList) && $serviceJournalList->isNotEmpty())
             @foreach($serviceJournalList as $service)
-                <div class="bg-white rounded-lg shadow-sm px-4 py-3 mx-1">
+                <div class="bg-white rounded-lg shadow-sm px-4 py-3">
                     <!-- Top: Услуга + Стоимость -->
                     <div class="flex items-center justify-between mb-2">
                         <div class="text-sm font-medium text-text-primary">УСЛ-{{ $service->service_no ?? 'N/A' }}</div>
@@ -253,17 +255,19 @@
                     </div>
                 </div>
             @endforeach
-        @else
-            <div class="bg-white rounded-lg shadow-sm px-4 py-6 text-center text-sm text-text-secondary">Нет услуг</div>
-        @endif
-    </div>
+            @else
+                <div class="bg-white rounded-lg shadow-sm px-4 py-6 text-center text-sm text-text-secondary">Нет услуг</div>
+            @endif
+            </div>
 
-    <!-- Pagination -->
-    @if(isset($serviceJournalList) && method_exists($serviceJournalList, 'hasPages') && $serviceJournalList->hasPages())
-        <div class="mt-6">
-            @include('components.manager-pagination', ['paginator' => $serviceJournalList])
+            <!-- Pagination -->
+            @if(isset($serviceJournalList) && method_exists($serviceJournalList, 'hasPages') && $serviceJournalList->hasPages())
+                <div class="mt-6">
+                    @include('components.manager-pagination', ['paginator' => $serviceJournalList])
+                </div>
+            @endif
         </div>
-    @endif
+    </div>
 </div>
 
 <!-- Add Service Modal -->

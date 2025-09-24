@@ -18,49 +18,58 @@
 					</a>
 				</div>
 		</div>
+	</div>
 
-		<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-			@forelse($groupList ?? [] as $group)
-				<div class="bg-white rounded-lg p-5 shadow-sm border border-border-light">
-					<div class="flex items-center justify-between">
-						<h3 class="text-[18px] font-medium text-text-primary">{{ $group->name }}</h3>
-						<div class="w-8 h-8 rounded-full bg-[#E9F6EE] flex items-center justify-center">
-							<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18.3333 15C18.3333 15.442 18.1577 15.866 17.845 16.1785C17.5323 16.491 17.1087 16.6667 16.6667 16.6667H3.33333C2.89131 16.6667 2.46738 16.491 2.15482 16.1785C1.84226 15.866 1.66667 15.442 1.66667 15V5C1.66667 4.55797 1.84226 4.13405 2.15482 3.82149C2.46738 3.50893 2.89131 3.33333 3.33333 3.33333H7.5L9.16667 5.83333H16.6667C17.1087 5.83333 17.5323 6.00893 17.845 6.32149C18.1577 6.63405 18.3333 7.05797 18.3333 7.5V15Z" stroke="#279760" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+	<!-- Groups List -->
+	<div class="py-5 pb-20" style="background-color: var(--color-bg-secondary); width: 100vw; margin-left: calc(-50vw + 50%); min-height: calc(100vh - 200px);">
+		<div class="px-5" style="padding-left:20px;padding-right:20px;">
+			<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+				@forelse($groupList ?? [] as $group)
+					<div class="bg-white rounded-lg p-5 shadow-sm border border-border-light">
+						<div class="flex items-center justify-between">
+							<h3 class="text-[18px] font-medium text-text-primary">{{ $group->name }}</h3>
+							<div class="w-8 h-8 rounded-full bg-[#E9F6EE] flex items-center justify-center">
+								<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18.3333 15C18.3333 15.442 18.1577 15.866 17.845 16.1785C17.5323 16.491 17.1087 16.6667 16.6667 16.6667H3.33333C2.89131 16.6667 2.46738 16.491 2.15482 16.1785C1.84226 15.866 1.66667 15.442 1.66667 15V5C1.66667 4.55797 1.84226 4.13405 2.15482 3.82149C2.46738 3.50893 2.89131 3.33333 3.33333 3.33333H7.5L9.16667 5.83333H16.6667C17.1087 5.83333 17.5323 6.00893 17.845 6.32149C18.1577 6.63405 18.3333 7.05797 18.3333 7.5V15Z" stroke="#279760" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+							</div>
+						</div>
+						<div class="flex items-center gap-2 mt-4">
+							@foreach(($group->members ?? collect())->take(4) as $member)
+								<img class="w-8 h-8 rounded-full object-cover" src="{{ $member->avatar ?? asset('images/user1.png') }}" alt="{{ $member->full_name }}"/>
+							@endforeach
+							@if(($group->members ?? collect())->count() > 4)
+								<span class="ml-2 inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#279760] text-white text-sm">+{{ ($group->members->count() - 4) }}</span>
+							@endif
+							<span class="ml-auto text-sm text-text-secondary">{{ ($group->members ?? collect())->count() }} исполнителей</span>
 						</div>
 					</div>
-					<div class="flex items-center gap-2 mt-4">
-						@foreach(($group->members ?? collect())->take(4) as $member)
-							<img class="w-8 h-8 rounded-full object-cover" src="{{ $member->avatar ?? asset('images/user1.png') }}" alt="{{ $member->full_name }}"/>
-						@endforeach
-						@if(($group->members ?? collect())->count() > 4)
-							<span class="ml-2 inline-flex items-center justify-center w-8 h-8 rounded-full bg-[#279760] text-white text-sm">+{{ ($group->members->count() - 4) }}</span>
-						@endif
-						<span class="ml-auto text-sm text-text-secondary">{{ ($group->members ?? collect())->count() }} исполнителей</span>
+				@empty
+					<p class="text-text-secondary">Нет созданных групп.</p>
+				@endforelse
+			</div>
+
+			<!-- Pagination -->
+			@if(isset($groupList) && $groupList->hasPages())
+				<div class="flex justify-center items-center mt-8">
+					<div class="flex items-center space-x-2">
+						@php
+							$currentPage = $groupList->currentPage();
+							$lastPage = $groupList->lastPage();
+							$startPage = max(1, $currentPage - 2);
+							$endPage = min($lastPage, $currentPage + 2);
+						@endphp
+						
+						@for($i = $startPage; $i <= $endPage; $i++)
+							<a href="{{ $groupList->url($i) }}" class="w-8 h-8 rounded-full text-sm font-medium flex items-center justify-center {{ $i === $currentPage ? 'bg-[#279760] text-white' : 'bg-white text-text-primary border border-border-light hover:bg-bg-tertiary' }} transition-colors">
+								{{ $i }}
+							</a>
+						@endfor
 					</div>
 				</div>
-			@empty
-				<p class="text-text-secondary">Нет созданных групп.</p>
-			@endforelse
+			@endif
 		</div>
 	</div>
 </div>
 
-@if(isset($groupList) && $groupList->hasPages())
-	<div class="flex justify-center items-center mt-8">
-		<div class="flex items-center space-x-2">
-			@php
-				$currentPage = $groupList->currentPage();
-				$lastPage = $groupList->lastPage();
-			@endphp
-			
-			@for($i = 1; $i <= $lastPage; $i++)
-				<a href="{{ $groupList->url($i) }}" class="w-8 h-8 rounded-full text-sm font-medium flex items-center justify-center {{ $i === $currentPage ? 'bg-[#279760] text-white' : 'bg-white text-text-primary border border-border-light hover:bg-bg-tertiary' }} transition-colors">
-					{{ $i }}
-				</a>
-			@endfor
-		</div>
-	</div>
-@endif
 @endsection
 
 @section('js')

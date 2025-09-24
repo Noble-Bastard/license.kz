@@ -41,117 +41,119 @@
         </div>
 
         <!-- Список проектов -->
-        <div class="flex flex-col gap-[10px] pb-[30px]">
-            @if(isset($projectList) && $projectList->isNotEmpty())
-                @foreach($projectList->where('project_status_id', $service_status_id) as $project)
-                    <!-- Desktop Table View -->
-                    <div class="hidden md:block bg-white rounded-lg shadow-sm mx-5 mb-3">
-                        <div class="grid grid-cols-[200px,150px,1fr,150px] items-center gap-[60px,120px,60px,0px] w-full p-5">
-                            <!-- Номер услуги -->
-                            <div class="text-[13px] font-medium text-[#1E2B28] leading-[1]">
-                                {{ $project->description }}
-                            </div>
-                            <!-- Дата обращения -->
-                            <div class="text-[13px] font-medium text-[#1E2B28] leading-[1]">
-                                {{ \App\Data\Helper\Assistant::formatDate($project->create_date) }}
-                            </div>
-                            <!-- Менеджер -->
-                            <div class="flex items-center gap-[10px]">
-                                <div class="w-[26px] h-[26px] rounded-full bg-neutral-300 overflow-hidden">
-                                    <img src="{{ asset('images/user1.png') }}" alt="{{ $project->manager_name ?? 'Manager' }}" class="w-full h-full object-cover"/>
+        <div class="py-5 pb-20" style="background-color: var(--color-bg-secondary); width: 100vw; margin-left: calc(-50vw + 50%); min-height: calc(100vh - 200px);">
+            <div class="px-5" style="padding-left:20px;padding-right:20px;">
+                @if(isset($projectList) && $projectList->isNotEmpty())
+                    @foreach($projectList->where('project_status_id', $service_status_id) as $project)
+                        <!-- Desktop Table View -->
+                        <div class="hidden md:block bg-white rounded-lg shadow-sm mb-3">
+                            <div class="grid grid-cols-[200px,150px,1fr,150px] items-center gap-[60px,120px,60px,0px] w-full p-5">
+                                <!-- Номер услуги -->
+                                <div class="text-[13px] font-medium text-[#1E2B28] leading-[1]">
+                                    {{ $project->description }}
                                 </div>
-                                <span class="text-[13px] font-medium text-[#1E2B28] leading-[1]">{{ $project->manager_name ?? '-' }}</span>
-                            </div>
-                            <!-- Статус -->
-                            <div class="flex items-center justify-end gap-[5px] pr-5">
-                                <div class="w-2 h-2 rounded-full {{ $project->status_color ?? 'bg-[#279760]' }}"></div>
-                                <span class="text-[13px] font-medium text-[#1E2B28] leading-[1]">{{ $project->status_name ?? '-' }}</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Mobile Card View -->
-                    <div class="md:hidden bg-white rounded-lg shadow-sm mx-4 mb-3 p-4">
-                        <!-- Header with project number and date -->
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="flex items-center gap-[10px]">
-                                <span class="text-base font-medium text-[#1E2B28] leading-[1]">{{ $project->description }}</span>
-                            </div>
-                            <div class="flex items-center gap-[6px] flex-shrink-0">
-                                <span class="text-sm font-medium text-[#1E2B28] leading-[1]">
+                                <!-- Дата обращения -->
+                                <div class="text-[13px] font-medium text-[#1E2B28] leading-[1]">
                                     {{ \App\Data\Helper\Assistant::formatDate($project->create_date) }}
-                                </span>
-                            </div>
-                        </div>
-                        
-                        <!-- Details - Vertical Layout -->
-                        <div class="space-y-2">
-                            <div class="flex flex-col">
-                                <span class="text-xs font-medium text-gray-500 mb-1">Статус</span>
-                                <div class="flex items-center gap-[6px]">
-                                    <div class="w-[8px] h-[8px] rounded-full {{ $project->status_color ?? 'bg-[#279760]' }}"></div>
-                                    <span class="text-sm font-medium text-[#1E2B28]">{{ $project->status_name ?? '-' }}</span>
                                 </div>
-                            </div>
-                            <div class="flex flex-col">
-                                <span class="text-xs font-medium text-gray-500 mb-1">Менеджер</span>
+                                <!-- Менеджер -->
                                 <div class="flex items-center gap-[10px]">
-                                    <div class="w-[32px] h-[32px] rounded-full bg-neutral-300 overflow-hidden flex-shrink-0">
+                                    <div class="w-[26px] h-[26px] rounded-full bg-neutral-300 overflow-hidden">
                                         <img src="{{ asset('images/user1.png') }}" alt="{{ $project->manager_name ?? 'Manager' }}" class="w-full h-full object-cover"/>
                                     </div>
-                                    <span class="text-sm font-medium text-[#1E2B28]">{{ $project->manager_name ?? '-' }}</span>
+                                    <span class="text-[13px] font-medium text-[#1E2B28] leading-[1]">{{ $project->manager_name ?? '-' }}</span>
+                                </div>
+                                <!-- Статус -->
+                                <div class="flex items-center justify-end gap-[5px] pr-5">
+                                    <div class="w-2 h-2 rounded-full {{ $project->status_color ?? 'bg-[#279760]' }}"></div>
+                                    <span class="text-[13px] font-medium text-[#1E2B28] leading-[1]">{{ $project->status_name ?? '-' }}</span>
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Mobile Card View -->
+                        <div class="md:hidden bg-white rounded-lg shadow-sm mb-3 p-4">
+                            <!-- Header with project number and date -->
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center gap-[10px]">
+                                    <span class="text-base font-medium text-[#1E2B28] leading-[1]">{{ $project->description }}</span>
+                                </div>
+                                <div class="flex items-center gap-[6px] flex-shrink-0">
+                                    <span class="text-sm font-medium text-[#1E2B28] leading-[1]">
+                                        {{ \App\Data\Helper\Assistant::formatDate($project->create_date) }}
+                                    </span>
+                                </div>
+                            </div>
+                            
+                            <!-- Details - Vertical Layout -->
+                            <div class="space-y-2">
+                                <div class="flex flex-col">
+                                    <span class="text-xs font-medium text-gray-500 mb-1">Статус</span>
+                                    <div class="flex items-center gap-[6px]">
+                                        <div class="w-[8px] h-[8px] rounded-full {{ $project->status_color ?? 'bg-[#279760]' }}"></div>
+                                        <span class="text-sm font-medium text-[#1E2B28]">{{ $project->status_name ?? '-' }}</span>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="text-xs font-medium text-gray-500 mb-1">Менеджер</span>
+                                    <div class="flex items-center gap-[10px]">
+                                        <div class="w-[32px] h-[32px] rounded-full bg-neutral-300 overflow-hidden flex-shrink-0">
+                                            <img src="{{ asset('images/user1.png') }}" alt="{{ $project->manager_name ?? 'Manager' }}" class="w-full h-full object-cover"/>
+                                        </div>
+                                        <span class="text-sm font-medium text-[#1E2B28]">{{ $project->manager_name ?? '-' }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                @else
+                    <div class="bg-white rounded-lg shadow-sm mb-3 p-5">
+                        <div class="text-center text-text-secondary">Нет проектов для отображения.</div>
                     </div>
-                @endforeach
-            @else
-                <div class="bg-white rounded-lg shadow-sm mx-5 mb-3 p-5">
-                    <div class="text-center text-text-secondary">Нет проектов для отображения.</div>
-                </div>
-            @endif
-        </div>
+                @endif
 
-        <!-- Pagination -->
-        @if(isset($projectList) && $projectList->hasPages())
-            <div class="flex justify-center items-center mt-8">
-                <div class="flex items-center space-x-2">
-                    {{-- Pagination Numbers --}}
-                    @php
-                        $currentPage = $projectList->currentPage();
-                        $lastPage = $projectList->lastPage();
-                        $start = max(1, $currentPage - 2);
-                        $end = min($lastPage, $currentPage + 2);
-                    @endphp
+                <!-- Pagination -->
+                @if(isset($projectList) && $projectList->hasPages())
+                    <div class="flex justify-center items-center mt-8">
+                        <div class="flex items-center space-x-2">
+                            {{-- Pagination Numbers --}}
+                            @php
+                                $currentPage = $projectList->currentPage();
+                                $lastPage = $projectList->lastPage();
+                                $start = max(1, $currentPage - 2);
+                                $end = min($lastPage, $currentPage + 2);
+                            @endphp
 
-                    @if($start > 1)
-                        <a href="{{ $projectList->url(1) }}" class="w-8 h-8 flex items-center justify-center text-gray-700 bg-white border border-gray-300 rounded-full hover:bg-gray-50">1</a>
-                        @if($start > 2)
-                            <span class="w-8 h-8 flex items-center justify-center text-gray-700 bg-white border border-gray-300 rounded-full">...</span>
-                        @endif
-                    @endif
+                            @if($start > 1)
+                                <a href="{{ $projectList->url(1) }}" class="w-8 h-8 flex items-center justify-center text-gray-700 bg-white border border-gray-300 rounded-full hover:bg-gray-50">1</a>
+                                @if($start > 2)
+                                    <span class="w-8 h-8 flex items-center justify-center text-gray-700 bg-white border border-gray-300 rounded-full">...</span>
+                                @endif
+                            @endif
 
-                    @for($page = $start; $page <= $end; $page++)
-                        @if($page == $currentPage)
-                            <span class="w-8 h-8 flex items-center justify-center text-white bg-[#279760] border border-[#279760] rounded-full">
-                                {{ $page }}
-                            </span>
-                        @else
-                            <a href="{{ $projectList->url($page) }}" class="w-8 h-8 flex items-center justify-center text-gray-700 bg-white border border-gray-300 rounded-full hover:bg-gray-50">
-                                {{ $page }}
-                            </a>
-                        @endif
-                    @endfor
+                            @for($page = $start; $page <= $end; $page++)
+                                @if($page == $currentPage)
+                                    <span class="w-8 h-8 flex items-center justify-center text-white bg-[#279760] border border-[#279760] rounded-full">
+                                        {{ $page }}
+                                    </span>
+                                @else
+                                    <a href="{{ $projectList->url($page) }}" class="w-8 h-8 flex items-center justify-center text-gray-700 bg-white border border-gray-300 rounded-full hover:bg-gray-50">
+                                        {{ $page }}
+                                    </a>
+                                @endif
+                            @endfor
 
-                    @if($end < $lastPage)
-                        @if($end < $lastPage - 1)
-                            <span class="w-8 h-8 flex items-center justify-center text-gray-700 bg-white border border-gray-300 rounded-full">...</span>
-                        @endif
-                        <a href="{{ $projectList->url($lastPage) }}" class="w-8 h-8 flex items-center justify-center text-gray-700 bg-white border border-gray-300 rounded-full hover:bg-gray-50">{{ $lastPage }}</a>
-                    @endif
-                </div>
+                            @if($end < $lastPage)
+                                @if($end < $lastPage - 1)
+                                    <span class="w-8 h-8 flex items-center justify-center text-gray-700 bg-white border border-gray-300 rounded-full">...</span>
+                                @endif
+                                <a href="{{ $projectList->url($lastPage) }}" class="w-8 h-8 flex items-center justify-center text-gray-700 bg-white border border-gray-300 rounded-full hover:bg-gray-50">{{ $lastPage }}</a>
+                            @endif
+                        </div>
+                    </div>
+                @endif
             </div>
-        @endif
+        </div>
     </div>
 @endsection
 

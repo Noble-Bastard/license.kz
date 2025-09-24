@@ -170,6 +170,7 @@
   // Contact section - Frame 6
   &__contact-section {
     display: flex;
+    flex-shrink: 0;
     flex-direction: row;
     align-items: center;
     padding: 16px 60px 16px 20px;
@@ -236,7 +237,8 @@
     align-items: center;
     padding: 16px;
     gap: 6px;
-    width: 93px;
+    min-width: 93px;
+    width: auto;
     height: 46px;
     border: 1px solid #E8E8E8;
     border-radius: 60px;
@@ -271,7 +273,6 @@
     }
     
     .login-text {
-      width: 41px;
       height: 14px;
       font-family: 'Manrope', sans-serif;
       font-style: normal;
@@ -282,6 +283,10 @@
       flex: none;
       order: 1;
       flex-grow: 0;
+      white-space: nowrap;
+      max-width: 80px;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     
     &:hover {
@@ -327,6 +332,15 @@
       width: auto;
       min-width: 280px;
       padding: 16px 20px 16px 10px;
+    }
+    
+    &__login-btn {
+      max-width: 120px;
+      
+      .login-text {
+        max-width: 60px;
+        font-size: 13px;
+      }
     }
   }
 }

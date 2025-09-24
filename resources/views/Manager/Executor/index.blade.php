@@ -13,24 +13,27 @@
 					</svg>
 					<input type="text" placeholder="Поиск по номеру услуги или компании" class="bg-transparent border-none outline-none text-[12px] font-medium leading-[1] text-text-primary placeholder:text-text-primary" />
 				</div>
-			</div>
-
-		<!-- Заголовки колонок -->
-		<div class="grid grid-cols-[300px,250px,200px,1fr,150px,150px] items-center gap-[60px,60px,60px,120px,60px] text-[12px] font-semibold text-[#6F6F6F] leading-[1] mx-5 px-5">
-				<div>Имя исполнителя</div>
-				<div>E-mail</div>
-				<div>Телефон</div>
-				<div>Группы</div>
-				<div>Ставка в час, ₸</div>
-				<div class="text-right">Активность</div>
-			</div>
 		</div>
+	</div>
 
-		<!-- Список исполнителей -->
-		<div class="flex flex-col gap-[10px] pb-[30px]">
+	<!-- Desktop Headers -->
+	<div class="hidden md:grid grid-cols-[300px,250px,200px,1fr,150px,150px] items-center gap-[60px,60px,60px,120px,60px] text-[12px] font-semibold text-[#6F6F6F] leading-[1] bg-white mx-5 px-5 py-3">
+		<div>Имя исполнителя</div>
+		<div>E-mail</div>
+		<div>Телефон</div>
+		<div>Группы</div>
+		<div>Ставка в час, ₸</div>
+		<div>Активность</div>
+	</div>
+
+	<!-- Executors List -->
+	<div class="py-5 pb-20" style="background-color: var(--color-bg-secondary); width: 100vw; margin-left: calc(-50vw + 50%); min-height: calc(100vh - 200px);">
+		<div class="px-[40px]">
+			<!-- Список исполнителей -->
+			<div class="flex flex-col gap-[10px]">
 			@foreach($executorList as $executor)
 				<!-- Desktop Table View -->
-				<div class="bg-white rounded-lg shadow-sm mx-5 mb-3">
+				<div class="bg-white rounded-lg shadow-sm mb-3">
 					<div class="grid grid-cols-[300px,250px,200px,1fr,150px,150px] items-center gap-[60px,60px,60px,120px,60px] w-full p-5">
 						<!-- Имя -->
 						<div class="flex items-center gap-[10px]">
@@ -54,15 +57,14 @@
 						<!-- Ставка -->
 						<div class="text-[13px] font-medium text-[#1E2B28] leading-[1]">{{ $executor->hourlyRate ?? 140 }}</div>
 						<!-- Статус -->
-						<div class="flex items-center justify-end">
-							<div class="flex items-center gap-[10px]">
-								<div class="w-2 h-2 rounded-full {{ ($executor->is_active ?? true) ? 'bg-[#279760]' : 'bg-neutral-400' }}"></div>
-								<span class="text-[13px] font-medium text-[#1E2B28] leading-[1]">{{ ($executor->is_active ?? true) ? 'В сети' : 'Не в сети' }}</span>
-							</div>
+						<div class="flex items-center gap-[10px]">
+							<div class="w-2 h-2 rounded-full {{ ($executor->is_active ?? true) ? 'bg-[#279760]' : 'bg-neutral-400' }}"></div>
+							<span class="text-[13px] font-medium text-[#1E2B28] leading-[1]">{{ ($executor->is_active ?? true) ? 'В сети' : 'Не в сети' }}</span>
 						</div>
 					</div>
 				</div>
 			@endforeach
+			</div>
 		</div>
 	</div>
 </div>

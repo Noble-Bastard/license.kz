@@ -31,24 +31,26 @@
         </div>
     </div>
 
+    <!-- Desktop Headers -->
+    <div class="hidden md:grid grid-cols-[200px,150px,200px,200px,200px,150px,150px,150px] gap-[60px,120px,60px,60px,60px,60px,60px,0px] items-center bg-white mx-5 px-5 py-3">
+        <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Номер услуги</div>
+        <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Статус</div>
+        <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Дата обращения</div>
+        <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Исполнитель</div>
+        <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Клиент</div>
+        <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Проверка клиента</div>
+        <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Предоплата</div>
+        <div class="text-xs font-medium text-gray-500 uppercase tracking-wider text-right pr-5">Полная оплата</div>
+    </div>
+
     <!-- Services List -->
-    <div class="mb-6">
-        <!-- Desktop Headers -->
-        <div class="hidden md:grid grid-cols-[200px,150px,200px,200px,200px,150px,150px,150px] gap-[60px,120px,60px,60px,60px,60px,60px,0px] items-center bg-white mx-5 px-5 py-3 rounded-t-lg">
-            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Номер услуги</div>
-            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Статус</div>
-            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Дата обращения</div>
-            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Исполнитель</div>
-            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Клиент</div>
-            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Проверка клиента</div>
-            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Предоплата</div>
-            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider text-right pr-5">Полная оплата</div>
-        </div>
+    <div class="py-5" style="background-color: var(--color-bg-secondary); width: 100vw; margin-left: calc(-50vw + 50%);">
+        <div class="px-[40px]">
 
         @if(isset($serviceJournalList) && $serviceJournalList->isNotEmpty())
             @foreach($serviceJournalList as $service)
                 <!-- Desktop Card View -->
-                <div class="hidden md:grid grid-cols-[200px,150px,200px,200px,200px,150px,150px,150px] gap-[60px,120px,60px,60px,60px,60px,60px,0px] items-center bg-white rounded-lg shadow-sm mx-5 mb-3 p-5">
+                <div class="hidden md:grid grid-cols-[200px,150px,200px,200px,200px,150px,150px,150px] gap-[60px,120px,60px,60px,60px,60px,60px,0px] items-center bg-white rounded-lg shadow-sm mb-3 p-5">
                     <!-- Service Number -->
                     <div class="flex items-center gap-[10px]">
                         <span class="text-sm font-medium text-[#1E2B28] leading-[1]">УСЛ-{{ $service->id }}</span>
@@ -154,7 +156,7 @@
                     </div>
                     
                     <!-- Full Payment -->
-                    <div class="flex items-center justify-end gap-[6px] pr-5">
+                    <div class="flex items-center gap-[6px]">
                         @if($service->full_payment_status)
                             <div class="w-2 h-2 rounded-full bg-green-100"></div>
                             <span class="text-[13px] font-medium text-green-800 leading-[1]">Оплачено</span>
@@ -166,7 +168,7 @@
                 </div>
                 
                 <!-- Mobile Card View -->
-                <div class="md:hidden bg-white rounded-lg shadow-sm mx-4 mb-3 p-4">
+                <div class="md:hidden bg-white rounded-lg shadow-sm mb-3 p-4">
                     <!-- Header with service number and date (right) -->
                     <div class="flex items-center justify-between mb-4">
                         <div class="flex items-center gap-[10px]">
@@ -299,26 +301,27 @@
                                     </div>
             </div>
         @endif
-    </div>
 
-    <!-- Pagination -->
-    @if(isset($serviceJournalList) && $serviceJournalList->hasPages())
-        <div class="flex justify-center items-center mt-8">
-            <div class="flex items-center space-x-2">
-                @php
-                    $currentPage = $serviceJournalList->currentPage();
-                    $lastPage = $serviceJournalList->lastPage();
-                    $startPage = max(1, $currentPage - 2);
-                    $endPage = min($lastPage, $currentPage + 2);
-                @endphp
-                
-                @for($i = $startPage; $i <= $endPage; $i++)
-                    <button class="w-8 h-8 rounded-full text-sm font-medium {{ $i === $currentPage ? 'bg-[#279760] text-white' : 'bg-white text-text-primary border border-border-light hover:bg-bg-tertiary' }} transition-colors">
-                        {{ $i }}
-                    </button>
-                @endfor
+        <!-- Pagination -->
+        @if(isset($serviceJournalList) && $serviceJournalList->hasPages())
+            <div class="flex justify-center items-center mt-8">
+                <div class="flex items-center space-x-2">
+                    @php
+                        $currentPage = $serviceJournalList->currentPage();
+                        $lastPage = $serviceJournalList->lastPage();
+                        $startPage = max(1, $currentPage - 2);
+                        $endPage = min($lastPage, $currentPage + 2);
+                    @endphp
+                    
+                    @for($i = $startPage; $i <= $endPage; $i++)
+                        <button class="w-8 h-8 rounded-full text-sm font-medium {{ $i === $currentPage ? 'bg-[#279760] text-white' : 'bg-white text-text-primary border border-border-light hover:bg-bg-tertiary' }} transition-colors">
+                            {{ $i }}
+                        </button>
+                    @endfor
+                </div>
             </div>
+        @endif
         </div>
-    @endif
+    </div>
 </div>
 @endsection

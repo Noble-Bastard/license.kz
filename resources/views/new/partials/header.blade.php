@@ -1,3 +1,59 @@
+<style>
+.header-redesigned__login-btn {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  gap: 6px;
+  min-width: 93px;
+  width: auto;
+  max-width: 140px;
+  height: 46px;
+  border: 1px solid #E8E8E8;
+  border-radius: 60px;
+  background: transparent;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+  text-decoration: none;
+}
+
+.header-redesigned__login-btn .login-text {
+  height: 14px;
+  font-family: 'Manrope', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 100%;
+  color: #191E1D;
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+  white-space: nowrap;
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.header-redesigned__login-btn:hover {
+  background: rgba(25, 30, 29, 0.05);
+  border-color: #191E1D;
+}
+
+@media (max-width: 1199.98px) {
+  .header-redesigned__login-btn {
+    max-width: 120px;
+  }
+  
+  .header-redesigned__login-btn .login-text {
+    max-width: 60px;
+    font-size: 13px;
+  }
+}
+</style>
+
 <header class="header-redesigned">
     <!-- Logo Section - Frame 7 -->
     <div class="header-redesigned__logo-section">
@@ -59,7 +115,7 @@
                         <path d="M7 7C8.933 7 10.5 5.433 10.5 3.5C10.5 1.567 8.933 0 7 0C5.067 0 3.5 1.567 3.5 3.5C3.5 5.433 5.067 7 7 7Z" stroke="#191E1D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M13.125 14C13.125 11.186 10.439 8.5 7 8.5C3.561 8.5 0.875 11.186 0.875 14" stroke="#191E1D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
-                    <span class="login-text">{{ Auth::user()->name }}</span>
+                    <span class="login-text">{{ \Illuminate\Support\Str::limit(Auth::user()->name, 12) }}</span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="userDropdown">
                     <li><a class="dropdown-item" href="#">{{ __('Профиль') }}</a></li>

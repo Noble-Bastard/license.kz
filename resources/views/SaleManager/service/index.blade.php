@@ -30,22 +30,26 @@
             @endforeach
         </div>
 
-        <!-- Services List -->
-        <div class="mb-6">
-            <!-- Desktop Headers -->
-            <div class="hidden md:grid grid-cols-[200px,200px,200px,200px,200px,150px] gap-[60px,60px,60px,60px,60px,0px] items-center bg-white mx-5 px-5 py-3 rounded-t-lg">
-                <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Номер услуги</div>
-                <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Клиент</div>
-                <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Менеджер</div>
-                <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Статус</div>
-                <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Дата</div>
-                <div class="text-xs font-medium text-gray-500 uppercase tracking-wider text-right pr-5">Действие</div>
-            </div>
+        <!-- Desktop Headers -->
+        <div class="hidden md:grid grid-cols-[200px,200px,200px,200px,200px,150px] gap-[60px,60px,60px,60px,60px,0px] items-center bg-white px-5 py-3 mx-5 mb-3">
+            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Номер услуги</div>
+            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Клиент</div>
+            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Менеджер</div>
+            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Статус</div>
+            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Дата</div>
+            <div class="text-xs font-medium text-gray-500 uppercase tracking-wider text-right pr-5">Действие</div>
+        </div>
+
+        <!-- Gray background section -->
+        <div class="py-5 pb-20" style="background-color: var(--color-bg-secondary); width: 100vw; margin-left: calc(-50vw + 50%); min-height: calc(100vh - 200px);">
+            <div class="px-[40px]">
+                <!-- Services List -->
+                <div class="mb-6">
 
             @if(isset($serviceJournalList) && $serviceJournalList->isNotEmpty())
                 @foreach($serviceJournalList as $service)
                     <!-- Desktop Card View -->
-                    <div class="hidden md:grid grid-cols-[200px,200px,200px,200px,200px,150px] gap-[60px,60px,60px,60px,60px,0px] items-center bg-white rounded-lg shadow-sm mx-5 mb-3 p-5">
+                    <div class="hidden md:grid grid-cols-[200px,200px,200px,200px,200px,150px] gap-[60px,60px,60px,60px,60px,0px] items-center bg-white rounded-lg shadow-sm mb-3 p-5">
                         <!-- Service Number -->
                         <div class="flex items-center gap-[10px]">
                             <span class="text-sm font-medium text-[#1E2B28] leading-[1]">{{ $service->service_no }}</span>
@@ -94,7 +98,7 @@
                     </div>
                     
                     <!-- Mobile Card View -->
-                    <div class="md:hidden bg-white rounded-lg shadow-sm mx-4 mb-3 p-4">
+                    <div class="md:hidden bg-white rounded-lg shadow-sm mb-3 p-4">
                         <!-- Header with service number and date -->
                         <div class="flex items-center justify-between mb-4">
                             <div class="flex items-center gap-[10px]">
@@ -154,14 +158,16 @@
                     </div>
             </div>
             @endif
-        </div>
 
-        <!-- Pagination -->
-        @if(isset($serviceJournalList) && $serviceJournalList->hasPages())
-            <div class="mt-4">
-                {{ $serviceJournalList->links('components.manager-pagination') }}
+            <!-- Pagination -->
+            @if(isset($serviceJournalList) && $serviceJournalList->hasPages())
+                <div class="mt-4">
+                    {{ $serviceJournalList->links('components.manager-pagination') }}
+                </div>
+            @endif
+                </div>
             </div>
-        @endif
+        </div>
 
         <!-- Modal root -->
         <div id="sm-service-modal" class="hidden fixed inset-0 z-50">

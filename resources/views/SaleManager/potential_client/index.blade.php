@@ -44,7 +44,7 @@
         </div>
 
         <!-- Desktop Headers -->
-        <div class="hidden md:grid grid-cols-[200px,200px,200px,200px,200px,150px] gap-[60px,60px,60px,60px,60px,0px] items-center bg-white mx-5 px-5 py-3 rounded-t-lg">
+        <div class="hidden md:grid grid-cols-[200px,200px,200px,200px,200px,150px] gap-[60px,60px,60px,60px,60px,0px] items-center bg-white px-5 py-3 mx-5 mb-3">
             <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Дата</div>
             <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Имя</div>
             <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Email</div>
@@ -53,10 +53,13 @@
             <div class="text-xs font-medium text-gray-500 uppercase tracking-wider text-right pr-5"></div>
         </div>
 
-        @if(isset($potentialClientList) && $potentialClientList->isNotEmpty())
-            @foreach($potentialClientList as $potentialClient)
-                <!-- Desktop Card View -->
-                <div class="hidden md:grid grid-cols-[200px,200px,200px,200px,200px,150px] gap-[60px,60px,60px,60px,60px,0px] items-center bg-white rounded-lg shadow-sm mx-5 mb-3 p-5">
+        <!-- Gray background section -->
+        <div class="py-5 pb-20" style="background-color: var(--color-bg-secondary); width: 100vw; margin-left: calc(-50vw + 50%); min-height: calc(100vh - 200px);">
+            <div class="px-[40px]">
+                @if(isset($potentialClientList) && $potentialClientList->isNotEmpty())
+                @foreach($potentialClientList as $potentialClient)
+                    <!-- Desktop Card View -->
+                    <div class="hidden md:grid grid-cols-[200px,200px,200px,200px,200px,150px] gap-[60px,60px,60px,60px,60px,0px] items-center bg-white rounded-lg shadow-sm mb-3 p-5">
                     <!-- Date -->
                     <div class="flex items-center gap-[10px]">
                         <span class="text-[13px] font-medium text-[#1E2B28] leading-[1]">{{ \App\Data\Helper\Assistant::formatDate($potentialClient->created_at) }}</span>
@@ -117,7 +120,7 @@
                 </div>
                 
                 <!-- Mobile Card View -->
-                <div class="md:hidden bg-white rounded-lg shadow-sm mx-4 mb-3 p-4">
+                <div class="md:hidden bg-white rounded-lg shadow-sm mb-3 p-4">
                     <!-- Header with name and date -->
                     <div class="flex items-center justify-between mb-4">
                         <div class="flex items-center gap-[10px]">
@@ -193,5 +196,7 @@
                 {{ $potentialClientList->links('components.manager-pagination') }}
             </div>
         @endif
+            </div>
+        </div>
     </div>
 @endsection

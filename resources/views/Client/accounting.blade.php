@@ -38,61 +38,72 @@
         </button>
     </div>
 
-    <!-- Accounting Table -->
-    <div class="bg-white rounded-lg shadow">
-        <div class="overflow-x-auto">
-            <table class="min-w-full">
-                <thead class="bg-gray-50 border-b border-gray-200">
-                    <tr>
-                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Номер услуги</th>
-                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Стоимость</th>
-                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Налог, пошлина</th>
-                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Предоплата</th>
-                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Полная оплата</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    @if(isset($serviceJournalList) && $serviceJournalList->isNotEmpty())
-                        @foreach($serviceJournalList as $service)
-                            <tr class="hover:bg-gray-50 cursor-pointer" @click="openDocumentsModal('{{ $service->id }}', '{{ $service->service_no }}')">
-                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                    УСЛ-{{ $service->service_no }}
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                    {{ number_format($service->amount ?? 0, 2, '.', ' ') }} ₸
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                    {{ number_format($service->tax_amount ?? 0, 2, '.', ' ') }} ₸
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                    {{ number_format($service->prepayment_amount ?? 0, 2, '.', ' ') }} ₸
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                    {{ number_format($service->full_payment_amount ?? 0, 2, '.', ' ') }} ₸
-                                </td>
-                            </tr>
-                        @endforeach
-                    @else
-                        <tr>
-                            <td colspan="5" class="px-6 py-12 text-center text-gray-500">
-                                Нет данных по бухгалтерии
-                            </td>
-                        </tr>
-                    @endif
-                </tbody>
-            </table>
-        </div>
+    <!-- Table Headers -->
+    <div class="hidden md:grid grid-cols-[200px,150px,150px,150px,150px] gap-[60px,60px,60px,60px,0px] items-center mx-5 mb-3 px-5">
+        <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Номер услуги</div>
+        <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Стоимость</div>
+        <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Налог, пошлина</div>
+        <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Предоплата</div>
+        <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Полная оплата</div>
     </div>
 
-    <!-- Pagination -->
-    <div class="flex justify-center mt-6">
-        <nav class="flex items-center space-x-2">
-            <button class="px-3 py-2 text-sm font-medium text-white bg-green-600 rounded-md">1</button>
-            <button class="px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900">2</button>
-            <button class="px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900">3</button>
-            <span class="px-3 py-2 text-sm text-gray-500">...</span>
-            <button class="px-3 py-2 text-sm font-medium text-gray-700 hover:text-gray-900">10</button>
-        </nav>
+    <!-- Accounting List -->
+    <div class="py-5 pb-20" style="background-color: var(--color-bg-secondary); width: 100vw; margin-left: calc(-50vw + 50%); min-height: calc(100vh - 200px);">
+        <div class="px-5" style="padding-left:20px;padding-right:20px;">
+            @if(isset($serviceJournalList) && $serviceJournalList->isNotEmpty())
+                @foreach($serviceJournalList as $service)
+                    <!-- Desktop Card View -->
+                    <div class="hidden md:grid grid-cols-[200px,150px,150px,150px,150px] gap-[60px,60px,60px,60px,0px] items-center bg-white rounded-lg shadow-sm mb-3 p-5" @click="openDocumentsModal('{{ $service->id }}', '{{ $service->service_no }}')">
+                        <div class="text-sm font-medium text-[#1E2B28] leading-[1]">УСЛ-{{ $service->service_no }}</div>
+                        <div class="text-sm font-medium text-[#1E2B28] leading-[1]">{{ number_format($service->amount ?? 0, 2, '.', ' ') }} ₸</div>
+                        <div class="text-sm font-medium text-[#1E2B28] leading-[1]">{{ number_format($service->tax_amount ?? 0, 2, '.', ' ') }} ₸</div>
+                        <div class="text-sm font-medium text-[#1E2B28] leading-[1]">{{ number_format($service->prepayment_amount ?? 0, 2, '.', ' ') }} ₸</div>
+                        <div class="text-sm font-medium text-[#1E2B28] leading-[1]">{{ number_format($service->full_payment_amount ?? 0, 2, '.', ' ') }} ₸</div>
+                    </div>
+
+                    <!-- Mobile Card View -->
+                    <div class="md:hidden bg-white rounded-lg shadow-sm mb-3 p-4" @click="openDocumentsModal('{{ $service->id }}', '{{ $service->service_no }}')">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-base font-medium text-[#1E2B28] leading-[1]">УСЛ-{{ $service->service_no }}</span>
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <div class="flex justify-between">
+                                <span class="text-xs font-medium text-gray-500">Стоимость</span>
+                                <span class="text-sm font-medium text-[#1E2B28]">{{ number_format($service->amount ?? 0, 2, '.', ' ') }} ₸</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-xs font-medium text-gray-500">Налог, пошлина</span>
+                                <span class="text-sm font-medium text-[#1E2B28]">{{ number_format($service->tax_amount ?? 0, 2, '.', ' ') }} ₸</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-xs font-medium text-gray-500">Предоплата</span>
+                                <span class="text-sm font-medium text-[#1E2B28]">{{ number_format($service->prepayment_amount ?? 0, 2, '.', ' ') }} ₸</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-xs font-medium text-gray-500">Полная оплата</span>
+                                <span class="text-sm font-medium text-[#1E2B28]">{{ number_format($service->full_payment_amount ?? 0, 2, '.', ' ') }} ₸</span>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            @else
+                <div class="bg-white rounded-lg shadow-sm mb-3 p-5">
+                    <div class="text-center text-text-secondary">Нет данных по бухгалтерии</div>
+                </div>
+            @endif
+
+            <!-- Pagination -->
+            <div class="flex justify-center items-center mt-8">
+                <div class="flex items-center space-x-2">
+                    <button class="w-8 h-8 rounded-full text-sm font-medium bg-[#279760] text-white flex items-center justify-center">1</button>
+                    <button class="w-8 h-8 rounded-full text-sm font-medium bg-white text-text-primary border border-border-light hover:bg-bg-tertiary flex items-center justify-center transition-colors">2</button>
+                    <button class="w-8 h-8 rounded-full text-sm font-medium bg-white text-text-primary border border-border-light hover:bg-bg-tertiary flex items-center justify-center transition-colors">3</button>
+                    <span class="px-3 py-2 text-sm text-gray-500">...</span>
+                    <button class="w-8 h-8 rounded-full text-sm font-medium bg-white text-text-primary border border-border-light hover:bg-bg-tertiary flex items-center justify-center transition-colors">10</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

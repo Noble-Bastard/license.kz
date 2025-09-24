@@ -101,10 +101,8 @@
             </button>
         </div>
 
-        <!-- Table -->
-
         <!-- Desktop Headers -->
-        <div class="hidden md:grid grid-cols-[200px,200px,200px,200px,200px,150px] gap-[60px,60px,60px,60px,60px,0px] items-center bg-white mx-5 px-5 py-3 rounded-t-lg">
+        <div class="hidden md:grid grid-cols-[200px,200px,200px,200px,200px,150px] gap-[60px,60px,60px,60px,60px,0px] items-center bg-white px-5 py-3 mx-5 mb-3">
             <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Дата</div>
             <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Имя</div>
             <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Email</div>
@@ -113,10 +111,13 @@
             <div class="text-xs font-medium text-gray-500 uppercase tracking-wider text-right pr-5">Лицензии</div>
         </div>
 
-        @if(isset($commercialOfferList) && $commercialOfferList->isNotEmpty())
-            @foreach($commercialOfferList as $commercialOffer)
-                <!-- Desktop Card View -->
-                <div class="hidden md:grid grid-cols-[200px,200px,200px,200px,200px,150px] gap-[60px,60px,60px,60px,60px,0px] items-center bg-white rounded-lg shadow-sm mx-5 mb-3 p-5">
+        <!-- Gray background section -->
+        <div class="py-5 pb-20" style="background-color: var(--color-bg-secondary); width: 100vw; margin-left: calc(-50vw + 50%); min-height: calc(100vh - 200px);">
+            <div class="px-[40px]">
+                @if(isset($commercialOfferList) && $commercialOfferList->isNotEmpty())
+                @foreach($commercialOfferList as $commercialOffer)
+                    <!-- Desktop Card View -->
+                    <div class="hidden md:grid grid-cols-[200px,200px,200px,200px,200px,150px] gap-[60px,60px,60px,60px,60px,0px] items-center bg-white rounded-lg shadow-sm mb-3 p-5">
                     <!-- Date -->
                     <div class="flex items-center gap-[10px]">
                         <span class="text-[13px] font-medium text-[#1E2B28] leading-[1]">{{ \App\Data\Helper\Assistant::formatDate($commercialOffer->created_at) }}</span>
@@ -165,7 +166,7 @@
                             </div>
                 
                 <!-- Mobile Card View -->
-                <div class="md:hidden bg-white rounded-lg shadow-sm mx-4 mb-3 p-4">
+                <div class="md:hidden bg-white rounded-lg shadow-sm mb-3 p-4">
                     <!-- Header with name and date -->
                     <div class="flex items-center justify-between mb-4">
                         <div class="flex items-center gap-[10px]">
@@ -215,22 +216,25 @@
             @endforeach
         @else
             <div class="text-center py-12">
-                            <div class="text-text-secondary">
+                <div class="text-text-secondary">
                     <svg class="mx-auto mb-4" width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M12 3c-3.866 0-7 3.134-7 7v3.5L3 16v1h18v-1l-2-2.5V10c0-3.866-3.134-7-7-7z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M9 19a3 3 0 006 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                     <p class="text-lg font-medium">КП не найдены</p>
                     <p class="mt-1">Попробуйте изменить параметры фильтрации</p>
-                                </div>
-                            </div>
+                </div>
+            </div>
         @endif
 
         <!-- Pagination -->
         @if($commercialOfferList->hasPages())
-            @component('components.modern.pagination', ['paginator' => $commercialOfferList])
-            @endcomponent
+            <div class="mt-4">
+                {{ $commercialOfferList->links('components.manager-pagination') }}
+            </div>
         @endif
+            </div>
+        </div>
     </div>
 </div>
 
