@@ -2890,10 +2890,10 @@ $(document).ready(function () {
             // Показываем индикатор загрузки
             $('.service-content-data-total .loader-line').removeClass('d-none')
             
-            // Используем новый быстрый API endpoint
+            // Используем НОВЫЙ СУПЕР-БЫСТРЫЙ API endpoint (один SQL запрос)
             $.ajax({
                 type: 'POST',
-                url: '{{route('api.service-totals')}}',
+                url: '{{route('api.service-totals-quick')}}',
                 data: {
                     '_token': "{{ csrf_token() }}",
                     'serviceId': serviceIds

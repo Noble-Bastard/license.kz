@@ -28,6 +28,7 @@ use App\Data\Service\Dal\CountryDal;
 use App\Data\Service\Dal\ServiceAdditionalRequirementsDal;
 use App\Data\Service\Dal\ServiceCategoryDal;
 use App\Data\Service\Dal\ServiceDal;
+use Illuminate\Support\Facades\DB;
 use App\Data\Service\Dal\ServiceStepMapDal;
 use App\Data\Service\Dal\ServiceStepRequiredDocumentDal;
 use App\Data\Service\Dal\ServiceStepResultDal;
@@ -139,6 +140,39 @@ class ServicesController extends Controller
             
             // Возвращаем простое HTML сообщение об ошибке
             return response('<div class="alert alert-danger text-center py-5"><h4>Ошибка загрузки данных</h4><p>Не удалось загрузить подвиды работ. Пожалуйста, обратитесь к администратору.</p><small>Техническая информация: ' . $e->getMessage() . '</small></div>', 500);
+        }
+    }
+
+    /**
+     * НОВЫЙ API endpoint - используем ТОЧНО ТОТ ЖЕ метод что и старый код
+     */
+    public function getServiceTotalsQuick()
+    {
+        $selectedServices = Input::get('serviceId');
+        
+        if (empty($selectedServices)) {
+            return response()->json(['error' => 'No services selected'], 400);
+        }
+
+        try {
+            // Используем ТОЧНО ТОТ ЖЕ метод расчета что и в старом коде
+            $serviceTotals = ServiceDal::getServiceTotals($selectedServices, null);
+            
+            // Возвращаем только нужные поля в JSON
+            return response()->json([
+                'success' => true,
+                'count' => count($selectedServices),
+                'total_cost' => (int)$serviceTotals->stepCostTotal,
+                'total_days' => (int)$serviceTotals->executionWorkDayTotal,
+                'total_tax' => (int)$serviceTotals->stepTaxTotal,
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Error in getServiceTotalsQuick: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'error' => 'Failed to calculate totals',
+                'message' => $e->getMessage()
+            ], 500);
         }
     }
 
