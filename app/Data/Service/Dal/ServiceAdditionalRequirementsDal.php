@@ -31,6 +31,9 @@ class ServiceAdditionalRequirementsDal extends BaseDal
 
     public function getListByServiceArray($serviceArray, bool $translateData = false)
     {
+        // Временно отключаем ONLY_FULL_GROUP_BY для этого запроса
+        DB::statement("SET SESSION sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''))");
+        
         $entityList = ServiceAdditionalRequirementsMap::whereIn('service_id', $serviceArray)
             ->join('service_additional_requirements', 'service_additional_requirements_map.service_additional_requirements_id', '=', 'service_additional_requirements.id')
             ->join('service_additional_requirements_type', 'service_additional_requirements.service_additional_requirements_type_id', '=', 'service_additional_requirements_type.id')
@@ -49,7 +52,12 @@ class ServiceAdditionalRequirementsDal extends BaseDal
         $serviceAdditionalRequirementsType = new ServiceAdditionalRequirementsType();
         TranslationDal::generateQuery($serviceAdditionalRequirementsType->getTableName(), $entityList, $serviceAdditionalRequirementsType->getEntityColumnList(true), $translateData);
 
-        return $entityList->get();
+        $result = $entityList->get();
+        
+        // Возвращаем sql_mode обратно
+        DB::statement("SET SESSION sql_mode=(SELECT CONCAT(@@sql_mode, ',ONLY_FULL_GROUP_BY'))");
+        
+        return $result;
     }
 
     public function getListByLicenseType($licenseTypeId)

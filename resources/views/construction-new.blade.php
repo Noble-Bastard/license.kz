@@ -26,7 +26,7 @@
 
             <!-- Main Content -->
             <div class="content-section text-center">
-                <h1 class="mb-4" style="font-family: 'Manrope', sans-serif; font-weight: 500;">Строительство</h1>
+                <h1 class="mb-4" style="font-family: 'Manrope', sans-serif; font-weight: 500;">{{ $rootNode->category->name ?? 'Строительство' }}</h1>
                 <p class="mb-5 mx-auto" style="
                     max-width: 800px;
                     font-family: 'Manrope', sans-serif;
@@ -37,16 +37,22 @@
                     letter-spacing: 0%;
                     text-align: center;
                 ">
-                    Строительная сфера — одна из значимых составляющих экономики Казахстана,
-                    остается в числе наиболее привлекательных для инвесторов.
-                    Это отрасль, в которой за последние 10 лет наблюдается быстрый рост
+                    {{ $rootNode->category->description ?? 'Строительная сфера — одна из значимых составляющих экономики Казахстана, остается в числе наиболее привлекательных для инвесторов. Это отрасль, в которой за последние 10 лет наблюдается быстрый рост' }}
                 </p>
                 <div class="image-container">
-                    <img
-                            src="{{ asset('new/images/icons/constructionmain.png') }}"
-                            class="construction-main-image"
-                            alt="Строительство"
-                    >
+                    @if(!empty($rootNode->category->img))
+                        <img
+                                src="{{ \Illuminate\Support\Facades\Storage::url($rootNode->category->img) }}"
+                                class="construction-main-image"
+                                alt="{{ $rootNode->category->name }}"
+                        >
+                    @else
+                        <img
+                                src="{{ asset('new/images/icons/constructionmain.png') }}"
+                                class="construction-main-image"
+                                alt="Строительство"
+                        >
+                    @endif
                 </div>
             </div>
 
@@ -59,128 +65,162 @@
                     </h2>
                     <div class="document-selection">
                         <div class="row g-4">
-                            <div class="col-md-4">
-                                <div class="document-option selected">
-                                    <label class="radio-container">
-                                        <input type="radio" name="document_type" checked>
-                                        <span class="radio-checkmark"></span>
-                                        <div class="document-content">
-                                            <h3>Строительно-монтажные работы</h3>
-                                            <p class="category">I категория</p>
-                                        </div>
-                                    </label>
+                            @foreach($documentTypes as $index => $documentType)
+                                <div class="col-md-4">
+                                    <div class="document-option {{ $index === 0 ? 'selected' : '' }}" data-document-id="{{ $documentType->id }}">
+                                        <label class="radio-container">
+                                            <input type="radio" name="document_type" value="{{ $documentType->id }}" {{ $index === 0 ? 'checked' : '' }} data-pretty-url="{{ $documentType->pretty_url }}">
+                                            <span class="radio-checkmark"></span>
+                                            <div class="document-content">
+                                                <h3>{{ $documentType->name }}</h3>
+                                                @if($documentType->description)
+                                                    <p class="category">{{ $documentType->description }}</p>
+                                                @endif
+                                            </div>
+                                        </label>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="document-option">
-                                    <label class="radio-container">
-                                        <input type="radio" name="document_type">
-                                        <span class="radio-checkmark"></span>
-                                        <div class="document-content">
-                                            <h3>Строительно-монтажные работы</h3>
-                                            <p class="category">II категория</p>
-                                        </div>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="document-option">
-                                    <label class="radio-container">
-                                        <input type="radio" name="document_type">
-                                        <span class="radio-checkmark"></span>
-                                        <div class="document-content">
-                                            <h3>Строительно-монтажные работы</h3>
-                                            <p class="category">III категория</p>
-                                        </div>
-                                    </label>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
             </div>
             <div class="work-types-section mt-5">
-
                 <h2 class="step-title mb-4" style="font-family: 'Manrope', sans-serif;">
                     <span class="step-number">2</span>
                     Выберите подвиды работ, чтобы узнать точные стоимость и сроки
                 </h2>
 
-                <div class="work-types-list">
-                    <!-- Первый блок (закрытый) -->
-                    <div class="work-type-item">
-                        <div class="work-type-header">
-                            <div class="d-flex align-items-center">
-                                <div class="radio-wrapper me-3">
-                                    <input type="radio" name="work_type" class="custom-radio">
-                                    <span class="radio-mark"></span>
-                                </div>
-                                <span>Каковы сроки регистрации бизнеса в Казахстане?</span>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <span class="points me-3">15 пунктов</span>
-                                <button class="btn-toggle">+</button>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Второй блок (открытый) -->
-                    <div class="work-type-item active">
-                        <div class="work-type-header">
-                            <div class="d-flex align-items-center">
-                                <div class="radio-wrapper me-3">
-                                    <input type="radio" name="work_type" class="custom-radio" checked>
-                                    <span class="radio-mark"></span>
-                                </div>
-                                <span>Каковы сроки регистрации бизнеса в Казахстане?</span>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <span class="selected me-3">Выбрано: 3</span>
-                                <button class="btn-toggle">−</button>
-                            </div>
-                        </div>
-                        <div class="work-type-content">
-                            <div class="subcategory-list">
-                                @for ($i = 1; $i <= 5; $i++)
-                                    <div class="subcategory-item @if($i == 3 || $i == 5) selected @endif">
-                                        <div class="d-flex align-items-start">
-                                            <div class="checkbox-wrapper me-3">
-                                                <input type="checkbox" class="custom-checkbox"
-                                                       @if($i == 3 || $i == 5) checked @endif>
-                                                <span class="checkbox-mark"></span>
+                <!-- Контейнеры для каждой категории документов (переключаются на фронте) -->
+                @foreach($documentTypes as $docIndex => $documentType)
+                    <div class="service-content-container" data-document-id="{{ $documentType->id }}" style="display: {{ $docIndex === 0 ? 'block' : 'none' }};">
+                        @if(isset($documentType->catalogList) && $documentType->catalogList->count() > 0)
+                            <div class="services">
+                                <div class="col-12 services__window-documents">
+                                    <div class="service-content-data-total">
+                                        <div class="container">
+                                            <div class="col-12 col-md-8">
+                                                <div class="service-content-data-total-panel">
+                                                    <div class="service-content-data-total-panel-item">
+                                                        <div class="service-content-data-total-panel-item-title">Выбрано:</div>
+                                                        <div class="service-content-data-total-panel-item-description cnt">
+                                                            <span>0</span> видов работ
+                                                        </div>
+                                                    </div>
+                                                    <div class="service-content-data-total-panel-item">
+                                                        <div class="service-content-data-total-panel-item-title">Стоимость оказания услуг:</div>
+                                                        <div class="service-content-data-total-panel-item-icon">
+                                                            <img src="{{asset('/new/images/money_circle.svg')}}" alt="">
+                                                        </div>
+                                                        <div class="service-content-data-total-panel-item-description price">
+                                                            <span>0</span> тенге
+                                                        </div>
+                                                    </div>
+                                                    <div class="service-content-data-total-panel-item">
+                                                        <div class="service-content-data-total-panel-item-title">Срок оказания услуг:</div>
+                                                        <div class="service-content-data-total-panel-item-icon">
+                                                            <img src="{{asset('/new/images/clock_circle.svg')}}" alt="">
+                                                        </div>
+                                                        <div class="service-content-data-total-panel-item-description day_cnt">
+                                                            <span>0</span> дней
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <h4>СМР I категория.</h4>
-                                                <p>Специальные строительные и монтажные работы по прокладке линейных
-                                                    сооружений,
-                                                    включающие капитальный ремонт и реконструкцию, в том числе:
-                                                    магистральных
-                                                    линий электропередач с напряжением до 35 кВ и до 110 кВ и выше</p>
+                                            <div class="col-12 col-md-4">
+                                                <div class="service-content-data-total-btn">
+                                                    <button type="button" class="btn btn-outline-white service-action" data-bs-toggle="modal" data-bs-target="#downloadCommercialOfferModal" disabled="disabled">
+                                                        <img src="{{asset('/new/images/arrowDownWhite.svg')}}" class="me-2"> Скачать КП
+                                                    </button>
+                                                    <button type="button" class="btn btn-white service-action orderService" disabled="disabled">
+                                                        Заказать услугу
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="loader-line d-none"></div>
+                                    </div>
+                                    <div>
+                                        <div class="row">
+                                            <div class="col-sm-10 col-12 service-content-data-list">
+                                                <p class="service-content-data-list-head">Чтобы узнать точные стоимость и сроки выберите подвиды работ</p>
+                                            </div>
+
+                                            <div class="col-12">
+                                                @foreach($documentType->catalogList as $catalogItem)
+                                                    @php
+                                                        $catalogSubList = $catalogItem->catalogSubList ?? collect();
+                                                    @endphp
+                                                    <div class="row mb-3">
+                                                        <div class="col-12">
+                                                            <div class="row service-content-data-list-item">
+                                                                <div class="service-content-data-list-item-head">
+                                                                    <div class="service-content-data-list-item-head-main-info">
+                                                                        <label class="container_checkbox container_checkbox-all">
+                                                                            {{$catalogItem->name}}
+                                                                            <input type="checkbox"><span class="checkmark"></span>
+                                                                        </label>
+                                                                        @if(sizeof($catalogSubList) > 0)
+                                                                            <div class="service-content-data-list-item-head-point">
+                                                                                {{sizeof($catalogSubList)}} @choice('пункт|пункта|пунктов', $catalogSubList)
+                                                                            </div>
+                                                                        @endif
+                                                                    </div>
+                                                                    <div class="service-content-data-list-item-head-additional-info">
+                                                                        <a type="button" class="service-content-data-list-item-head-link services__window-link">
+                                                                            <i class="ml-3 bi bi-chevron-down services__window_title-icon"></i>
+                                                                        </a>
+                                                                        <a type="button" class="service-content-data-list-item-head-link services__window-link hides d-none">
+                                                                            <i class="ml-3 bi bi-chevron-up services__window_title-icon"></i>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="services__window_all">
+                                                                    <div class="service-content-data-list-item-list services__window_choices d-none">
+                                                                        <div class="row">
+                                                                            @if(sizeof($catalogSubList) > 0)
+                                                                                @foreach($catalogSubList as $catalogSubItem)
+                                                                                    @if(sizeof($catalogSubItem->serviceCatalogList) > 0)
+                                                                                        <div class="col-12 services__window_choices_layout">
+                                                                                            <label class="container_checkbox">{{$catalogSubItem->name}}
+                                                                                                <input type="checkbox" data-service-id="{{$catalogSubItem->serviceCatalogList[0]->service_id}}" data-name="{{$catalogSubItem->name}}">
+                                                                                                <span class="checkmark"></span>
+                                                                                            </label>
+                                                                                            @if(!$loop->last)
+                                                                                                <hr class="services__window-strip">
+                                                                                            @endif
+                                                                                        </div>
+                                                                                    @endif
+                                                                                @endforeach
+                                                                            @else
+                                                                                @if(sizeof($catalogItem->serviceCatalogList) > 0)
+                                                                                    <div class="col-12 services__window_choices_layout">
+                                                                                        <label class="container_checkbox">{{$catalogItem->name}}
+                                                                                            <input type="checkbox" data-service-id="{{$catalogItem->serviceCatalogList[0]->service_id}}" data-name="{{$catalogItem->name}}">
+                                                                                            <span class="checkmark"></span>
+                                                                                        </label>
+                                                                                    </div>
+                                                                                @endif
+                                                                            @endif
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
                                             </div>
                                         </div>
                                     </div>
-                                @endfor
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Третий блок (закрытый) -->
-                    <div class="work-type-item">
-                        <div class="work-type-header">
-                            <div class="d-flex align-items-center">
-                                <div class="radio-wrapper me-3">
-                                    <input type="radio" name="work_type" class="custom-radio">
-                                    <span class="radio-mark"></span>
                                 </div>
-                                <span>Каковы сроки регистрации бизнеса в Казахстане?</span>
                             </div>
-                            <div class="d-flex align-items-center">
-                                <span class="points me-3">15 пунктов</span>
-                                <button class="btn-toggle">+</button>
+                        @else
+                            <div class="text-center py-5">
+                                <p>Нет доступных подвидов работ для этой категории</p>
                             </div>
-                        </div>
+                        @endif
                     </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>
@@ -215,8 +255,8 @@
                                 </div>
                             </div>
                             <div class="d-flex gap-3 mt-4">
-                                <button class="btn btn-success">Заказать услугу</button>
-                                <button class="btn btn-outline-success">
+                                <button class="btn btn-success orderService" disabled>Заказать услугу</button>
+                                <button class="btn btn-outline-success service-action" data-bs-toggle="modal" data-bs-target="#downloadCommercialOfferModal" disabled>
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-2">
                                         <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="#4CAF50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                         <path d="M7 10L12 15L17 10" stroke="#4CAF50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -258,7 +298,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <button class="btn btn-success">Заказать услугу</button>
+                            <button class="btn btn-success readyOffer" data-bs-toggle="modal" data-bs-target="#consultModal">Заказать услугу</button>
                         </div>
                     </div>
                 </div>
@@ -651,121 +691,41 @@
                 </div>
 
                 {{-- Полезная информация --}}
+                @if($usefulInformationList && $usefulInformationList->count() > 0)
                 <div class="row mt-5">
                     <div class="col-12">
                         <h2 class="mb-4">Полезная информация</h2>
                     </div>
-                    <div class="col-md-6 mb-3 d-flex justify-content-center">
-                        <div class="info-card d-flex justify-content-between align-items-center">
-                            <div class="info-img me-3">
-                                <img src="{{ asset('current/img/note.png') }}" alt="Типовые договоры">
-                            </div>
-                            <div>
-                                <strong>Типовые договоры</strong>
-                                <div class="text-muted small">
-                                    Шаблоны типовых договоров и документов для ведения строительной деятельности
+                    @foreach(collect($usefulInformationList)->sortBy('order_no') as $usefulInfo)
+                        <div class="col-md-6 mb-3 d-flex justify-content-center">
+                            <div class="info-card d-flex justify-content-between align-items-center">
+                                <div class="info-img me-3">
+                                    <img src="{{ asset('current/img/note.png') }}" alt="{{ $usefulInfo->name }}">
                                 </div>
-                            </div>
-                            <a href="#" class="download-btn">
-                                Скачать
-                                <span class="download-icon">
-                                    <svg width="20" height="20" fill="none" stroke="#00B569" stroke-width="2"
-                                         stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                                        <path d="M12 5v14M5 12l7 7 7-7"/>
-                                    </svg>
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3 d-flex justify-content-center">
-                        <div class="info-card d-flex justify-content-between align-items-center">
-                            <div class="info-img me-3">
-                                <img src="{{ asset('current/img/note.png') }}" alt="Инструкции и регламенты">
-                            </div>
-                            <div>
-                                <strong>Инструкции и регламенты</strong>
-                                <div class="text-muted small">
-                                    Инструкции ведения строительной деятельности/регламенты и срок/правила
+                                <div>
+                                    <strong>{{ $usefulInfo->name }}</strong>
+                                    @if($usefulInfo->short_description)
+                                        <div class="text-muted small">
+                                            {!! $usefulInfo->short_description !!}
+                                        </div>
+                                    @endif
                                 </div>
+                                @if(!is_null($usefulInfo->btn_name) && !is_null($usefulInfo->file_path))
+                                    <a href="{{ \Illuminate\Support\Facades\Storage::url($usefulInfo->file_path) }}" class="download-btn" download>
+                                        {{ $usefulInfo->btn_name }}
+                                        <span class="download-icon">
+                                            <svg width="20" height="20" fill="none" stroke="#00B569" stroke-width="2"
+                                                 stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                <path d="M12 5v14M5 12l7 7 7-7"/>
+                                            </svg>
+                                        </span>
+                                    </a>
+                                @endif
                             </div>
-                            <a href="#" class="download-btn">
-                                Скачать
-                                <span class="download-icon">
-                                    <svg width="20" height="20" fill="none" stroke="#00B569" stroke-width="2"
-                                         stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                                        <path d="M12 5v14M5 12l7 7 7-7"/>
-                                    </svg>
-                                </span>
-                            </a>
                         </div>
-                    </div>
-                    <div class="col-md-6 mb-3 d-flex justify-content-center">
-                        <div class="info-card d-flex justify-content-between align-items-center">
-                            <div class="info-img">
-                                <img src="{{ asset('current/img/note.png') }}" alt="ГОСТы и СНиПы">
-                            </div>
-                            <div>
-                                <strong>ГОСТы и СНиПы</strong>
-                                <div class="text-muted small">
-                                    Строительные нормы и правила по ним
-                                </div>
-                            </div>
-                            <a href="#" class="download-btn">
-                                Скачать
-                                <span class="download-icon">
-                                    <svg width="20" height="20" fill="none" stroke="#00B569" stroke-width="2"
-                                         stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                                        <path d="M12 5v14M5 12l7 7 7-7"/>
-                                    </svg>
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3 d-flex justify-content-center">
-                        <div class="info-card d-flex justify-content-between align-items-center">
-                            <div class="info-img">
-                                <img src="{{ asset('current/img/note.png') }}" alt="Бухгалтерская учетная политика">
-                            </div>
-                            <div>
-                                <strong>Бухгалтерская учетная политика</strong>
-                                <div class="text-muted small">
-                                    Правила, сроки, формы
-                                </div>
-                            </div>
-                            <a href="#" class="download-btn">
-                                Скачать
-                                <span class="download-icon">
-                                    <svg width="20" height="20" fill="none" stroke="#00B569" stroke-width="2"
-                                         stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                                        <path d="M12 5v14M5 12l7 7 7-7"/>
-                                    </svg>
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3 d-flex justify-content-center">
-                        <div class="info-card d-flex justify-content-between align-items-center">
-                            <div class="info-img me-3">
-                                <img src="{{ asset('current/img/note.png') }}" alt="Кадровая учетная политика">
-                            </div>
-                            <div>
-                                <strong>Кадровая учетная политика</strong>
-                                <div class="text-muted small">
-                                    Шаблоны типовых договоров и документов для ведения строительной деятельности
-                                </div>
-                            </div>
-                            <a href="#" class="download-btn">
-                                Скачать
-                                <span class="download-icon">
-                                    <svg width="20" height="20" fill="none" stroke="#00B569" stroke-width="2"
-                                         stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                                        <path d="M12 5v14M5 12l7 7 7-7"/>
-                                    </svg>
-                                </span>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="col-12 reviews_block mb-5">
+                    @endforeach
+                </div>
+                @endif    <div class="col-12 reviews_block mb-5">
                         <div class="container my-5">
                             <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                                 <div class="d-flex align-items-center">
@@ -779,96 +739,83 @@
                                 </div>
                             </div>
                             <div class="row g-4">
-                                <!-- Карточка 1 -->
-                                <div class="col-md-4">
-                                    <div class="review-card h-100 d-flex flex-column">
-                                        <div class="review-thumb position-relative">
-                                            <img src="{{ asset('current/img/video-preview.png') }}" alt="Отзыв 1">
-                                            <button class="play-btn" aria-label="play video">
-                                                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                                                    <circle cx="24" cy="24" r="24" fill="rgba(0,0,0,0.5)"/>
-                                                    <polygon points="20,16 36,24 20,32" fill="#fff"/>
-                                                </svg>
-                                            </button>
-                                            <span class="review-duration">06:24</span>
+                                @if($reviewList && $reviewList->count() > 0)
+                                    @foreach($reviewList as $review)
+                                        <div class="col-md-4">
+                                            <div class="review-card h-100 d-flex flex-column">
+                                                <div class="review-thumb position-relative">
+                                                    @if($review->preview_image)
+                                                        <img src="{{ \Illuminate\Support\Facades\Storage::url($review->preview_image) }}" alt="{{ $review->title }}">
+                                                    @else
+                                                        <img src="{{ asset('current/img/video-preview.png') }}" alt="{{ $review->title }}">
+                                                    @endif
+                                                    <button class="play-btn" aria-label="play video" data-video-url="{{ $review->video_url }}">
+                                                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                                                            <circle cx="24" cy="24" r="24" fill="rgba(0,0,0,0.5)"/>
+                                                            <polygon points="20,16 36,24 20,32" fill="#fff"/>
+                                                        </svg>
+                                                    </button>
+                                                    @if($review->duration)
+                                                        <span class="review-duration">{{ $review->duration }}</span>
+                                                    @endif
+                                                </div>
+                                                <div class="review-tags mb-2 mt-3">
+                                                    @if($review->tags)
+                                                        @foreach(explode(',', $review->tags) as $index => $tag)
+                                                            @if($index > 0)<span class="tag-separator">•</span>@endif
+                                                            <span>{{ trim(strtoupper($tag)) }}</span>
+                                                        @endforeach
+                                                    @else
+                                                        <span>СТРОИТЕЛЬСТВО</span>
+                                                    @endif
+                                                </div>
+                                                <div class="review-title mb-1">{{ $review->title }}</div>
+                                                @if($review->description)
+                                                    <div class="review-desc mb-2">
+                                                        {{ Str::limit($review->description, 150) }}
+                                                    </div>
+                                                @endif
+                                                <div class="review-meta mt-auto">
+                                                    <span class="review-date">
+                                                        <svg width="16" height="16" fill="none" stroke="#00B569" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                                                        {{ $review->created_at ? $review->created_at->format('d.m.Y') : '' }}
+                                                    </span>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="review-tags mb-2 mt-3">
-                                            <span>СТРОИТЕЛЬСТВО</span>
-                                            <span class="tag-separator">•</span>
-                                            <span>ЛИЦЕНЗИРОВАНИЕ</span>
-                                        </div>
-                                        <div class="review-title mb-1">Уведомление о начале строительно-монтажных работ</div>
-                                        <div class="review-desc mb-2">
-                                            Кого же привлекает этот новое направление в моде? Неординарные, яркие, смелые в своих решениях люди, которые не боятся пробовать экспериментировать со своим образом.
-                                        </div>
-                                        <div class="review-meta mt-auto">
-                                            <span class="review-date">
-                                                <svg width="16" height="16" fill="none" stroke="#00B569" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-                                                10 февраля 2024
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Карточка 2 -->
-                                <div class="col-md-4">
-                                    <div class="review-card h-100 d-flex flex-column">
-                                        <div class="review-thumb position-relative">
-                                            <img src="{{ asset('current/img/video-preview2.png') }}" alt="Отзыв 2">
-                                            <button class="play-btn" aria-label="play video">
-                                                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                                                    <circle cx="24" cy="24" r="24" fill="rgba(0,0,0,0.5)"/>
-                                                    <polygon points="20,16 36,24 20,32" fill="#fff"/>
-                                                </svg>
-                                            </button>
-                                            <span class="review-duration">06:24</span>
-                                        </div>
-                                        <div class="review-tags mb-2 mt-3">
-                                            <span>СТРОИТЕЛЬСТВО</span>
-                                            <span class="tag-separator">•</span>
-                                            <span>МЕДИЦИНА</span>
-                                        </div>
-                                        <div class="review-title mb-1">Медицинские лицензии для расширения спектра услуг</div>
-                                        <div class="review-desc mb-2">
-                                            Кого же привлекает этот новое направление в моде? Неординарные, яркие, смелые в своих решениях люди, которые не боятся пробовать экспериментировать со своим образом.
-                                        </div>
-                                        <div class="review-meta mt-auto">
-                                            <span class="review-date">
-                                                <svg width="16" height="16" fill="none" stroke="#00B569" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-                                                10 февраля 2024
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Карточка 3 -->
-                                <div class="col-md-4">
-                                    <div class="review-card h-100 d-flex flex-column">
-                                        <div class="review-thumb position-relative">
-                                            <img src="{{ asset('current/img/video-preview3.png') }}" alt="Отзыв 3">
-                                            <button class="play-btn" aria-label="play video">
-                                                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                                                    <circle cx="24" cy="24" r="24" fill="rgba(0,0,0,0.5)"/>
-                                                    <polygon points="20,16 36,24 20,32" fill="#fff"/>
-                                                </svg>
-                                            </button>
-                                            <span class="review-duration">06:24</span>
-                                        </div>
-                                        <div class="review-tags mb-2 mt-3">
-                                            <span>ЛИЦЕНЗИРОВАНИЕ</span>
-                                            <span class="tag-separator">•</span>
-                                            <span>СТРОИТЕЛЬСТВО</span>
-                                        </div>
-                                        <div class="review-title mb-1">Медицинские лицензии для расширения спектра услуг</div>
-                                        <div class="review-desc mb-2">
-                                            Кого же привлекает этот новое направление в моде? Неординарные, яркие, смелые в своих решениях люди, которые не боятся пробовать экспериментировать со своим образом.
-                                        </div>
-                                        <div class="review-meta mt-auto">
-                                            <span class="review-date">
-                                                <svg width="16" height="16" fill="none" stroke="#00B569" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-                                                10 февраля 2024
-                                            </span>
+                                    @endforeach
+                                @else
+                                    <!-- Fallback to mock data if no reviews -->
+                                    <div class="col-md-4">
+                                        <div class="review-card h-100 d-flex flex-column">
+                                            <div class="review-thumb position-relative">
+                                                <img src="{{ asset('current/img/video-preview.png') }}" alt="Отзыв">
+                                                <button class="play-btn" aria-label="play video">
+                                                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                                                        <circle cx="24" cy="24" r="24" fill="rgba(0,0,0,0.5)"/>
+                                                        <polygon points="20,16 36,24 20,32" fill="#fff"/>
+                                                    </svg>
+                                                </button>
+                                                <span class="review-duration">06:24</span>
+                                            </div>
+                                            <div class="review-tags mb-2 mt-3">
+                                                <span>СТРОИТЕЛЬСТВО</span>
+                                                <span class="tag-separator">•</span>
+                                                <span>ЛИЦЕНЗИРОВАНИЕ</span>
+                                            </div>
+                                            <div class="review-title mb-1">Уведомление о начале строительно-монтажных работ</div>
+                                            <div class="review-desc mb-2">
+                                                Отзыв клиента о получении строительной лицензии
+                                            </div>
+                                            <div class="review-meta mt-auto">
+                                                <span class="review-date">
+                                                    <svg width="16" height="16" fill="none" stroke="#00B569" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+                                                    {{ now()->format('d.m.Y') }}
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                @endif
                             </div>
                             <div class="text-center mt-4 d-block d-md-none">
                                 <a href="#" class="see-all-btn">Смотреть все</a>
@@ -876,6 +823,123 @@
                         </div>
                     </div>
 
+                </div>
+
+                <!-- Модальные окна для КП и заказа услуг -->
+                <!-- Modal: Скачать КП -->
+                <div class="modal fade" id="downloadCommercialOfferModal" tabindex="-1" role="dialog" aria-labelledby="downloadCommercialOfferModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <div class="col-12">
+                                    <div class="row justify-content-end">
+                                        <div class="col-lg-1 col-auto text-start">
+                                            <button type="button" class="btn btn-x" data-bs-dismiss="modal" aria-label="Close">
+                                                <i class="bi bi-x-circle modals__icon"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container">
+                                <div class="modal-body">
+                                    <p class="modals__title-head">Скачать коммерческое предложение</p>
+                                    <form method="post" id="formDownloadCommercialOffer">
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    @if(\Illuminate\Support\Facades\Auth::guest())
+                                                        <label>Укажите ваши контактные данные для получения КП</label>
+                                                        <input class="form-control modals__input" type="email" id="commercialOfferEmail" placeholder="Email" required value=""/>
+                                                        <input class="form-control modals__input" type="tel" name="phone" id="commercialOfferPhone" placeholder="Телефон" required value=""/>
+                                                        <input class="form-control modals__input" type="text" id="commercialOfferName" placeholder="Имя" value=""/>
+                                                    @else
+                                                        <label>Коммерческое предложение будет отправлено на ваш email</label>
+                                                        <input class="form-control modals__input" type="email" id="commercialOfferEmail" placeholder="Email" required value="{{\Illuminate\Support\Facades\Auth::user()->email}}"/>
+                                                        <input class="form-control modals__input" type="tel" name="phone" id="commercialOfferPhone" placeholder="Телефон" required value="{{\Illuminate\Support\Facades\Auth::user()->profile->phone ?? ''}}"/>
+                                                        <input class="form-control modals__input" type="text" id="commercialOfferName" placeholder="Имя" value="{{\Illuminate\Support\Facades\Auth::user()->name}}"/>
+                                                    @endif
+                                                    <div class="form-check pl-0 mt-2">
+                                                        <input type="checkbox" class="form-check-input" checked id="offerCheck_commercial_offer">
+                                                        <label class="form-check-label" for="offerCheck_commercial_offer">
+                                                            Я принимаю условия <a href="{{route("offer")}}" target="_blank">публичной оферты</a> <span class="text-danger">*</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-success modals__success_btn formDownloadCommercialOffer_submit">Отправить</button>
+                                        <p class="modals__title-description">Нажимая кнопку отправить вы даете разрешение на обработку персональных данных</p>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal: Подтверждение отправки -->
+                <div class="modal fade" id="sendEmailConfirmModal" tabindex="-1" role="dialog" aria-labelledby="sendEmailConfirmModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <div class="col-12">
+                                    <div class="row justify-content-end">
+                                        <div class="col-lg-1 col-auto text-start">
+                                            <button type="button" class="btn btn-x" data-bs-dismiss="modal" aria-label="Close">
+                                                <i class="bi bi-x-circle modals__icon"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container">
+                                <div class="modal-body text-center">
+                                    <i class="bi bi-check-circle text-success" style="font-size: 64px;"></i>
+                                    <p class="modals__title-head mt-3">Отправлено!</p>
+                                    <p class="modals__title-description">Документ был отправлен на указанный email</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal: Консультация -->
+                <div class="modal fade" id="consultModal" tabindex="-1" role="dialog" aria-labelledby="consultModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <div class="col-12">
+                                    <div class="row justify-content-end">
+                                        <div class="col-lg-1 col-auto text-start">
+                                            <button type="button" class="btn btn-x" data-bs-dismiss="modal" aria-label="Close">
+                                                <i class="bi bi-x-circle modals__icon"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="container">
+                                <div class="modal-body">
+                                    <p class="modals__title-head">Заказать услугу</p>
+                                    <p class="modals__title-description">Оставьте заявку и наш специалист свяжется с вами в течение 30 минут</p>
+                                    <form method="post" id="formConsult">
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <input class="form-control modals__input" type="text" id="consultName" placeholder="Имя" required value=""/>
+                                                    <input class="form-control modals__input" type="tel" id="consultPhone" placeholder="Телефон" required value=""/>
+                                                    <input class="form-control modals__input" type="email" id="consultEmail" placeholder="Email (необязательно)" value=""/>
+                                                    <textarea class="form-control modals__input" id="consultComment" placeholder="Комментарий" rows="3"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-success modals__success_btn">Отправить заявку</button>
+                                        <p class="modals__title-description">Нажимая кнопку отправить вы даете разрешение на обработку персональных данных</p>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
 
@@ -2264,6 +2328,227 @@
                         margin-right: 20px;
                     }
 
+                    /* Стили для секции с подвидами работ */
+                    .services__window-documents {
+                        background: #fff;
+                        padding: 20px 0;
+                    }
+
+                    .service-content-data-total {
+                        background: #00B569;
+                        color: #fff;
+                        padding: 20px 0;
+                        margin-bottom: 30px;
+                        position: sticky;
+                        top: 0;
+                        z-index: 100;
+                    }
+
+                    .service-content-data-total-panel {
+                        display: flex;
+                        gap: 30px;
+                        flex-wrap: wrap;
+                    }
+
+                    .service-content-data-total-panel-item {
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                    }
+
+                    .service-content-data-total-panel-item-title {
+                        font-size: 14px;
+                        opacity: 0.9;
+                    }
+
+                    .service-content-data-total-panel-item-description {
+                        font-size: 18px;
+                        font-weight: 600;
+                    }
+
+                    .service-content-data-total-panel-item-icon img {
+                        width: 24px;
+                        height: 24px;
+                    }
+
+                    .service-content-data-total-btn {
+                        display: flex;
+                        gap: 15px;
+                        justify-content: flex-end;
+                    }
+
+                    .service-content-data-total-btn .btn {
+                        padding: 10px 24px;
+                        border-radius: 25px;
+                        font-weight: 500;
+                    }
+
+                    .service-content-data-list-head {
+                        font-size: 16px;
+                        color: #666;
+                        margin-bottom: 20px;
+                    }
+
+                    .service-content-data-list-item {
+                        border: 1px solid #E5E7EB;
+                        border-radius: 8px;
+                        margin-bottom: 16px;
+                        background: #fff;
+                    }
+
+                    .service-content-data-list-item-head {
+                        padding: 20px;
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        cursor: pointer;
+                    }
+
+                    .service-content-data-list-item-head-main-info {
+                        display: flex;
+                        align-items: center;
+                        gap: 15px;
+                        flex: 1;
+                    }
+
+                    .service-content-data-list-item-head-point {
+                        color: #6B7280;
+                        font-size: 14px;
+                    }
+
+                    .service-content-data-list-item-head-additional-info {
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                    }
+
+                    .services__window-link {
+                        color: #00B569;
+                        text-decoration: none;
+                        cursor: pointer;
+                        font-size: 24px;
+                        line-height: 1;
+                        transition: color 0.2s;
+                    }
+
+                    .services__window-link:hover {
+                        color: #008f52;
+                    }
+
+                    .services__window_choices {
+                        padding: 0 20px 20px;
+                        border-top: 1px solid #E5E7EB;
+                    }
+
+                    .services__window_choices_layout {
+                        padding: 12px 0;
+                    }
+
+                    .services__window-strip {
+                        margin: 12px 0;
+                        border-color: #E5E7EB;
+                    }
+
+                    .container_checkbox {
+                        display: flex;
+                        align-items: flex-start;
+                        position: relative;
+                        padding-left: 35px;
+                        cursor: pointer;
+                        font-size: 16px;
+                        user-select: none;
+                        line-height: 1.5;
+                    }
+
+                    .container_checkbox input {
+                        position: absolute;
+                        opacity: 0;
+                        cursor: pointer;
+                        height: 0;
+                        width: 0;
+                    }
+
+                    .checkmark {
+                        position: absolute;
+                        top: 2px;
+                        left: 0;
+                        height: 20px;
+                        width: 20px;
+                        background-color: #fff;
+                        border: 2px solid #00B569;
+                        border-radius: 4px;
+                    }
+
+                    .container_checkbox:hover input ~ .checkmark {
+                        background-color: #f0fff0;
+                    }
+
+                    .container_checkbox input:checked ~ .checkmark {
+                        background-color: #00B569;
+                    }
+
+                    .checkmark:after {
+                        content: "";
+                        position: absolute;
+                        display: none;
+                    }
+
+                    .container_checkbox input:checked ~ .checkmark:after {
+                        display: block;
+                    }
+
+                    .container_checkbox .checkmark:after {
+                        left: 6px;
+                        top: 2px;
+                        width: 5px;
+                        height: 10px;
+                        border: solid white;
+                        border-width: 0 2px 2px 0;
+                        transform: rotate(45deg);
+                    }
+
+                    .checkmark_incomplete {
+                        background-color: #00B569 !important;
+                        opacity: 0.5;
+                    }
+
+                    .loader-line {
+                        height: 3px;
+                        background: linear-gradient(90deg, transparent, #fff, transparent);
+                        animation: loading 1.5s infinite;
+                    }
+
+                    @keyframes loading {
+                        0% { transform: translateX(-100%); }
+                        100% { transform: translateX(100%); }
+                    }
+
+                    @media (max-width: 768px) {
+                        .service-content-data-total-panel {
+                            flex-direction: column;
+                            gap: 15px;
+                        }
+
+                        .service-content-data-total-btn {
+                            flex-direction: column;
+                            width: 100%;
+                        }
+
+                        .service-content-data-total-btn .btn {
+                            width: 100%;
+                        }
+
+                        .service-content-data-list-item-head {
+                            flex-direction: column;
+                            align-items: flex-start;
+                            gap: 15px;
+                        }
+
+                        .service-content-data-list-item-head-additional-info {
+                            align-self: flex-end;
+                        }
+                    }
+
                 </style>
 
                 <script>
@@ -2397,9 +2682,40 @@
                                 const radio = this.querySelector('input[type="radio"]');
                                 if (radio) {
                                     radio.checked = true;
+                                    
+                                    // Переключаем видимость контейнеров (без AJAX)
+                                    const documentId = radio.value;
+                                    switchServiceContent(documentId);
                                 }
                             });
                         });
+                        
+                        // Функция для переключения контейнеров на фронте
+                        function switchServiceContent(documentId) {
+                            // Скрываем все контейнеры
+                            const allContainers = document.querySelectorAll('.service-content-container');
+                            allContainers.forEach(container => {
+                                container.style.display = 'none';
+                            });
+                            
+                            // Показываем нужный контейнер
+                            const targetContainer = document.querySelector(`.service-content-container[data-document-id="${documentId}"]`);
+                            if (targetContainer) {
+                                targetContainer.style.display = 'block';
+                                
+                                // Прокручиваем к секции с подвидами работ
+                                const workTypesSection = document.querySelector('.work-types-section');
+                                if (workTypesSection) {
+                                    const header = document.querySelector('.header-new');
+                                    const headerHeight = header ? header.offsetHeight : 0;
+                                    const position = workTypesSection.offsetTop - headerHeight - 20;
+                                    window.scrollTo({
+                                        top: position,
+                                        behavior: 'smooth'
+                                    });
+                                }
+                            }
+                        }
                         
                         // Аккордионы для подвидов работ
                         const toggleBtns = document.querySelectorAll('.btn-toggle');
@@ -2505,4 +2821,225 @@
                         }
                     });
                 </script>
+@endsection
+
+@section('js')
+<script>
+$(document).ready(function () {
+    // Обработчик для раскрытия/скрытия подпунктов (аккордеон)
+    $(document).on('click', '.services__window-link', function () {
+        let self = this
+        let parent = $(self).parents('.service-content-data-list-item')[0]
+        $('.services__window-link', parent).toggleClass('d-none')
+        $('.services__window_choices', parent).toggleClass('d-none')
+    });
+
+    // Обработчик для "выбрать все" чекбокса
+    $(document).on('click', '.container_checkbox-all input', function () {
+        let parent = $(this).parents('.service-content-data-list-item')[0];
+        
+        $('.services__window_all .container_checkbox input:checkbox', parent)
+            .prop('checked', $(this).is(':checked'));
+        $('.container_checkbox-all .checkmark', parent).removeClass('checkmark_incomplete');
+        
+        disableServiceAction()
+        loadServiceCompare()
+    })
+
+    // Обработчик для отдельных чекбоксов
+    $(document).on('click', '.services__window_all .container_checkbox input', function () {
+        console.log('Чекбокс кликнут:', $(this).data('service-id'));
+        
+        let parent = $(this).parents('.service-content-data-list-item')[0];
+        $('.container_checkbox-all input:checkbox', parent).prop('checked', false)
+        
+        let allItems = $('.container_checkbox input:checkbox', parent).length - 1
+        let selectedItems = $('.container_checkbox input:checkbox:checked', parent).length
+        
+        if(selectedItems === allItems){
+            $('.container_checkbox-all input:checkbox', parent).prop('checked', true)
+            $('.container_checkbox-all .checkmark', parent).removeClass('checkmark_incomplete');
+        } else if(selectedItems > 0){
+            $('.container_checkbox-all .checkmark', parent).addClass('checkmark_incomplete');
+        } else {
+            $('.container_checkbox-all .checkmark', parent).removeClass('checkmark_incomplete');
+        }
+        
+        disableServiceAction()
+        loadServiceCompare()
+    })
+
+    // Функция для включения/отключения кнопок действий
+    function disableServiceAction() {
+        if ($('.services__window_all .container_checkbox input:checkbox:checked').length > 0) {
+            $('.service-action').prop('disabled', false)
+        } else {
+            $('.service-action').prop('disabled', true)
+        }
+    }
+
+    // Функция для загрузки расчета стоимости (БЫСТРЫЙ API)
+    function loadServiceCompare() {
+        let selectedCount = $('.services__window_all .container_checkbox input:checkbox:checked').length;
+        console.log('loadServiceCompare вызвана, выбрано услуг:', selectedCount);
+        
+        if (selectedCount > 0) {
+            let serviceIds = getServiceIdList();
+            console.log('ID выбранных услуг:', serviceIds);
+            
+            // Показываем индикатор загрузки
+            $('.service-content-data-total .loader-line').removeClass('d-none')
+            
+            // Используем новый быстрый API endpoint
+            $.ajax({
+                type: 'POST',
+                url: '{{route('api.service-totals')}}',
+                data: {
+                    '_token': "{{ csrf_token() }}",
+                    'serviceId': serviceIds
+                },
+                success: function (response) {
+                    console.log('✅ Получены данные от сервера (JSON):', response);
+                    $('.service-content-data-total .loader-line').addClass('d-none')
+                    
+                    if (response.success) {
+                        // Обновляем количество выбранных услуг в оригинальной секции "Расчет стоимости"
+                        $('.pricing-card .selected-info .text-success').text(response.count + ' видов работ')
+                        console.log('Обновлено количество:', response.count);
+                        
+                        // Обновляем стоимость
+                        console.log('Рассчитана стоимость:', response.total_cost);
+                        $('.pricing-card .price-value').first().text(response.total_cost.toLocaleString('ru-RU') + ' ₸')
+                        
+                        // Обновляем срок
+                        console.log('Рассчитан срок:', response.total_days);
+                        $('.pricing-card .price-value').eq(1).text(response.total_days + ' дней')
+                        
+                        // Обновляем в верхней панели (если есть)
+                        $('.service-content-data-total-panel .cnt span').text(response.count)
+                        $('.service-content-data-total-panel .price span').text(response.total_cost.toLocaleString('ru-RU'))
+                        $('.service-content-data-total-panel .day_cnt span').text(response.total_days)
+                        
+                        // Активируем кнопки в секции "Расчет стоимости"
+                        $('.pricing-card .btn').prop('disabled', false)
+                        console.log('✅ Кнопки активированы');
+                    } else {
+                        console.error('❌ Ошибка в ответе:', response.error);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('❌ Ошибка при расчете:', error);
+                    console.error('Статус:', status);
+                    console.error('Ответ сервера:', xhr.responseText);
+                    $('.service-content-data-total .loader-line').addClass('d-none')
+                }
+            });
+        } else {
+            console.log('Нет выбранных услуг, сбрасываем значения');
+            // Сбрасываем значения
+            $('.pricing-card .selected-info .text-success').text('0 видов работ')
+            $('.pricing-card .price-value').first().text('0 ₸')
+            $('.pricing-card .price-value').eq(1).text('0 дней')
+            $('.service-content-data-total-panel .cnt span').text('0')
+            $('.service-content-data-total-panel .price span').text('0')
+            $('.service-content-data-total-panel .day_cnt span').text('0')
+            
+            // Деактивируем кнопки
+            $('.pricing-card .btn').prop('disabled', true)
+        }
+    }
+
+    // Функция для получения списка ID выбранных услуг
+    function getServiceIdList() {
+        let serviceIdList = [];
+        $('.services__window_all .container_checkbox input:checkbox:checked').each(function () {
+            serviceIdList.push($(this).data('service-id'))
+        });
+        return serviceIdList;
+    }
+
+    // Обработчик для кнопки "Заказать услугу"
+    $(document).on('click', '.orderService', function () {
+        let serviceIdList = getServiceIdList();
+        if (serviceIdList.length > 0) {
+            // Открываем модальное окно для заказа
+            $('#consultModal').modal('show');
+        }
+    });
+
+    // Обработчик для формы консультации
+    $("#formConsult").submit(function (event) {
+        event.preventDefault();
+        
+        alert('Заявка принята! Наш специалист свяжется с вами в течение 30 минут.');
+        $('#consultModal').modal('hide');
+        
+        // Очищаем форму
+        $('#consultName').val('');
+        $('#consultPhone').val('');
+        $('#consultEmail').val('');
+        $('#consultComment').val('');
+    });
+
+    // Обработчик для формы "Скачать КП"
+    $("#formDownloadCommercialOffer").submit(function (event) {
+        event.preventDefault();
+        
+        let serviceIdList = getServiceIdList();
+        
+        if (serviceIdList.length === 0) {
+            alert('Пожалуйста, выберите хотя бы одну услугу');
+            return;
+        }
+        
+        if (!$('#offerCheck_commercial_offer').is(':checked')) {
+            alert('Пожалуйста, примите условия публичной оферты');
+            return;
+        }
+
+        $('.formDownloadCommercialOffer_submit').attr('disabled', true);
+
+        $.ajax({
+            type: 'POST',
+            url: '{{route('services.sendCommercialOffer')}}',
+            data: {
+                '_token': "{{ csrf_token() }}",
+                'serviceIdList': serviceIdList,
+                'email': $('#commercialOfferEmail').val(),
+                'phone': $('#commercialOfferPhone').val(),
+                'name': $('#commercialOfferName').val(),
+            },
+            success: function (data) {
+                $('.formDownloadCommercialOffer_submit').attr('disabled', false);
+
+                $('#commercialOfferEmail').val('')
+                $('#commercialOfferPhone').val('')
+                $('#commercialOfferName').val('')
+
+                $('#downloadCommercialOfferModal').modal('hide');
+                
+                // Показываем модальное окно подтверждения
+                setTimeout(function() {
+                    $('#sendEmailConfirmModal').modal('show');
+                }, 500);
+            },
+            error: function(xhr, status, error) {
+                $('.formDownloadCommercialOffer_submit').attr('disabled', false);
+                alert('Произошла ошибка при отправке. Пожалуйста, попробуйте еще раз.');
+                console.error('Error:', error);
+            }
+        });
+    });
+
+    // Функция для получения имен выбранных услуг
+    function getServiceNameList() {
+        let result = '<ul>';
+        $('.services__window_all .container_checkbox input:checkbox:checked').each(function () {
+            result += "<li>" + $(this).data('name') + "</li>";
+        });
+        result += '</ul>';
+        return result;
+    }
+});
+</script>
 @endsection

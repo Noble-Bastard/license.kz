@@ -58,6 +58,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         Route::get('/service-group/{serviceGroupName}', [\App\Http\Controllers\ServicesController::class, 'serviceGroupInfoNew'])->name('new.services-group.info');
         Route::get('/service-group/catalog/{catalogName}', [\App\Http\Controllers\ServicesController::class, 'serviceGroupCatalogNew'])->name('new.services-group.catalog');
         Route::post('/service-group/compare/', [\App\Http\Controllers\ServicesController::class, 'serviceGroupCompareNew'])->name('new.services-group.compare');
+        Route::post('/api/service-totals', [\App\Http\Controllers\ServicesController::class, 'getServiceTotalsJson'])->name('api.service-totals');
 
         Route::get('/construction', [\App\Http\Controllers\ServicesController::class, 'constructionServices'])->name('new-construction');
         Route::get('/new-services', [\App\Http\Controllers\HomeController::class, 'servicesNew'])->name('new-services');

@@ -121,17 +121,53 @@ class ServicesController extends Controller
 
     public function serviceGroupCatalogNew($catalogName)
     {
-        $currentNode = CatalogDal::getByPrettyName($catalogName, true);
-        if(is_null($currentNode)){
-            abort(404);
+        try {
+            $currentNode = CatalogDal::getByPrettyName($catalogName, true);
+            if(is_null($currentNode)){
+                abort(404);
+            }
+
+            $service = CatalogDal::getFirstServiceByCatalogNode($currentNode->id);
+
+            $currentNode->service = ServiceDal::get($service->id, true);
+
+            return view('new.partials.page.services')
+                ->with('currentNode', $currentNode);
+        } catch (\Exception $e) {
+            // Логируем ошибку
+            \Log::error('Error in serviceGroupCatalogNew: ' . $e->getMessage());
+            
+            // Возвращаем простое HTML сообщение об ошибке
+            return response('<div class="alert alert-danger text-center py-5"><h4>Ошибка загрузки данных</h4><p>Не удалось загрузить подвиды работ. Пожалуйста, обратитесь к администратору.</p><small>Техническая информация: ' . $e->getMessage() . '</small></div>', 500);
+        }
+    }
+
+    /**
+     * Быстрый API endpoint для получения только суммы и сроков (без HTML)
+     */
+    public function getServiceTotalsJson()
+    {
+        $selectedServices = Input::get('serviceId');
+        
+        if (empty($selectedServices)) {
+            return response()->json(['error' => 'No services selected'], 400);
         }
 
-        $service = CatalogDal::getFirstServiceByCatalogNode($currentNode->id);
-
-        $currentNode->service = ServiceDal::get($service->id, true);
-
-        return view('new.partials.page.services')
-            ->with('currentNode', $currentNode);
+        try {
+            // Получаем только необходимые данные для расчета
+            $serviceTotals = ServiceDal::getServiceTotals($selectedServices, null);
+            
+            return response()->json([
+                'success' => true,
+                'count' => count($selectedServices),
+                'total_cost' => $serviceTotals->baseCostTotal,
+                'total_days' => $serviceTotals->executionDaysTotal,
+                'total_tax' => $serviceTotals->taxTotal ?? 0,
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Error in getServiceTotalsJson: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to calculate totals'], 500);
+        }
     }
 
     public function serviceGroupCompareNew()
@@ -818,16 +854,54 @@ class ServicesController extends Controller
 
     public function constructionServices()
     {
-        // Возвращаем страницу услуг строительства
-        $countryId = 1; // KZ
-        $categoryList = ServiceCategoryDal::getServiceCategoryWithRootCatalog(
-            false,
-            false,
-            $countryId
-        );
+        // Получаем узел строительства по pretty_url (как в serviceGroupInfoNew)
+        $currentNode = CatalogDal::getByPrettyName('stroitelno_montazhnye_raboty', true);
+        
+        if(is_null($currentNode)){
+            abort(404, 'Страница строительства не найдена');
+        }
+
+        // Получаем корневой узел и категорию (как в serviceGroupInfoNew)
+        $rootNode = CatalogDal::getRootNode($currentNode->id, true);
+        $rootNode->category = ServiceCategoryCatalogDal::getByCatalog($rootNode->id, true);
+
+        // Получаем дочерние узлы (категории строительных лицензий: I, II, III)
+        $documentTypes = collect($currentNode->childNodeList)->where('is_visible', 1)->sortBy('order_no')->values();
+        
+        // Для каждой категории получаем полную информацию с услугами
+        foreach($documentTypes as $documentType) {
+            // Загружаем дочерние узлы (подвиды работ)
+            $catalogList = collect($documentType->childNodeList->where('is_visible', 1)->all())->sortBy('name');
+            
+            if(sizeof($catalogList) === 0){
+                $catalogList = [$documentType];
+            }
+            
+            $documentType->catalogList = $catalogList;
+            
+            // Для каждого подвида загружаем услуги
+            foreach($catalogList as $catalogItem) {
+                $catalogSubList = collect($catalogItem->childNodeList->where('is_visible', 1)->all())->sortBy('name');
+                $catalogItem->catalogSubList = $catalogSubList;
+            }
+            
+            // НЕ загружаем service через ServiceDal::get() - это обращается к service_ext view который тупит
+            // Вместо этого просто используем базовые данные из serviceCatalogList
+            $documentType->service = null; // Можно добавить базовую стоимость позже если нужно
+        }
+
+        // Получаем отзывы (как в serviceGroupInfoNew)
+        $reviewList = $this->reviewRepository->getTopByType(3, ReviewTypeList::Video);
+
+        // Получаем полезную информацию
+        $usefulInformationList = $rootNode->category->usefulInformations ?? collect();
 
         return view('construction-new')
-            ->with('categoryList', $categoryList);
+            ->with('rootNode', $rootNode)
+            ->with('currentNode', $currentNode)
+            ->with('documentTypes', $documentTypes)
+            ->with('reviewList', $reviewList)
+            ->with('usefulInformationList', $usefulInformationList);
     }
 
 }
