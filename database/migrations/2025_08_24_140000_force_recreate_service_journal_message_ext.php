@@ -52,3 +52,4 @@ class ForceRecreateServiceJournalMessageExt extends Migration
 
 
 
+

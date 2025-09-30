@@ -97,49 +97,6 @@
                         @if(isset($documentType->catalogList) && $documentType->catalogList->count() > 0)
                             <div class="services">
                                 <div class="col-12 services__window-documents">
-                                    <div class="service-content-data-total">
-                                        <div class="container">
-                                            <div class="col-12 col-md-8">
-                                                <div class="service-content-data-total-panel">
-                                                    <div class="service-content-data-total-panel-item">
-                                                        <div class="service-content-data-total-panel-item-title">Выбрано:</div>
-                                                        <div class="service-content-data-total-panel-item-description cnt">
-                                                            <span>0</span> видов работ
-                                                        </div>
-                                                    </div>
-                                                    <div class="service-content-data-total-panel-item">
-                                                        <div class="service-content-data-total-panel-item-title">Стоимость оказания услуг:</div>
-                                                        <div class="service-content-data-total-panel-item-icon">
-                                                            <img src="{{asset('/new/images/money_circle.svg')}}" alt="">
-                                                        </div>
-                                                        <div class="service-content-data-total-panel-item-description price">
-                                                            <span>0</span> тенге
-                                                        </div>
-                                                    </div>
-                                                    <div class="service-content-data-total-panel-item">
-                                                        <div class="service-content-data-total-panel-item-title">Срок оказания услуг:</div>
-                                                        <div class="service-content-data-total-panel-item-icon">
-                                                            <img src="{{asset('/new/images/clock_circle.svg')}}" alt="">
-                                                        </div>
-                                                        <div class="service-content-data-total-panel-item-description day_cnt">
-                                                            <span>0</span> дней
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-12 col-md-4">
-                                                <div class="service-content-data-total-btn">
-                                                    <button type="button" class="btn btn-outline-white service-action" data-bs-toggle="modal" data-bs-target="#downloadCommercialOfferModal" disabled="disabled">
-                                                        <img src="{{asset('/new/images/arrowDownWhite.svg')}}" class="me-2"> Скачать КП
-                                                    </button>
-                                                    <button type="button" class="btn btn-white service-action orderService" disabled="disabled">
-                                                        Заказать услугу
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="loader-line d-none"></div>
-                                    </div>
                                     <div>
                                         <div class="row">
                                             <div class="col-sm-10 col-12 service-content-data-list">
@@ -2923,6 +2880,10 @@ $(document).ready(function () {
                         // Активируем кнопки в секции "Расчет стоимости"
                         $('.pricing-card .btn').prop('disabled', false)
                         console.log('✅ Кнопки активированы');
+
+                        // Также активируем кнопки в верхней панели
+                        $('.service-content-data-total-btn .btn').prop('disabled', false)
+                        console.log('✅ Кнопки в верхней панели активированы');
                     } else {
                         console.error('❌ Ошибка в ответе:', response.error);
                     }
@@ -2946,6 +2907,7 @@ $(document).ready(function () {
             
             // Деактивируем кнопки
             $('.pricing-card .btn').prop('disabled', true)
+            $('.service-content-data-total-btn .btn').prop('disabled', true)
         }
     }
 
@@ -2962,8 +2924,9 @@ $(document).ready(function () {
     $(document).on('click', '.orderService', function () {
         let serviceIdList = getServiceIdList();
         if (serviceIdList.length > 0) {
-            // Открываем модальное окно для заказа
-            $('#consultModal').modal('show');
+            // Перенаправляем на страницу оплаты с выбранными услугами
+            const serviceListParam = serviceIdList.join(',');
+            window.location.href = '/paymentInfo?serviceList=' + serviceListParam;
         }
     });
 
@@ -2971,7 +2934,6 @@ $(document).ready(function () {
     $("#formConsult").submit(function (event) {
         event.preventDefault();
         
-        alert('Заявка принята! Наш специалист свяжется с вами в течение 30 минут.');
         $('#consultModal').modal('hide');
         
         // Очищаем форму
@@ -2988,12 +2950,10 @@ $(document).ready(function () {
         let serviceIdList = getServiceIdList();
         
         if (serviceIdList.length === 0) {
-            alert('Пожалуйста, выберите хотя бы одну услугу');
             return;
         }
         
         if (!$('#offerCheck_commercial_offer').is(':checked')) {
-            alert('Пожалуйста, примите условия публичной оферты');
             return;
         }
 
@@ -3025,7 +2985,6 @@ $(document).ready(function () {
             },
             error: function(xhr, status, error) {
                 $('.formDownloadCommercialOffer_submit').attr('disabled', false);
-                alert('Произошла ошибка при отправке. Пожалуйста, попробуйте еще раз.');
                 console.error('Error:', error);
             }
         });
