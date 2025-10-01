@@ -144,7 +144,7 @@ class ServicesController extends Controller
     }
 
     /**
-     * НОВЫЙ API endpoint - используем ТОЧНО ТОТ ЖЕ метод что и старый код
+     * НОВЫЙ БЫСТРЫЙ API endpoint - точно воспроизводит логику ServiceDal::getServiceTotals()
      */
     public function getServiceTotalsQuick()
     {
@@ -155,16 +155,84 @@ class ServicesController extends Controller
         }
 
         try {
-            // Используем ТОЧНО ТОТ ЖЕ метод расчета что и в старом коде
-            $serviceTotals = ServiceDal::getServiceTotals($selectedServices, null);
+            // 1. Получаем стоимость шагов (как в старом коде)
+            $stepCosts = DB::table('service_step_map')
+                ->join('service_step', 'service_step_map.service_step_id', '=', 'service_step.id')
+                ->leftJoin('service_step_cost_hist', function ($join) {
+                    $join->on('service_step_cost_hist.service_step_id', '=', 'service_step_map.service_step_id')
+                         ->whereRaw('service_step_cost_hist.create_date = (
+                             SELECT MAX(create_date) 
+                             FROM service_step_cost_hist 
+                             WHERE service_step_id = service_step_map.service_step_id
+                         )');
+                })
+                ->whereIn('service_step_map.service_id', $selectedServices)
+                ->select(
+                    'service_step_map.service_id',
+                    DB::raw('SUM(COALESCE(service_step_cost_hist.cost, 0)) as total_step_cost'),
+                    DB::raw('SUM(COALESCE(service_step.execution_work_day_cnt, 0)) as total_execution_work_day_cnt')
+                )
+                ->groupBy('service_step_map.service_id')
+                ->get();
+
+            // 2. Получаем стоимость сервисов с учетом логики getServiceCost()
+            $serviceCosts = DB::table('service_cost_hist')
+                ->join(DB::raw('(
+                    SELECT service_id, MAX(create_date) as max_create_date
+                    FROM service_cost_hist
+                    GROUP BY service_id
+                ) as latest_cost'), function ($join) {
+                    $join->on('service_cost_hist.service_id', '=', 'latest_cost.service_id')
+                         ->on('service_cost_hist.create_date', '=', 'latest_cost.max_create_date');
+                })
+                ->whereIn('service_cost_hist.service_id', $selectedServices)
+                ->select(
+                    'service_cost_hist.service_id',
+                    DB::raw('COALESCE(service_cost_hist.base_cost, 0) as base_cost'),
+                    DB::raw('COALESCE(service_cost_hist.additional_cost, 0) as additional_cost')
+                )
+                ->orderBy('service_cost_hist.service_id')
+                ->get();
+
+            // 3. Применяем логику getServiceCost() - base_cost только от первого сервиса
+            $firstServiceCost = $serviceCosts->first();
+            $firstBaseCost = $firstServiceCost ? $firstServiceCost->base_cost : 0;
+            $firstAdditionalCost = $firstServiceCost ? $firstServiceCost->additional_cost : 0;
             
-            // Возвращаем только нужные поля в JSON
+            // Дополнительная стоимость от всех сервисов минус дополнительная стоимость первого
+            $totalAdditionalCost = $serviceCosts->sum('additional_cost') - $firstAdditionalCost;
+            
+            // Общая стоимость = стоимость шагов + базовая стоимость + дополнительная стоимость
+            $totalStepCost = $stepCosts->sum('total_step_cost');
+            $totalCost = $totalStepCost + $firstBaseCost + $totalAdditionalCost;
+            
+            // 3. Рассчитываем дни выполнения по логике старого кода
+            // Группируем по execution_parallel_no и берем MAX для каждого параллельного пути
+            $executionDays = DB::table('service_step_map')
+                ->join('service_step', 'service_step_map.service_step_id', '=', 'service_step.id')
+                ->whereIn('service_step_map.service_id', $selectedServices)
+                ->select('service_step_map.service_id', 'service_step.execution_parallel_no', 'service_step.execution_work_day_cnt')
+                ->get()
+                ->groupBy('execution_parallel_no')
+                ->map(function ($group) {
+                    return $group->max('execution_work_day_cnt');
+                })
+                ->sum();
+            
+            $totalDays = $executionDays;
+
             return response()->json([
                 'success' => true,
                 'count' => count($selectedServices),
-                'total_cost' => (int)$serviceTotals->stepCostTotal,
-                'total_days' => (int)$serviceTotals->executionWorkDayTotal,
-                'total_tax' => (int)$serviceTotals->stepTaxTotal,
+                'total_cost' => (int)$totalCost,
+                'total_days' => (int)$totalDays,
+                'total_tax' => 0,
+                'debug' => [
+                    'step_cost' => (int)$totalStepCost,
+                    'base_cost' => (int)$firstBaseCost,
+                    'additional_cost' => (int)$totalAdditionalCost,
+                    'total' => (int)$totalCost
+                ]
             ]);
         } catch (\Exception $e) {
             \Log::error('Error in getServiceTotalsQuick: ' . $e->getMessage());

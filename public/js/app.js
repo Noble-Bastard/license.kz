@@ -97294,284 +97294,6 @@ module.exports = function(module) {
 
 /***/ }),
 
-/***/ "./resources/js/Errors.js":
-/*!********************************!*\
-  !*** ./resources/js/Errors.js ***!
-  \********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-(function (root, factory) {
-  'use strict';
-
-  if (true) {
-    // AMD support.
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-  } else {}
-})(this, function () {
-  'use strict';
-
-  // Constructor //
-  var Errors = function Errors() {
-    if (this == null) return;
-    this.errors = {};
-  };
-  Errors.prototype.install = function (Vue, options) {};
-
-  // Methods //
-
-  /**
-   * Determine if an errors exists for the given field.
-   *
-   * @param {string} field
-   */
-  Errors.prototype.has = function (field) {
-    return this.errors.hasOwnProperty(field);
-  };
-
-  /**
-   * Determine if we have any errors.
-   */
-  Errors.prototype.any = function () {
-    return Object.keys(this.errors).length > 0;
-  };
-
-  /**
-   * Retrieve the error message for a field.
-   *
-   * @param {string} field
-   */
-  Errors.prototype.get = function (field) {
-    if (this.errors[field]) {
-      return this.errors[field][0];
-    }
-  };
-
-  /**
-   * Record the new errors.
-   *
-   * @param {object} errors
-   */
-  Errors.prototype.record = function (errors) {
-    this.errors = errors;
-  };
-
-  /**
-   * Clear one or all error fields.
-   *
-   * @param {string|null} field
-   */
-  Errors.prototype.clear = function (field) {
-    if (field) {
-      delete this.errors[field];
-      return;
-    }
-    this.errors = {};
-  };
-  return Errors;
-});
-
-/***/ }),
-
-/***/ "./resources/js/Form.js":
-/*!******************************!*\
-  !*** ./resources/js/Form.js ***!
-  \******************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-(function (root, factory) {
-  'use strict';
-
-  if (true) {
-    // AMD support.
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
-				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
-				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
-				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-  } else {}
-})(this, function () {
-  'use strict';
-
-  // Constructor //
-  /**
-   * Create a new Form instance.
-   *
-   * @param {object} data
-   */
-  var Form = function Form(data) {
-    if (this == null) return;
-    this.originalData = data;
-    for (var field in data) {
-      this[field] = data[field];
-    }
-    this.errors = new Errors();
-    this.isSendData = false;
-  };
-  Form.prototype.install = function (Vue, options) {};
-
-  // Methods //
-
-  /**
-   * Fetch all relevant data for the form.
-   */
-  Form.prototype.data = function () {
-    var data = {};
-    for (var property in this.originalData) {
-      data[property] = this[property];
-    }
-    return data;
-  };
-
-  /**
-   * Fetch all relevant data for the form.
-   */
-  Form.prototype.formData = function () {
-    var data = new FormData();
-    for (var property in this.originalData) {
-      if (this[property] != null && typeof this[property] != 'undefined') {
-        data.append(property, this[property]);
-      }
-    }
-    return data;
-  };
-
-  /**
-   * Reset the form fields.
-   */
-  Form.prototype.reset = function () {
-    for (var field in this.originalData) {
-      this[field] = '';
-    }
-    this.errors.clear();
-  };
-
-  /**
-   * Send a POST request to the given URL.
-   * .
-   * @param {string} url
-   */
-  Form.prototype.post = function (url) {
-    return this.submit('post', url);
-  };
-
-  /**
-   * Send a POST request to the given URL.
-   * .
-   * @param {string} url
-   */
-  Form.prototype.postMultipart = function (url) {
-    return this.submitMultipart('post', url);
-  };
-
-  /**
-   * Send a PUT request to the given URL.
-   * .
-   * @param {string} url
-   */
-  Form.prototype.put = function (url) {
-    return this.submit('put', url);
-  };
-
-  /**
-   * Send a PATCH request to the given URL.
-   * .
-   * @param {string} url
-   */
-  Form.prototype.patch = function (url) {
-    return this.submit('patch', url);
-  };
-
-  /**
-   * Send a DELETE request to the given URL.
-   * .
-   * @param {string} url
-   */
-  Form.prototype["delete"] = function (url) {
-    return this.submit('delete', url);
-  };
-
-  /**
-   * Submit the form.
-   *
-   * @param {string} requestType
-   * @param {string} url
-   */
-  Form.prototype.submit = function (requestType, url) {
-    var _this = this;
-    this.isSendData = true;
-    return new Promise(function (resolve, reject) {
-      axios[requestType](url, _this.data()).then(function (response) {
-        _this.onSuccess(response.data);
-        resolve(response.data);
-      })["catch"](function (error) {
-        _this.onFail(error.response.data.errors);
-        reject(error.response.data);
-      });
-    });
-  };
-
-  /**
-   * Submit the form.
-   *
-   * @param {string} requestType
-   * @param {string} url
-   */
-  Form.prototype.submitMultipart = function (requestType, url) {
-    var _this2 = this;
-    this.isSendData = true;
-    return new Promise(function (resolve, reject) {
-      axios[requestType](url, _this2.formData(), {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      }).then(function (response) {
-        _this2.onSuccess(response.data);
-        resolve(response.data);
-      })["catch"](function (error) {
-        _this2.onFail(error.response.data.errors);
-        reject(error.response.data);
-      });
-    });
-  };
-
-  /**
-   * Handle a successful form submission.
-   *
-   * @param {object} data
-   */
-  Form.prototype.onSuccess = function (data) {
-    this.isSendData = false;
-    this.reset();
-  };
-
-  /**
-   * Handle a failed form submission.
-   *
-   * @param {object} errors
-   */
-  Form.prototype.onFail = function (errors) {
-    this.isSendData = false;
-    this.errors.record(errors);
-  };
-  Form.prototype.errorsOrSend = function () {
-    return this.errors.any() || this.isSendData;
-  };
-  Form.prototype.resetErrors = function () {
-    var $errorList = this.errors.errors;
-    this.errors = new Errors();
-    this.errors.errors = $errorList;
-  };
-  return Form;
-});
-
-/***/ }),
-
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -97775,9 +97497,9 @@ lang_js__WEBPACK_IMPORTED_MODULE_1___default.a.prototype._parseKey = function (k
     entries: segments
   };
 };
-window.Errors = __webpack_require__(/*! ./Errors.js */ "./resources/js/Errors.js");
+window.Errors = __webpack_require__(/*! ./errors.js */ "./resources/js/errors.js");
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(window.Errors);
-window.Form = __webpack_require__(/*! ./Form.js */ "./resources/js/Form.js");
+window.Form = __webpack_require__(/*! ./form.js */ "./resources/js/form.js");
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(window.Form);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(moment__WEBPACK_IMPORTED_MODULE_75___default.a);
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(__webpack_require__(/*! vue-moment */ "./node_modules/vue-moment/dist/vue-moment.js"));
@@ -103199,6 +102921,284 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ServiceJournalDocuments_vue_vue_type_template_id_eaf572ea_scoped_true__WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/js/errors.js":
+/*!********************************!*\
+  !*** ./resources/js/errors.js ***!
+  \********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+(function (root, factory) {
+  'use strict';
+
+  if (true) {
+    // AMD support.
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+  } else {}
+})(this, function () {
+  'use strict';
+
+  // Constructor //
+  var Errors = function Errors() {
+    if (this == null) return;
+    this.errors = {};
+  };
+  Errors.prototype.install = function (Vue, options) {};
+
+  // Methods //
+
+  /**
+   * Determine if an errors exists for the given field.
+   *
+   * @param {string} field
+   */
+  Errors.prototype.has = function (field) {
+    return this.errors.hasOwnProperty(field);
+  };
+
+  /**
+   * Determine if we have any errors.
+   */
+  Errors.prototype.any = function () {
+    return Object.keys(this.errors).length > 0;
+  };
+
+  /**
+   * Retrieve the error message for a field.
+   *
+   * @param {string} field
+   */
+  Errors.prototype.get = function (field) {
+    if (this.errors[field]) {
+      return this.errors[field][0];
+    }
+  };
+
+  /**
+   * Record the new errors.
+   *
+   * @param {object} errors
+   */
+  Errors.prototype.record = function (errors) {
+    this.errors = errors;
+  };
+
+  /**
+   * Clear one or all error fields.
+   *
+   * @param {string|null} field
+   */
+  Errors.prototype.clear = function (field) {
+    if (field) {
+      delete this.errors[field];
+      return;
+    }
+    this.errors = {};
+  };
+  return Errors;
+});
+
+/***/ }),
+
+/***/ "./resources/js/form.js":
+/*!******************************!*\
+  !*** ./resources/js/form.js ***!
+  \******************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+(function (root, factory) {
+  'use strict';
+
+  if (true) {
+    // AMD support.
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+  } else {}
+})(this, function () {
+  'use strict';
+
+  // Constructor //
+  /**
+   * Create a new Form instance.
+   *
+   * @param {object} data
+   */
+  var Form = function Form(data) {
+    if (this == null) return;
+    this.originalData = data;
+    for (var field in data) {
+      this[field] = data[field];
+    }
+    this.errors = new Errors();
+    this.isSendData = false;
+  };
+  Form.prototype.install = function (Vue, options) {};
+
+  // Methods //
+
+  /**
+   * Fetch all relevant data for the form.
+   */
+  Form.prototype.data = function () {
+    var data = {};
+    for (var property in this.originalData) {
+      data[property] = this[property];
+    }
+    return data;
+  };
+
+  /**
+   * Fetch all relevant data for the form.
+   */
+  Form.prototype.formData = function () {
+    var data = new FormData();
+    for (var property in this.originalData) {
+      if (this[property] != null && typeof this[property] != 'undefined') {
+        data.append(property, this[property]);
+      }
+    }
+    return data;
+  };
+
+  /**
+   * Reset the form fields.
+   */
+  Form.prototype.reset = function () {
+    for (var field in this.originalData) {
+      this[field] = '';
+    }
+    this.errors.clear();
+  };
+
+  /**
+   * Send a POST request to the given URL.
+   * .
+   * @param {string} url
+   */
+  Form.prototype.post = function (url) {
+    return this.submit('post', url);
+  };
+
+  /**
+   * Send a POST request to the given URL.
+   * .
+   * @param {string} url
+   */
+  Form.prototype.postMultipart = function (url) {
+    return this.submitMultipart('post', url);
+  };
+
+  /**
+   * Send a PUT request to the given URL.
+   * .
+   * @param {string} url
+   */
+  Form.prototype.put = function (url) {
+    return this.submit('put', url);
+  };
+
+  /**
+   * Send a PATCH request to the given URL.
+   * .
+   * @param {string} url
+   */
+  Form.prototype.patch = function (url) {
+    return this.submit('patch', url);
+  };
+
+  /**
+   * Send a DELETE request to the given URL.
+   * .
+   * @param {string} url
+   */
+  Form.prototype["delete"] = function (url) {
+    return this.submit('delete', url);
+  };
+
+  /**
+   * Submit the form.
+   *
+   * @param {string} requestType
+   * @param {string} url
+   */
+  Form.prototype.submit = function (requestType, url) {
+    var _this = this;
+    this.isSendData = true;
+    return new Promise(function (resolve, reject) {
+      axios[requestType](url, _this.data()).then(function (response) {
+        _this.onSuccess(response.data);
+        resolve(response.data);
+      })["catch"](function (error) {
+        _this.onFail(error.response.data.errors);
+        reject(error.response.data);
+      });
+    });
+  };
+
+  /**
+   * Submit the form.
+   *
+   * @param {string} requestType
+   * @param {string} url
+   */
+  Form.prototype.submitMultipart = function (requestType, url) {
+    var _this2 = this;
+    this.isSendData = true;
+    return new Promise(function (resolve, reject) {
+      axios[requestType](url, _this2.formData(), {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(function (response) {
+        _this2.onSuccess(response.data);
+        resolve(response.data);
+      })["catch"](function (error) {
+        _this2.onFail(error.response.data.errors);
+        reject(error.response.data);
+      });
+    });
+  };
+
+  /**
+   * Handle a successful form submission.
+   *
+   * @param {object} data
+   */
+  Form.prototype.onSuccess = function (data) {
+    this.isSendData = false;
+    this.reset();
+  };
+
+  /**
+   * Handle a failed form submission.
+   *
+   * @param {object} errors
+   */
+  Form.prototype.onFail = function (errors) {
+    this.isSendData = false;
+    this.errors.record(errors);
+  };
+  Form.prototype.errorsOrSend = function () {
+    return this.errors.any() || this.isSendData;
+  };
+  Form.prototype.resetErrors = function () {
+    var $errorList = this.errors.errors;
+    this.errors = new Errors();
+    this.errors.errors = $errorList;
+  };
+  return Form;
+});
 
 /***/ }),
 
