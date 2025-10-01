@@ -48,132 +48,31 @@
                         </div>
 
                         <div class="faq-accordion">
-                            <details class="faq-item" id="faq-0">
+                            @forelse($faqList as $index => $faq)
+                            <details class="faq-item" id="faq-{{ $faqList->firstItem() + $index - 1 }}">
                                 <summary class="faq-question">
-                                    <span class="question-text">Каковы сроки регистрации бизнеса в Казахстане?</span>
+                                    <span class="question-text">{{ $faq->question }}</span>
                                 </summary>
                                 <div class="faq-answer">
                                     <div class="answer-content">
-                                        <p>Сроки регистрации бизнеса в Казахстане зависят от формы регистрации:</p>
-                                        <ul>
-                                            <li><strong>ТОО (Товарищество с ограниченной ответственностью):</strong> 3-5 рабочих дней</li>
-                                            <li><strong>ИП (Индивидуальный предприниматель):</strong> 1-2 рабочих дня</li>
-                                            <li><strong>АО (Акционерное общество):</strong> 5-7 рабочих дней</li>
-                                        </ul>
-                                        <p>С UPPERLICENSE процесс может быть ускорен благодаря нашему опыту и готовым шаблонам документов.</p>
+                                        {!! nl2br(e($faq->answer)) !!}
                                     </div>
                                 </div>
                             </details>
-
-                            <details class="faq-item" id="faq-1">
-                                <summary class="faq-question">
-                                    <span class="question-text">Какие основные требования для регистрации компании в Казахстане?</span>
-                                </summary>
-                                <div class="faq-answer">
-                                    <div class="answer-content">Предоставим  быстрое и эффективное открытие и ведение бизнеса в Казахстане. В остальных случаях расчетный счет можно открыть за один день. Сразу после подачи заявки вы получите реквизиты и сможете выставлять счета на оплату. После встречи с представителем банка появится возможность принимать деньги и совершать исходящие платежи.</div>
-                                </div>
-                            </details>
-
-                            <details class="faq-item" id="faq-2">
-                                <summary class="faq-question">
-                                    <span class="question-text">Какие документы понадобятся для регистрации юридического лица в Казахстане?</span>
-                                </summary>
-                                <div class="faq-answer">
-                                    <div class="answer-content">
-                                        <p>Для регистрации ТОО в Казахстане потребуются следующие документы:</p>
-                                        <ul>
-                                            <li>Устав компании</li>
-                                            <li>Заявление о государственной регистрации</li>
-                                            <li>Документы, подтверждающие личность учредителей</li>
-                                            <li>Справка о юридическом адресе</li>
-                                            <li>Документ об уплате государственной пошлины</li>
-                                            <li>Решение единственного учредителя или протокол собрания учредителей</li>
-                                        </ul>
-                                        <p>UPPERLICENSE поможет подготовить все необходимые документы в соответствии с требованиями законодательства.</p>
-                                    </div>
-                                </div>
-                            </details>
-
-                            <details class="faq-item" id="faq-3">
-                                <summary class="faq-question">
-                                    <span class="question-text">Можно ли в казахстанском банке открыть счет для ИП удаленно?</span>
-                                </summary>
-                                <div class="faq-answer">
-                                    <div class="answer-content">
-                                        <p>Да, в некоторых казахстанских банках возможно удаленное открытие счета для ИП. Однако процедура может включать:</p>
-                                        <ul>
-                                            <li>Подачу заявки онлайн</li>
-                                            <li>Видеоидентификацию</li>
-                                            <li>Предоставление документов в электронном виде</li>
-                                            <li>Последующее посещение банка для подписания договора</li>
-                                        </ul>
-                                        <p>Мы поможем выбрать банк с наиболее удобными условиями открытия счета.</p>
-                                    </div>
-                                </div>
-                            </details>
-
-                            <details class="faq-item" id="faq-4">
-                                <summary class="faq-question">
-                                    <span class="question-text">Какие налоги потребуется платить в Казахстане?</span>
-                                </summary>
-                                <div class="faq-answer">
-                                    <div class="answer-content">
-                                        <p>В Казахстане действуют следующие основные налоговые режимы:</p>
-                                        <ul>
-                                            <li><strong>Обычный режим:</strong> КПН (корпоративный подоходный налог) - 20%</li>
-                                            <li><strong>Упрощенная декларация:</strong> 1-3% с оборота (в зависимости от вида деятельности)</li>
-                                            <li><strong>Статус "Международная IT-компания":</strong> льготное налогообложение</li>
-                                            <li><strong>НДС:</strong> 12% (при превышении лимита)</li>
-                                        </ul>
-                                        <p>Наши специалисты помогут выбрать оптимальный налоговый режим для вашего бизнеса.</p>
-                                    </div>
-                                </div>
-                            </details>
-
-                            <details class="faq-item" id="faq-5">
-                                <summary class="faq-question">
-                                    <span class="question-text">Как долго обычно занимает процесс получения разрешений в стране?</span>
-                                </summary>
-                                <div class="faq-answer">
-                                    <div class="answer-content">
-                                        <p>Сроки получения разрешений зависят от типа деятельности:</p>
-                                        <ul>
-                                            <li><strong>Уведомление о начале деятельности:</strong> 1-3 рабочих дня</li>
-                                            <li><strong>Лицензия на строительство:</strong> 10-15 рабочих дней</li>
-                                            <li><strong>Лицензия на образовательную деятельность:</strong> 20-30 рабочих дней</li>
-                                            <li><strong>Медицинская лицензия:</strong> 15-20 рабочих дней</li>
-                                        </ul>
-                                        <p>С UPPERLICENSE процесс ускоряется благодаря профессиональной подготовке документов.</p>
-                                    </div>
-                                </div>
-                            </details>
-
-                            <details class="faq-item" id="faq-6">
-                                <summary class="faq-question">
-                                    <span class="question-text">Какие отрасли и виды деятельности подлежат обязательной лицензированию в Казахстане?</span>
-                                </summary>
-                                <div class="faq-answer">
-                                    <div class="answer-content">
-                                        <p>Обязательному лицензированию подлежат следующие виды деятельности:</p>
-                                        <ul>
-                                            <li>Строительно-монтажные работы</li>
-                                            <li>Медицинская деятельность</li>
-                                            <li>Образовательная деятельность</li>
-                                            <li>Фармацевтическая деятельность</li>
-                                            <li>Банковские и страховые услуги</li>
-                                            <li>Телекоммуникационные услуги</li>
-                                            <li>Деятельность в области использования атомной энергии</li>
-                                            <li>Нотариальная деятельность</li>
-                                        </ul>
-                                        <p>Полный список лицензируемых видов деятельности можно получить у наших консультантов.</p>
-                                    </div>
-                                </div>
-                            </details>
+                            @empty
+                            <div class="no-results-message">
+                                <p style="text-align: center; padding: 40px; color: #666;">
+                                    Пока нет вопросов и ответов. Будьте первым, кто <button class="ask-question-btn" onclick="openModal()" style="background: none; border: none; color: #279760; text-decoration: underline; cursor: pointer;">задаст вопрос</button>.
+                                </p>
+                            </div>
+                            @endforelse
                         </div>
 
+                        @if($faqList->hasMorePages())
                         <div class="load-more-container">
-                            <button class="load-more-btn" type="button">Загрузить ещё</button>
+                            <button class="load-more-btn" type="button" data-next-page="{{ $faqList->currentPage() + 1 }}" data-search="{{ $filter->search ?? '' }}">Загрузить ещё</button>
                         </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -324,15 +223,15 @@
             const searchInput = document.querySelector('.search-input');
             const searchBtn = document.querySelector('.search-btn');
             const faqItems = document.querySelectorAll('.faq-item');
-            
+
             function performSearch() {
                 const searchTerm = searchInput.value.toLowerCase().trim();
                 let visibleCount = 0;
-                
+
                 faqItems.forEach(item => {
                     const questionText = item.querySelector('.question-text').textContent.toLowerCase();
                     const answerText = item.querySelector('.answer-content').textContent.toLowerCase();
-                    
+
                     if (searchTerm === '' || questionText.includes(searchTerm) || answerText.includes(searchTerm)) {
                         item.style.display = 'block';
                         visibleCount++;
@@ -340,7 +239,7 @@
                         item.style.display = 'none';
                     }
                 });
-                
+
                 // Показать сообщение если ничего не найдено
                 const noResultsMsg = document.querySelector('.no-results-message');
                 if (visibleCount === 0 && searchTerm !== '') {
@@ -350,37 +249,32 @@
                         message.innerHTML = '<p style="text-align: center; padding: 20px; color: #666;">По вашему запросу ничего не найдено. Попробуйте изменить поисковый запрос или <button class="ask-question-btn" onclick="openModal()" style="background: none; border: none; color: #279760; text-decoration: underline; cursor: pointer;">задать свой вопрос</button>.</p>';
                         document.querySelector('.faq-accordion').appendChild(message);
                     }
-                } else if (noResultsMsg) {
+                } else if (noResultsMsg && searchTerm === '') {
                     noResultsMsg.remove();
                 }
             }
-            
+
             if (searchInput && searchBtn) {
                 searchInput.addEventListener('input', performSearch);
                 searchBtn.addEventListener('click', performSearch);
             }
-            
-            // Фильтры по категориям
+
+            // Фильтры по категориям (пока не реализованы, так как в БД нет категорий)
             const filterBtns = document.querySelectorAll('.filter-btn');
             const contentTitle = document.querySelector('.faq-content-title');
-            
+
             filterBtns.forEach(btn => {
                 btn.addEventListener('click', function() {
                     // Убираем активный класс со всех кнопок
                     filterBtns.forEach(b => b.classList.remove('active'));
                     // Добавляем активный класс к нажатой кнопке
                     this.classList.add('active');
-                    
+
                     const filterText = this.textContent.trim();
                     if (contentTitle) {
                         contentTitle.textContent = filterText;
                     }
-                    
-                    // Фильтруем FAQ по категориям
-                    faqItems.forEach(item => {
-                        item.style.display = 'block';
-                    });
-                    
+
                     // Очищаем поиск при смене фильтра
                     if (searchInput) {
                         searchInput.value = '';
@@ -389,37 +283,125 @@
                     if (noResultsMsg) {
                         noResultsMsg.remove();
                     }
+
+                    // Показываем все элементы при смене фильтра (пока нет категорий в БД)
+                    faqItems.forEach(item => {
+                        item.style.display = 'block';
+                    });
                 });
             });
-            
-            // Кнопка "Загрузить ещё"
+
+            // Кнопка "Загрузить ещё" - теперь работает с AJAX
             const loadMoreBtn = document.querySelector('.load-more-btn');
             if (loadMoreBtn) {
                 loadMoreBtn.addEventListener('click', function() {
+                    const nextPage = this.getAttribute('data-next-page');
+                    const search = this.getAttribute('data-search');
+                    const faqAccordion = document.querySelector('.faq-accordion');
+
+                    // Показываем состояние загрузки
                     this.textContent = 'Загрузка...';
                     this.disabled = true;
-                    
-                    // Имитация загрузки дополнительных FAQ
-                    setTimeout(() => {
-                        this.textContent = 'Загрузить ещё';
+
+                    // Создаем URL для AJAX запроса
+                    let url = '{{ route("faq") }}?page=' + nextPage;
+                    if (search) {
+                        url += '&search=' + encodeURIComponent(search);
+                    }
+
+                    // Делаем AJAX запрос
+                    fetch(url, {
+                        method: 'GET',
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'Accept': 'application/json'
+                        }
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Если есть данные для отображения
+                        if (data.success && data.faqList && data.faqList.data && data.faqList.data.length > 0) {
+                            const faqs = data.faqList.data;
+                            const currentFirstItem = document.querySelectorAll('.faq-item').length;
+                            const faqAccordion = document.querySelector('.faq-accordion');
+                            const loadMoreContainer = document.querySelector('.load-more-container');
+
+                            // Удаляем старую кнопку загрузки
+                            if (loadMoreContainer) {
+                                loadMoreContainer.remove();
+                            }
+
+                            // Добавляем новые FAQ элементы
+                            faqs.forEach((faq, index) => {
+                                const globalIndex = currentFirstItem + index;
+                                const faqHtml = `
+                                    <details class="faq-item" id="faq-${globalIndex}">
+                                        <summary class="faq-question">
+                                            <span class="question-text">${faq.question}</span>
+                                        </summary>
+                                        <div class="faq-answer">
+                                            <div class="answer-content">
+                                                ${faq.answer.replace(/\n/g, '<br>')}
+                                            </div>
+                                        </div>
+                                    </details>
+                                `;
+                                faqAccordion.insertAdjacentHTML('beforeend', faqHtml);
+                            });
+
+                            // Создаем новую кнопку загрузки в конце аккордеона
+                            if (data.faqList.next_page_url) {
+                                const nextPageUrl = new URL(data.faqList.next_page_url, window.location.origin);
+                                const nextPageNum = nextPageUrl.searchParams.get('page');
+
+                                const newLoadMoreContainer = document.createElement('div');
+                                newLoadMoreContainer.className = 'load-more-container';
+                                newLoadMoreContainer.innerHTML = `
+                                    <button class="load-more-btn" type="button" data-next-page="${nextPageNum}" data-search="${search || ''}">Загрузить ещё</button>
+                                `;
+
+                                // Вставляем кнопку после аккордеона
+                                faqAccordion.parentNode.insertBefore(newLoadMoreContainer, faqAccordion.nextSibling);
+
+                                // Прокручиваем к кнопке
+                                newLoadMoreContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            }
+                        } else {
+                            // Нет больше данных - скрываем кнопку
+                            const loadMoreContainer = document.querySelector('.load-more-container');
+                            if (loadMoreContainer) {
+                                loadMoreContainer.style.display = 'none';
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error loading more FAQs:', error);
+                        this.textContent = 'Ошибка загрузки';
                         this.disabled = false;
-                        alert('Дополнительные вопросы будут добавлены позже');
-                    }, 1000);
+
+                        // Показываем сообщение об ошибке пользователю
+                        alert('Произошла ошибка при загрузке вопросов. Попробуйте еще раз.');
+                    });
                 });
             }
-            
+
             // Форма консультации
             const consultationForm = document.querySelector('.consultation-form-content');
             if (consultationForm) {
                 consultationForm.addEventListener('submit', function(e) {
                     e.preventDefault();
-                    
+
                     const submitBtn = this.querySelector('button[type="submit"]');
                     const originalText = submitBtn.textContent;
-                    
+
                     submitBtn.textContent = 'Отправка...';
                     submitBtn.disabled = true;
-                    
+
                     // Имитация отправки формы
                     setTimeout(() => {
                         alert('Спасибо за обращение! Наш специалист свяжется с вами в течение 30 минут.');
@@ -429,22 +411,22 @@
                     }, 1500);
                 });
             }
-            
+
             // Форма модального окна "Задать вопрос"
             const modalForm = document.getElementById('formFaqNewQuestion');
             if (modalForm) {
                 modalForm.addEventListener('submit', function(e) {
                     e.preventDefault();
-                    
+
                     const submitBtn = this.querySelector('.submit-button');
                     const originalText = submitBtn.textContent;
-                    
+
                     submitBtn.textContent = 'Отправка...';
                     submitBtn.disabled = true;
-                    
+
                     // Собираем данные формы
                     const formData = new FormData(this);
-                    
+
                     // Имитация отправки (в реальности здесь будет AJAX запрос)
                     setTimeout(() => {
                         alert('Спасибо за ваш вопрос! Мы ответим на него в ближайшее время.');
@@ -455,7 +437,7 @@
                     }, 1500);
                 });
             }
-            
+
             // Маска для телефона в модальном окне
             const modalPhoneInput = document.getElementById('faqPhone');
             if (modalPhoneInput) {
