@@ -138,10 +138,10 @@
 
                 <div class="client-case-detail">
                     <div class="client-case-detail__left">
-                        <h3 class="client-case-detail__title">Получение лицензии на строительно-монтажные работы</h3>
+                        <h3 class="client-case-detail__title">Розничная торговля путём заказа товаров по почте</h3>
                         <div class="client-case-detail__client-info">
                             <div class="client-case-detail__logo">
-                                <span class="logo-text">ТН</span>
+                                <img src="{{asset('images/ImageLogoTH.png')}}" alt="Фото компании" class="logo-image">
                             </div>
                             <div class="client-case-detail__client-text">
                                 <p class="client-case-detail__client-name">Технониколь</p>
