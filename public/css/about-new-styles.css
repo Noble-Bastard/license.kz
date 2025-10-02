@@ -1,4 +1,5 @@
 /* About New Page Styles */
+
 .about-us__find__header {
   text-align: center !important;
   margin-bottom: 15px !important;
@@ -60,11 +61,11 @@
     height: 1px !important;
     background-color: #d9e2e9 !important;
   }
-  
+
   .about-us__find__card {
     margin-top: 30px !important;
   }
-  
+
   .about-us__find__card:first-child {
     margin-top: 0 !important;
   }
@@ -160,16 +161,16 @@
 
 /* Mission Section Styles */
 .about-us__mission {
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+  /*background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;*/
 }
 
 /* Maximum specificity for mission */
 .about-us .about-us__mission {
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+  background: #F8F8F8;
 }
 
 body .about-us .about-us__mission {
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+  background: #F8F8F8;
 }
 
 .about-us__mission__content p {
@@ -211,22 +212,124 @@ body .about-us .about-us__mission {
   .about-us__find__header h2 {
     font-size: 2.4rem !important;
   }
-  
+
   .about-us__find__cards-container {
     grid-template-columns: 1fr !important;
     gap: 20px !important;
   }
-  
+
   .about-us__find__card {
     padding: 30px 20px !important;
     padding-left: 20px !important;
   }
-  
+
   .about-us__find__card__number {
     font-size: 0.95rem !important;
   }
-  
-  .about-us__find__card__title {
-    font-size: 1.1rem !important;
+
+  /* About Us Stats Section Styles */
+  .about-us__stats {
+    background: #191E1D;
+    padding: 60px 0;
+    position: relative;
   }
-}
+
+  .about-us__stats__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .about-us__stats__header {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .about-us__stats__logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .about-us__stats__logo i {
+    color: #28a745;
+    font-size: 1.2rem;
+  }
+
+  .about-us__stats__logo span {
+    color: #FFFFFF;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    letter-spacing: 0.1em;
+  }
+
+  .about-us__stats__header p {
+    color: #FFFFFF;
+    font-family: 'Manrope', sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 120%;
+    letter-spacing: -0.02em;
+    margin: 0;
+  }
+
+  .about-us__stats__item {
+    text-align: center;
+    color: #FFFFFF;
+  }
+
+  .about-us__stats__number {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #28a745;
+    margin-bottom: 10px;
+    font-family: 'Manrope', sans-serif;
+  }
+
+  .about-us__stats__item p {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #FFFFFF;
+  }
+
+  .about-us__stats__item span {
+    font-size: 0.95rem;
+    color: #CCCCCC;
+    line-height: 1.4;
+  }
+
+  /* Stats section responsive design */
+  @media (max-width: 991.98px) {
+    .about-us__stats__grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .about-us__stats__grid {
+      grid-template-columns: 1fr;
+      gap: 25px;
+      text-align: center;
+    }
+
+    .about-us__stats__header {
+      text-align: center;
+      align-items: center;
+    }
+
+    .about-us__stats__number {
+      font-size: 2.8rem;
+    }
+
+    .about-us__stats__header p {
+      font-size: 1.1rem;
+    }
+  }
