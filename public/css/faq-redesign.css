@@ -54,12 +54,19 @@
     margin: 0;
 }
 
-/* Search and Filter Section */
+/* Search and Filter Section - Updated to match design system specs */
 .faq-search-section {
-    background-color: #F8F8F8;
-    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
     padding: 24px;
-    gap: 15px;
+    gap: 0px;
+    width: 1320px;
+    height: 180px;
+    background: #F8F8F8;
+    border-radius: 12px;
+    margin: 0 auto;
+    box-sizing: border-box;
 }
 
 .search-container {
@@ -68,7 +75,7 @@
 
 .search-input-wrapper {
     position: relative;
-    width: 100%;
+    width: 557%;
     max-width: 1272px;
     margin: 0 auto;
 }
@@ -77,19 +84,21 @@
     width: 100%;
     box-sizing: border-box;
     display: flex;
+    flex-direction: row;
+    justify-content: center;
     align-items: center;
     padding: 32px 4px 32px 36px;
     gap: 24px;
     height: 72px;
+    background: #FFFFFF;
     border: 1px solid #E8E8E8;
     border-radius: 120px;
-    background-color: #ffffff;
-    transition: all 0.3s ease;
     font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     font-weight: 600;
     font-size: 16px;
     line-height: 100%;
-    color: #191E1D;
+    color: #999999;
+    transition: all 0.3s ease;
 }
 
 .search-input::placeholder {
@@ -108,17 +117,20 @@
     right: 4px;
     top: 50%;
     transform: translateY(-50%);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+    gap: 24px;
     width: 64px;
     height: 64px;
-    border: none;
     background: rgba(39, 151, 96, 0.1);
-    color: #279760;
+    border: none;
     border-radius: 60px;
     cursor: pointer;
     transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    color: #279760;
 }
 
 .search-btn:hover {
@@ -126,25 +138,44 @@
     transform: translateY(-50%) scale(1.03);
 }
 
-/* Category Filters */
+/* Category Filters - Updated to match design system specs */
 .category-filters {
     display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 5px;
+    width: auto;
+    height: 38px;
     flex-wrap: wrap;
-    gap: 10px;
     justify-content: flex-start;
 }
 
 .filter-btn {
-    padding: 10px 20px;
-    border: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 12px;
+    gap: 6px;
+    background: #E9E9E9;
     border-radius: 60px;
-    background-color: #e9ecef;
-    color: #495057;
-    font-size: 14px;
+    border: none;
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-style: normal;
     font-weight: 500;
+    font-size: 14px;
+    line-height: 100%;
+    color: #191E1D;
     cursor: pointer;
     transition: all 0.3s ease;
     white-space: nowrap;
+    height: 38px;
+}
+
+.filter-btn.active {
+    background: #279760;
+    color: #FFFFFF;
 }
 
 .filter-btn:hover {
@@ -152,17 +183,28 @@
     transform: translateY(-2px);
 }
 
-.filter-btn.active {
-    background-color: #28a745;
-    color: white;
-}
-
-/* FAQ Content */
+/* FAQ Content - Updated to match design system specs */
 .faq-content {
-    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 100px 0px 0px;
+    gap: 30px;
+    width: 1329px;
+    height: auto;
+    margin: 0 auto;
+    box-sizing: border-box;
 }
 
-.faq-content-header { margin-top: 50px; }
+.faq-content-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px;
+    width: 1300px;
+    height: 48px;
+}
 
 /* Questions list (table of contents) */
 .faq-toc {
@@ -201,25 +243,39 @@
 }
 
 .faq-content-title {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #2c3e50;
+    width: 239px;
+    height: 40px;
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 40px;
+    line-height: 100%;
+    letter-spacing: -0.02em;
+    color: #191E1D;
     margin: 0;
 }
 
 .ask-question-btn {
-    background-color: #28a745;
-    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 16px 24px;
+    gap: 24px;
+    width: 164px;
+    height: 48px;
+    background: #279760;
     border: none;
-    padding: 12px 24px;
     border-radius: 60px;
-    font-size: 14px;
-    font-weight: 500;
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 100%;
+    text-align: center;
+    color: #FFFFFF;
     cursor: pointer;
     transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 8px;
 }
 
 .ask-question-btn:hover {
@@ -228,61 +284,74 @@
     box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
 }
 
-/* FAQ Accordion */
+/* FAQ Accordion - Updated to match design system specs */
 .faq-accordion {
-    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0px;
+    width: 1320px;
+    height: auto;
 }
 
+/* Ensure proper accordion animation */
 details.faq-item {
-    border-bottom: 1px solid #e9ecef;
-    margin-bottom: 0;
-    padding: 0;
+    display: block;
+    width: 1320px;
+    margin: 0 auto 0 0;
+    border-bottom: 1px solid #E1E1E1;
+}
+
+/* Smooth animation for opening/closing */
+details.faq-item[open] .faq-answer {
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Ensure the answer is hidden by default and shows when details is open */
+details.faq-item:not([open]) .faq-answer {
+    display: none;
+}
+
+details.faq-item[open] .faq-answer {
+    display: block;
 }
 
 summary.faq-question {
-    list-style: none;
-    padding: 20px 0;
-    cursor: pointer;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    padding: 30px 0;
+    cursor: pointer;
+    list-style: none;
     transition: all 0.3s ease;
-    position: relative;
 }
 
 summary.faq-question::-webkit-details-marker {
     display: none;
 }
 
-summary.faq-question:hover {
-    background-color: #f8f9fa;
-    padding-left: 15px;
-    padding-right: 15px;
-    margin-left: -15px;
-    margin-right: -15px;
-    border-radius: 8px;
-}
-
-.question-text {
-    font-size: 18px;
-    font-weight: 500;
-    color: #2c3e50;
-    flex: 1;
-    margin-right: 20px;
-}
-
-/* Plus marker simple (no grey circle) */
 summary.faq-question::after {
     content: "+";
-    width: 16px;
-    height: 16px;
-    display: inline-flex;
+    width: 24px;
+    height: 24px;
+    display: flex;
     align-items: center;
     justify-content: center;
     color: #191E1D;
-    font-weight: 700;
-    font-size: 16px;
-    margin-left: 12px;
+    font-weight: 400;
+    font-size: 20px;
+    flex-shrink: 0;
 }
 
 details[open] summary.faq-question::after {
@@ -290,30 +359,52 @@ details[open] summary.faq-question::after {
 }
 
 .faq-answer {
-    padding: 0 0 20px 0;
+    padding: 0 0 30px 0;
+    background: transparent;
 }
 
 .answer-content {
-    font-size: 16px;
-    line-height: 1.6;
-    color: #495057;
-    padding: 0 15px;
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 150%;
+    color: #191E1D;
+    padding: 0;
 }
 
-/* Load More Button */
+/* Load More Button - Updated to match design system specs */
 .load-more-container {
-    text-align: center;
-    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0px;
+    gap: 10px;
+    width: 1320px;
+    height: 88px;
 }
 
 .load-more-btn {
-    background-color: transparent;
-    border: 1px solid #e9ecef;
-    color: #495057;
-    padding: 12px 30px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 16px 24px;
+    gap: 5px;
+    width: 163px;
+    height: 48px;
+    border: 1px solid #E8E8E8;
     border-radius: 60px;
-    font-size: 14px;
-    font-weight: 500;
+    background: transparent;
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 100%;
+    text-align: center;
+    color: #191E1D;
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -325,26 +416,39 @@ details[open] summary.faq-question::after {
     transform: translateY(-2px);
 }
 
-/* Consultation Form */
+/* Consultation Form Container - Updated to match design system specs */
 .consultation-form-container {
-    position: relative;
-    margin-top: 20px;
-}
-
-.consultation-form {
-    background-color: #F8F8F8;
-    gap: 20px;
-    padding: 30px;
-    margin-bottom: 60px;
-    position: relative;
+    position: absolute;
+    width: 762px;
+    height: 510px;
+    right: -20px;
+    top: 100px;
     z-index: 2;
 }
 
-/* Bottom consultation block layout */
+.consultation-form {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    align-content: flex-start;
+    padding: 30px;
+    gap: 20px;
+    isolation: isolate;
+    width: 100%;
+    height: 100%;
+    background: #F8F8F8;
+    box-sizing: border-box;
+}
+
+/* Bottom consultation block layout - Updated to match design system specs */
 .consultation-block {
-    
     position: relative;
+    width: 1440px;
+    height: 710px;
+    margin: 0 auto;
     background: #FFFFFF;
+    overflow: hidden;
 }
 
 .consultation-hero-title {
@@ -360,6 +464,7 @@ details[open] summary.faq-question::after {
     line-height: 100%;
     letter-spacing: -0.02em;
     color: #191E1D;
+    z-index: 2;
 }
 
 .consultation-hero-subtitle {
@@ -367,53 +472,46 @@ details[open] summary.faq-question::after {
     width: 427px;
     height: 48px;
     left: 60px;
-    top: 234px;
+    top: 260px;
     font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     font-style: normal;
     font-weight: 500;
     font-size: 16px;
     line-height: 150%;
     color: #191E1D;
+    z-index: 2;
 }
 
 .consultation-hero-decoration {
+    position: absolute;
     height: 4px;
     width: 60%;
     background: linear-gradient(90deg, #1e7e34 0%, #2ca24f 100%);
     border-radius: 2px;
-    margin-top: 40px;
+    left: 60px;
+    top: 320px;
+    z-index: 2;
 }
 
-.consultation-bg-vector {
+.consultation-block::before {
+    content: '';
     position: absolute;
-    left: 0;
-    bottom: -10px;
-    width: 60%;
-    max-width: 800px;
+    width: 1391px;
+    height: 488px;
+    left: -75px;
+    bottom: 395px;
+    border: 8px solid #279760;
+    transform: rotate(153deg);
     pointer-events: none;
-    user-select: none;
+    clip-path: inset(0 0 45% 0);
     z-index: 1;
-}
-
-.consultation-title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: #2c3e50;
-    margin-bottom: 15px;
-    line-height: 1.3;
-}
-
-.consultation-subtitle {
-    font-size: 16px;
-    color: #6c757d;
-    margin-bottom: 30px;
-    line-height: 1.5;
 }
 
 .consultation-form-content {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    width: 100%;
 }
 
 .form-group {
@@ -422,62 +520,94 @@ details[open] summary.faq-question::after {
 }
 
 .form-label {
-    font-size: 14px;
-    font-weight: 500;
-    color: #495057;
-    margin-bottom: 8px;
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 100%;
+    color: #191E1D;
+    margin-bottom: 10px;
 }
 
 .form-input,
 .form-select,
 .form-textarea {
-    padding: 12px 16px;
-    border: 1px solid #e9ecef;
-    border-radius: 8px;
-    font-size: 14px;
-    background-color: #ffffff;
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 100%;
+    color: #999999;
+    background: #FFFFFF;
+    border: 1px solid #E8E8E8;
+    border-radius: 10px;
+    padding: 24px;
+    box-sizing: border-box;
     transition: all 0.3s ease;
-    width: 100%;
+}
+
+.form-input,
+.form-select {
+    width: 340px;
+    height: 64px;
+}
+
+.form-textarea {
+    width: 700px;
+    height: 120px;
+    resize: vertical;
 }
 
 .form-input:focus,
 .form-select:focus,
 .form-textarea:focus {
     outline: none;
-    border-color: #28a745;
-    box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
-}
-
-.form-textarea {
-    resize: vertical;
-    min-height: 100px;
+    border-color: #279760;
+    box-shadow: 0 0 0 3px rgba(39, 151, 96, 0.1);
 }
 
 .submit-btn {
-    background-color: #28a745;
-    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+    gap: 24px;
+    width: 241px;
+    height: 64px;
+    background: #279760;
     border: none;
-    padding: 15px 30px;
     border-radius: 60px;
-    font-size: 16px;
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-style: normal;
     font-weight: 600;
+    font-size: 16px;
+    line-height: 100%;
+    color: #FFFFFF;
     cursor: pointer;
     transition: all 0.3s ease;
-    margin-top: 10px;
 }
 
 .submit-btn:hover {
     background-color: #218838;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+    box-shadow: 0 4px 12px rgba(39, 151, 96, 0.3);
 }
 
 .privacy-text {
-    font-size: 12px;
-    color: #6c757d;
-    text-align: center;
-    margin-top: 15px;
-    line-height: 1.4;
+    position: absolute;
+    width: 441px;
+    height: 34px;
+    left: 291px;
+    top: 434px;
+    font-family: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 120%;
+    color: #191E1D;
+    opacity: 0.3;
+    margin: 0;
 }
 
 /* Decorative Lines */
@@ -515,24 +645,54 @@ details[open] summary.faq-question::after {
     opacity: 0.6;
 }
 
-/* Responsive Design */
+/* Responsive Design - Updated for new layout specs */
+@media (max-width: 1440px) {
+    .faq-search-section {
+        width: 100%;
+        max-width: 1320px;
+    }
+}
+
 @media (max-width: 768px) {
     .faq-title {
         font-size: 2rem;
     }
     
     .faq-search-section {
+        width: 100%;
+        height: auto;
         padding: 20px;
+        gap: 20px;
+    }
+    
+    .search-input-wrapper {
+        max-width: 100%;
+    }
+    
+    .search-input {
+        padding: 24px 4px 24px 24px;
+        height: 60px;
+        font-size: 14px;
+    }
+    
+    .search-btn {
+        width: 52px;
+        height: 52px;
+        right: 2px;
     }
     
     .category-filters {
         justify-content: flex-start;
         overflow-x: auto;
         padding-bottom: 10px;
+        gap: 8px;
+        height: auto;
     }
     
     .filter-btn {
         flex-shrink: 0;
+        padding: 10px 16px;
+        font-size: 13px;
     }
     
     .faq-content-header {
@@ -562,8 +722,36 @@ details[open] summary.faq-question::after {
         font-size: 1.8rem;
     }
     
+    .faq-search-section {
+        padding: 16px;
+        gap: 16px;
+    }
+    
     .search-input-wrapper {
         max-width: 100%;
+    }
+    
+    .search-input {
+        padding: 20px 4px 20px 20px;
+        height: 56px;
+        font-size: 14px;
+    }
+    
+    .search-btn {
+        width: 48px;
+        height: 48px;
+        padding: 16px;
+    }
+    
+    .category-filters {
+        gap: 6px;
+        padding-bottom: 8px;
+    }
+    
+    .filter-btn {
+        padding: 8px 14px;
+        font-size: 12px;
+        height: 34px;
     }
     
     .question-text {
