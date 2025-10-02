@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Data\ServiceJournal\Dal\ServiceJournalMessageDal;
 
 class MessageController extends Controller
 {
@@ -13,12 +14,24 @@ class MessageController extends Controller
 
     public function managerMessageList($servicesJournalId)
     {
-        return response()->json(['messages' => []]);
+        $messages = \App\Data\ServiceJournal\Model\ServiceJournalMessage::with(['message', 'createdBy'])
+            ->where('service_journal_id', $servicesJournalId)
+            ->orderBy('create_date', 'asc')
+            ->get();
+        return response()->json(['messages' => $messages]);
     }
 
     public function addManagerServiceMessage(Request $request)
     {
-        return response()->json(['success' => true]);
+        $serviceJournalId = $request->input('serviceJournalId');
+        $message = $request->input('message');
+        
+        try {
+            ServiceJournalMessageDal::insertServiceJournalMessage($serviceJournalId, '', $message);
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
+        }
     }
 
     public function messageTaskList(Request $request)
@@ -33,12 +46,13 @@ class MessageController extends Controller
 
     public function managerServiceMessageList()
     {
-        return view('Manager.messages.index');
+        return view('Manager.Messages.index');
     }
 
     public function clientServiceMessageList()
     {
-        return view('Client.messages.index');
+        $serviceMessageList = collect(); // TODO: Add actual data logic
+        return view('Client.serviceMessageList', compact('serviceMessageList'));
     }
 
     public function clientMessageList($serviceJournalId)

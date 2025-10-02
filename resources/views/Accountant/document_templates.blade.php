@@ -8,7 +8,26 @@
 
 @section('content')
 
-<div class="max-w-[1440px] mx-auto px-6 py-8 bg-white min-h-screen font-inter">
+<div class="max-w-[1440px] mx-auto px-6 py-8 bg-white min-h-screen font-inter" x-data="{ 
+    searchQuery: '',
+    filterDocuments() {
+        const searchQuery = this.searchQuery.toLowerCase();
+        const documentCards = document.querySelectorAll('.document-card');
+        
+        documentCards.forEach(card => {
+            const title = card.querySelector('h3')?.textContent.toLowerCase() || '';
+            const type = card.querySelector('p')?.textContent.toLowerCase() || '';
+            
+            const matchesSearch = title.includes(searchQuery) || type.includes(searchQuery);
+            
+            if (matchesSearch) {
+                card.style.display = '';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+}">
   <!-- Page Title -->
   <div class="flex items-center justify-between mb-6 w-full">
     <h1 class="text-[22px] leading-[28px] font-semibold text-gray-900">
@@ -17,18 +36,6 @@
     </h1>
 
     <div class="flex items-center gap-2 md:gap-3 justify-end">
-      <!-- Search -->
-      <label class="relative block w-10 md:w-auto">
-        <span class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none md:left-3 md:top-1/2 md:-translate-y-1/2 md:translate-x-0">
-          <svg class="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            <path d="M17.5 17.5L12.5 12.5M14.1667 8.33333C14.1667 11.555 11.555 14.1667 8.33333 14.1667C5.11167 14.1667 2.5 11.555 2.5 8.33333C2.5 5.11167 5.11167 2.5 8.33333 2.5C11.555 2.5 14.1667 5.11167 14.1667 8.33333Z"
-                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </span>
-        <input id="searchInput" type="search" aria-label="Поиск" placeholder="Поиск по названию документа"
-               class="h-10 w-10 md:w-[320px] rounded-full bg-white border border-gray-300 pl-0 pr-0 md:pl-10 md:pr-4 text-sm placeholder-transparent md:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#00A389] focus:border-transparent transition-all">
-      </label>
-
       <!-- New doc -->
       <button onclick="openModal('upload-document-modal')"
               class="inline-flex items-center justify-center h-10 w-10 md:w-auto px-0 md:px-5 rounded-full bg-[#279760] text-white text-sm font-medium hover:bg-[#218655] transition-colors">
@@ -356,29 +363,6 @@ function debounce(func, wait) {
         clearTimeout(timeout);
         timeout = setTimeout(later, wait);
     };
-}
-
-const searchInput = document.getElementById('searchInput');
-if (searchInput) {
-    const performSearch = debounce(function(searchTerm) {
-        const cards = document.querySelectorAll('.document-card');
-        searchTerm = searchTerm.toLowerCase().trim();
-        
-        cards.forEach(card => {
-            const title = card.querySelector('h3').textContent.toLowerCase();
-            const type = card.querySelector('p').textContent.toLowerCase();
-            const matches = title.includes(searchTerm) || type.includes(searchTerm);
-            
-            // Use opacity for smooth transition
-            card.style.opacity = matches ? '1' : '0';
-            setTimeout(() => {
-                card.style.display = matches ? '' : 'none';
-                if (matches) card.style.opacity = '1';
-            }, matches ? 0 : 200);
-        });
-    }, 300);
-
-    searchInput.addEventListener('input', (e) => performSearch(e.target.value));
 }
 
 // Country filter functionality

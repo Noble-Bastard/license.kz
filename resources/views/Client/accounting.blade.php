@@ -3,43 +3,48 @@
 @section('title', 'Бухгалтерия')
 
 @section('content')
-<div class="min-h-screen bg-gray-50 p-6" x-data="clientAccounting()" x-init="init()">
+<div class="w-full" x-data="clientAccounting()" x-init="init()">
     <!-- Page Header -->
-    <div class="flex items-center justify-between mb-6">
-        <h1 class="text-2xl font-semibold text-gray-900">Бухгалтерия</h1>
-        <div class="relative">
-            <input type="text" 
-                   placeholder="Поиск по номеру услуги или компании"
-                   class="w-80 px-4 py-2 pl-10 pr-4 text-gray-500 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                   x-model="searchQuery"
-                   @input="filterServices()">
-            <svg class="absolute left-3 top-3 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-            </svg>
+    <div class="flex items-center justify-between px-5 py-3" style="padding-left:20px;padding-right:20px;">
+        <h1 class="text-[32px] md:text-[39px] leading-[1] font-normal tracking-[-0.02em] text-text-primary">Бухгалтерия</h1>
+        <div class="hidden md:flex items-center gap-[11px] px-[16px] pr-[22px] py-[11px] h-[46px] border border-border-light rounded-[80px] bg-white mr-2">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.8333 15.8333L13.2083 13.2083" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.33333 15.8333C12.0152 15.8333 15 12.8486 15 9.16667C15 5.48477 12.0152 2.5 8.33333 2.5C4.65143 2.5 1.66667 5.48477 1.66667 9.16667C1.66667 12.8486 4.65143 15.8333 8.33333 15.8333Z" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <input type="text" placeholder="Поиск по номеру услуги или компании" class="bg-transparent border-none outline-none text-[12px] font-medium leading-[1] text-text-primary placeholder:text-text-primary" x-model="searchQuery" @input="filterServices()" />
+        </div>
+    </div>
+    
+    <!-- Mobile Search -->
+    <div class="md:hidden mb-3 px-5" style="padding-left:20px;padding-right:20px;">
+        <div class="flex justify-end">
+            <div class="flex items-center justify-center w-[46px] h-[46px] border border-border-light rounded-[80px] bg-white">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.8333 15.8333L13.2083 13.2083" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.33333 15.8333C12.0152 15.8333 15 12.8486 15 9.16667C15 5.48477 12.0152 2.5 8.33333 2.5C4.65143 2.5 1.66667 5.48477 1.66667 9.16667C1.66667 12.8486 4.65143 15.8333 8.33333 15.8333Z" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
         </div>
     </div>
 
     <!-- Status Filter Tabs -->
-    <div class="flex space-x-1 mb-6">
-        <button @click="filterStatus = 'all'" 
-                :class="filterStatus === 'all' ? 'bg-gray-200 text-gray-900' : 'text-gray-500 hover:text-gray-700'"
-                class="px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-            Все услуги
-        </button>
-        <button @click="filterStatus = 'open'" 
-                :class="filterStatus === 'open' ? 'bg-gray-200 text-gray-900' : 'text-gray-500 hover:text-gray-700'"
-                class="px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-            Открытые
-        </button>
-        <button @click="filterStatus = 'closed'" 
-                :class="filterStatus === 'closed' ? 'bg-gray-200 text-gray-900' : 'text-gray-500 hover:text-gray-700'"
-                class="px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-            Закрытые
-        </button>
+    <div class="px-5" style="padding-left:20px;padding-right:20px;">
+        <div class="flex items-center gap-[10px] mb-[16px] md:flex-wrap overflow-x-auto md:overflow-x-visible">
+            <button @click="filterStatus = 'all'" 
+                    :class="filterStatus === 'all' ? 'bg-gray-200 text-text-primary' : 'text-text-primary'"
+                    class="px-[14px] py-[10px] rounded-[80px] text-[12px] font-medium flex-shrink-0">
+                Все услуги
+            </button>
+            <button @click="filterStatus = 'open'" 
+                    :class="filterStatus === 'open' ? 'bg-gray-200 text-text-primary' : 'text-text-primary'"
+                    class="px-[14px] py-[10px] rounded-[80px] text-[12px] font-medium flex-shrink-0">
+                Открытые
+            </button>
+            <button @click="filterStatus = 'closed'" 
+                    :class="filterStatus === 'closed' ? 'bg-gray-200 text-text-primary' : 'text-text-primary'"
+                    class="px-[14px] py-[10px] rounded-[80px] text-[12px] font-medium flex-shrink-0">
+                Закрытые
+            </button>
+        </div>
     </div>
 
     <!-- Table Headers -->
-    <div class="hidden md:grid grid-cols-[200px,150px,150px,150px,150px] gap-[60px,60px,60px,60px,0px] items-center mx-5 mb-3 px-5">
+    <div class="hidden md:grid grid-cols-[200px,150px,150px,150px,150px] gap-[60px,60px,60px,60px,0px] items-center mx-5 mb-3 px-5 py-3">
         <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Номер услуги</div>
         <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Стоимость</div>
         <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Налог, пошлина</div>
@@ -53,8 +58,8 @@
             @if(isset($serviceJournalList) && $serviceJournalList->isNotEmpty())
                 @foreach($serviceJournalList as $service)
                     <!-- Desktop Card View -->
-                    <div class="hidden md:grid grid-cols-[200px,150px,150px,150px,150px] gap-[60px,60px,60px,60px,0px] items-center bg-white rounded-lg shadow-sm mb-3 p-5" @click="openDocumentsModal('{{ $service->id }}', '{{ $service->service_no }}')">
-                        <div class="text-sm font-medium text-[#1E2B28] leading-[1]">УСЛ-{{ $service->service_no }}</div>
+                    <div class="hidden md:grid grid-cols-[200px,150px,150px,150px,150px] gap-[60px,60px,60px,60px,0px] items-center bg-white rounded-lg shadow-sm mb-3 p-5 accounting-card" @click="openDocumentsModal('{{ $service->id }}', '{{ $service->service_no }}')">
+                        <div class="text-sm font-medium text-[#1E2B28] leading-[1] service-no">УСЛ-{{ $service->service_no }}</div>
                         <div class="text-sm font-medium text-[#1E2B28] leading-[1]">{{ number_format($service->amount ?? 0, 2, '.', ' ') }} ₸</div>
                         <div class="text-sm font-medium text-[#1E2B28] leading-[1]">{{ number_format($service->tax_amount ?? 0, 2, '.', ' ') }} ₸</div>
                         <div class="text-sm font-medium text-[#1E2B28] leading-[1]">{{ number_format($service->prepayment_amount ?? 0, 2, '.', ' ') }} ₸</div>
@@ -62,9 +67,9 @@
                     </div>
 
                     <!-- Mobile Card View -->
-                    <div class="md:hidden bg-white rounded-lg shadow-sm mb-3 p-4" @click="openDocumentsModal('{{ $service->id }}', '{{ $service->service_no }}')">
+                    <div class="md:hidden bg-white rounded-lg shadow-sm mb-3 p-4 accounting-card" @click="openDocumentsModal('{{ $service->id }}', '{{ $service->service_no }}')">
                         <div class="flex items-center justify-between mb-4">
-                            <span class="text-base font-medium text-[#1E2B28] leading-[1]">УСЛ-{{ $service->service_no }}</span>
+                            <span class="text-base font-medium text-[#1E2B28] leading-[1] service-no">УСЛ-{{ $service->service_no }}</span>
                         </div>
                         
                         <div class="space-y-2">
@@ -94,15 +99,35 @@
             @endif
 
             <!-- Pagination -->
-            <div class="flex justify-center items-center mt-8">
-                <div class="flex items-center space-x-2">
-                    <button class="w-8 h-8 rounded-full text-sm font-medium bg-[#279760] text-white flex items-center justify-center">1</button>
-                    <button class="w-8 h-8 rounded-full text-sm font-medium bg-white text-text-primary border border-border-light hover:bg-bg-tertiary flex items-center justify-center transition-colors">2</button>
-                    <button class="w-8 h-8 rounded-full text-sm font-medium bg-white text-text-primary border border-border-light hover:bg-bg-tertiary flex items-center justify-center transition-colors">3</button>
-                    <span class="px-3 py-2 text-sm text-gray-500">...</span>
-                    <button class="w-8 h-8 rounded-full text-sm font-medium bg-white text-text-primary border border-border-light hover:bg-bg-tertiary flex items-center justify-center transition-colors">10</button>
+            @if(isset($serviceJournalList) && method_exists($serviceJournalList, 'links'))
+                <div class="flex justify-center items-center mt-8">
+                    <div class="flex items-center space-x-2">
+                        @if($serviceJournalList->currentPage() > 1)
+                            <a href="{{ $serviceJournalList->previousPageUrl() }}" class="w-8 h-8 rounded-full text-sm font-medium bg-white text-text-primary border border-border-light hover:bg-green-100 flex items-center justify-center transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                </svg>
+                            </a>
+                        @endif
+
+                        @foreach($serviceJournalList->getUrlRange(1, $serviceJournalList->lastPage()) as $page => $url)
+                            @if($page == $serviceJournalList->currentPage())
+                                <span class="w-8 h-8 rounded-full text-sm font-medium bg-green-700 text-white flex items-center justify-center">{{ $page }}</span>
+                            @else
+                                <a href="{{ $url }}" class="w-8 h-8 rounded-full text-sm font-medium bg-white text-text-primary border border-border-light hover:bg-green-100 flex items-center justify-center transition-colors">{{ $page }}</a>
+                            @endif
+                        @endforeach
+
+                        @if($serviceJournalList->hasMorePages())
+                            <a href="{{ $serviceJournalList->nextPageUrl() }}" class="w-8 h-8 rounded-full text-sm font-medium bg-white text-text-primary border border-border-light hover:bg-green-100 flex items-center justify-center transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                </svg>
+                            </a>
+                        @endif
+                    </div>
                 </div>
-            </div>
+            @endif
         </div>
     </div>
 </div>
@@ -124,7 +149,20 @@ function clientAccounting() {
         },
 
         filterServices() {
-            // Filter logic here
+            const searchQuery = this.searchQuery.toLowerCase();
+            const accountingCards = document.querySelectorAll('.accounting-card');
+            
+            accountingCards.forEach(card => {
+                const serviceNo = card.querySelector('.service-no')?.textContent.toLowerCase() || '';
+                
+                const matchesSearch = serviceNo.includes(searchQuery);
+                
+                if (matchesSearch) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
         },
 
         openDocumentsModal(serviceId, serviceNo) {

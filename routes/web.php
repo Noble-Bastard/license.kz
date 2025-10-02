@@ -592,7 +592,6 @@ Route::get('test-alpine', function() {
     Route::group(['middleware' => ['auth', 'setLocale', 'role:Manager|Partner']], function () {
         Route::get('manager/messages', 'MessageController@managerServiceMessageList')->name('Manager.service.message.list');
         Route::get('manager/messageList/{serviceJournalId}', 'MessageController@managerMessageList')->name('Manager.message.list');
-        Route::post('manager/messages/serviceJournalCreate', 'MessageController@addManagerServiceMessage')->name('Manager.service.message.create');
     });
 
     Route::prefix('curator')->group(function () {

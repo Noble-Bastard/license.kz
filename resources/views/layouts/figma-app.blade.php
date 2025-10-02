@@ -53,7 +53,7 @@
         <header class="bg-bg-primary">
             <div class="w-full">
                 <!-- Top section with logo, navigation, and user controls -->
-                <div class="flex items-center justify-between gap-3 px-3 py-2" style="padding-left: 10px; padding-right: 10px;">
+                <div class="flex items-center justify-between gap-3 px-8 py-4" style="padding-left: 32px; padding-right: 32px;">
                     <!-- Logo -->
                     <div class="flex items-center gap-3">
                         <img src="{{ asset('images/green-logo.png') }}" alt="UpperLicense" class="h-[31px] w-auto" style="width:150px;height:31px;"/>
@@ -61,7 +61,7 @@
                         <nav class="hidden md:flex items-center gap-1 px-2 py-2">
                         <!-- Исполнители - Active -->
                         <a href="{{ Route::has('manager.executor.list') ? route('manager.executor.list') : '#' }}" 
-                           class="flex items-center gap-[6px] px-[18px] py-[13px] rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] hover:bg-bg-tertiary transition-colors {{ request()->routeIs('manager.executor.list') ? 'bg-bg-tertiary' : '' }}">
+                           class="flex items-center gap-[6px] px-[18px] py-[13px] rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] transition-colors {{ request()->routeIs('manager.executor.list') ? 'bg-gray-200' : '' }}">
                             <!-- User icon -->
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M16.6667 17.5V15.8333C16.6667 14.9493 16.3155 14.1014 15.6904 13.4763C15.0652 12.8512 14.2174 12.5 13.3333 12.5H6.66667C5.78261 12.5 4.93477 12.8512 4.30964 13.4763C3.68452 14.1014 3.33333 14.9493 3.33333 15.8333V17.5" stroke="#279760" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -72,7 +72,7 @@
 
                         <!-- Группы -->
                         <a href="{{ Route::has('manager.groups.list') ? route('manager.groups.list') : '#' }}" 
-                           class="flex items-center gap-[6px] px-[10px] py-[10px] rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] hover:bg-bg-tertiary transition-colors {{ request()->routeIs('manager.groups.list') ? 'bg-bg-tertiary' : '' }}">
+                           class="flex items-center gap-[6px] px-[10px] py-[10px] rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] transition-colors {{ request()->routeIs('manager.groups.list') ? 'bg-gray-200' : '' }}">
                             <!-- Folder icon -->
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M18.3333 15C18.3333 15.442 18.1577 15.866 17.845 16.1785C17.5323 16.491 17.1087 16.6667 16.6667 16.6667H3.33333C2.89131 16.6667 2.46738 16.491 2.15482 16.1785C1.84226 15.866 1.66667 15.442 1.66667 15V5C1.66667 4.55797 1.84226 4.13405 2.15482 3.82149C2.46738 3.50893 2.89131 3.33333 3.33333 3.33333H7.5L9.16667 5.83333H16.6667C17.1087 5.83333 17.5323 6.00893 17.845 6.32149C18.1577 6.63405 18.3333 7.05797 18.3333 7.5V15Z" stroke="#C2BFBF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -82,7 +82,7 @@
 
                         <!-- Услуги -->
                         <a href="{{ Route::has('manager.services.list') ? route('manager.services.list') : '#' }}" 
-                           class="flex items-center gap-[6px] px-[10px] py-[10px] rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] hover:bg-bg-tertiary transition-colors {{ request()->routeIs('manager.services.*') ? 'bg-bg-tertiary' : '' }}">
+                           class="flex items-center gap-[6px] px-[10px] py-[10px] rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] transition-colors {{ request()->routeIs('manager.services.*') ? 'bg-gray-200' : '' }}">
                             <!-- List icon -->
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M17.5 5H6.66667" stroke="#C2BFBF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -97,7 +97,7 @@
 
                         <!-- Сообщения -->
                         <a href="{{ Route::has('Manager.service.message.list') ? route('Manager.service.message.list') : '#' }}" 
-                           class="flex items-center gap-[6px] px-[18px] py-[13px] {{ request()->routeIs('Manager.service.message.list') ? 'bg-bg-tertiary' : '' }} rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] hover:bg-bg-tertiary transition-colors">
+                           class="flex items-center gap-[6px] px-[18px] py-[13px] {{ request()->routeIs('Manager.service.message.list') ? 'bg-gray-200' : '' }} rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] transition-colors">
                             <!-- Message icon -->
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M17.5 12.5C17.5 13.163 17.2366 13.7989 16.7678 14.2678C16.2989 14.7366 15.663 15 15 15H5L2.5 17.5V5C2.5 4.33696 2.76339 3.70107 3.23223 3.23223C3.70107 2.76339 4.33696 2.5 5 2.5H15C15.663 2.5 16.2989 2.76339 16.7678 3.23223C17.2366 3.70107 17.5 4.33696 17.5 5V12.5Z" stroke="#C2BFBF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -140,7 +140,7 @@
                 </div>
 
                 <!-- Divider -->
-                <div class="w-full h-px bg-border-medium"></div>
+                <div class="w-full h-px bg-gray-300"></div>
             </div>
         </header>
 
@@ -152,6 +152,7 @@
 
     <!-- Scripts -->
     <script src="{{ asset('libs/jquery-3.5.1.min.js') }}"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     @yield('js')
 </body>
 </html>

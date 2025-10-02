@@ -11,6 +11,7 @@ use App\Data\Helper\RoleList;
 use App\Data\Notify\Dal\MessagesDal;
 use App\Data\Notify\Model\EmailJournal;
 use App\Data\Notify\Model\Messages;
+use App\Data\ServiceJournal\Dal\ServiceJournalDal;
 use App\Data\ServiceJournal\Model\ServiceJournalMessage;
 use App\Data\ServiceJournal\Model\ServiceJournalMessageExt;
 use App\Data\ServiceJournal\Model\ServiceJournalMessageReadHistExt;

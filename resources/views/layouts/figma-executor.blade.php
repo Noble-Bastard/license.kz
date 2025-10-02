@@ -54,7 +54,7 @@
         <header class="bg-bg-primary">
             <div class="w-full">
                 <!-- Top bar -->
-                <div class="flex items-center justify-between px-3 py-2" style="padding-left: 10px; padding-right: 10px;">
+                <div class="flex items-center justify-between px-8 py-4" style="padding-left: 32px; padding-right: 32px;">
                     <!-- Left side: Logo + Navigation -->
                     <div class="flex items-center gap-3">
                         <!-- Logo -->
@@ -65,7 +65,7 @@
                         <!-- Navigation Pills -->
                         <nav class="hidden md:flex items-center gap-1">
                             <a href="{{ Route::has('executor.project.list') ? route('executor.project.list') : '#' }}"
-                               class="flex items-center gap-[6px] px-[12px] py-[8px] rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] hover:bg-bg-tertiary transition-colors {{ request()->routeIs('executor.project.*') ? 'bg-bg-tertiary' : '' }}">
+                               class="flex items-center gap-[6px] px-[12px] py-[8px] rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] transition-colors {{ request()->routeIs('executor.project.*') ? 'bg-gray-200' : '' }}">
                                 <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M2.5 5.83333H17.5" stroke="#279760" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                     <path d="M2.5 10H17.5" stroke="#279760" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -74,7 +74,7 @@
                                 Проекты
                             </a>
                             <a href="{{ Route::has('executor.messages') ? route('executor.messages') : '#' }}"
-                               class="flex items-center gap-[6px] px-[12px] py-[8px] rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] hover:bg-bg-tertiary transition-colors {{ request()->routeIs('executor.messages') ? 'bg-bg-tertiary' : '' }}">
+                               class="flex items-center gap-[6px] px-[12px] py-[8px] rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] transition-colors {{ request()->routeIs('executor.messages') ? 'bg-gray-200' : '' }}">
                                 <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M17.5 12.5C17.5 13.163 17.2366 13.7989 16.7678 14.2678C16.2989 14.7366 15.663 15 15 15H5L2.5 17.5V5C2.5 4.33696 2.76339 3.70107 3.23223 3.23223C3.70107 2.76339 4.33696 2.5 5 2.5H15C15.663 2.5 16.2989 2.76339 16.7678 3.23223C17.2366 3.70107 17.5 4.33696 17.5 5V12.5Z" stroke="#C2BFBF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
@@ -110,7 +110,7 @@
                 </div>
 
                 <!-- Divider -->
-                <div class="w-full h-px bg-border-medium"></div>
+                <div class="w-full h-px bg-gray-300"></div>
             </div>
         </header>
 

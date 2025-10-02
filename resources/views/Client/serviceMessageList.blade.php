@@ -1,4 +1,4 @@
-@extends('new.layouts.app')
+@extends('layouts.client-app')
 
 @section('content')
     <div class="container">
@@ -45,9 +45,6 @@
                             @endforeach
                             </tbody>
                         </table>
-                    </div>
-                    <div class="pt-2">
-                        {{ $serviceMessageList->links() }}
                     </div>
                 </div>
             </div>
