@@ -5,16 +5,16 @@
         <!-- Page header -->
         <div class="flex items-center justify-between px-5 py-3" style="padding-left:20px;padding-right:20px;">
             <h1 class="text-[32px] md:text-[39px] leading-[1] font-normal tracking-[-0.02em] text-text-primary">Проекты</h1>
-            <div class="hidden md:flex items-center gap-[11px] px-[16px] pr-[22px] py-[11px] h-[46px] border border-border-light rounded-[60px] bg-white">
+            <div class="hidden md:flex items-center gap-[11px] px-[16px] pr-[22px] py-[11px] h-[46px] border border-border-light rounded-[80px] bg-white mr-2">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.8333 15.8333L13.2083 13.2083" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.33333 15.8333C12.0152 15.8333 15 12.8486 15 9.16667C15 5.48477 12.0152 2.5 8.33333 2.5C4.65143 2.5 1.66667 5.48477 1.66667 9.16667C1.66667 12.8486 4.65143 15.8333 8.33333 15.8333Z" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                <input type="text" placeholder="Поиск по проектам" class="bg-transparent border-none outline-none text-[12px] font-medium leading-[1] text-text-primary placeholder:text-text-primary" />
+                <input id="exec-projects-search" type="text" placeholder="Поиск по проектам" class="bg-transparent border-none outline-none text-[12px] font-medium leading-[1] text-text-primary placeholder:text-text-primary" />
             </div>
         </div>
         
         <!-- Mobile Search -->
         <div class="md:hidden mb-3 px-5" style="padding-left:20px;padding-right:20px;">
             <div class="flex justify-end">
-                <div class="flex items-center justify-center w-[46px] h-[46px] border border-border-light rounded-[60px] bg-white">
+                <div class="flex items-center justify-center w-[46px] h-[46px] border border-border-light rounded-[80px] bg-white">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.8333 15.8333L13.2083 13.2083" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.33333 15.8333C12.0152 15.8333 15 12.8486 15 9.16667C15 5.48477 12.0152 2.5 8.33333 2.5C4.65143 2.5 1.66667 5.48477 1.66667 9.16667C1.66667 12.8486 4.65143 15.8333 8.33333 15.8333Z" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </div>
             </div>
@@ -25,15 +25,15 @@
         <div class="px-5" style="padding-left:20px;padding-right:20px;">
             <div class="flex items-center gap-[10px] mb-[16px] md:flex-wrap overflow-x-auto md:overflow-x-visible">
                 @php $active = $service_status_id ?? null; @endphp
-                <a href="{{ route('executor.project.list') }}" class="px-[14px] py-[10px] rounded-[60px] text-[12px] font-medium flex-shrink-0 {{ !$active ? 'bg-[#279760] text-white' : 'bg-white text-text-primary border border-border-light' }}">Все</a>
+                <a href="{{ route('executor.project.list') }}" class="px-[14px] py-[10px] rounded-[60px] text-[12px] font-medium flex-shrink-0 {{ !$active ? 'bg-gray-200 text-text-primary' : 'bg-white text-text-primary border border-border-light' }}">Все</a>
                 @foreach(($statusList ?? []) as $status)
-                    <a href="{{ route('executor.project.list_by_status', ['service_status_id' => $status->id]) }}" class="px-[14px] py-[10px] rounded-[60px] text-[12px] font-medium flex-shrink-0 {{ (int)$active === (int)$status->id ? 'bg-[#279760] text-white' : 'bg-white text-text-primary border border-border-light' }}">{{ $status->name }}</a>
+                    <a href="{{ route('executor.project.list_by_status', ['service_status_id' => $status->id]) }}" class="px-[14px] py-[10px] rounded-[60px] text-[12px] font-medium flex-shrink-0 {{ (int)$active === (int)$status->id ? 'bg-gray-200 text-text-primary' : 'bg-white text-text-primary border border-border-light' }}">{{ $status->name }}</a>
                 @endforeach
             </div>
         </div>
 
         <!-- Заголовки колонок -->
-        <div class="hidden md:grid grid-cols-[200px,150px,1fr,150px] items-center gap-[60px,120px,60px,0px] text-[12px] font-semibold text-[#6F6F6F] leading-[1] mx-5 px-5">
+        <div class="hidden md:grid grid-cols-[200px,150px,1fr,150px] items-center gap-[60px,120px,60px,0px] text-[12px] font-semibold text-[#6F6F6F] leading-[1] mx-5 px-5 py-3 bg-white">
             <div>Номер услуги</div>
             <div>Дата обращения</div>
             <div>Менеджер</div>
@@ -46,14 +46,14 @@
                 @if(isset($projectList) && $projectList->isNotEmpty())
                     @foreach($projectList->where('project_status_id', $service_status_id) as $project)
                         <!-- Desktop Table View -->
-                        <div class="hidden md:block bg-white rounded-lg shadow-sm mb-3">
+                        <div class="hidden md:block bg-white rounded-lg shadow-sm mb-3 project-row">
                             <div class="grid grid-cols-[200px,150px,1fr,150px] items-center gap-[60px,120px,60px,0px] w-full p-5">
                                 <!-- Номер услуги -->
-                                <div class="text-[13px] font-medium text-[#1E2B28] leading-[1]">
+                                <div class="text-[13px] font-medium text-[#1E2B28] leading-[1] project-no">
                                     {{ $project->description }}
                                 </div>
                                 <!-- Дата обращения -->
-                                <div class="text-[13px] font-medium text-[#1E2B28] leading-[1]">
+                                <div class="text-[13px] font-medium text-[#1E2B28] leading-[1] project-date">
                                     {{ \App\Data\Helper\Assistant::formatDate($project->create_date) }}
                                 </div>
                                 <!-- Менеджер -->
@@ -61,7 +61,7 @@
                                     <div class="w-[26px] h-[26px] rounded-full bg-neutral-300 overflow-hidden">
                                         <img src="{{ asset('images/user1.png') }}" alt="{{ $project->manager_name ?? 'Manager' }}" class="w-full h-full object-cover"/>
                                     </div>
-                                    <span class="text-[13px] font-medium text-[#1E2B28] leading-[1]">{{ $project->manager_name ?? '-' }}</span>
+                                    <span class="text-[13px] font-medium text-[#1E2B28] leading-[1] manager-name">{{ $project->manager_name ?? '-' }}</span>
                                 </div>
                                 <!-- Статус -->
                                 <div class="flex items-center justify-end gap-[5px] pr-5">
@@ -72,14 +72,14 @@
                         </div>
 
                         <!-- Mobile Card View -->
-                        <div class="md:hidden bg-white rounded-lg shadow-sm mb-3 p-4">
+                        <div class="md:hidden bg-white rounded-lg shadow-sm mb-3 p-4 project-row">
                             <!-- Header with project number and date -->
                             <div class="flex items-center justify-between mb-4">
                                 <div class="flex items-center gap-[10px]">
-                                    <span class="text-base font-medium text-[#1E2B28] leading-[1]">{{ $project->description }}</span>
+                                    <span class="text-base font-medium text-[#1E2B28] leading-[1] project-no">{{ $project->description }}</span>
                                 </div>
                                 <div class="flex items-center gap-[6px] flex-shrink-0">
-                                    <span class="text-sm font-medium text-[#1E2B28] leading-[1]">
+                                    <span class="text-sm font-medium text-[#1E2B28] leading-[1] project-date">
                                         {{ \App\Data\Helper\Assistant::formatDate($project->create_date) }}
                                     </span>
                                 </div>
@@ -100,7 +100,7 @@
                                         <div class="w-[32px] h-[32px] rounded-full bg-neutral-300 overflow-hidden flex-shrink-0">
                                             <img src="{{ asset('images/user1.png') }}" alt="{{ $project->manager_name ?? 'Manager' }}" class="w-full h-full object-cover"/>
                                         </div>
-                                        <span class="text-sm font-medium text-[#1E2B28]">{{ $project->manager_name ?? '-' }}</span>
+                                        <span class="text-sm font-medium text-[#1E2B28] manager-name">{{ $project->manager_name ?? '-' }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -160,7 +160,24 @@
 @section('js')
     <script>
         $(function () {
-            // Executor projects page scripts can be added here
+            const $input = $('#exec-projects-search');
+            if ($input.length) {
+                $input.on('input', function(){
+                    const q = $(this).val().toLowerCase();
+                    $('.project-row').each(function(){
+                        const $row = $(this);
+                        const no = ($row.find('.project-no').text() || '').toLowerCase();
+                        const date = ($row.find('.project-date').text() || '').toLowerCase();
+                        const manager = ($row.find('.manager-name').text() || '').toLowerCase();
+                        const match = no.includes(q) || date.includes(q) || manager.includes(q);
+                        if (q === '' || match) {
+                            $row.removeClass('hidden');
+                        } else {
+                            $row.addClass('hidden');
+                        }
+                    });
+                });
+            }
         });
     </script>
 @endsection

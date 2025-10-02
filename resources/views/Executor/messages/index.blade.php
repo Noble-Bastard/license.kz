@@ -10,7 +10,7 @@
             <div class="bg-white rounded-lg border border-border-light shadow-md overflow-hidden">
                 <div class="grid grid-cols-1 md:grid-cols-3">
                     <div class="border-r border-border-light p-4">
-                        <div class="flex items-center gap-[11px] px-[12px] py-[9px] h-[40px] border border-border-light rounded-[60px] bg-white mb-3">
+                        <div class="flex items-center gap-[11px] px-[12px] py-[9px] h-[40px] border border-border-light rounded-[80px] bg-white mb-3">
                             <svg width="18" height="18" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.8333 15.8333L13.2083 13.2083" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.33333 15.8333C12.0152 15.8333 15 12.8486 15 9.16667C15 5.48477 12.0152 2.5 8.33333 2.5C4.65143 2.5 1.66667 5.48477 1.66667 9.16667C1.66667 12.8486 4.65143 15.8333 8.33333 15.8333Z" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                             <input type="text" placeholder="Поиск" class="bg-transparent border-none outline-none text-[12px] font-medium leading-[1] text-text-primary placeholder:text-text-primary" />
                         </div>

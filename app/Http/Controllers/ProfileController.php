@@ -107,7 +107,7 @@ class ProfileController extends Controller
     public function bookkeeping()
     {
         $service_status_type = Input::has('service_status_type') ? Input::get('service_status_type') : ServiceStatusTypeList::Opened;
-        $serviceJournalList = ServiceJournalDal::getServiceJournalListByCurrentUserAndStatusType($service_status_type, false);
+        $serviceJournalList = ServiceJournalDal::getServiceJournalListByCurrentUserAndStatusType($service_status_type, true);
 
         return view('Client.accounting')
             ->with('serviceJournalList', $serviceJournalList)

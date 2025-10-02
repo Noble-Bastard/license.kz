@@ -2,43 +2,34 @@
 
 @section('content')
     <div class="px-5 py-6" style="padding-left: 40px; padding-right: 40px;">
-        <!-- Page title and search -->
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-            <div>
-                <h1 class="text-[24px] leading-[1.2] font-semibold text-text-primary">Потенциальные клиенты</h1>
-            </div>
-            <div class="flex items-center gap-3">
-                <!-- Search -->
-                <div class="relative w-full md:max-w-[360px]">
-                    <input type="text" placeholder="Поиск по имени, email или телефону"
-                           class="w-full h-[48px] rounded-[14px] border border-border-light bg-white pl-12 pr-4 text-sm text-text-primary placeholder-text-muted outline-none focus:ring-2 focus:ring-primary/20"/>
-                    <svg class="absolute left-4 top-1/2 -translate-y-1/2" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9.58333 16.25C13.0651 16.25 15.9167 13.3984 15.9167 9.91667C15.9167 6.43492 13.0651 3.58333 9.58333 3.58333C6.10158 3.58333 3.25 6.43492 3.25 9.91667C3.25 13.3984 6.10158 16.25 9.58333 16.25Z" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M16.75 17.0833L14.4167 14.75" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </div>
+        <!-- Page title + Search on same row -->
+        <div class="mb-6 flex items-center justify-between">
+            <h1 class="text-[24px] leading-[1.2] font-semibold text-text-primary">Потенциальные клиенты</h1>
+            <div class="hidden md:flex items-center gap-[11px] px-[16px] pr-[22px] py-[11px] h-[46px] border border-border-light rounded-[80px] bg-white mr-2">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.8333 15.8333L13.2083 13.2083" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.33333 15.8333C12.0152 15.8333 15 12.8486 15 9.16667C15 5.48477 12.0152 2.5 8.33333 2.5C4.65143 2.5 1.66667 5.48477 1.66667 9.16667C1.66667 12.8486 4.65143 15.8333 8.33333 15.8333Z" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <input id="sm-pc-search" type="text" placeholder="Поиск по имени, email, телефону" class="bg-transparent border-none outline-none text-[12px] font-medium leading-[1] text-text-primary placeholder:text-text-primary" />
             </div>
         </div>
 
         <!-- Status pills -->
         <div class="flex items-center gap-2 mb-5 overflow-x-auto md:flex-wrap md:overflow-x-visible">
             @php $activeStatus = request('status'); @endphp
-            <a href="{{ route('sale_manager.potential_client.index') }}" class="px-[14px] py-[8px] rounded-[60px] text-xs font-medium transition flex-shrink-0 {{ !$activeStatus ? 'bg-[#279760] text-white' : 'text-text-primary hover:bg-bg-tertiary' }}">
+            <a href="{{ route('sale_manager.potential_client.index') }}" class="px-[14px] py-[8px] rounded-[60px] text-xs font-medium transition flex-shrink-0 {{ !$activeStatus ? 'bg-gray-200 text-text-primary' : 'text-text-primary hover:bg-bg-tertiary' }}">
                 Все клиенты
             </a>
-            <a href="{{ route('sale_manager.potential_client.index', ['status' => 'new']) }}" class="px-[14px] py-[8px] rounded-[60px] text-xs font-medium transition flex-shrink-0 {{ $activeStatus == 'new' ? 'bg-[#279760] text-white' : 'text-text-primary hover:bg-bg-tertiary' }}">
+            <a href="{{ route('sale_manager.potential_client.index', ['status' => 'new']) }}" class="px-[14px] py-[8px] rounded-[60px] text-xs font-medium transition flex-shrink-0 {{ $activeStatus == 'new' ? 'bg-gray-200 text-text-primary' : 'text-text-primary hover:bg-bg-tertiary' }}">
                 Новые
             </a>
-            <a href="{{ route('sale_manager.potential_client.index', ['status' => 'contacted']) }}" class="px-[14px] py-[8px] rounded-[60px] text-xs font-medium transition flex-shrink-0 {{ $activeStatus == 'contacted' ? 'bg-[#279760] text-white' : 'text-text-primary hover:bg-bg-tertiary' }}">
+            <a href="{{ route('sale_manager.potential_client.index', ['status' => 'contacted']) }}" class="px-[14px] py-[8px] rounded-[60px] text-xs font-medium transition flex-shrink-0 {{ $activeStatus == 'contacted' ? 'bg-gray-200 text-text-primary' : 'text-text-primary hover:bg-bg-tertiary' }}">
                 Связались
             </a>
-            <a href="{{ route('sale_manager.potential_client.index', ['status' => 'account_created']) }}" class="px-[14px] py-[8px] rounded-[60px] text-xs font-medium transition flex-shrink-0 {{ $activeStatus == 'account_created' ? 'bg-[#279760] text-white' : 'text-text-primary hover:bg-bg-tertiary' }}">
+            <a href="{{ route('sale_manager.potential_client.index', ['status' => 'account_created']) }}" class="px-[14px] py-[8px] rounded-[60px] text-xs font-medium transition flex-shrink-0 {{ $activeStatus == 'account_created' ? 'bg-gray-200 text-text-primary' : 'text-text-primary hover:bg-bg-tertiary' }}">
                 Создан кабинет
             </a>
-            <a href="{{ route('sale_manager.potential_client.index', ['status' => 'in_progress']) }}" class="px-[14px] py-[8px] rounded-[60px] text-xs font-medium transition flex-shrink-0 {{ $activeStatus == 'in_progress' ? 'bg-[#279760] text-white' : 'text-text-primary hover:bg-bg-tertiary' }}">
+            <a href="{{ route('sale_manager.potential_client.index', ['status' => 'in_progress']) }}" class="px-[14px] py-[8px] rounded-[60px] text-xs font-medium transition flex-shrink-0 {{ $activeStatus == 'in_progress' ? 'bg-gray-200 text-text-primary' : 'text-text-primary hover:bg-bg-tertiary' }}">
                 В работе
             </a>
-            <a href="{{ route('sale_manager.potential_client.index', ['status' => 'completed']) }}" class="px-[14px] py-[8px] rounded-[60px] text-xs font-medium transition flex-shrink-0 {{ $activeStatus == 'completed' ? 'bg-[#279760] text-white' : 'text-text-primary hover:bg-bg-tertiary' }}">
+            <a href="{{ route('sale_manager.potential_client.index', ['status' => 'completed']) }}" class="px-[14px] py-[8px] rounded-[60px] text-xs font-medium transition flex-shrink-0 {{ $activeStatus == 'completed' ? 'bg-gray-200 text-text-primary' : 'text-text-primary hover:bg-bg-tertiary' }}">
                 Завершено
             </a>
         </div>
@@ -200,3 +191,24 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+    const searchInput = document.getElementById('sm-pc-search');
+    if (!searchInput) return;
+    searchInput.addEventListener('input', function(){
+        const q = this.value.toLowerCase();
+        const rows = document.querySelectorAll('.hidden.md\\:grid.rounded-lg');
+        rows.forEach(row => {
+            const date = row.querySelector(':scope > div:nth-child(1)')?.textContent.toLowerCase() || '';
+            const name = row.querySelector(':scope > div:nth-child(2)')?.textContent.toLowerCase() || '';
+            const email = row.querySelector(':scope > div:nth-child(3)')?.textContent.toLowerCase() || '';
+            const phone = row.querySelector(':scope > div:nth-child(4)')?.textContent.toLowerCase() || '';
+            const services = row.querySelector(':scope > div:nth-child(5)')?.textContent.toLowerCase() || '';
+            const match = date.includes(q) || name.includes(q) || email.includes(q) || phone.includes(q) || services.includes(q);
+            row.style.display = match ? '' : 'none';
+        });
+    });
+});
+</script>
+@endpush

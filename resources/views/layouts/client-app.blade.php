@@ -51,7 +51,7 @@
         <header class="bg-white border-b border-gray-200">
             <div class="w-full">
                 <!-- Top section with logo, navigation, and user controls -->
-                <div class="flex items-center justify-between gap-2 px-3 py-2" style="padding-left: 10px; padding-right: 10px;">
+                <div class="flex items-center justify-between gap-2 px-8 py-4" style="padding-left: 32px; padding-right: 32px;">
                     <!-- Left side: Logo + Navigation -->
                     <div class="flex items-center gap-3">
                         <!-- Logo -->
@@ -61,7 +61,7 @@
                         <nav class="hidden md:flex items-center gap-1">
                             <!-- Услуги -->
                             <a href="{{ route('Client.service.list') }}" 
-                               class="flex items-center gap-[6px] px-[12px] py-[8px] rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] hover:bg-bg-tertiary transition-colors {{ request()->routeIs('Client.service.list') ? 'bg-bg-tertiary' : '' }}">
+                               class="flex items-center gap-[6px] px-[12px] py-[8px] rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] transition-colors {{ request()->routeIs('Client.service.list') ? 'bg-gray-200' : '' }}">
                                 <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M17.5 5H6.66667" stroke="#279760" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                     <path d="M17.5 10H6.66667" stroke="#279760" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -75,7 +75,7 @@
 
                             <!-- Документы -->
                             <a href="{{ route('profile.documentList') }}" 
-                               class="flex items-center gap-[6px] px-[12px] py-[8px] rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] hover:bg-bg-tertiary transition-colors {{ request()->routeIs('profile.documentList') ? 'bg-bg-tertiary' : '' }}">
+                               class="flex items-center gap-[6px] px-[12px] py-[8px] rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] transition-colors {{ request()->routeIs('profile.documentList') ? 'bg-gray-200' : '' }}">
                                 <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M11.6667 1.66667H5C4.55797 1.66667 4.13405 1.84226 3.82149 2.15482C3.50893 2.46738 3.33333 2.89131 3.33333 3.33333V16.6667C3.33333 17.1087 3.50893 17.5326 3.82149 17.8452C4.13405 18.1577 4.55797 18.3333 5 18.3333H15C15.442 18.3333 15.866 18.1577 16.1785 17.8452C16.491 17.5326 16.6667 17.1087 16.6667 16.6667V6.66667L11.6667 1.66667Z" stroke="#279760" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                     <path d="M11.6667 1.66667V6.66667H16.6667" stroke="#279760" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -85,7 +85,7 @@
 
                             <!-- Бухгалтерия -->
                             <a href="{{ route('profile.bookkeeping') }}" 
-                               class="flex items-center gap-[6px] px-[12px] py-[8px] rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] hover:bg-bg-tertiary transition-colors {{ request()->routeIs('profile.bookkeeping') ? 'bg-bg-tertiary' : '' }}">
+                               class="flex items-center gap-[6px] px-[12px] py-[8px] rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] transition-colors {{ request()->routeIs('profile.bookkeeping') ? 'bg-gray-200' : '' }}">
                                 <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M15.8333 3.33333H4.16667C3.24619 3.33333 2.5 4.07952 2.5 5V15C2.5 15.9205 3.24619 16.6667 4.16667 16.6667H15.8333C16.7538 16.6667 17.5 15.9205 17.5 15V5C17.5 4.07952 16.7538 3.33333 15.8333 3.33333Z" stroke="#279760" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                     <path d="M6.66667 6.66667H13.3333" stroke="#279760" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -151,6 +151,9 @@
                         </button>
                     </div>
                 </div>
+                
+                <!-- Divider -->
+                <div class="w-full h-px bg-gray-300"></div>
             </div>
         </header>
 

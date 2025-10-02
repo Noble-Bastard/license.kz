@@ -50,35 +50,34 @@
 <body class="h-full font-sans antialiased" style="font-family: 'Inter', sans-serif;">
     <div class="min-h-full bg-white">
         <!-- Header -->
-        <header class="bg-white border-b border-gray-100">
-            <div class="max-w-[1440px] mx-auto px-8 py-4">
+        <header class="bg-white">
+            <div class="w-full px-8 py-4" style="padding-left: 32px; padding-right: 32px;">
                 <div class="flex items-center justify-between">
                     <!-- Logo and Navigation -->
                     <div class="flex items-center space-x-8">
                         <!-- Logo -->
                         <div class="flex items-center space-x-2">
-                            <svg class="w-8 h-8" viewBox="0 0 32 32" fill="none">
-                                <path d="M8 8h16v16H8z" fill="#279760"/>
-                                <path d="M16 4v8l4-4 4 4V4z" fill="#279760"/>
-                            </svg>
-                            <div class="text-lg font-semibold">
-                                <span class="text-[#279760]">UPPER</span><span class="text-gray-900">LICENSE</span>
-                            </div>
+                            <img src="{{ asset('images/green-logo.png') }}" alt="UpperLicense" class="h-[31px] w-auto" style="width:150px;height:31px;"/>
                         </div>
                         
                         <!-- Navigation Tabs -->
                         <nav class="hidden md:flex items-center space-x-1">
                             <a href="{{ route('Accountant.services') }}" 
-                               class="flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors {{ request()->routeIs('Accountant.services') ? 'text-gray-900 bg-gray-50 font-medium' : 'text-gray-600 hover:text-gray-900' }}">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                               class="flex items-center gap-[6px] px-[18px] py-[13px] rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] transition-colors {{ request()->routeIs('Accountant.services') ? 'bg-gray-200' : '' }}">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M17.5 5H6.66667" stroke="#C2BFBF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M17.5 10H6.66667" stroke="#C2BFBF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M17.5 15H6.66667" stroke="#C2BFBF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M2.5 5H2.50833" stroke="#C2BFBF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M2.5 10H2.50833" stroke="#C2BFBF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M2.5 15H2.50833" stroke="#C2BFBF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
                                 Услуги
                             </a>
                             <a href="{{ route('Accountant.document_templates') }}" 
-                               class="hidden md:flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors {{ request()->routeIs('Accountant.document_templates') ? 'text-gray-900 bg-gray-50 font-medium' : 'text-gray-600 hover:text-gray-900' }}">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                               class="flex items-center gap-[6px] px-[18px] py-[13px] rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] transition-colors {{ request()->routeIs('Accountant.document_templates') ? 'bg-gray-200' : '' }}">
+                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M18.3333 15C18.3333 15.442 18.1577 15.866 17.845 16.1785C17.5323 16.491 17.1087 16.6667 16.6667 16.6667H3.33333C2.89131 16.6667 2.46738 16.491 2.15482 16.1785C1.84226 15.866 1.66667 15.442 1.66667 15V5C1.66667 4.55797 1.84226 4.13405 2.15482 3.82149C2.46738 3.50893 2.89131 3.33333 3.33333 3.33333H7.5L9.16667 5.83333H16.6667C17.1087 5.83333 17.5323 6.00893 17.845 6.32149C18.1577 6.63405 18.3333 7.05797 18.3333 7.5V15Z" stroke="#C2BFBF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
                                 Шаблоны документов
                             </a>
@@ -86,18 +85,23 @@
                     </div>
                     
                     <!-- User Menu -->
-                    <div class="flex items-center">
+                    <div class="flex items-center gap-3">
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
                             @csrf
                         </form>
-                        <button type="submit" form="logout-form" class="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:text-gray-900 transition-colors">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                        <button type="submit" form="logout-form" class="flex items-center gap-[6px] px-4 py-4 rounded-[60px] border border-border-light text-text-primary text-sm font-medium leading-[1] transition-colors">
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5.25 12.25H2.625C2.42609 12.25 2.23532 12.171 2.09467 12.0303C1.95402 11.8897 1.875 11.6989 1.875 11.5V2.5C1.875 2.30109 1.95402 2.11032 2.09467 1.96967C2.23532 1.82902 2.42609 1.75 2.625 1.75H5.25" stroke="#191E1D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M9.1875 9.625L12.125 7L9.1875 4.375" stroke="#191E1D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12.125 7H5.25" stroke="#191E1D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                             Выйти
                         </button>
                     </div>
                 </div>
+
+                <!-- Divider -->
+                <div class="w-screen h-px bg-gray-300 mt-4" style="margin-left: calc(-50vw + 50%);"></div>
             </div>
         </header>
 
@@ -108,6 +112,8 @@
     </div>
 
     <!-- Scripts -->
+    <script src="{{ asset('libs/jquery-3.5.1.min.js') }}"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
     @stack('scripts')
 </body>
 </html>

@@ -17,6 +17,7 @@ use App\Data\Task\Dal\TaskDal;
 use App\Data\Task\Dal\TaskExecutorDal;
 use App\Data\Task\Model\ExecutorGroup;
 use App\Data\Task\Model\ExecutorHourlyRate;
+use App\Data\ServiceJournal\Dal\ServiceJournalMessageDal;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -92,18 +93,32 @@ class ManagerController extends Controller
 
         $serviceJournalList = ServiceJournalDal::getServiceJournalListByManager($manager->id, true);
         $serviceJournal = ServiceJournalDal::getExt($serviceJournalId);
+        $serviceJournal->load('serviceStatus');
         $serviceJournalStepList = ServiceJournalDal::getServiceJournalStepList($serviceJournalId);
         $taskExecutorList=TaskDal::getTaskExecutorsListByProject($serviceJournal->project_id);
         $manager = ProfileDal::getByUserId(Auth::id());
         $executorList = ProfileDal::getListByRolesAndManager([RoleList::Executor], $manager->id, true);
         $groupList = ExecutorGroupDal::getList(true);
+        
+        // Add documents, comments, and messages data
+        $documents = collect(); // TODO: Add documents logic
+        $comments = collect(); // TODO: Add comments logic  
+        // Get messages using the basic table instead of the view
+        $messages = \App\Data\ServiceJournal\Model\ServiceJournalMessage::with(['message', 'createdBy'])
+            ->where('service_journal_id', $serviceJournalId)
+            ->orderBy('create_date', 'asc')
+            ->get();
+        
         return view('Manager.Services.show')
             ->with('serviceJournalList', $serviceJournalList)
             ->with('serviceJournal',$serviceJournal)
             ->with('serviceJournalStepList',$serviceJournalStepList)
             ->with('taskExecutorList',$taskExecutorList)
             ->with('executorList',$executorList->pluck('full_name', 'id'))
-            ->with('groupList',$groupList->pluck('name', 'id'));
+            ->with('groupList',$groupList->pluck('name', 'id'))
+            ->with('documents', $documents)
+            ->with('comments', $comments)
+            ->with('messages', $messages);
 
     }
     public function getTaskExecutorList()

@@ -68,7 +68,7 @@
         <header class="bg-bg-primary">
             <div class="w-full">
                 <!-- Top section with logo, navigation, and user controls -->
-                <div class="flex items-center justify-between gap-3 px-3 py-2" style="padding-left: 10px; padding-right: 10px;">
+                <div class="flex items-center justify-between gap-3 px-8 py-4" style="padding-left: 32px; padding-right: 32px;">
                     <!-- Left: Logo + Nav -->
                     <div class="flex items-center gap-3">
                         <img src="{{ asset('images/green-logo.png') }}" alt="UpperLicense" class="h-[31px] w-auto" style="width:150px;height:31px;"/>
@@ -77,7 +77,7 @@
                         <nav class="hidden md:flex items-center gap-[10px] px-2 py-2">
                         <!-- Услуги -->
                         <a href="{{ Route::has('sale_manager.service.list') ? route('sale_manager.service.list') : '#' }}"
-                           class="flex items-center gap-[6px] px-[18px] py-[13px] rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] hover:bg-bg-tertiary transition-colors {{ request()->routeIs('sale_manager.service.*') ? 'bg-bg-tertiary' : '' }}">
+                           class="flex items-center gap-[6px] px-[18px] py-[13px] rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] transition-colors {{ request()->routeIs('sale_manager.service.*') ? 'bg-gray-200' : '' }}">
                             <!-- List icon -->
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M17.5 5H6.66667" stroke="#C2BFBF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -92,7 +92,7 @@
 
                         <!-- Потенциальные клиенты -->
                         <a href="{{ Route::has('sale_manager.potential_client.index') ? route('sale_manager.potential_client.index') : '#' }}"
-                           class="flex items-center gap-[6px] px-[12px] py-[10px] rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] hover:bg-bg-tertiary transition-colors {{ request()->routeIs('sale_manager.potential_client.*') ? 'bg-bg-tertiary' : '' }}">
+                           class="flex items-center gap-[6px] px-[12px] py-[10px] rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] transition-colors {{ request()->routeIs('sale_manager.potential_client.*') ? 'bg-gray-200' : '' }}">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M13.3333 17.5V15.8333C13.3333 14.9493 12.9821 14.1014 12.357 13.4763C11.7319 12.8512 10.884 12.5 10 12.5H5C4.11594 12.5 3.2681 12.8512 2.64297 13.4763C2.01785 14.1014 1.66667 14.9493 1.66667 15.8333V17.5" stroke="#C2BFBF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                 <path d="M7.5 9.16667C9.34095 9.16667 10.8333 7.67428 10.8333 5.83333C10.8333 3.99238 9.34095 2.5 7.5 2.5C5.65905 2.5 4.16667 3.99238 4.16667 5.83333C4.16667 7.67428 5.65905 9.16667 7.5 9.16667Z" stroke="#C2BFBF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -116,6 +116,14 @@
 
                     <!-- Right side controls -->
                     <div class="flex items-center gap-2 px-2 py-2">
+                        <!-- Search (hidden on services/commercial offers/potential client routes) -->
+                        @if(!request()->routeIs('sale_manager.service.*') && !request()->routeIs('sale_manager.commercial_offer.*') && !request()->routeIs('sale_manager.potential_client.*'))
+                        <div class="hidden md:flex items-center gap-[11px] px-[16px] pr-[22px] py-[11px] h-[46px] border border-border-light rounded-[80px] bg-white mr-2">
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.8333 15.8333L13.2083 13.2083" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.33333 15.8333C12.0152 15.8333 15 12.8486 15 9.16667C15 5.48477 12.0152 2.5 8.33333 2.5C4.65143 2.5 1.66667 5.48477 1.66667 9.16667C1.66667 12.8486 4.65143 15.8333 8.33333 15.8333Z" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            <input type="text" placeholder="Поиск" class="bg-transparent border-none outline-none text-[12px] font-medium leading-[1] text-text-primary placeholder:text-text-primary" />
+                        </div>
+                        @endif
+                        
                         <!-- User/Logout -->
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
                             @csrf
@@ -134,7 +142,7 @@
                 </div>
 
                 <!-- Divider -->
-                <div class="w-full h-px bg-border-medium"></div>
+                <div class="w-full h-px bg-gray-300"></div>
             </div>
         </header>
 

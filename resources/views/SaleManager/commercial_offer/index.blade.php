@@ -5,12 +5,12 @@
 @section('content')
 <div class="py-6 px-4 md:px-10">
     <!-- Local header (ensures logo and nav visible) -->
-    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4 px-8 py-4" style="padding-left: 32px; padding-right: 32px;">
         <!-- Left: Logo + Nav -->
         <div class="flex items-center gap-3 w-full md:w-auto">
             <img src="{{ asset('images/green-logo.png') }}" alt="UpperLicense" class="h-[31px] w-auto" style="width:150px;height:31px;"/>
             <nav class="flex items-center gap-[10px] overflow-x-auto md:overflow-visible -mx-4 px-4 md:mx-0 md:px-0">
-                <a href="{{ route('sale_manager.service.list') }}" class="flex items-center gap-[6px] px-[12px] py-[8px] rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] hover:bg-bg-tertiary {{ request()->routeIs('sale_manager.service.*') ? 'bg-bg-tertiary' : '' }}">
+                <a href="{{ route('sale_manager.service.list') }}" class="flex items-center gap-[6px] px-[12px] py-[8px] rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] transition-colors {{ request()->routeIs('sale_manager.service.*') ? 'bg-gray-200' : '' }}">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M17.5 5H6.66667" stroke="#C2BFBF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M17.5 10H6.66667" stroke="#C2BFBF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -21,14 +21,14 @@
                     </svg>
                     Услуги
                 </a>
-                <a href="{{ route('sale_manager.potential_client.index') }}" class="flex items-center gap-[6px] px-[12px] py-[8px] rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] hover:bg-bg-tertiary {{ request()->routeIs('sale_manager.potential_client.*') ? 'bg-bg-tertiary' : '' }}">
+                <a href="{{ route('sale_manager.potential_client.index') }}" class="flex items-center gap-[6px] px-[12px] py-[8px] rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] transition-colors {{ request()->routeIs('sale_manager.potential_client.*') ? 'bg-gray-200' : '' }}">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M13.3333 17.5V15.8333C13.3333 14.9493 12.9821 14.1014 12.357 13.4763C11.7319 12.8512 10.884 12.5 10 12.5H5C4.11594 12.5 3.2681 12.8512 2.64297 13.4763C2.01785 14.1014 1.66667 14.9493 1.66667 15.8333V17.5" stroke="#C2BFBF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M7.5 9.16667C9.34095 9.16667 10.8333 7.67428 10.8333 5.83333C10.8333 3.99238 9.34095 2.5 7.5 2.5C5.65905 2.5 4.16667 3.99238 4.16667 5.83333C4.16667 7.67428 5.65905 9.16667 7.5 9.16667Z" stroke="#C2BFBF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                     Потенциальные клиенты
                 </a>
-                <a href="{{ route('sale_manager.commercial_offer.index') }}" class="flex items-center gap-[6px] px-[12px] py-[8px] rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] hover:bg-bg-tertiary {{ request()->routeIs('sale_manager.commercial_offer.*') ? 'bg-bg-tertiary' : '' }}">
+                <a href="{{ route('sale_manager.commercial_offer.index') }}" class="flex items-center gap-[6px] px-[12px] py-[8px] rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] transition-colors {{ request()->routeIs('sale_manager.commercial_offer.*') ? 'bg-gray-200' : '' }}">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M5 3.33333H15C15.4602 3.33333 15.8333 3.70643 15.8333 4.16667V15.8333C15.8333 16.2936 15.4602 16.6667 15 16.6667H5C4.53976 16.6667 4.16667 16.2936 4.16667 15.8333V4.16667C4.16667 3.70643 4.53976 3.33333 5 3.33333Z" stroke="#C2BFBF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M6.66667 6.66667H13.3333" stroke="#C2BFBF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -39,8 +39,15 @@
                 </a>
             </nav>
         </div>
-        <!-- Right: Logout -->
+        <!-- Right: Create KP + Logout -->
         <div class="flex items-center gap-2 ml-auto md:ml-0">
+            
+            <!-- Create KP Button -->
+            <a href="#" onclick="openModal('create-commercial-offer')" class="inline-flex items-center gap-2 px-5 py-3 rounded-[14px] bg-primary text-white text-sm font-medium hover:bg-primary-700 transition">
+                <i class="fas fa-plus text-sm"></i>
+                Создать КП
+            </a>
+            
             <form id="logout-form-sales" action="{{ route('logout') }}" method="POST" class="hidden">@csrf</form>
             <button type="submit" form="logout-form-sales"
                     class="flex items-center gap-[6px] px-4 py-4 rounded-[60px] border border-border-light text-text-primary text-sm font-medium leading-[1] hover:bg-bg-tertiary">
@@ -53,26 +60,16 @@
             </button>
         </div>
     </div>
-    <div class="">
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-            <div>
-                <h1 class="text-[24px] leading-[1.2] font-semibold text-text-primary">Коммерческие предложения</h1>
-            </div>
-            <div class="flex items-center gap-3">
-                <!-- Search -->
-                <div class="relative w-full md:max-w-[360px]">
-                    <input type="text" placeholder="Поиск по имени"
-                           class="w-full h-[48px] rounded-[14px] border border-border-light bg-white pl-12 pr-4 text-sm text-text-primary placeholder-text-muted outline-none focus:ring-2 focus:ring-primary/20"/>
-                    <svg class="absolute left-4 top-1/2 -translate-y-1/2" width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9.58333 16.25C13.0651 16.25 15.9167 13.3984 15.9167 9.91667C15.9167 6.43492 13.0651 3.58333 9.58333 3.58333C6.10158 3.58333 3.25 6.43492 3.25 9.91667C3.25 13.3984 6.10158 16.25 9.58333 16.25Z" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M16.75 17.0833L14.4167 14.75" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </div>
-                <!-- Create KP Button -->
-                <a href="#" onclick="openModal('create-commercial-offer')" class="inline-flex items-center gap-2 px-5 py-3 rounded-[14px] bg-primary text-white text-sm font-medium hover:bg-primary-700 transition">
-                    <i class="fas fa-plus text-sm"></i>
-                    Создать КП
-                </a>
+
+    <!-- Divider -->
+    <div class="w-full h-px bg-gray-300 mb-4"></div>
+
+    <div class="px-8" style="padding-left: 32px; padding-right: 32px;">
+        <div class="mb-6 flex items-center justify-between">
+            <h1 class="text-[24px] leading-[1.2] font-semibold text-text-primary">Коммерческие предложения</h1>
+            <div class="hidden md:flex items-center gap-[11px] px-[16px] pr-[22px] py-[11px] h-[46px] border border-border-light rounded-[80px] bg-white">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.8333 15.8333L13.2083 13.2083" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.33333 15.8333C12.0152 15.8333 15 12.8486 15 9.16667C15 5.48477 12.0152 2.5 8.33333 2.5C4.65143 2.5 1.66667 5.48477 1.66667 9.16667C1.66667 12.8486 4.65143 15.8333 8.33333 15.8333Z" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <input id="sm-co-search" type="text" placeholder="Поиск по имени, email, телефону" class="bg-transparent border-none outline-none text-[12px] font-medium leading-[1] text-text-primary placeholder:text-text-primary" />
             </div>
         </div>
     </div>
@@ -80,29 +77,29 @@
     <div x-data="commercialOffers()" x-init="loadOffers()">
 
         <!-- Status pills -->
-        <div class="flex items-center gap-2 mb-5 overflow-x-auto md:flex-wrap md:overflow-x-visible">
-            <button class="status-filter-btn px-[14px] py-[8px] rounded-[60px] text-xs font-medium transition flex-shrink-0 bg-[#279760] text-white">
+        <div class="flex items-center gap-2 mb-5 overflow-x-auto md:flex-wrap md:overflow-x-visible px-8" style="padding-left: 32px; padding-right: 32px;">
+            <button class="status-filter-btn px-[14px] py-[8px] rounded-[60px] text-xs font-medium transition flex-shrink-0 text-text-primary bg-transparent" data-status="all">
                 Все КП
             </button>
-            <button class="status-filter-btn px-[14px] py-[8px] rounded-[60px] text-xs font-medium transition flex-shrink-0 text-text-primary hover:bg-bg-tertiary">
+            <button class="status-filter-btn px-[14px] py-[8px] rounded-[60px] text-xs font-medium transition flex-shrink-0 text-text-primary bg-transparent" data-status="new">
                 Новые
             </button>
-            <button class="status-filter-btn px-[14px] py-[8px] rounded-[60px] text-xs font-medium transition flex-shrink-0 text-text-primary hover:bg-bg-tertiary">
+            <button class="status-filter-btn px-[14px] py-[8px] rounded-[60px] text-xs font-medium transition flex-shrink-0 text-text-primary bg-transparent" data-status="in_work">
                 В работе
             </button>
-            <button class="status-filter-btn px-[14px] py-[8px] rounded-[60px] text-xs font-medium transition flex-shrink-0 text-text-primary hover:bg-bg-tertiary">
+            <button class="status-filter-btn px-[14px] py-[8px] rounded-[60px] text-xs font-medium transition flex-shrink-0 text-text-primary bg-transparent" data-status="sent">
                 Отправлены
             </button>
-            <button class="status-filter-btn px-[14px] py-[8px] rounded-[60px] text-xs font-medium transition flex-shrink-0 text-text-primary hover:bg-bg-tertiary">
+            <button class="status-filter-btn px-[14px] py-[8px] rounded-[60px] text-xs font-medium transition flex-shrink-0 text-text-primary bg-transparent" data-status="accepted">
                 Приняты
             </button>
-            <button class="status-filter-btn px-[14px] py-[8px] rounded-[60px] text-xs font-medium transition flex-shrink-0 text-text-primary hover:bg-bg-tertiary">
+            <button class="status-filter-btn px-[14px] py-[8px] rounded-[60px] text-xs font-medium transition flex-shrink-0 text-text-primary bg-transparent" data-status="rejected">
                 Отклонены
             </button>
         </div>
 
         <!-- Desktop Headers -->
-        <div class="hidden md:grid grid-cols-[200px,200px,200px,200px,200px,150px] gap-[60px,60px,60px,60px,60px,0px] items-center bg-white px-5 py-3 mx-5 mb-3">
+        <div class="hidden md:grid grid-cols-[200px,200px,200px,200px,200px,150px] gap-[60px,60px,60px,60px,60px,0px] items-center bg-white px-8 py-3 mb-3" style="padding-left: 32px; padding-right: 32px;">
             <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Дата</div>
             <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Имя</div>
             <div class="text-xs font-medium text-gray-500 uppercase tracking-wider">Email</div>
@@ -113,11 +110,11 @@
 
         <!-- Gray background section -->
         <div class="py-5 pb-20" style="background-color: var(--color-bg-secondary); width: 100vw; margin-left: calc(-50vw + 50%); min-height: calc(100vh - 200px);">
-            <div class="px-[40px]">
+            <div class="px-8" style="padding-left: 32px; padding-right: 32px;">
                 @if(isset($commercialOfferList) && $commercialOfferList->isNotEmpty())
                 @foreach($commercialOfferList as $commercialOffer)
                     <!-- Desktop Card View -->
-                    <div class="hidden md:grid grid-cols-[200px,200px,200px,200px,200px,150px] gap-[60px,60px,60px,60px,60px,0px] items-center bg-white rounded-lg shadow-sm mb-3 p-5">
+                    <div class="hidden md:grid grid-cols-[200px,200px,200px,200px,200px,150px] gap-[60px,60px,60px,60px,60px,0px] items-center bg-white rounded-lg shadow-sm mb-3 p-5 co-row">
                     <!-- Date -->
                     <div class="flex items-center gap-[10px]">
                         <span class="text-[13px] font-medium text-[#1E2B28] leading-[1]">{{ \App\Data\Helper\Assistant::formatDate($commercialOffer->created_at) }}</span>
@@ -280,6 +277,74 @@ window.onclick = function(event) {
         event.target.style.display = 'none';
     }
 }
+
+// Обработка кликов по фильтрам статуса
+document.addEventListener('DOMContentLoaded', function() {
+    const filterButtons = document.querySelectorAll('.status-filter-btn');
+    const url = new URL(window.location);
+    const currentStatus = url.searchParams.get('status') || 'all';
+    const searchInput = document.getElementById('sm-co-search');
+
+    // Инициализация активной кнопки по параметру URL
+    filterButtons.forEach(btn => {
+        // убрать любые bg-* классы, затем сделать прозрачным по умолчанию
+        [...btn.classList].forEach(cls => { if (cls.startsWith('bg-')) btn.classList.remove(cls); });
+        btn.classList.add('bg-transparent');
+        const isActive = (btn.getAttribute('data-status') === currentStatus);
+        if (isActive) {
+            btn.classList.remove('bg-transparent');
+            btn.classList.add('bg-gray-200');
+        }
+        btn.classList.add('text-text-primary');
+    });
+    
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Убираем активный класс со всех кнопок
+            filterButtons.forEach(btn => {
+                // убрать любые bg-* классы, затем выставить прозрачный фон у неактивных
+                [...btn.classList].forEach(cls => { if (cls.startsWith('bg-')) btn.classList.remove(cls); });
+                btn.classList.add('bg-transparent');
+                btn.classList.add('text-text-primary');
+            });
+            
+            // Добавляем активный класс к нажатой кнопке
+            this.classList.remove('bg-transparent');
+            this.classList.add('bg-gray-200', 'text-text-primary');
+            
+            // Получаем статус из data-атрибута
+            const status = this.getAttribute('data-status');
+            
+            // Здесь можно добавить логику фильтрации
+            console.log('Selected status:', status);
+            
+            // Пример: перезагрузка страницы с параметром статуса
+            const url = new URL(window.location);
+            if (status === 'all') {
+                url.searchParams.delete('status');
+            } else {
+                url.searchParams.set('status', status);
+            }
+            window.location.href = url.toString();
+        });
+    });
+
+    // Client-side filtering for list
+    if (searchInput) {
+        searchInput.addEventListener('input', function(){
+            const q = this.value.toLowerCase();
+            const rows = document.querySelectorAll('.co-row');
+            rows.forEach(row => {
+                const date = row.querySelector(':scope > div:nth-child(1)')?.textContent.toLowerCase() || '';
+                const name = row.querySelector(':scope > div:nth-child(2)')?.textContent.toLowerCase() || '';
+                const email = row.querySelector(':scope > div:nth-child(3) a, :scope > div:nth-child(3)')?.textContent.toLowerCase() || '';
+                const phone = row.querySelector(':scope > div:nth-child(4) a, :scope > div:nth-child(4)')?.textContent.toLowerCase() || '';
+                const match = date.includes(q) || name.includes(q) || email.includes(q) || phone.includes(q);
+                row.style.display = match ? '' : 'none';
+            });
+        });
+    }
+});
 </script>
 
 <!-- CSS для модальных окон -->

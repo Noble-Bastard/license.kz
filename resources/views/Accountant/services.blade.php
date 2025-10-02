@@ -1,19 +1,33 @@
 @extends('layouts.accountant-app')
 
 @section('content')
-<div class="px-6 lg:px-8">
+<div class="px-6 lg:px-8" x-data="{ 
+    searchQuery: '',
+    filterServices() {
+        const searchQuery = this.searchQuery.toLowerCase();
+        const serviceRows = document.querySelectorAll('.service-row');
+        
+        serviceRows.forEach(row => {
+            const serviceNo = row.querySelector('.service-no')?.textContent.toLowerCase() || '';
+            const clientName = row.querySelector('.client-name')?.textContent.toLowerCase() || '';
+            const managerName = row.querySelector('.manager-name')?.textContent.toLowerCase() || '';
+            
+            const matchesSearch = serviceNo.includes(searchQuery) || 
+                                clientName.includes(searchQuery) || 
+                                managerName.includes(searchQuery);
+            
+            if (matchesSearch) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+}">
     <!-- Page Header -->
     <div class="mb-6">
         <div class="flex items-center justify-between">
             <h1 class="text-2xl font-semibold text-text-primary">Услуги</h1>
-            <div class="relative w-[320px]">
-                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <svg class="h-5 w-5 text-text-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                    </svg>
-                </div>
-                <input type="text" placeholder="Поиск по услугам..." class="block w-full pl-10 pr-3 py-3 border border-border-medium rounded-[20px] text-sm placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500">
-            </div>
         </div>
     </div>
 
@@ -26,37 +40,37 @@
                 /* hide scrollbar in webkit */
                 .overflow-x-auto::-webkit-scrollbar{display:none}
             </style>
-            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full text-white transition-colors flex-shrink-0 inline-block" style="background-color: #279760;" onmouseover="this.style.backgroundColor='#1e7a50'" onmouseout="this.style.backgroundColor='#279760'">
+            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-transparent text-text-primary transition-colors flex-shrink-0 inline-block">
                 Все услуги
             </button>
-            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors flex-shrink-0 inline-block">
+            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-transparent text-text-primary transition-colors flex-shrink-0 inline-block">
                 Создание
             </button>
-            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors flex-shrink-0 inline-block">
+            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-transparent text-text-primary transition-colors flex-shrink-0 inline-block">
                 Проверка клиента
             </button>
-            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors flex-shrink-0 inline-block">
+            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-transparent text-text-primary transition-colors flex-shrink-0 inline-block">
                 Предоплата
             </button>
-            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors flex-shrink-0 inline-block">
+            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-transparent text-text-primary transition-colors flex-shrink-0 inline-block">
                 Сбор данных
             </button>
-            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors flex-shrink-0 inline-block">
+            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-transparent text-text-primary transition-colors flex-shrink-0 inline-block">
                 Проверка
             </button>
-            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors flex-shrink-0 inline-block">
+            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-transparent text-text-primary transition-colors flex-shrink-0 inline-block">
                 Выполнение услуги
             </button>
-            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors flex-shrink-0 inline-block">
+            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-transparent text-text-primary transition-colors flex-shrink-0 inline-block">
                 Оплата
             </button>
-            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors flex-shrink-0 inline-block">
+            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-transparent text-text-primary transition-colors flex-shrink-0 inline-block">
                 Выполнена
             </button>
-            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors flex-shrink-0 inline-block">
+            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-transparent text-text-primary transition-colors flex-shrink-0 inline-block">
                 Выставлен счет
             </button>
-            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors flex-shrink-0 inline-block">
+            <button class="status-filter-btn px-3 py-1.5 text-xs font-medium rounded-full bg-transparent text-text-primary transition-colors flex-shrink-0 inline-block">
                 Отклонена
             </button>
         </div>
@@ -74,7 +88,7 @@
     </div>
 
     <!-- Services List -->
-    <div class="mx-[-100vw] px-[100vw] py-5" style="background-color: var(--color-bg-secondary);">
+    <div class="py-5 pb-20" style="background-color: var(--color-bg-secondary); width: 100vw; margin-left: calc(-50vw + 50%); min-height: calc(100vh - 200px);">
         <div class="px-[40px]">
             <!-- Services Table (desktop) -->
             <div class="hidden md:block">
@@ -83,10 +97,10 @@
                 <tbody>
                     @if(isset($serviceJournalList) && is_iterable($serviceJournalList) && $serviceJournalList->isNotEmpty())
                         @foreach($serviceJournalList as $service)
-                            <tr class="bg-white shadow-sm transition-shadow hover:shadow rounded-lg">
+                            <tr class="bg-white shadow-sm transition-shadow hover:shadow rounded-lg service-row">
                                 <!-- Услуга -->
                                 <td class="px-4 py-4 whitespace-nowrap rounded-l-lg" style="width: 140px;">
-                                    <div class="text-sm text-text-primary">
+                                    <div class="text-sm text-text-primary service-no">
                                         {{ $service->service_no ?? 'N/A' }}
                                     </div>
                                 </td>
@@ -99,7 +113,7 @@
                                             </span>
                                         </div>
                                         <div class="ml-3 min-w-0">
-                                            <div class="text-sm font-medium text-text-primary truncate" title="{{ $service->client_full_name ?? 'N/A' }}">{{ $service->client_full_name ?? 'N/A' }}</div>
+                                            <div class="text-sm font-medium text-text-primary truncate client-name" title="{{ $service->client_full_name ?? 'N/A' }}">{{ $service->client_full_name ?? 'N/A' }}</div>
                                         </div>
                                     </div>
                                 </td>
@@ -144,7 +158,7 @@
                                             </span>
                                         </div>
                                         <div class="ml-2 min-w-0">
-                                            <div class="text-sm text-text-primary truncate" title="{{ $service->manager_name ?? 'N/A' }}">{{ $service->manager_name ?? 'N/A' }}</div>
+                                            <div class="text-sm text-text-primary truncate manager-name" title="{{ $service->manager_name ?? 'N/A' }}">{{ $service->manager_name ?? 'N/A' }}</div>
                                         </div>
                                     </div>
                                 </td>
@@ -407,21 +421,17 @@ window.onclick = function(event) {
 
 // Status filter functionality
 function filterByStatus(status, clickedBtn) {
-    // Remove active state from all status buttons
+    // Make all filters transparent (no background)
     document.querySelectorAll('.status-filter-btn').forEach(btn => {
-        btn.classList.remove('text-white');
-        btn.classList.add('bg-gray-100', 'text-gray-700');
-        btn.style.backgroundColor = '';
-        btn.onmouseover = null;
-        btn.onmouseout = null;
+        // remove any bg-* classes
+        [...btn.classList].forEach(cls => { if (cls.startsWith('bg-')) btn.classList.remove(cls); });
+        btn.classList.add('bg-transparent');
+        btn.classList.add('text-text-primary');
     });
     
-    // Add active state to clicked button
-    clickedBtn.classList.remove('bg-gray-100', 'text-gray-700');
-    clickedBtn.classList.add('text-white');
-    clickedBtn.style.backgroundColor = '#279760';
-    clickedBtn.onmouseover = function() { this.style.backgroundColor = '#1e7a50'; };
-    clickedBtn.onmouseout = function() { this.style.backgroundColor = '#279760'; };
+    // Set active (gray background) on clicked
+    clickedBtn.classList.remove('bg-transparent');
+    clickedBtn.classList.add('bg-gray-200', 'text-text-primary');
     
     // Filter table rows based on status
     const tableRows = document.querySelectorAll('tbody tr');
@@ -463,6 +473,16 @@ document.addEventListener('DOMContentLoaded', function() {
             filterByStatus(status, this);
         });
     });
+    // Initialize default active: first button ("Все услуги") gray, others transparent
+    if (statusFilterButtons.length > 0) {
+        // reset all to transparent
+        statusFilterButtons.forEach(btn => {
+            [...btn.classList].forEach(cls => { if (cls.startsWith('bg-')) btn.classList.remove(cls); });
+            btn.classList.add('bg-transparent');
+        });
+        statusFilterButtons[0].classList.remove('bg-transparent');
+        statusFilterButtons[0].classList.add('bg-gray-200');
+    }
     
     // Add search functionality
     const searchInput = document.querySelector('input[placeholder="Поиск по услугам..."]');
