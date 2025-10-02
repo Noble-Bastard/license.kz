@@ -409,8 +409,9 @@
     height: 20px;
     right: 0;
     top: 0;
-    border: 1px solid #279760;
-    transform: scaleX(-1);
+    border-top: 1px solid #279760;
+    border-right: 1px solid #279760;
+    box-sizing: border-box;
 }
 
 /* Content */
@@ -19524,8 +19525,9 @@ footer .footer_info_text {
     height: 20px;
     right: 0;
     top: 0;
-    border: 1px solid #279760;
-    transform: scaleX(-1);
+    border-top: 1px solid #279760;
+    border-right: 1px solid #279760;
+    box-sizing: border-box;
 }
 
 .about-us__mission {

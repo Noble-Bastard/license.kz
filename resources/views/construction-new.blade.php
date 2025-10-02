@@ -2,6 +2,7 @@
 
 @section('css')
     <link href="{{asset('new/css/app_1.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('css/construction-step-figma.css')}}" rel="stylesheet" type="text/css">
 @endsection
 
 @section('content')
@@ -55,121 +56,114 @@
             </div>
 
             <!-- Step 1: Document Selection -->
-            <div class="step-section mb-3">
-                <div class="container py-4">
-                    <h2 class="step-title mb-4" style="font-family: 'Manrope', sans-serif;">
-                        <span class="step-number">1</span>
-                        Выберите разрешительный документ
-                    </h2>
-                    <div class="document-selection">
-                        <div class="row g-4">
-                            @foreach($documentTypes as $index => $documentType)
-                                <div class="col-md-4">
-                                    <label class="document-option {{ $index === 0 ? 'selected' : '' }}" data-document-id="{{ $documentType->id }}" style="cursor: pointer;">
-                                        <input type="radio" name="document_type" value="{{ $documentType->id }}" {{ $index === 0 ? 'checked' : '' }} data-pretty-url="{{ $documentType->pretty_url }}" style="display: none;">
-                                        <div class="radio-visual">
-                                            <span class="radio-checkmark"></span>
-                                        </div>
-                                        <div class="document-content">
-                                            <h3>{{ $documentType->name }}</h3>
-                                            @if($documentType->description)
-                                                <p class="category">{{ $documentType->description }}</p>
-                                            @endif
-                                        </div>
-                                    </label>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
+            <div class="construction-step-section">
+                <div class="construction-step-header">
+                    <div class="construction-step-number">1</div>
+                    <h2 class="construction-step-title">Выберите разрешительный документ</h2>
+                </div>
+                <div class="construction-document-options">
+                    @foreach($documentTypes as $index => $documentType)
+                        <label class="construction-document-card {{ $index === 0 ? 'construction-document-card--selected' : '' }}" data-document-id="{{ $documentType->id }}">
+                            <input type="radio" name="document_type" value="{{ $documentType->id }}" {{ $index === 0 ? 'checked' : '' }} data-pretty-url="{{ $documentType->pretty_url }}" class="construction-radio-input">
+                            <div class="construction-radio-circle">
+                                <div class="construction-radio-inner"></div>
+                            </div>
+                            <div class="construction-document-info">
+                                <h3 class="construction-document-name">{{ $documentType->name }}</h3>
+                            </div>
+                        </label>
+                    @endforeach
                 </div>
             </div>
 
-            <div class="work-types-section mt-5">
-                <h2 class="step-title mb-4" style="font-family: 'Manrope', sans-serif;">
-                    <span class="step-number">2</span>
-                    Выберите подвиды работ, чтобы узнать точные стоимость и сроки
-                </h2>
+            <!-- Step 2: Work Types Selection -->
+            <div class="construction-work-section">
+                <div class="construction-step-header">
+                    <div class="construction-step-number">2</div>
+                    <h2 class="construction-step-title">Выберите подвиды работ, чтобы узнать точные стоимость и сроки</h2>
+                </div>
 
                 <!-- Контейнеры для каждой категории документов (переключаются на фронте) -->
                 @foreach($documentTypes as $docIndex => $documentType)
-                    <!-- Document {{ $documentType->id }} - {{ $documentType->name }} ({{ $documentType->catalogList ? $documentType->catalogList->count() : 0 }} подвидов) -->
                     <div class="service-content-container" data-document-id="{{ $documentType->id }}" style="display: {{ $docIndex === 0 ? 'block' : 'none' }};">
                         @if(isset($documentType->catalogList) && $documentType->catalogList->count() > 0)
-                            <div class="services">
-                                <div class="col-12 services__window-documents">
-                                    <div>
-                                        <div class="row">
-                                            <div class="col-sm-10 col-12 service-content-data-list">
-                                                <p class="service-content-data-list-head">Чтобы узнать точные стоимость и сроки выберите подвиды работ</p>
+                            <div class="construction-accordion">
+                                @foreach($documentType->catalogList as $catalogItem)
+                                    @php
+                                        $catalogSubList = $catalogItem->catalogSubList ?? collect();
+                                        $selectedCount = 0; // Будет обновляться через JS
+                                    @endphp
+                                    <div class="construction-accordion-row">
+                                        <button class="construction-accordion-button services__window-link" type="button">
+                                            <div class="construction-accordion-header">
+                                                <div class="construction-accordion-main">
+                                                    <div class="construction-checkbox-wrapper container_checkbox-all">
+                                                        <input type="checkbox" class="construction-checkbox-input">
+                                                        <div class="construction-checkbox-circle">
+                                                            <svg class="construction-checkbox-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                                                <path d="M13.3334 4L6.00002 11.3333L2.66669 8" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                            </svg>
+                                                        </div>
+                                                    </div>
+                                                    <span class="construction-accordion-title">{{ $catalogItem->name }}</span>
+                                                </div>
+                                                @if(sizeof($catalogSubList) > 0)
+                                                    <span class="construction-accordion-count">{{ sizeof($catalogSubList) }} @choice('пункт|пункта|пунктов', $catalogSubList)</span>
+                                                @endif
                                             </div>
-
-                                            <div class="col-12">
-                                                @foreach($documentType->catalogList as $catalogItem)
-                                                    @php
-                                                        $catalogSubList = $catalogItem->catalogSubList ?? collect();
-                                                    @endphp
-                                                    <div class="row mb-3">
-                                                        <div class="col-12">
-                                                            <div class="row service-content-data-list-item">
-                                                                <div class="service-content-data-list-item-head">
-                                                                    <div class="service-content-data-list-item-head-main-info">
-                                                                        <label class="container_checkbox container_checkbox-all">
-                                                                            {{$catalogItem->name}}
-                                                                            <input type="checkbox"><span class="checkmark"></span>
-                                                                        </label>
-                                                                        @if(sizeof($catalogSubList) > 0)
-                                                                            <div class="service-content-data-list-item-head-point">
-                                                                                {{sizeof($catalogSubList)}} @choice('пункт|пункта|пунктов', $catalogSubList)
-                                                                            </div>
-                                                                        @endif
-                                                                    </div>
-                                                                    <div class="service-content-data-list-item-head-additional-info">
-                                                                        <a type="button" class="service-content-data-list-item-head-link services__window-link">
-                                                                            <i class="ml-3 bi bi-chevron-down services__window_title-icon"></i>
-                                                                        </a>
-                                                                        <a type="button" class="service-content-data-list-item-head-link services__window-link hides d-none">
-                                                                            <i class="ml-3 bi bi-chevron-up services__window_title-icon"></i>
-                                                                        </a>
+                                            <div class="construction-accordion-toggle">
+                                                <svg class="construction-toggle-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                                    <path d="M12 5V19" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    <path d="M5 12H19" stroke="#191E1D" stroke="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                                </svg>
+                                            </div>
+                                        </button>
+                                        <div class="construction-accordion-content services__window_choices d-none">
+                                            @if(sizeof($catalogSubList) > 0)
+                                                @foreach($catalogSubList as $catalogSubItem)
+                                                    @if(sizeof($catalogSubItem->serviceCatalogList) > 0)
+                                                        <div class="construction-subitem">
+                                                            <div class="construction-subitem-wrapper">
+                                                                <div class="construction-checkbox-wrapper">
+                                                                    <input type="checkbox" class="construction-checkbox-input" data-service-id="{{ $catalogSubItem->serviceCatalogList[0]->service_id }}" data-name="{{ $catalogSubItem->name }}">
+                                                                    <div class="construction-checkbox-circle">
+                                                                        <svg class="construction-checkbox-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                                                            <path d="M13.3334 4L6.00002 11.3333L2.66669 8" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                                        </svg>
                                                                     </div>
                                                                 </div>
-                                                                <div class="services__window_all">
-                                                                    <div class="service-content-data-list-item-list services__window_choices d-none">
-                                                                        <div class="row">
-                                                                            @if(sizeof($catalogSubList) > 0)
-                                                                                @foreach($catalogSubList as $catalogSubItem)
-                                                                                    @if(sizeof($catalogSubItem->serviceCatalogList) > 0)
-                                                                                        <div class="col-12 services__window_choices_layout">
-                                                                                            <label class="container_checkbox">{{$catalogSubItem->name}}
-                                                                                                <input type="checkbox" data-service-id="{{$catalogSubItem->serviceCatalogList[0]->service_id}}" data-name="{{$catalogSubItem->name}}">
-                                                                                                <span class="checkmark"></span>
-                                                                                            </label>
-                                                                                            @if(!$loop->last)
-                                                                                                <hr class="services__window-strip">
-                                                                                            @endif
-                                                                                        </div>
-                                                                                    @endif
-                                                                                @endforeach
-                                                                            @else
-                                                                                @if(sizeof($catalogItem->serviceCatalogList) > 0)
-                                                                                    <div class="col-12 services__window_choices_layout">
-                                                                                        <label class="container_checkbox">{{$catalogItem->name}}
-                                                                                            <input type="checkbox" data-service-id="{{$catalogItem->serviceCatalogList[0]->service_id}}" data-name="{{$catalogItem->name}}">
-                                                                                            <span class="checkmark"></span>
-                                                                                        </label>
-                                                                                    </div>
-                                                                                @endif
-                                                                            @endif
-                                                                        </div>
-                                                                    </div>
+                                                                <div class="construction-subitem-info">
+                                                                    <h4 class="construction-subitem-title">{{ $catalogSubItem->name }}</h4>
+                                                                    @if(isset($catalogSubItem->description))
+                                                                        <p class="construction-subitem-description">{{ $catalogSubItem->description }}</p>
+                                                                    @endif
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    @endif
                                                 @endforeach
-                                            </div>
+                                            @else
+                                                @if(sizeof($catalogItem->serviceCatalogList) > 0)
+                                                    <div class="construction-subitem">
+                                                        <div class="construction-subitem-wrapper">
+                                                            <div class="construction-checkbox-wrapper">
+                                                                <input type="checkbox" class="construction-checkbox-input" data-service-id="{{ $catalogItem->serviceCatalogList[0]->service_id }}" data-name="{{ $catalogItem->name }}">
+                                                                <div class="construction-checkbox-circle">
+                                                                    <svg class="construction-checkbox-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                                                        <path d="M13.3334 4L6.00002 11.3333L2.66669 8" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                                    </svg>
+                                                                </div>
+                                                            </div>
+                                                            <div class="construction-subitem-info">
+                                                                <h4 class="construction-subitem-title">{{ $catalogItem->name }}</h4>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            @endif
                                         </div>
                                     </div>
-                                </div>
+                                @endforeach
                             </div>
                         @else
                             <div class="text-center py-5">
@@ -574,37 +568,49 @@
                         <div class="upperlicense-grid">
                             <!-- Feature 1 -->
                             <div class="upperlicense-card">
-                                <img src="{{ asset('current/img/icon1.png') }}" alt="Feature 1" class="upperlicense-icon">
+                                <div class="icon-wrapper">
+                                    <img src="{{ asset('current/img/icon1.png') }}" alt="Feature 1" class="upperlicense-icon">
+                                </div>
                                 <span class="upperlicense-text">Поиск и подготовка документов по требуемой технике и мат.тех. оснащенности</span>
                             </div>
 
                             <!-- Feature 2 -->
                             <div class="upperlicense-card">
-                                <img src="{{ asset('current/img/icon2.png') }}" alt="Feature 2" class="upperlicense-icon">
+                                <div class="icon-wrapper">
+                                    <img src="{{ asset('current/img/icon2.png') }}" alt="Feature 2" class="upperlicense-icon">
+                                </div>
                                 <span class="upperlicense-text">Оплата суммы Государственной пошлины</span>
                             </div>
 
                             <!-- Feature 3 -->
                             <div class="upperlicense-card">
-                                <img src="{{ asset('current/img/icon3.png') }}" alt="Feature 3" class="upperlicense-icon">
+                                <div class="icon-wrapper">
+                                    <img src="{{ asset('current/img/icon3.png') }}" alt="Feature 3" class="upperlicense-icon">
+                                </div>
                                 <span class="upperlicense-text">Поиск и подготовка необходимого штата специалистов для получения оценки</span>
                             </div>
 
                             <!-- Feature 4 -->
                             <div class="upperlicense-card">
-                                <img src="{{ asset('current/img/icon4.png') }}" alt="Feature 4" class="upperlicense-icon">
+                                <div class="icon-wrapper">
+                                    <img src="{{ asset('current/img/icon4.png') }}" alt="Feature 4" class="upperlicense-icon">
+                                </div>
                                 <span class="upperlicense-text">Заполнение анкет с прикреплением всех необходимых документов</span>
                             </div>
 
                             <!-- Feature 5 -->
                             <div class="upperlicense-card">
-                                <img src="{{ asset('current/img/icon5.png') }}" alt="Feature 5" class="upperlicense-icon">
+                                <div class="icon-wrapper">
+                                    <img src="{{ asset('current/img/icon5.png') }}" alt="Feature 5" class="upperlicense-icon">
+                                </div>
                                 <span class="upperlicense-text">Формирование и сбор документов юр.лица</span>
                             </div>
 
                             <!-- Feature 6 -->
                             <div class="upperlicense-card">
-                                <img src="{{ asset('current/img/icon6.png') }}" alt="Feature 6" class="upperlicense-icon">
+                                <div class="icon-wrapper">
+                                    <img src="{{ asset('current/img/icon6.png') }}" alt="Feature 6" class="upperlicense-icon">
+                                </div>
                                 <span class="upperlicense-text">Подготовка и формирование документов</span>
                             </div>
                         </div>
@@ -2328,25 +2334,79 @@
                         flex: 1;
                     }
 
-                    /* Decorative corners (optional - as per Figma) */
-                    .upperlicense-card::before,
-                    .upperlicense-card::after {
+                    /* Icon wrapper with decorative corners */
+                    .icon-wrapper {
+                        position: relative;
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+
+                    .icon-wrapper::before,
+                    .icon-wrapper::after {
                         content: '';
                         position: absolute;
-                        width: 10px;
-                        height: 10px;
-                        border: 1px solid #279760;
+                        width: 14px;
+                        height: 14px;
+                        border: 2px solid #279760;
+                        box-sizing: border-box;
                     }
 
-                    .upperlicense-card::before {
-                        top: 30px;
-                        left: 30px;
+                    .icon-wrapper::before {
+                        top: -10px;
+                        left: 0;
+                        border-right: none;
+                        border-bottom: none;
                     }
 
-                    .upperlicense-card::after {
-                        bottom: 30px;
-                        right: 30px;
-                        transform: rotate(180deg);
+                    .icon-wrapper::after {
+                        bottom: -8px;
+                        right: -6px;
+                        border-left: none;
+                        border-top: none;
+                    }
+
+                    /* Alternative corner positions for flexibility */
+                    .icon-wrapper.corners-top-right::before {
+                        top: 0;
+                        right: 0;
+                        border-left: none;
+                        border-bottom: none;
+                    }
+
+                    .icon-wrapper.corners-top-right::after {
+                        bottom: 0;
+                        left: 0;
+                        border-right: none;
+                        border-top: none;
+                    }
+
+                    .icon-wrapper.corners-bottom-left::before {
+                        bottom: 0;
+                        left: 0;
+                        border-right: none;
+                        border-top: none;
+                    }
+
+                    .icon-wrapper.corners-bottom-left::after {
+                        top: 0;
+                        right: 0;
+                        border-left: none;
+                        border-bottom: none;
+                    }
+
+                    .icon-wrapper.corners-all::before {
+                        top: 0;
+                        left: 0;
+                        border-right: none;
+                        border-bottom: none;
+                    }
+
+                    .icon-wrapper.corners-all::after {
+                        bottom: 0;
+                        right: 0;
+                        border-left: none;
+                        border-top: none;
                     }
 
                     /* Responsive adjustments */
@@ -2408,14 +2468,18 @@
                             font-size: 16px;
                         }
 
+                        .icon-wrapper {
+                            margin-right: 6px;
+                        }
+
                         .upperlicense-card::before {
-                            top: 20px;
-                            left: 20px;
+                            top: 12px;
+                            left: 12px;
                         }
 
                         .upperlicense-card::after {
-                            bottom: 20px;
-                            right: 20px;
+                            bottom: 12px;
+                            right: 12px;
                         }
                     }
 
@@ -3684,11 +3748,13 @@ $(document).ready(function () {
         console.log('=== Переключение документа ===');
         console.log('Выбран документ ID:', selectedId);
         
-        // Убираем класс selected со всех document-option
+        // Убираем класс selected со всех document-option и construction-document-card
         $('.document-option').removeClass('selected');
+        $('.construction-document-card').removeClass('construction-document-card--selected');
         
         // Добавляем класс selected к выбранному
         $(this).closest('.document-option').addClass('selected');
+        $(this).closest('.construction-document-card').addClass('construction-document-card--selected');
         
         // Скрываем все контейнеры
         console.log('Всего контейнеров:', $('.service-content-container').length);
@@ -3715,7 +3781,7 @@ $(document).ready(function () {
         loadServiceCompare();
     });
 
-    // Дополнительный обработчик клика по label документа
+    // Обработчик клика по label документа (старая версия)
     $('.document-option').on('click', function(e) {
         // Предотвращаем двойное срабатывание если кликнули прямо на input
         if (e.target.type === 'radio') {
@@ -3740,15 +3806,67 @@ $(document).ready(function () {
         }
     });
 
-    // Обработчик для раскрытия/скрытия подпунктов (аккордеон)
-    $(document).on('click', '.services__window-link', function () {
+    // Обработчик клика по карточке документа (новая версия Figma)
+    $('.construction-document-card').on('click', function(e) {
+        // Предотвращаем двойное срабатывание если кликнули прямо на input
+        if (e.target.type === 'radio') {
+            return; // input сам обработает клик
+        }
+        
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const radio = $(this).find('input[name="document_type"]');
+        console.log('Клик по construction-document-card', 'Radio ID:', radio.val());
+        
+        // Всегда переключаем на этот документ
+        if (radio.length) {
+            // Снимаем checked со всех радио
+            $('input[name="document_type"]').prop('checked', false);
+            
+            // Ставим checked на выбранный
+            radio.prop('checked', true).trigger('change');
+        }
+    });
+
+    // Обработчик для раскрытия/скрытия подпунктов (аккордеон) - старая версия
+    $(document).on('click', '.services__window-link', function (e) {
+        // Проверяем, это новый аккордеон или старый
+        if ($(this).hasClass('construction-accordion-button')) {
+            // Новый аккордеон - обрабатывается отдельно
+            return;
+        }
+        
         let self = this;
         let parent = $(self).parents('.service-content-data-list-item')[0];
         $('.services__window-link', parent).toggleClass('d-none');
         $('.services__window_choices', parent).toggleClass('d-none');
     });
 
-    // Обработчик для "выбрать все" чекбокса
+    // Обработчик для нового аккордеона (Figma дизайн)
+    $(document).on('click', '.construction-accordion-button', function (e) {
+        // Предотвращаем клик по чекбоксу от закрытия аккордеона
+        if ($(e.target).closest('.construction-checkbox-wrapper').length > 0) {
+            e.stopPropagation();
+            return;
+        }
+        
+        e.preventDefault();
+        
+        const $button = $(this);
+        const $content = $button.siblings('.construction-accordion-content');
+        const $row = $button.closest('.construction-accordion-row');
+        
+        // Переключаем класс expanded для изменения иконки
+        $button.toggleClass('expanded');
+        
+        // Переключаем видимость контента
+        $content.toggleClass('d-none');
+        
+        console.log('Аккордеон переключен:', $content.hasClass('d-none') ? 'закрыт' : 'открыт');
+    });
+
+    // Обработчик для "выбрать все" чекбокса (старая версия)
     $(document).on('click', '.container_checkbox-all input', function () {
         let parent = $(this).parents('.service-content-data-list-item')[0];
         
@@ -3759,6 +3877,76 @@ $(document).ready(function () {
         disableServiceAction();
         loadServiceCompare();
     });
+
+    // Обработчик для главного чекбокса в новом аккордеоне
+    $(document).on('click', '.construction-checkbox-wrapper.container_checkbox-all', function (e) {
+        e.stopPropagation();
+        
+        const $checkbox = $(this).find('.construction-checkbox-input');
+        const $row = $(this).closest('.construction-accordion-row');
+        const $content = $row.find('.construction-accordion-content');
+        
+        // Переключаем состояние чекбокса
+        $checkbox.prop('checked', !$checkbox.prop('checked'));
+        
+        // Выбираем/снимаем все подчекбоксы
+        $content.find('.construction-checkbox-input').prop('checked', $checkbox.prop('checked'));
+        
+        // Обновляем счетчик
+        updateAccordionCount($row);
+        
+        disableServiceAction();
+        loadServiceCompare();
+    });
+
+    // Обработчик для подчекбоксов в новом аккордеоне
+    $(document).on('click', '.construction-subitem .construction-checkbox-wrapper', function (e) {
+        e.stopPropagation();
+        
+        const $checkbox = $(this).find('.construction-checkbox-input');
+        const $row = $(this).closest('.construction-accordion-row');
+        
+        // Переключаем состояние чекбокса
+        $checkbox.prop('checked', !$checkbox.prop('checked'));
+        
+        // Обновляем счетчик и главный чекбокс
+        updateAccordionCount($row);
+        
+        disableServiceAction();
+        loadServiceCompare();
+        
+        console.log('Подчекбокс кликнут:', $checkbox.data('service-id'), 'Checked:', $checkbox.prop('checked'));
+    });
+
+    // Функция для обновления счетчика выбранных элементов
+    function updateAccordionCount($row) {
+        const $mainCheckbox = $row.find('.construction-accordion-button .construction-checkbox-input');
+        const $content = $row.find('.construction-accordion-content');
+        const $count = $row.find('.construction-accordion-count');
+        
+        const totalItems = $content.find('.construction-subitem .construction-checkbox-input').length;
+        const checkedItems = $content.find('.construction-subitem .construction-checkbox-input:checked').length;
+        
+        // Обновляем главный чекбокс
+        if (checkedItems === totalItems && totalItems > 0) {
+            $mainCheckbox.prop('checked', true);
+        } else if (checkedItems === 0) {
+            $mainCheckbox.prop('checked', false);
+        }
+        
+        // Обновляем текст счетчика
+        if (checkedItems > 0) {
+            const originalText = $count.text();
+            const match = originalText.match(/(\d+)\s+(.+)/);
+            if (match) {
+                $count.text('Выбрано: ' + checkedItems).css('color', '#279760');
+            }
+        } else {
+            // Возвращаем оригинальный текст
+            const totalText = totalItems + ' ' + (totalItems === 1 ? 'пункт' : totalItems < 5 ? 'пункта' : 'пунктов');
+            $count.text(totalText).css('color', '#999999');
+        }
+    }
 
     // Обработчик для отдельных чекбоксов
     $(document).on('click', '.services__window_all .container_checkbox input', function (e) {
@@ -3787,7 +3975,10 @@ $(document).ready(function () {
 
     // Функция для включения/отключения кнопок действий
     function disableServiceAction() {
-        let serviceCount = $('.services__window_all .container_checkbox input:checkbox:checked').length;
+        // Считаем чекбоксы из старой и новой версии
+        let oldServiceCount = $('.services__window_all .container_checkbox input:checkbox:checked').length;
+        let newServiceCount = $('.construction-subitem .construction-checkbox-input:checked').length;
+        let serviceCount = oldServiceCount + newServiceCount;
         
         console.log('disableServiceAction: выбрано услуг:', serviceCount);
         
@@ -3859,9 +4050,25 @@ $(document).ready(function () {
     // Функция для получения списка ID выбранных услуг
     function getServiceIdList() {
         let serviceIdList = [];
+        
+        // Собираем ID из старых чекбоксов
         $('.services__window_all .container_checkbox input:checkbox:checked').each(function () {
-            serviceIdList.push($(this).data('service-id'));
+            let serviceId = $(this).data('service-id');
+            if (serviceId) {
+                serviceIdList.push(serviceId);
+            }
         });
+        
+        // Собираем ID из новых чекбоксов (Figma дизайн)
+        $('.construction-subitem .construction-checkbox-input:checked').each(function () {
+            let serviceId = $(this).data('service-id');
+            if (serviceId) {
+                serviceIdList.push(serviceId);
+            }
+        });
+        
+        console.log('getServiceIdList: найдено услуг:', serviceIdList.length, serviceIdList);
+        
         return serviceIdList;
     }
 
