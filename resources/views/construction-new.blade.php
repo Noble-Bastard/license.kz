@@ -1,5 +1,9 @@
 @extends('new-redesign.layouts.app')
 
+@section('css')
+    <link href="{{asset('new/css/app_1.css')}}" rel="stylesheet" type="text/css">
+@endsection
+
 @section('content')
     <div class="construction-page bg-white">
         <div class="container py-5">
@@ -26,33 +30,27 @@
 
             <!-- Main Content -->
             <div class="content-section text-center">
-                <h1 class="mb-4" style="font-family: 'Manrope', sans-serif; font-weight: 500;">{{ $rootNode->category->name ?? 'Строительство' }}</h1>
+                <h1 class="mb-4" style="font-family: 'Manrope', sans-serif; font-weight: 500;">Строительство</h1>
                 <p class="mb-5 mx-auto" style="
                     max-width: 800px;
                     font-family: 'Manrope', sans-serif;
                     font-weight: 500;
                     font-style: normal;
-                    font-size: 16px;
+                    font-size: 15px;
                     line-height: 150%;
                     letter-spacing: 0%;
                     text-align: center;
                 ">
-                    {{ $rootNode->category->description ?? 'Строительная сфера — одна из значимых составляющих экономики Казахстана, остается в числе наиболее привлекательных для инвесторов. Это отрасль, в которой за последние 10 лет наблюдается быстрый рост' }}
+                    Строительная сфера — одна из значимых составляющих экономики Казахстана,
+                    остается в числе наиболее привлекательных для инвесторов.
+                    Это отрасль, в которой за последние 10 лет наблюдается быстрый рост
                 </p>
                 <div class="image-container">
-                    @if(!empty($rootNode->category->img))
-                        <img
-                                src="{{ \Illuminate\Support\Facades\Storage::url($rootNode->category->img) }}"
-                                class="construction-main-image"
-                                alt="{{ $rootNode->category->name }}"
-                        >
-                    @else
-                        <img
-                                src="{{ asset('new/images/icons/constructionmain.png') }}"
-                                class="construction-main-image"
-                                alt="Строительство"
-                        >
-                    @endif
+                    <img
+                            src="{{ asset('new/images/icons/constructionmain.png') }}"
+                            class="construction-main-image"
+                            alt="Строительство"
+                    >
                 </div>
             </div>
 
@@ -67,24 +65,25 @@
                         <div class="row g-4">
                             @foreach($documentTypes as $index => $documentType)
                                 <div class="col-md-4">
-                                    <div class="document-option {{ $index === 0 ? 'selected' : '' }}" data-document-id="{{ $documentType->id }}">
-                                        <label class="radio-container">
-                                            <input type="radio" name="document_type" value="{{ $documentType->id }}" {{ $index === 0 ? 'checked' : '' }} data-pretty-url="{{ $documentType->pretty_url }}">
+                                    <label class="document-option {{ $index === 0 ? 'selected' : '' }}" data-document-id="{{ $documentType->id }}" style="cursor: pointer;">
+                                        <input type="radio" name="document_type" value="{{ $documentType->id }}" {{ $index === 0 ? 'checked' : '' }} data-pretty-url="{{ $documentType->pretty_url }}" style="display: none;">
+                                        <div class="radio-visual">
                                             <span class="radio-checkmark"></span>
-                                            <div class="document-content">
-                                                <h3>{{ $documentType->name }}</h3>
-                                                @if($documentType->description)
-                                                    <p class="category">{{ $documentType->description }}</p>
-                                                @endif
-                                            </div>
-                                        </label>
-                                    </div>
+                                        </div>
+                                        <div class="document-content">
+                                            <h3>{{ $documentType->name }}</h3>
+                                            @if($documentType->description)
+                                                <p class="category">{{ $documentType->description }}</p>
+                                            @endif
+                                        </div>
+                                    </label>
                                 </div>
                             @endforeach
                         </div>
                     </div>
                 </div>
             </div>
+
             <div class="work-types-section mt-5">
                 <h2 class="step-title mb-4" style="font-family: 'Manrope', sans-serif;">
                     <span class="step-number">2</span>
@@ -93,6 +92,7 @@
 
                 <!-- Контейнеры для каждой категории документов (переключаются на фронте) -->
                 @foreach($documentTypes as $docIndex => $documentType)
+                    <!-- Document {{ $documentType->id }} - {{ $documentType->name }} ({{ $documentType->catalogList ? $documentType->catalogList->count() : 0 }} подвидов) -->
                     <div class="service-content-container" data-document-id="{{ $documentType->id }}" style="display: {{ $docIndex === 0 ? 'block' : 'none' }};">
                         @if(isset($documentType->catalogList) && $documentType->catalogList->count() > 0)
                             <div class="services">
@@ -186,503 +186,559 @@
     <div class="pricing-section bg-white py-4">
         <div class="container">
             <div class="row">
-                <!-- Расчет стоимости -->
-                <div class="col-md-6">
-                    <div class="pricing-card bg-light-green">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center">
-                                <span class="step-number">3</span>
-                                <h2 class="mb-0 ms-2">Расчёт стоимости</h2>
+                <!-- Блок с расчетом и экспресс-решением -->
+                <div class="pricing-section">
+                    <!-- Расчет стоимости -->
+                    <div class="pricing-card pricing-green">
+                        <div class="pricing-content">
+                            <div class="pricing-header">
+                                <div class="circle">3</div>
+                                <h2>Расчёт стоимости</h2>
                             </div>
-                            <div class="selected-info mt-2">
-                                Выбрано: <span class="text-success">3 видов работ</span>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="price-info mb-2">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="price-label">Стоимость</div>
-                                        <div class="price-value">5 500 500 ₸</div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="price-label">Срок оказания услуг</div>
-                                        <div class="price-value">11 дней</div>
-                                    </div>
+                            <div class="selected-info">Выбрано: <span>3 видов работ</span></div>
+
+                            <div class="pricing-details">
+                                <div class="pricing-item">
+                                    <div class="label">Стоимость</div>
+                                    <div class="value">5 500 500 ₸</div>
+                                </div>
+                                <div class="pricing-item">
+                                    <div class="label">Срок оказания услуг</div>
+                                    <div class="value">11 дней</div>
                                 </div>
                             </div>
-                            <div class="d-flex gap-3 mt-4">
-                                <button class="btn btn-success orderService" disabled>Заказать услугу</button>
-                                <button class="btn btn-outline-success service-action" data-bs-toggle="modal" data-bs-target="#downloadCommercialOfferModal" disabled>
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-2">
-                                        <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="#4CAF50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                        <path d="M7 10L12 15L17 10" stroke="#4CAF50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                        <path d="M12 15V3" stroke="#4CAF50" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>
+
+                            <div class="pricing-actions">
+                                <button class="btn btn-green orderService" disabled>Заказать услугу</button>
+                                <button class="btn btn-gray service-action" data-bs-toggle="modal" data-bs-target="#downloadCommercialOfferModal" disabled>
                                     Скачать КП
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                        <path d="M7 10L12 15L17 10" stroke="#279760" stroke-width="2"
+                                              stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M12 15V3" stroke="#279760" stroke-width="2" stroke-linecap="round"
+                                              stroke-linejoin="round"/>
+                                        <path d="M21 15V19C21 19.53 20.79 20.04 20.41 20.41C20.04 20.79 19.53 21 19 21H5C4.47 21 3.96 20.79 3.59 20.41C3.21 20.04 3 19.53 3 19V15"
+                                              stroke="#279760" stroke-width="2" stroke-linecap="round"
+                                              stroke-linejoin="round"/>
+                                    </svg>
                                 </button>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Экспресс-решение -->
-                <div class="col-md-6">
-                    <div class="pricing-card bg-light-beige">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center">
-                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" fill="#FFC107" stroke="#FFC107" stroke-width="2" stroke-linejoin="round"/>
+                    <!-- Экспресс-решение -->
+                    <div class="pricing-card pricing-beige">
+                        <div class="pricing-content">
+                            <div class="pricing-header">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="#FF9500">
+                                    <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z"/>
                                 </svg>
-                                <h2 class="mb-0 ms-2">Экспресс-решение</h2>
+                                <h2>Экспресс-решение</h2>
                             </div>
-                            <div class="express-info mt-2">
-                                Если поджимают сроки, воспользуйтесь готовым решением
-                            </div>
-                        </div>
-                        <div class="card-body">
+                            <div class="selected-info">Если поджимают сроки, воспользуйтесь готовым решением</div>
 
-
-                            <div class="price-info mb-4">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="price-label">Стоимость</div>
-                                        <div class="price-value">6 000 000 ₸</div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="price-label">Срок оказания услуг</div>
-                                        <div class="price-value">3 дня</div>
-                                    </div>
+                            <div class="pricing-details">
+                                <div class="pricing-item">
+                                    <div class="label">Стоимость</div>
+                                    <div class="value">6 000 000 ₸</div>
+                                </div>
+                                <div class="pricing-item">
+                                    <div class="label">Срок оказания услуг</div>
+                                    <div class="value">3 дня</div>
                                 </div>
                             </div>
-                            <button class="btn btn-success readyOffer" data-bs-toggle="modal" data-bs-target="#consultModal">Заказать услугу</button>
+
+                            <div class="pricing-actions">
+                                <button class="btn btn-green readyOffer" data-bs-toggle="modal" data-bs-target="#consultModal">Заказать услугу</button>
+                            </div>
                         </div>
                     </div>
                 </div>
 
 
-                <div class="construction-page bg-white">
-                    <div class="container py-4">
-                        <h1 class="construction-title mb-4" style="font-family: 'Manrope', sans-serif; font-weight: 500;">Строительно-монтажные работы I категория</h1>
+                <div class="construction-section">
+                    <h1 class="construction-title">Строительно-монтажные работы I категория</h1>
 
-                        <p class="construction-description mb-4" style="font-family: 'Manrope', sans-serif;">
-                            Начиная с 2005 года в Республике Казахстан были приняты шесть государственных программ,
-                            направленные на строительство жилья и повышение доступности жилья для населения:
-                        </p>
+                    <p class="construction-description">
+                        Начиная с 2005 года в Республике Казахстан были приняты шесть государственных программ,
+                        направленные на строительство жилья и повышение доступности жилья для населения:
+                    </p>
 
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th>Услугодатель</th>
-                                    <th>Срок оказания услуг</th>
-                                    <th>Стоимость оказания услуг</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr>
-                                    <td>КГУ «Управление градостроительного контроля». / ГУ «Управление контроля и
-                                        качества городской среды города Нур-Султан»
-                                    </td>
-                                    <td>11 дней</td>
-                                    <td>5 500 500 ₸</td>
-                                </tr>
-                                <tr>
-                                    <td>«Управление градостроительного контроля»</td>
-                                    <td>12 дней</td>
-                                    <td>4 500 500 ₸</td>
-                                </tr>
-                                </tbody>
-                            </table>
+                    <div class="construction-table">
+                        <!-- header row -->
+                        <div class="table-row table-head">
+                            <div class="col">Услугодатель</div>
+                            <div class="col">Срок оказания услуг</div>
+                            <div class="col">Стоимость оказания услуг</div>
+                        </div>
+
+                        <!-- row -->
+                        <div class="table-row">
+                            <div class="col">КГУ «Управление градостроительного контроля». / ГУ «Управление контроля и
+                                качества городской среды города Нур-Султан»
+                            </div>
+                            <div class="col">11 дней</div>
+                            <div class="col">5 500 500 ₸</div>
+                        </div>
+
+                        <div class="table-row">
+                            <div class="col">«Управление градостроительного контроля»</div>
+                            <div class="col">12 дней</div>
+                            <div class="col">4 500 500 ₸</div>
                         </div>
                     </div>
                 </div>
 
-                <div class="instructions-section my-5 bg-white">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <h2 class="instructions-title mb-4" style="font-family: 'Manrope', sans-serif; font-weight: 500; font-size: 32px; color: #333;">Инструкция и требования для получения документов</h2>
-                                <div class="download-btn-wrapper mb-4">
-                                    <button class="btn btn-outline-dark download-btn" style="font-family: 'Manrope', sans-serif;">
-                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-2">
-                                            <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                            <path d="M7 10L12 15L17 10" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                            <path d="M12 15V3" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                                        </svg>
-                                        Скачать требования
+
+                <div class="instructions-section">
+                    <div class="instructions-container">
+                        <!-- Левая часть -->
+                        <div class="instructions-left">
+                            <h2 class="instructions-title">Инструкция и требования для получения документов</h2>
+                            <button class="download-btn">
+                                Скачать требования
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M21 15V19C21 19.5 20.8 20 20.4 20.4C20 20.8 19.5 21 19 21H5C4.5 21 4 20.8 3.6 20.4C3.2 20 3 19.5 3 19V15" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M7 10L12 15L17 10" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M12 15V3" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Правая часть -->
+                        <div class="instructions-right">
+                            <div class="accordion" id="instructionsAccordion">
+                                <!-- Item 1 -->
+                                <div class="accordion-item">
+                                    <button class="accordion-header" data-bs-toggle="collapse" data-bs-target="#collapse1">
+                                        <span class="step-number">1</span>
+                                        <span class="step-text">Инструкции ведения строительной деятельности/регламенты и срок/правила</span>
+                                        <span class="icon">+</span>
                                     </button>
+                                    <div id="collapse1" class="accordion-collapse collapse" data-bs-parent="#instructionsAccordion">
+                                        <div class="accordion-body">
+                                            Контент для пункта 1
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="accordion" id="instructionsAccordion">
-                                    <!-- Item 1 -->
-                                    <div class="accordion-item">
-                                        <h3 class="accordion-header">
-                                            <button class="accordion-button collapsed" type="button"
-                                                    data-bs-toggle="collapse" data-bs-target="#collapse1">
-                                                <span class="number">1</span>
-                                                <span class="button-text">Инструкции ведения строительной деятельности/регламенты и срок/правила</span>
-                                            </button>
-                                        </h3>
-                                        <div id="collapse1" class="accordion-collapse collapse"
-                                             data-bs-parent="#instructionsAccordion">
-                                            <div class="accordion-body">
-                                                <!-- Content for item 1 -->
-                                            </div>
+
+                                <!-- Item 2 -->
+                                <div class="accordion-item">
+                                    <button class="accordion-header" data-bs-toggle="collapse" data-bs-target="#collapse2">
+                                        <span class="step-number">2</span>
+                                        <span class="step-text">Оплата государственной пошлины</span>
+                                        <span class="icon">+</span>
+                                    </button>
+                                    <div id="collapse2" class="accordion-collapse collapse" data-bs-parent="#instructionsAccordion">
+                                        <div class="accordion-body">
+                                            Контент для пункта 2
                                         </div>
                                     </div>
+                                </div>
 
-                                    <!-- Item 2 -->
-                                    <div class="accordion-item">
-                                        <h3 class="accordion-header">
-                                            <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                                    data-bs-target="#collapse2">
-                                                <span class="number">2</span>
-                                                Оплата государственной пошлины
-                                            </button>
-                                        </h3>
-                                        <div id="collapse2" class="accordion-collapse collapse show"
-                                             data-bs-parent="#instructionsAccordion">
-                                            <div class="accordion-body">
-                                                Предоставим быстрое и эффективное открытие и ведение бизнеса в
-                                                Казахстане. В остальных случаях расчётный счет можно открыть за один
-                                                день. Сразу после подачи заявки вы получите реквизиты и сможете
-                                                выставлять счета на оплату. После встречи с представителем банка
-                                                появится возможность принимать деньги и совершать исходящие платежи.
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Item 3 -->
-                                    <div class="accordion-item">
-                                        <h3 class="accordion-header">
-                                            <button class="accordion-button collapsed" type="button"
-                                                    data-bs-toggle="collapse" data-bs-target="#collapse3">
-                                                <span class="number">3</span>
-                                                Выбор необходимой категории и подготовка пакета документов для нужной
-                                                категории лицензии
-                                            </button>
-                                        </h3>
-                                        <div id="collapse3" class="accordion-collapse collapse"
-                                             data-bs-parent="#instructionsAccordion">
-                                            <div class="accordion-body">
-                                                <!-- Content for item 3 -->
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Item 4 -->
-                                    <div class="accordion-item">
-                                        <h3 class="accordion-header">
-                                            <button class="accordion-button collapsed" type="button"
-                                                    data-bs-toggle="collapse" data-bs-target="#collapse4">
-                                                <span class="number">4</span>
-                                                Подготовка необходимого штата инженерно-технических работников, их
-                                                аттестация и внесение в Государственный реестр
-                                            </button>
-                                        </h3>
-                                        <div id="collapse4" class="accordion-collapse collapse"
-                                             data-bs-parent="#instructionsAccordion">
-                                            <div class="accordion-body">
-                                                <!-- Content for item 4 -->
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Item 5 -->
-                                    <div class="accordion-item">
-                                        <h3 class="accordion-header">
-                                            <button class="accordion-button collapsed" type="button"
-                                                    data-bs-toggle="collapse" data-bs-target="#collapse5">
-                                                <span class="number">5</span>
-                                                Подготовка требуемой техники и материально - технической оснащенности
-                                            </button>
-                                        </h3>
-                                        <div id="collapse5" class="accordion-collapse collapse"
-                                             data-bs-parent="#instructionsAccordion">
-                                            <div class="accordion-body">
-                                                <!-- Content for item 5 -->
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Item 6 -->
-                                    <div class="accordion-item">
-                                        <h3 class="accordion-header">
-                                            <button class="accordion-button collapsed" type="button"
-                                                    data-bs-toggle="collapse" data-bs-target="#collapse6">
-                                                <span class="number">6</span>
-                                                Регистрация на портале elicense.kz и подача заявления на лицензию онлайн
-                                                с прикреплением всех документов
-                                            </button>
-                                        </h3>
-                                        <div id="collapse6" class="accordion-collapse collapse"
-                                             data-bs-parent="#instructionsAccordion">
-                                            <div class="accordion-body">
-                                                <!-- Content for item 6 -->
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Item 7 -->
-                                    <div class="accordion-item">
-                                        <h3 class="accordion-header">
-                                            <button class="accordion-button collapsed" type="button"
-                                                    data-bs-toggle="collapse" data-bs-target="#collapse7">
-                                                <span class="number">7</span>
-                                                Получение оригинального комплекта документов (личное присутствие не
-                                                требуется)*
-                                            </button>
-                                        </h3>
-                                        <div id="collapse7" class="accordion-collapse collapse"
-                                             data-bs-parent="#instructionsAccordion">
-                                            <div class="accordion-body">
-                                                <!-- Content for item 7 -->
-                                            </div>
+                                <!-- Item 3 -->
+                                <div class="accordion-item">
+                                    <button class="accordion-header" data-bs-toggle="collapse" data-bs-target="#collapse3">
+                                        <span class="step-number">3</span>
+                                        <span class="step-text">Выбор необходимой категории и подготовка пакета документов</span>
+                                        <span class="icon">+</span>
+                                    </button>
+                                    <div id="collapse3" class="accordion-collapse collapse" data-bs-parent="#instructionsAccordion">
+                                        <div class="accordion-body">
+                                            Контент для пункта 3
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
 
-                <div class="services-section bg-white py-5">
-                    <div class="container">
-                        <div class="text-center mb-5">
-                            <h2 class="section-title">Предоставляем качественные</h2>
-                            <h2 class="section-title">и комплексные <span class="text-success">решения</span></h2>
-                            <h2 class="section-title">для вашего бизнеса</h2>
-                        </div>
 
-                        <div class="row g-4">
+                <!-- Services Section - Figma Design -->
+                <div class="services-section-new">
+                    <div class="services-container">
+                        <h2 class="services-main-title">
+                            Предоставляем качественные<br>
+                            и комплексные <span class="text-green">решения</span><br>
+                            для вашего бизнеса
+                        </h2>
+
+                        <div class="services-grid">
                             <!-- Card 1 -->
-                            <div class="col-md-6">
-                                <div class="service-card">
-                                    <div class="card-content">
-                                        <h3>Регистрация компании</h3>
-                                        <ul class="service-list">
-                                            <li>Подготовка учредительных документов филиала/представительств</li>
-                                            <li>Сдача документов в регистрирующий орган</li>
-                                            <li>Заполнение формы на регистрацию</li>
-                                        </ul>
-                                        <button class="btn btn-outline-dark rounded-pill">Оформить заявку</button>
-                                    </div>
-                                    <div class="card-image">
-                                        <img src="{{ asset('new/images/icons/documentsIcon.png') }}"
-                                             alt="Регистрация компании">
-                                    </div>
+                            <div class="service-card-new" style="background: #F1F7F6;">
+                                <div class="service-txt">
+                                    <h3 class="service-card-title">Регистрация компании</h3>
+                                    <ul class="service-features">
+                                        <li>
+                                            <svg class="check-icon" width="20" height="20" viewBox="0 0 20 20">
+                                                <path d="M7 10L9 12L13 8" stroke="#191E1D" stroke-opacity="0.3" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                            <span>Подготовка учредительных документов филиала/представительств</span>
+                                        </li>
+                                        <li>
+                                            <svg class="check-icon" width="20" height="20" viewBox="0 0 20 20">
+                                                <path d="M7 10L9 12L13 8" stroke="#191E1D" stroke-opacity="0.3" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                            <span>Сдача документов в регистрирующий орган</span>
+                                        </li>
+                                        <li>
+                                            <svg class="check-icon" width="20" height="20" viewBox="0 0 20 20">
+                                                <path d="M7 10L9 12L13 8" stroke="#191E1D" stroke-opacity="0.3" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                            <span>Заполнение формы на регистрацию</span>
+                                        </li>
+                                    </ul>
                                 </div>
+                                <button class="service-btn-new">
+                                    <span>Оформить заявку </span>
+                                </button>
+                                <img src="{{ asset('new/images/icons/documentsIcon.png') }}" alt="Регистрация компании" class="service-image-new">
                             </div>
 
                             <!-- Card 2 -->
-                            <div class="col-md-6">
-                                <div class="service-card light-green">
-                                    <div class="card-content">
-                                        <h3>Регистрация компаний в СЭЗ и МФЦА</h3>
-                                        <ul class="service-list">
-                                            <li>Регистрация в качестве участника Astana Hub International Technology
-                                                Park
-                                            </li>
-                                        </ul>
-                                        <button class="btn btn-outline-dark rounded-pill">Оформить заявку</button>
-                                    </div>
-                                    <div class="card-image">
-                                        <img src="{{ asset('new/images/icons/astanahub.png') }}"
-                                             alt="Регистрация в СЭЗ">
-                                    </div>
+                            <div class="service-card-new" style="background: #DBF1D6;">
+                                <div class="service-txt">
+                                    <h3 class="service-card-title">Регистрация компаний в СЭЗ и МФЦА</h3>
+                                    <ul class="service-features">
+                                        <li>
+                                            <svg class="check-icon" width="20" height="20" viewBox="0 0 20 20">
+                                                <path d="M7 10L9 12L13 8" stroke="#191E1D" stroke-opacity="0.3" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                            <span>Регистрация в качестве участника Astana Hub International Technology Park</span>
+                                        </li>
+                                    </ul>
                                 </div>
+                                <button class="service-btn-new">
+                                    <span>Оформить заявку</span>
+                                </button>
+                                <img src="{{ asset('new/images/icons/astanahub.png') }}" alt="Регистрация в СЭЗ" class="service-image-new">
                             </div>
 
                             <!-- Card 3 -->
-                            <div class="col-md-6">
-                                <div class="service-card">
-                                    <div class="card-content">
-                                        <h3>Открытие банковских счетов</h3>
-                                        <ul class="service-list">
-                                            <li>Сбор документов</li>
-                                            <li>Подача заявки на открытие счета</li>
-                                        </ul>
-                                        <button class="btn btn-outline-dark rounded-pill">Оформить заявку</button>
-                                    </div>
-                                    <div class="card-image">
-                                        <img src="{{ asset('new/images/icons/uslugibank.png') }}"
-                                             alt="Банковские счета">
-                                    </div>
+                            <div class="service-card-new" style="background: #F1F7F6;">
+                                <div class="service-txt">
+                                    <h3 class="service-card-title">Открытие банковских счетов</h3>
+                                    <ul class="service-features">
+                                        <li>
+                                            <svg class="check-icon" width="20" height="20" viewBox="0 0 20 20">
+                                                <path d="M7 10L9 12L13 8" stroke="#191E1D" stroke-opacity="0.3" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                            <span>Сбор документов</span>
+                                        </li>
+                                        <li>
+                                            <svg class="check-icon" width="20" height="20" viewBox="0 0 20 20">
+                                                <path d="M7 10L9 12L13 8" stroke="#191E1D" stroke-opacity="0.3" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                            <span>Подача заявки на открытие счета</span>
+                                        </li>
+                                    </ul>
                                 </div>
+                                <button class="service-btn-new">
+                                    <span>Оформить заявку</span>
+                                </button>
+                                <img src="{{ asset('new/images/icons/uslugibank.png') }}" alt="Банковские счета" class="service-image-new">
                             </div>
 
                             <!-- Card 4 -->
-                            <div class="col-md-6">
-                                <div class="service-card light-gray">
-                                    <div class="card-content">
-                                        <h3>Лицензирование</h3>
-                                        <ul class="service-list">
-                                            <li>Получение лицензий и разрешительных документов для всех видов
-                                                деятельности
-                                            </li>
-                                        </ul>
-                                        <button class="btn btn-outline-dark rounded-pill">Оформить заявку</button>
-                                    </div>
-                                    <div class="card-image">
-                                        <img src="{{ asset('new/images/icons/uslugilicense.png') }}"
-                                             alt="Лицензирование">
-                                    </div>
+                            <div class="service-card-new" style="background: #EAECEE;">
+                                <div class="service-txt">
+                                    <h3 class="service-card-title">Лицензирование</h3>
+                                    <ul class="service-features">
+                                        <li>
+                                            <svg class="check-icon" width="20" height="20" viewBox="0 0 20 20">
+                                                <path d="M7 10L9 12L13 8" stroke="#191E1D" stroke-opacity="0.3" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                            <span>Получение лицензий и разрешительных документов для всех видов деятельности</span>
+                                        </li>
+                                    </ul>
                                 </div>
+                                <button class="service-btn-new">
+                                    <span>Оформить заявку</span>
+                                </button>
+                                <img src="{{ asset('new/images/icons/uslugilicense.png') }}" alt="Лицензирование" class="service-image-new">
                             </div>
 
                             <!-- Card 5 -->
-                            <div class="col-md-6">
-                                <div class="service-card">
-                                    <div class="card-content">
-                                        <h3>Получение визы С3 и С5</h3>
-                                        <ul class="service-list">
-                                            <li>Сбор документов и оформление приглашения</li>
-                                            <li>Оформление визы в консульстве РК</li>
-                                        </ul>
-                                        <button class="btn btn-outline-dark rounded-pill">Оформить заявку</button>
-                                    </div>
-                                    <div class="card-image">
-                                        <img src="{{ asset('new/images/icons/uslugivisa.png') }}" alt="Визы">
-                                    </div>
+                            <div class="service-card-new" style="background: #F1F7F6;">
+                                <div class="service-txt">
+                                    <h3 class="service-card-title">Получение визы С3 и С5</h3>
+                                    <ul class="service-features">
+                                        <li>
+                                            <svg class="check-icon" width="20" height="20" viewBox="0 0 20 20">
+                                                <path d="M7 10L9 12L13 8" stroke="#191E1D" stroke-opacity="0.3" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                            <span>Сбор документов и оформление приглашения</span>
+                                        </li>
+                                        <li>
+                                            <svg class="check-icon" width="20" height="20" viewBox="0 0 20 20">
+                                                <path d="M7 10L9 12L13 8" stroke="#191E1D" stroke-opacity="0.3" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                            <span>Оформление визы в консульстве РК</span>
+                                        </li>
+                                    </ul>
                                 </div>
+                                <button class="service-btn-new">
+                                    <span>Оформить заявку</span>
+
+                                </button>
+                                <img src="{{ asset('new/images/icons/uslugivisa.png') }}" alt="Визы" class="service-image-new">
                             </div>
 
                             <!-- Card 6 -->
-                            <div class="col-md-6">
-                                <div class="service-card light-beige">
-                                    <div class="card-content">
-                                        <h3>Предоставление отраслевого юриста</h3>
-                                        <ul class="service-list">
-                                            <li>Услуги юриста на аутсорсе для вашего бизнеса</li>
-                                        </ul>
-                                        <button class="btn btn-outline-dark rounded-pill">Оформить заявку</button>
-                                    </div>
-                                    <div class="card-image">
-                                        <img src="{{ asset('new/images/icons/uslugilaw.png') }}" alt="Юрист">
-                                    </div>
+                            <div class="service-card-new" style="background: #F1EBD6;">
+                                <div class="service-txt">
+                                    <h3 class="service-card-title">Предоставление отраслевого юриста</h3>
+                                    <ul class="service-features">
+                                        <li>
+                                            <svg class="check-icon" width="20" height="20" viewBox="0 0 20 20">
+                                                <path d="M7 10L9 12L13 8" stroke="#191E1D" stroke-opacity="0.3" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                            <span>Услуги юриста на аутсорсе для вашего бизнеса</span>
+                                        </li>
+                                    </ul>
                                 </div>
+                                <button class="service-btn-new">
+                                    <span>Оформить заявку</span>
+                                </button>
+                                <img src="{{ asset('new/images/icons/uslugilaw.png') }}" alt="Юрист" class="service-image-new">
                             </div>
 
                             <!-- Card 7 -->
-                            <div class="col-md-6">
-                                <div class="service-card light-purple">
-                                    <div class="card-content">
-                                        <h3>Бухгалтерский аутсорсинг</h3>
-                                        <ul class="service-list">
-                                            <li>Подписание документов в банке (работа с менеджером банка)</li>
-                                            <li>Сбор данных клиентов</li>
-                                        </ul>
-                                        <button class="btn btn-outline-dark rounded-pill">Оформить заявку</button>
-                                    </div>
-                                    <div class="card-image">
-                                        <img src="{{ asset('new/images/icons/uslugibuh.png') }}" alt="Бухгалтерия">
-                                    </div>
+                            <div class="service-card-new" style="background: #E2E8F0;">
+                                <div class="service-txt">
+                                    <h3 class="service-card-title">Бухгалтерский аутсорсинг</h3>
+                                    <ul class="service-features">
+                                        <li>
+                                            <svg class="check-icon" width="20" height="20" viewBox="0 0 20 20">
+                                                <path d="M7 10L9 12L13 8" stroke="#191E1D" stroke-opacity="0.3" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                            <span>Подписание документов в банке (работа с менеджером банка)</span>
+                                        </li>
+                                        <li>
+                                            <svg class="check-icon" width="20" height="20" viewBox="0 0 20 20">
+                                                <path d="M7 10L9 12L13 8" stroke="#191E1D" stroke-opacity="0.3" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                            <span>Сбор данных клиентов</span>
+                                        </li>
+                                    </ul>
                                 </div>
+                                <button class="service-btn-new">
+                                    <span>Оформить заявку</span>
+                                </button>
+                                <img src="{{ asset('new/images/icons/uslugibuh.png') }}" alt="Бухгалтерия" class="service-image-new">
                             </div>
 
                             <!-- Card 8 -->
-                            <div class="col-md-6">
-                                <div class="service-card light-mint">
-                                    <div class="card-content">
-                                        <h3>Дополнительные услуги</h3>
-                                        <ul class="service-list">
-                                            <li>Получение ИИН, БИН</li>
-                                            <li>Получение ЭЦП</li>
-                                            <li>Оформление РВП</li>
-                                        </ul>
-                                        <button class="btn btn-outline-dark rounded-pill">Оформить заявку</button>
-                                    </div>
-                                    <div class="card-image">
-                                        <img src="{{ asset('new/images/icons/uslugiplus.png') }}"
-                                             alt="Дополнительные услуги">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Что входит в услугу UPPERLICENSE --}}
-                <div class="row mt-5">
-                    <div class="col-12">
-                        <h2 class="mb-4">Что входит в услугу UPPERLICENSE</h2>
-                    </div>
-                    <div class="col-md-6 mb-3 d-flex justify-content-center">
-                        <div class="service-card-info">
-                            <img src="{{ asset('current/img/icon1.png') }}" alt="" class="me-3">
-                            <span>Поиск и подготовка документов по требуемой технике и мат.тех. оснащенности</span>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3 d-flex justify-content-center">
-                        <div class="service-card-info">
-                            <img src="{{ asset('current/img/icon2.png') }}" alt="" class="me-3">
-                            <span>Оплата суммы Государственной пошлины</span>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3 d-flex justify-content-center">
-                        <div class="service-card-info">
-                            <img src="{{ asset('current/img/icon3.png') }}" alt="" class="me-3">
-                            <span>Поиск и подготовка необходимого штата специалистов для получения оценки</span>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3 d-flex justify-content-center">
-                        <div class="service-card-info">
-                            <img src="{{ asset('current/img/icon4.png') }}" alt="" class="me-3">
-                            <span>Заполнение анкет с прикреплением всех необходимых документов</span>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3 d-flex justify-content-center">
-                        <div class="service-card-info">
-                            <img src="{{ asset('current/img/icon5.png') }}" alt="" class="me-3">
-                            <span>Формирование и сбор документов юр.лица</span>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3 d-flex justify-content-center">
-                        <div class="service-card-info">
-                            <img src="{{ asset('current/img/icon6.png') }}" alt="" class="me-3">
-                            <span>Подготовка и формирование документов</span>
-                        </div>
-                    </div>
-                </div>
-
-                {{-- Полезная информация --}}
-                @if($usefulInformationList && $usefulInformationList->count() > 0)
-                <div class="row mt-5">
-                    <div class="col-12">
-                        <h2 class="mb-4">Полезная информация</h2>
-                    </div>
-                    @foreach(collect($usefulInformationList)->sortBy('order_no') as $usefulInfo)
-                        <div class="col-md-6 mb-3 d-flex justify-content-center">
-                            <div class="info-card d-flex justify-content-between align-items-center">
-                                <div class="info-img me-3">
-                                    <img src="{{ asset('current/img/note.png') }}" alt="{{ $usefulInfo->name }}">
-                                </div>
-                                <div>
-                                    <strong>{{ $usefulInfo->name }}</strong>
-                                    @if($usefulInfo->short_description)
-                                        <div class="text-muted small">
-                                            {!! $usefulInfo->short_description !!}
-                                        </div>
-                                    @endif
-                                </div>
-                                @if(!is_null($usefulInfo->btn_name) && !is_null($usefulInfo->file_path))
-                                    <a href="{{ \Illuminate\Support\Facades\Storage::url($usefulInfo->file_path) }}" class="download-btn" download>
-                                        {{ $usefulInfo->btn_name }}
-                                        <span class="download-icon">
-                                            <svg width="20" height="20" fill="none" stroke="#00B569" stroke-width="2"
-                                                 stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
-                                                <path d="M12 5v14M5 12l7 7 7-7"/>
+                            <div class="service-card-new" style="background: #EAECEE;">
+                                <div class="service-txt">
+                                    <h3 class="service-card-title">Дополнительные услуги</h3>
+                                    <ul class="service-features">
+                                        <li>
+                                            <svg class="check-icon" width="20" height="20" viewBox="0 0 20 20">
+                                                <path d="M7 10L9 12L13 8" stroke="#191E1D" stroke-opacity="0.3" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
                                             </svg>
-                                        </span>
-                                    </a>
-                                @endif
+                                            <span>Получение ИИН, БИН</span>
+                                        </li>
+                                        <li>
+                                            <svg class="check-icon" width="20" height="20" viewBox="0 0 20 20">
+                                                <path d="M7 10L9 12L13 8" stroke="#191E1D" stroke-opacity="0.3" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                            <span>Получение ЭЦП</span>
+                                        </li>
+                                        <li>
+                                            <svg class="check-icon" width="20" height="20" viewBox="0 0 20 20">
+                                                <path d="M7 10L9 12L13 8" stroke="#191E1D" stroke-opacity="0.3" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                            <span>Оформление РВП</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <button class="service-btn-new">
+                                    <span>Оформить заявку</span>
+
+                                </button>
+                                <img src="{{ asset('new/images/icons/uslugiplus.png') }}" alt="Дополнительные услуги" class="service-image-new">
                             </div>
                         </div>
-                    @endforeach
+                    </div>
                 </div>
-                @endif    <div class="col-12 reviews_block mb-5">
+
+                {{-- Что входит в услугу UPPERLICENSE - Figma Design --}}
+                <div class="upperlicense-section">
+                    <div class="upperlicense-container">
+                        <h2 class="upperlicense-title">Что входит в услугу UPPERLICENSE</h2>
+                        
+                        <div class="upperlicense-grid">
+                            <!-- Feature 1 -->
+                            <div class="upperlicense-card">
+                                <img src="{{ asset('current/img/icon1.png') }}" alt="Feature 1" class="upperlicense-icon">
+                                <span class="upperlicense-text">Поиск и подготовка документов по требуемой технике и мат.тех. оснащенности</span>
+                            </div>
+
+                            <!-- Feature 2 -->
+                            <div class="upperlicense-card">
+                                <img src="{{ asset('current/img/icon2.png') }}" alt="Feature 2" class="upperlicense-icon">
+                                <span class="upperlicense-text">Оплата суммы Государственной пошлины</span>
+                            </div>
+
+                            <!-- Feature 3 -->
+                            <div class="upperlicense-card">
+                                <img src="{{ asset('current/img/icon3.png') }}" alt="Feature 3" class="upperlicense-icon">
+                                <span class="upperlicense-text">Поиск и подготовка необходимого штата специалистов для получения оценки</span>
+                            </div>
+
+                            <!-- Feature 4 -->
+                            <div class="upperlicense-card">
+                                <img src="{{ asset('current/img/icon4.png') }}" alt="Feature 4" class="upperlicense-icon">
+                                <span class="upperlicense-text">Заполнение анкет с прикреплением всех необходимых документов</span>
+                            </div>
+
+                            <!-- Feature 5 -->
+                            <div class="upperlicense-card">
+                                <img src="{{ asset('current/img/icon5.png') }}" alt="Feature 5" class="upperlicense-icon">
+                                <span class="upperlicense-text">Формирование и сбор документов юр.лица</span>
+                            </div>
+
+                            <!-- Feature 6 -->
+                            <div class="upperlicense-card">
+                                <img src="{{ asset('current/img/icon6.png') }}" alt="Feature 6" class="upperlicense-icon">
+                                <span class="upperlicense-text">Подготовка и формирование документов</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Полезная информация - Figma Design --}}
+                <div class="useful-info-section">
+                    <div class="useful-info-container">
+                        <h2 class="useful-info-title">Полезная информация</h2>
+                        
+                        <div class="useful-info-grid">
+                            <!-- Info Card 1 -->
+                            <div class="useful-info-card">
+                                <div class="useful-info-content">
+                                    <svg class="useful-info-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="#279760" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M14 2V8H20" stroke="#279760" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    <div class="useful-info-text-wrapper">
+                                        <h3 class="useful-info-card-title">Типовые договоры</h3>
+                                        <p class="useful-info-description">Шаблоны типовых договоров и документов для ведения строительной деятельности</p>
+                                    </div>
+                                </div>
+                                <div class="useful-info-button-wrapper">
+                                    <button class="useful-info-download-btn">
+                                        <span>Скачать</span>
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                            <path d="M17.5 12.5V15.8333C17.5 16.2754 17.3244 16.6993 17.0118 17.0118C16.6993 17.3244 16.2754 17.5 15.8333 17.5H4.16667C3.72464 17.5 3.30072 17.3244 2.98816 17.0118C2.67559 16.6993 2.5 16.2754 2.5 15.8333V12.5" stroke="#279760" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5.83334 8.33334L10 12.5L14.1667 8.33334" stroke="#279760" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M10 12.5V2.5" stroke="#279760" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Info Card 2 -->
+                            <div class="useful-info-card">
+                                <div class="useful-info-content">
+                                    <svg class="useful-info-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="#279760" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M14 2V8H20" stroke="#279760" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    <div class="useful-info-text-wrapper">
+                                        <h3 class="useful-info-card-title">Инструкции и регламенты</h3>
+                                        <p class="useful-info-description">Инструкции ведения строительной деятельности/регламенты и срок/правила</p>
+                                    </div>
+                                </div>
+                                <div class="useful-info-button-wrapper">
+                                    <button class="useful-info-download-btn">
+                                        <span>Скачать</span>
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                            <path d="M17.5 12.5V15.8333C17.5 16.2754 17.3244 16.6993 17.0118 17.0118C16.6993 17.3244 16.2754 17.5 15.8333 17.5H4.16667C3.72464 17.5 3.30072 17.3244 2.98816 17.0118C2.67559 16.6993 2.5 16.2754 2.5 15.8333V12.5" stroke="#279760" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5.83334 8.33334L10 12.5L14.1667 8.33334" stroke="#279760" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M10 12.5V2.5" stroke="#279760" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Info Card 3 -->
+                            <div class="useful-info-card">
+                                <div class="useful-info-content">
+                                    <svg class="useful-info-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="#279760" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M14 2V8H20" stroke="#279760" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    <div class="useful-info-text-wrapper">
+                                        <h3 class="useful-info-card-title">ГОСТы и СНиПы</h3>
+                                        <p class="useful-info-description">Строительные нормы и правила по ним</p>
+                                    </div>
+                                </div>
+                                <div class="useful-info-button-wrapper">
+                                    <button class="useful-info-download-btn">
+                                        <span>Скачать</span>
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                            <path d="M17.5 12.5V15.8333C17.5 16.2754 17.3244 16.6993 17.0118 17.0118C16.6993 17.3244 16.2754 17.5 15.8333 17.5H4.16667C3.72464 17.5 3.30072 17.3244 2.98816 17.0118C2.67559 16.6993 2.5 16.2754 2.5 15.8333V12.5" stroke="#279760" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5.83334 8.33334L10 12.5L14.1667 8.33334" stroke="#279760" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M10 12.5V2.5" stroke="#279760" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Info Card 4 -->
+                            <div class="useful-info-card">
+                                <div class="useful-info-content">
+                                    <svg class="useful-info-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="#279760" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M14 2V8H20" stroke="#279760" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    <div class="useful-info-text-wrapper">
+                                        <h3 class="useful-info-card-title">Бухгалтерская учетная политика</h3>
+                                        <p class="useful-info-description">Правила, сроки, формы</p>
+                                    </div>
+                                </div>
+                                <div class="useful-info-button-wrapper">
+                                    <button class="useful-info-download-btn">
+                                        <span>Скачать</span>
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                            <path d="M17.5 12.5V15.8333C17.5 16.2754 17.3244 16.6993 17.0118 17.0118C16.6993 17.3244 16.2754 17.5 15.8333 17.5H4.16667C3.72464 17.5 3.30072 17.3244 2.98816 17.0118C2.67559 16.6993 2.5 16.2754 2.5 15.8333V12.5" stroke="#279760" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5.83334 8.33334L10 12.5L14.1667 8.33334" stroke="#279760" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M10 12.5V2.5" stroke="#279760" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Info Card 5 -->
+                            <div class="useful-info-card">
+                                <div class="useful-info-content">
+                                    <svg class="useful-info-icon" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                        <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="#279760" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        <path d="M14 2V8H20" stroke="#279760" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    </svg>
+                                    <div class="useful-info-text-wrapper">
+                                        <h3 class="useful-info-card-title">Кадровая учетная политика</h3>
+                                        <p class="useful-info-description">Шаблоны типовых договоров и документов для ведения строительной деятельности</p>
+                                    </div>
+                                </div>
+                                <div class="useful-info-button-wrapper">
+                                    <button class="useful-info-download-btn">
+                                        <span>Скачать</span>
+                                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                                            <path d="M17.5 12.5V15.8333C17.5 16.2754 17.3244 16.6993 17.0118 17.0118C16.6993 17.3244 16.2754 17.5 15.8333 17.5H4.16667C3.72464 17.5 3.30072 17.3244 2.98816 17.0118C2.67559 16.6993 2.5 16.2754 2.5 15.8333V12.5" stroke="#279760" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M5.83334 8.33334L10 12.5L14.1667 8.33334" stroke="#279760" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                            <path d="M10 12.5V2.5" stroke="#279760" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 reviews_block mb-5">
                         <div class="container my-5">
                             <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
                                 <div class="d-flex align-items-center">
@@ -696,83 +752,117 @@
                                 </div>
                             </div>
                             <div class="row g-4">
-                                @if($reviewList && $reviewList->count() > 0)
-                                    @foreach($reviewList as $review)
-                                        <div class="col-md-4">
-                                            <div class="review-card h-100 d-flex flex-column">
-                                                <div class="review-thumb position-relative">
-                                                    @if($review->preview_image)
-                                                        <img src="{{ \Illuminate\Support\Facades\Storage::url($review->preview_image) }}" alt="{{ $review->title }}">
-                                                    @else
-                                                        <img src="{{ asset('current/img/video-preview.png') }}" alt="{{ $review->title }}">
-                                                    @endif
-                                                    <button class="play-btn" aria-label="play video" data-video-url="{{ $review->video_url }}">
-                                                        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                                                            <circle cx="24" cy="24" r="24" fill="rgba(0,0,0,0.5)"/>
-                                                            <polygon points="20,16 36,24 20,32" fill="#fff"/>
-                                                        </svg>
-                                                    </button>
-                                                    @if($review->duration)
-                                                        <span class="review-duration">{{ $review->duration }}</span>
-                                                    @endif
-                                                </div>
-                                                <div class="review-tags mb-2 mt-3">
-                                                    @if($review->tags)
-                                                        @foreach(explode(',', $review->tags) as $index => $tag)
-                                                            @if($index > 0)<span class="tag-separator">•</span>@endif
-                                                            <span>{{ trim(strtoupper($tag)) }}</span>
-                                                        @endforeach
-                                                    @else
-                                                        <span>СТРОИТЕЛЬСТВО</span>
-                                                    @endif
-                                                </div>
-                                                <div class="review-title mb-1">{{ $review->title }}</div>
-                                                @if($review->description)
-                                                    <div class="review-desc mb-2">
-                                                        {{ Str::limit($review->description, 150) }}
-                                                    </div>
-                                                @endif
-                                                <div class="review-meta mt-auto">
-                                                    <span class="review-date">
-                                                        <svg width="16" height="16" fill="none" stroke="#00B569" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-                                                        {{ $review->created_at ? $review->created_at->format('d.m.Y') : '' }}
-                                                    </span>
-                                                </div>
-                                            </div>
+                                <!-- Карточка 1 -->
+                                <div class="col-md-4">
+                                    <div class="review-card h-100 d-flex flex-column">
+                                        <div class="review-thumb position-relative">
+                                            <img src="{{ asset('current/img/video-preview.png') }}" alt="Отзыв 1">
+                                            <button class="play-btn" aria-label="play video">
+                                                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                                                    <circle cx="24" cy="24" r="24" fill="rgba(0,0,0,0.5)"/>
+                                                    <polygon points="20,16 36,24 20,32" fill="#fff"/>
+                                                </svg>
+                                            </button>
+                                            <span class="review-duration">06:24</span>
                                         </div>
-                                    @endforeach
-                                @else
-                                    <!-- Fallback to mock data if no reviews -->
-                                    <div class="col-md-4">
-                                        <div class="review-card h-100 d-flex flex-column">
-                                            <div class="review-thumb position-relative">
-                                                <img src="{{ asset('current/img/video-preview.png') }}" alt="Отзыв">
-                                                <button class="play-btn" aria-label="play video">
-                                                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
-                                                        <circle cx="24" cy="24" r="24" fill="rgba(0,0,0,0.5)"/>
-                                                        <polygon points="20,16 36,24 20,32" fill="#fff"/>
-                                                    </svg>
-                                                </button>
-                                                <span class="review-duration">06:24</span>
-                                            </div>
-                                            <div class="review-tags mb-2 mt-3">
-                                                <span>СТРОИТЕЛЬСТВО</span>
-                                                <span class="tag-separator">•</span>
-                                                <span>ЛИЦЕНЗИРОВАНИЕ</span>
-                                            </div>
-                                            <div class="review-title mb-1">Уведомление о начале строительно-монтажных работ</div>
-                                            <div class="review-desc mb-2">
-                                                Отзыв клиента о получении строительной лицензии
-                                            </div>
-                                            <div class="review-meta mt-auto">
-                                                <span class="review-date">
-                                                    <svg width="16" height="16" fill="none" stroke="#00B569" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-                                                    {{ now()->format('d.m.Y') }}
-                                                </span>
-                                            </div>
+                                        <div class="review-tags mb-2 mt-3">
+                                            <span>СТРОИТЕЛЬСТВО</span>
+                                            <span class="tag-separator">•</span>
+                                            <span>ЛИЦЕНЗИРОВАНИЕ</span>
+                                        </div>
+                                        <div class="review-title mb-1">Уведомление о начале строительно-монтажных
+                                            работ
+                                        </div>
+                                        <div class="review-desc mb-2">
+                                            Кого же привлекает этот новое направление в моде? Неординарные, яркие,
+                                            смелые в своих решениях люди, которые не боятся пробовать экспериментировать
+                                            со своим образом.
+                                        </div>
+                                        <div class="review-meta mt-auto">
+                                            <span class="review-date">
+                                                <svg width="16" height="16" fill="none" stroke="#00B569"
+                                                     stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18"
+                                                                                                height="18" rx="2"/><path
+                                                            d="M16 2v4M8 2v4M3 10h18"/></svg>
+                                                10 февраля 2024
+                                            </span>
                                         </div>
                                     </div>
-                                @endif
+                                </div>
+                                <!-- Карточка 2 -->
+                                <div class="col-md-4">
+                                    <div class="review-card h-100 d-flex flex-column">
+                                        <div class="review-thumb position-relative">
+                                            <img src="{{ asset('current/img/video-preview2.png') }}" alt="Отзыв 2">
+                                            <button class="play-btn" aria-label="play video">
+                                                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                                                    <circle cx="24" cy="24" r="24" fill="rgba(0,0,0,0.5)"/>
+                                                    <polygon points="20,16 36,24 20,32" fill="#fff"/>
+                                                </svg>
+                                            </button>
+                                            <span class="review-duration">06:24</span>
+                                        </div>
+                                        <div class="review-tags mb-2 mt-3">
+                                            <span>СТРОИТЕЛЬСТВО</span>
+                                            <span class="tag-separator">•</span>
+                                            <span>МЕДИЦИНА</span>
+                                        </div>
+                                        <div class="review-title mb-1">Медицинские лицензии для расширения спектра
+                                            услуг
+                                        </div>
+                                        <div class="review-desc mb-2">
+                                            Кого же привлекает этот новое направление в моде? Неординарные, яркие,
+                                            смелые в своих решениях люди, которые не боятся пробовать экспериментировать
+                                            со своим образом.
+                                        </div>
+                                        <div class="review-meta mt-auto">
+                                            <span class="review-date">
+                                                <svg width="16" height="16" fill="none" stroke="#00B569"
+                                                     stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18"
+                                                                                                height="18" rx="2"/><path
+                                                            d="M16 2v4M8 2v4M3 10h18"/></svg>
+                                                10 февраля 2024
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Карточка 3 -->
+                                <div class="col-md-4">
+                                    <div class="review-card h-100 d-flex flex-column">
+                                        <div class="review-thumb position-relative">
+                                            <img src="{{ asset('current/img/video-preview3.png') }}" alt="Отзыв 3">
+                                            <button class="play-btn" aria-label="play video">
+                                                <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                                                    <circle cx="24" cy="24" r="24" fill="rgba(0,0,0,0.5)"/>
+                                                    <polygon points="20,16 36,24 20,32" fill="#fff"/>
+                                                </svg>
+                                            </button>
+                                            <span class="review-duration">06:24</span>
+                                        </div>
+                                        <div class="review-tags mb-2 mt-3">
+                                            <span>ЛИЦЕНЗИРОВАНИЕ</span>
+                                            <span class="tag-separator">•</span>
+                                            <span>СТРОИТЕЛЬСТВО</span>
+                                        </div>
+                                        <div class="review-title mb-1">Медицинские лицензии для расширения спектра
+                                            услуг
+                                        </div>
+                                        <div class="review-desc mb-2">
+                                            Кого же привлекает этот новое направление в моде? Неординарные, яркие,
+                                            смелые в своих решениях люди, которые не боятся пробовать экспериментировать
+                                            со своим образом.
+                                        </div>
+                                        <div class="review-meta mt-auto">
+                                            <span class="review-date">
+                                                <svg width="16" height="16" fill="none" stroke="#00B569"
+                                                     stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18"
+                                                                                                height="18" rx="2"/><path
+                                                            d="M16 2v4M8 2v4M3 10h18"/></svg>
+                                                10 февраля 2024
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="text-center mt-4 d-block d-md-none">
                                 <a href="#" class="see-all-btn">Смотреть все</a>
@@ -782,153 +872,155 @@
 
                 </div>
 
-                <!-- Модальные окна для КП и заказа услуг -->
-                <!-- Modal: Скачать КП -->
-                <div class="modal fade" id="downloadCommercialOfferModal" tabindex="-1" role="dialog" aria-labelledby="downloadCommercialOfferModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-xl">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <div class="col-12">
-                                    <div class="row justify-content-end">
-                                        <div class="col-lg-1 col-auto text-start">
-                                            <button type="button" class="btn btn-x" data-bs-dismiss="modal" aria-label="Close">
-                                                <i class="bi bi-x-circle modals__icon"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="container">
-                                <div class="modal-body">
-                                    <p class="modals__title-head">Скачать коммерческое предложение</p>
-                                    <form method="post" id="formDownloadCommercialOffer">
-                                        <div class="col-12">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    @if(\Illuminate\Support\Facades\Auth::guest())
-                                                        <label>Укажите ваши контактные данные для получения КП</label>
-                                                        <input class="form-control modals__input" type="email" id="commercialOfferEmail" placeholder="Email" required value=""/>
-                                                        <input class="form-control modals__input" type="tel" name="phone" id="commercialOfferPhone" placeholder="Телефон" required value=""/>
-                                                        <input class="form-control modals__input" type="text" id="commercialOfferName" placeholder="Имя" value=""/>
-                                                    @else
-                                                        <label>Коммерческое предложение будет отправлено на ваш email</label>
-                                                        <input class="form-control modals__input" type="email" id="commercialOfferEmail" placeholder="Email" required value="{{\Illuminate\Support\Facades\Auth::user()->email}}"/>
-                                                        <input class="form-control modals__input" type="tel" name="phone" id="commercialOfferPhone" placeholder="Телефон" required value="{{\Illuminate\Support\Facades\Auth::user()->profile->phone ?? ''}}"/>
-                                                        <input class="form-control modals__input" type="text" id="commercialOfferName" placeholder="Имя" value="{{\Illuminate\Support\Facades\Auth::user()->name}}"/>
-                                                    @endif
-                                                    <div class="form-check pl-0 mt-2">
-                                                        <input type="checkbox" class="form-check-input" checked id="offerCheck_commercial_offer">
-                                                        <label class="form-check-label" for="offerCheck_commercial_offer">
-                                                            Я принимаю условия <a href="{{route("offer")}}" target="_blank">публичной оферты</a> <span class="text-danger">*</span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <button type="submit" class="btn btn-success modals__success_btn formDownloadCommercialOffer_submit">Отправить</button>
-                                        <p class="modals__title-description">Нажимая кнопку отправить вы даете разрешение на обработку персональных данных</p>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Modal: Подтверждение отправки -->
-                <div class="modal fade" id="sendEmailConfirmModal" tabindex="-1" role="dialog" aria-labelledby="sendEmailConfirmModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-xl">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <div class="col-12">
-                                    <div class="row justify-content-end">
-                                        <div class="col-lg-1 col-auto text-start">
-                                            <button type="button" class="btn btn-x" data-bs-dismiss="modal" aria-label="Close">
-                                                <i class="bi bi-x-circle modals__icon"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="container">
-                                <div class="modal-body text-center">
-                                    <i class="bi bi-check-circle text-success" style="font-size: 64px;"></i>
-                                    <p class="modals__title-head mt-3">Отправлено!</p>
-                                    <p class="modals__title-description">Документ был отправлен на указанный email</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Modal: Консультация -->
-                <div class="modal fade" id="consultModal" tabindex="-1" role="dialog" aria-labelledby="consultModalLabel" aria-hidden="true">
-                    <div class="modal-dialog modal-xl">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <div class="col-12">
-                                    <div class="row justify-content-end">
-                                        <div class="col-lg-1 col-auto text-start">
-                                            <button type="button" class="btn btn-x" data-bs-dismiss="modal" aria-label="Close">
-                                                <i class="bi bi-x-circle modals__icon"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="container">
-                                <div class="modal-body">
-                                    <p class="modals__title-head">Заказать услугу</p>
-                                    <p class="modals__title-description">Оставьте заявку и наш специалист свяжется с вами в течение 30 минут</p>
-                                    <form method="post" id="formConsult">
-                                        <div class="col-12">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <input class="form-control modals__input" type="text" id="consultName" placeholder="Имя" required value=""/>
-                                                    <input class="form-control modals__input" type="tel" id="consultPhone" placeholder="Телефон" required value=""/>
-                                                    <input class="form-control modals__input" type="email" id="consultEmail" placeholder="Email (необязательно)" value=""/>
-                                                    <textarea class="form-control modals__input" id="consultComment" placeholder="Комментарий" rows="3"></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <button type="submit" class="btn btn-success modals__success_btn">Отправить заявку</button>
-                                        <p class="modals__title-description">Нажимая кнопку отправить вы даете разрешение на обработку персональных данных</p>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
 
                 <style>
                     * {
                         font-family: 'Manrope', sans-serif !important;
                     }
-                    
+
                     /* General responsive improvements */
                     .container {
                         max-width: 100%;
                         overflow-x: hidden;
                     }
-                    
+
                     img {
                         max-width: 100%;
                         height: auto;
                     }
-                    
+
                     .row {
                         margin-left: 0;
                         margin-right: 0;
                     }
-                    
+
                     .col-md-4, .col-md-6, .col-md-8 {
                         padding-left: 15px;
                         padding-right: 15px;
                     }
-                    
+
                     .construction-page {
                         background-color: #fff;
                     }
+
+                    .step-section {
+                        width: 100%;
+                        display: flex;
+                        justify-content: center;
+                        padding: 40px 0;
+                        margin-top: -300px; /* на сколько нужно поднять */
+                        position: relative;
+                        z-index: 2; /* чтобы перекрывала картинку */
+                    }
+
+                    .step-container {
+                        box-sizing: border-box;
+                        display: flex;
+                        flex-direction: column;
+                        padding: 25px;
+                        gap: 16px;
+                        width: 1320px;
+                        background: #fff;
+                        border: 1px solid #E8E8E8;
+                    }
+
+                    .step-header {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        gap: 20px;
+                    }
+
+                    .step-number {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        width: 36px;
+                        height: 36px;
+                        background: #F8F8F8;
+                        border-radius: 60px;
+                        font-family: 'Manrope', sans-serif;
+                        font-weight: 600;
+                        font-size: 14px;
+                        line-height: 20px;
+                        color: #222B45;
+                    }
+
+                    .step-title {
+                        font-family: 'Manrope', sans-serif;
+                        font-weight: 500;
+                        font-size: 32px;
+                        line-height: 120%;
+                        letter-spacing: -0.02em;
+                        color: #191E1D;
+                    }
+
+                    .document-selection {
+                        display: flex;
+                        flex-direction: row;
+                        gap: 20px;
+                    }
+
+                    .document-option {
+                        box-sizing: border-box;
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        padding: 20px;
+                        gap: 20px;
+                        width: 400px;
+                        height: 90px;
+                        border: 1px solid #E8E8E8;
+                        cursor: pointer;
+                    }
+
+                    .document-option.selected {
+                        background: rgba(39, 151, 96, 0.1);
+                        border: 1px solid #279760;
+                    }
+
+                    .radio-circle {
+                        box-sizing: border-box;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        width: 24px;
+                        height: 24px;
+                        background: #fff;
+                        border: 1px solid #D9D9D9;
+                        border-radius: 60px;
+                    }
+
+                    .radio-dot {
+                        width: 12px;
+                        height: 12px;
+                        background: #279760;
+                        border-radius: 50%;
+                    }
+
+
+                    .document-content {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 10px;
+                    }
+
+                    .document-content h3 {
+                        font-family: 'Manrope', sans-serif;
+                        font-weight: 500;
+                        font-size: 20px;
+                        line-height: 120%;
+                        color: #191E1D;
+                    }
+
+                    .document-content .category {
+                        font-family: 'Manrope', sans-serif;
+                        font-weight: 600;
+                        font-size: 16px;
+                        line-height: 100%;
+                        color: #279760;
+                    }
+
 
                     .construction-icon {
                         object-fit: contain;
@@ -1011,27 +1103,38 @@
                         cursor: pointer;
                     }
 
-                    .radio-checkmark {
-                        position: relative;
-                        height: 20px;
-                        width: 20px;
-                        background-color: #fff;
-                        border: 2px solid #4CAF50;
-                        border-radius: 50%;
+                    .radio-visual {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
                         flex-shrink: 0;
-                        margin-top: 4px;
                     }
 
-                    .radio-container input[type="radio"]:checked ~ .radio-checkmark:after {
+                    .radio-checkmark {
+                        position: relative;
+                        height: 24px;
+                        width: 24px;
+                        background-color: #fff;
+                        border: 2px solid #D9D9D9;
+                        border-radius: 50%;
+                        flex-shrink: 0;
+                        transition: all 0.3s ease;
+                    }
+
+                    .document-option input[type="radio"]:checked ~ .radio-visual .radio-checkmark {
+                        border-color: #279760;
+                    }
+
+                    .document-option input[type="radio"]:checked ~ .radio-visual .radio-checkmark:after {
                         content: "";
                         position: absolute;
                         top: 50%;
                         left: 50%;
                         transform: translate(-50%, -50%);
-                        width: 10px;
-                        height: 10px;
+                        width: 12px;
+                        height: 12px;
                         border-radius: 50%;
-                        background: #4CAF50;
+                        background: #279760;
                     }
 
                     .document-content {
@@ -1047,18 +1150,101 @@
 
                     .category {
                         font-size: 14px;
-                        color: #4CAF50;
+                        color: #279760;
                         margin: 0;
+                    }
+                    .download-btn {
+                        margin-left: 0 !important;
+                        display: block;
                     }
 
 
                     .document-option:hover {
-                        border-color: #4CAF50;
+                        border-color: #279760;
                     }
 
 
                     .document-option.selected .radio-checkmark {
-                        border-color: #4CAF50;
+                        border-color: #279760;
+                    }
+
+                    /* Стили для чекбоксов */
+                    .container_checkbox {
+                        display: block;
+                        position: relative;
+                        padding-left: 35px;
+                        margin-bottom: 12px;
+                        cursor: pointer;
+                        font-size: 16px;
+                        user-select: none;
+                    }
+
+                    .container_checkbox input {
+                        position: absolute;
+                        opacity: 0;
+                        cursor: pointer;
+                        height: 0;
+                        width: 0;
+                    }
+
+                    .checkmark {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        height: 24px;
+                        width: 24px;
+                        background-color: #fff;
+                        border: 2px solid #37825D;
+                        border-radius: 4px;
+                        transition: all 0.3s ease;
+                    }
+
+                    .container_checkbox:hover input ~ .checkmark {
+                        border-color: #279760;
+                    }
+
+                    .container_checkbox input:checked ~ .checkmark {
+                        background-color: #37825D;
+                        border-color: #37825D;
+                    }
+
+                    .checkmark:after {
+                        content: "";
+                        position: absolute;
+                        display: none;
+                    }
+
+                    .container_checkbox input:checked ~ .checkmark:after {
+                        display: block;
+                    }
+
+                    .container_checkbox .checkmark:after {
+                        left: 8px;
+                        top: 4px;
+                        width: 7px;
+                        height: 13px;
+                        border: solid white;
+                        border-width: 0 2px 2px 0;
+                        transform: rotate(45deg);
+                    }
+
+                    .checkmark_incomplete:after {
+                        left: 5px !important;
+                        top: 9px !important;
+                        width: 12px !important;
+                        height: 0 !important;
+                        border: solid white !important;
+                        border-width: 0 0 2px 0 !important;
+                        transform: rotate(0deg) !important;
+                    }
+
+                    .services__window_choices_layout {
+                        padding: 10px 0;
+                    }
+
+                    .services__window-strip {
+                        margin: 15px 0;
+                        border-top: 1px solid #E8E8E8;
                     }
 
                     @media (max-width: 992px) {
@@ -1067,11 +1253,11 @@
                             margin: 0 auto 20px auto;
                             max-width: 90%;
                         }
-                        
+
                         .reviews_block .row {
                             margin: 0;
                         }
-                        
+
                         .reviews_block .col-md-4 {
                             margin-bottom: 20px;
                         }
@@ -1081,41 +1267,41 @@
                         .document-option {
                             margin-bottom: 16px;
                         }
-                        
+
                         .step-title {
                             font-size: 20px;
                             flex-direction: column;
                             align-items: flex-start;
                             gap: 8px;
                         }
-                        
+
                         .work-type-header {
                             flex-direction: column;
                             align-items: flex-start;
                             gap: 15px;
                         }
-                        
+
                         .work-type-header > div:last-child {
                             align-self: flex-end;
                         }
-                        
+
                         .subcategory-item {
                             padding: 12px;
                         }
-                        
+
                         .pricing-card .card-body {
                             padding: 20px;
                         }
-                        
+
                         .section-title {
                             font-size: 24px;
                         }
-                        
+
                         .service-card {
                             height: auto;
                             min-height: 400px;
                         }
-                        
+
                         .card-image {
                             position: relative;
                             right: auto;
@@ -1124,30 +1310,30 @@
                             height: auto;
                             margin-top: 20px;
                         }
-                        
+
                         .card-image img {
                             max-width: 200px;
                         }
-                        
+
                         /* Additional mobile fixes */
                         .row.g-4 {
                             margin: 0 -10px;
                         }
-                        
+
                         .row.g-4 > * {
                             padding: 0 10px;
                             margin-bottom: 20px;
                         }
-                        
+
                         .d-flex.justify-content-between {
                             flex-direction: column;
                             align-items: flex-start !important;
                         }
-                        
+
                         .d-flex.justify-content-between > * {
                             margin-bottom: 10px;
                         }
-                        
+
                         .d-flex.justify-content-between > *:last-child {
                             margin-bottom: 0;
                         }
@@ -1177,41 +1363,94 @@
                     }
 
                     .work-types-section {
-                        margin-bottom: 40px;
+                        box-sizing: border-box;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: flex-start;
+                        padding: 40px;
+                        gap: 40px;
+                        isolation: isolate;
+                        width: 1320px;
+                        margin: 0 auto;
+                        background: #FFFFFF;
+                        border: 1px solid #E8E8E8;
                     }
 
                     .step-title {
-                        font-size: 24px;
-                        font-weight: 500;
-                        color: #333;
                         display: flex;
                         align-items: center;
-                        gap: 12px;
+                        gap: 20px;
+                        width: 1240px;
+                        font-family: 'Manrope', sans-serif;
+                        font-weight: 500;
+                        font-size: 32px;
+                        line-height: 120%;
+                        letter-spacing: -0.02em;
+                        color: #191E1D;
+                    }
+
+                    .step-number {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        width: 36px;
+                        height: 36px;
+                        background: #F8F8F8;
+                        border-radius: 60px;
+                        font-weight: 600;
+                        font-size: 14px;
+                        color: #222B45;
+                    }
+
+                    .work-types-list {
+                        display: flex;
+                        flex-direction: column;
+                        width: 1240px;
+                        gap: 0;
                     }
 
                     .work-type-item {
-                        border: 1px solid #E5E7EB;
-                        border-radius: 8px;
-                        margin-bottom: 16px;
-                        background: #fff;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        padding: 30px 0;
+                        gap: 24px;
+                        width: 1240px;
+                        border-bottom: 1px solid #E1E1E1;
                     }
 
                     .work-type-header {
-                        padding: 20px;
                         display: flex;
-                        justify-content: space-between;
+                        flex-direction: row;
                         align-items: center;
-                        cursor: pointer;
+                        justify-content: space-between;
+                        gap: 24px;
+                        width: 100%;
+                    }
+
+                    .work-type-header span {
+                        font-family: 'Manrope', sans-serif;
+                        font-weight: 500;
+                        font-size: 16px;
+                        color: #191E1D;
+                    }
+
+                    .work-type-header .points {
+                        font-weight: 600;
+                        font-size: 16px;
+                        color: #999999;
+                    }
+
+                    .work-type-header .selected {
+                        font-weight: 600;
+                        font-size: 16px;
+                        color: #279760;
                     }
 
                     .work-type-content {
-                        display: none;
-                        padding: 0 20px 20px;
-                        border-top: 1px solid #E5E7EB;
-                    }
-
-                    .work-type-item.active .work-type-content {
-                        display: block;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 20px;
                     }
 
                     .btn-toggle {
@@ -1229,165 +1468,355 @@
                         justify-content: center;
                     }
 
-                    .points {
-                        color: #6B7280;
-                        font-size: 14px;
-                    }
-
-                    .selected {
-                        color: #4CAF50;
-                        font-size: 14px;
-                    }
+                    /* points/selected are styled under .work-type-header */
 
                     .subcategory-item {
-                        padding: 16px;
-                        border: 1px solid #E5E7EB;
-                        border-radius: 8px;
-                        margin-top: 12px;
-                    }
-
-                    .subcategory-item.selected {
-                        background-color: #F0FFF0;
-                        border-color: #4CAF50;
+                        display: flex;
+                        flex-direction: row;
+                        align-items: flex-start;
+                        gap: 12px;
+                        padding-left: 36px;
                     }
 
                     .subcategory-item h4 {
-                        font-size: 16px;
                         font-weight: 500;
+                        font-size: 16px;
+                        color: #191E1D;
                         margin-bottom: 8px;
-                        color: #333;
                     }
 
                     .subcategory-item p {
+                        font-weight: 500;
                         font-size: 14px;
-                        line-height: 1.5;
-                        margin: 0;
-                        color: #6B7280;
+                        line-height: 150%;
+                        color: #999999;
                     }
 
-                    .radio-wrapper {
-                        position: relative;
-                        width: 20px;
-                        height: 20px;
-                        flex-shrink: 0;
+                    .radio-wrapper input,
+                    .checkbox-wrapper input {
+                        display: none;
                     }
 
-                    .custom-radio {
-                        position: absolute;
-                        opacity: 0;
-                        width: 100%;
-                        height: 100%;
-                        cursor: pointer;
-                    }
-
-                    .radio-mark {
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        width: 20px;
-                        height: 20px;
-                        border: 2px solid #4CAF50;
-                        border-radius: 50%;
-                        background: #fff;
-                    }
-
-                    .custom-radio:checked + .radio-mark:after {
-                        content: '';
-                        position: absolute;
-                        top: 50%;
-                        left: 50%;
-                        transform: translate(-50%, -50%);
-                        width: 10px;
-                        height: 10px;
-                        background: #4CAF50;
-                        border-radius: 50%;
-                    }
-
-                    .checkbox-wrapper {
-                        position: relative;
-                        width: 20px;
-                        height: 20px;
-                        flex-shrink: 0;
-                    }
-
-                    .custom-checkbox {
-                        position: absolute;
-                        opacity: 0;
-                        width: 100%;
-                        height: 100%;
-                        cursor: pointer;
-                    }
-
+                    .radio-mark,
                     .checkbox-mark {
-                        position: absolute;
-                        top: 0;
-                        left: 0;
-                        width: 20px;
-                        height: 20px;
-                        border: 2px solid #4CAF50;
-                        border-radius: 4px;
-                        background: #fff;
+                        display: inline-flex;
+                        justify-content: center;
+                        align-items: center;
+                        width: 24px;
+                        height: 24px;
+                        border: 1px solid #D9D9D9;
+                        border-radius: 60px;
+                        cursor: pointer;
                     }
 
+                    .custom-radio:checked + .radio-mark,
                     .custom-checkbox:checked + .checkbox-mark {
-                        background: #4CAF50;
-                    }
-
-                    .custom-checkbox:checked + .checkbox-mark:after {
-                        content: '';
-                        position: absolute;
-                        top: 2px;
-                        left: 6px;
-                        width: 5px;
-                        height: 10px;
-                        border: solid white;
-                        border-width: 0 2px 2px 0;
-                        transform: rotate(45deg);
+                        border-color: #279760;
+                        background-color: #279760;
+                        background-image: url("data:image/svg+xml,%3Csvg width='14' height='10' viewBox='0 0 14 10' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 5L5 9L13 1' stroke='white' stroke-width='2'/%3E%3C/svg%3E");
+                        background-repeat: no-repeat;
+                        background-position: center;
                     }
 
                     .pricing-section {
-                        padding: 40px 0;
+                        display: flex;
+                        justify-content: space-between;
+                        gap: 20px;
+                        width: 1368px;
+                        margin: 0 auto;
                     }
 
                     .pricing-card {
-                        border-radius: 12px;
-                        overflow: hidden;
-                        height: 100%;
+                        width: 650px;
+                        height: 372px;
+                        padding: 30px;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: space-between;
                     }
 
-                    .bg-light-green {
-                        background-color: #F0FFF0;
+                    .pricing-green {
+                        background: #DBF1D6;
                     }
 
-                    .bg-light-beige {
-                        background-color: #FFF8F0;
+                    .pricing-beige {
+                        background: #F1EBD6;
                     }
 
-                    .pricing-card .card-header {
-                        padding: 24px;
-                        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                    .pricing-header {
+                        display: flex;
+                        align-items: center;
+                        gap: 20px;
                     }
 
-                    .pricing-card .card-body {
-                        padding: 40px;
-                        gap: 40px;
-                    }
-
-                    .step-number {
-                        width: 32px;
-                        height: 32px;
+                    .circle {
+                        width: 36px;
+                        height: 36px;
                         background: #fff;
                         border-radius: 50%;
                         display: flex;
                         align-items: center;
                         justify-content: center;
+                        font-family: 'Manrope', sans-serif;
+                        font-weight: 600;
+                        font-size: 14px;
+                        color: #222B45;
+                    }
+
+                    .pricing-header h2 {
+                        font-family: 'Manrope', sans-serif;
                         font-weight: 500;
-                        color: #333;
+                        font-size: 32px;
+                        line-height: 120%;
+                        color: #191E1D;
+                        margin: 0;
+                    }
+
+                    .selected-info {
+                        margin-top: 16px;
+                        font-family: 'Manrope', sans-serif;
+                        font-size: 16px;
+                        font-weight: 500;
+                        line-height: 150%;
+                        color: #191E1D;
+                    }
+
+                    .selected-info span {
+                        color: #279760;
+                    }
+
+                    .pricing-details {
+                        display: flex;
+                        gap: 30px;
+                        margin-top: 40px;
+                    }
+
+                    .pricing-item {
+                        flex: 1;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 10px;
+                    }
+
+                    .pricing-item .label {
+                        font-size: 16px;
+                        font-weight: 500;
+                        color: #191E1D;
+                    }
+
+                    .pricing-item .value {
+                        font-size: 44px;
+                        font-weight: 500;
+                        color: #191E1D;
+                        letter-spacing: -0.02em;
+                    }
+
+                    .pricing-actions {
+                        display: flex;
+                        gap: 10px;
+                        margin-top: 40px;
+                    }
+
+                    .btn {
+                        border: none;
+                        border-radius: 60px;
+                        padding: 24px;
+                        font-family: 'Manrope', sans-serif;
+                        font-weight: 600;
+                        font-size: 16px;
+                        cursor: pointer;
+                        display: flex;
+                        align-items: center;
+                        gap: 10px;
+                    }
+
+                    .btn-green {
+                        background: #279760;
+                        color: #fff;
+                    }
+
+                    .btn-gray {
+                        background: #F8F8F8;
+                        color: #191E1D;
+                    }
+
+                    /* Instructions section (Figma) */
+                    .instructions-section {
+                        display: flex;
+                        justify-content: center;
+                        background: #fff;
+                        padding: 120px 6px 0;
+                    }
+
+                    .instructions-container {
+                        display: flex;
+                        flex-direction: row;
+                        gap: 40px;
+                        max-width: 1440px;
+                        width: 100%;
+                    }
+
+                    /* Left column */
+                    .instructions-left {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 40px;
+                        width: 518px;
+                    }
+
+                    .instructions-title {
+                        font-family: 'Manrope', sans-serif;
+                        font-weight: 500;
+                        font-size: 40px;
+                        line-height: 100%;
+                        letter-spacing: -0.02em;
+                        color: #191E1D;
+                    }
+
+                    .download-btn {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: 10px;
+                        padding: 24px;
+                        width: 240px;
+                        height: 68px;
+                        border: 1px solid #E8E8E8;
+                        border-radius: 60px;
+                        background: none;
+                        font-family: 'Manrope';
+                        font-weight: 600;
+                        font-size: 16px;
+                        color: #191E1D;
+                        cursor: pointer;
+                    }
+
+                    /* Right column */
+                    .instructions-right {
+                        width: 762px;
+                    }
+
+                    /* Accordion */
+                    .accordion-item {
+                        border-bottom: 1px solid #E1E1E1;
+                    }
+
+                    .accordion-header {
+                        display: flex;
+                        align-items: center;
+                        gap: 12px;
+                        width: 100%;
+                        padding: 30px 0;
+                        background: none;
+                        border: none;
+                        text-align: left;
+                        cursor: pointer;
+                    }
+
+                    .accordion-header .step-number {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        width: 36px;
+                        height: 36px;
+                        background: #F8F8F8;
+                        border-radius: 50%;
+                        font-weight: 600;
+                        font-size: 14px;
+                        color: #222B45;
+                    }
+
+                    .accordion-header .step-text {
+                        font-family: 'Manrope';
+                        font-weight: 500;
+                        font-size: 16px;
+                        color: #191E1D;
+                        flex: 1;
+                    }
+
+                    .accordion-header .icon {
+                        font-size: 18px;
+                        font-weight: bold;
+                        color: #191E1D;
+                    }
+
+                    .accordion-body {
+                        font-family: 'Manrope';
+                        font-size: 14px;
+                        font-weight: 500;
+                        line-height: 150%;
+                        color: #999;
+                        padding: 0 0 30px 48px;
                     }
 
                     .construction-title {
-                        font-size: 32px;
+                        font-family: 'Manrope', sans-serif;
                         font-weight: 500;
+                        font-size: 40px;
+                        line-height: 100%;
+                        letter-spacing: -0.02em;
+                        color: #191E1D;
+                        margin: 0;
+                    }
+
+                    .construction-section {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: flex-start;
+                        padding: 120px 6px 0;
+                        gap: 40px;
+                        max-width: 1440px;
+                        margin: 0 auto;
+                    }
+
+                    .construction-description {
+                        font-family: 'Manrope', sans-serif;
+                        font-weight: 500;
+                        font-size: 16px;
+                        line-height: 120%;
+                        color: #191E1D;
+                        margin: 0;
+                        max-width: 1320px;
+                    }
+
+                    .construction-table {
+                        display: flex;
+                        flex-direction: column;
+                        width: 1320px;
+                        border: 1px solid #E8E8E8;
+                        background: #fff;
+                    }
+
+                    .table-head {
+                        background: #fff;
+                        font-size: 12px;
+                        font-weight: 500;
+                        color: #999;
+                    }
+
+                    .table-row {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        gap: 20px;
+                        padding: 20px 16px;
+                        border-bottom: 1px solid #E8E8E8;
+                    }
+
+                    .table-row:not(.table-head) {
+                        background: #F8F8F8;
+                        font-size: 14px;
+                        font-weight: 500;
+                        color: #191E1D;
+                    }
+
+                    .table-row .col:nth-child(1) {
+                        width: 516px;
+                    }
+
+                    .table-row .col:nth-child(2),
+                    .table-row .col:nth-child(3) {
+                        width: 366px;
                     }
 
                     .pricing-card h2 {
@@ -1443,6 +1872,272 @@
                         font-size: 24px;
                     }
 
+
+                    /* New Services Section - Figma Design */
+                    .services-section-new {
+                        width: 100%;
+                        background: #FFFFFF;
+                        padding: 120px 0;
+                        display: flex;
+                        justify-content: center;
+                    }
+
+                    .services-container {
+                        max-width: 1440px;
+                        width: 100%;
+                        padding: 0 60px;
+                    }
+
+                    .services-main-title {
+                        font-family: 'Manrope', sans-serif;
+                        font-style: normal;
+                        font-weight: 500;
+                        font-size: 52px;
+                        line-height: 100%;
+                        text-align: center;
+                        letter-spacing: -0.02em;
+                        color: #191E1D;
+                        margin-bottom: 60px;
+                    }
+
+                    .services-main-title .text-green {
+                        color: #279760;
+                    }
+
+                    .services-grid {
+                        display: grid;
+                        grid-template-columns: repeat(2, 650px);
+                        gap: 20px;
+                        justify-content: center;
+                    }
+
+                    .service-card-new {
+                        position: relative;
+                        width: 650px;
+                        height: 520px;
+                        padding: 30px;
+                        display: flex;
+                        flex-direction: column;
+                        overflow: hidden;
+                    }
+
+                    .service-txt {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 24px;
+                        width: 590px;
+                        z-index: 2;
+                        position: relative;
+                    }
+
+                    .service-card-title {
+                        font-family: 'Manrope', sans-serif;
+                        font-style: normal;
+                        font-weight: 500;
+                        font-size: 28px;
+                        line-height: 120%;
+                        letter-spacing: -0.02em;
+                        color: #191E1D;
+                        margin: 0;
+                    }
+
+                    .service-features {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 10px;
+                        list-style: none;
+                        padding: 0;
+                        margin: 0;
+                    }
+
+                    .service-features li {
+                        display: flex;
+                        align-items: flex-start;
+                        gap: 4px;
+                    }
+
+                    .check-icon {
+                        flex-shrink: 0;
+                        margin-top: 2px;
+                    }
+
+                    .service-features li span {
+                        font-family: 'Manrope', sans-serif;
+                        font-style: normal;
+                        font-weight: 500;
+                        font-size: 14px;
+                        line-height: 150%;
+                        color: #191E1D;
+                    }
+
+                    .service-btn-new {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: center;
+                        align-items: center;
+                        padding: 24px;
+                        gap: 24px;
+                        width: 186px;
+                        height: 64px;
+                        background: #FFFFFF;
+                        border-radius: 60px;
+                        border: none;
+                        cursor: pointer;
+                        position: absolute;
+                        bottom: 30px;
+                        left: 30px;
+                        z-index: 2;
+                        transition: all 0.3s ease;
+                    }
+
+                    .service-btn-new span {
+                        font-family: 'Manrope', sans-serif;
+                        font-style: normal;
+                        font-weight: 600;
+                        font-size: 16px;
+                        line-height: 100%;
+                        text-align: right;
+                        color: #191E1D;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        max-width: 138px;
+                    }
+
+                    .service-btn-new:hover {
+                        background: #279760;
+                    }
+
+                    .service-btn-new:hover span {
+                        color: #FFFFFF;
+                    }
+
+                    .service-btn-new:hover .arrow-icon path {
+                        stroke: #FFFFFF;
+                    }
+
+                    .arrow-icon {
+                        flex-shrink: 0;
+                    }
+
+                    .service-image-new {
+                        position: absolute;
+                        width: 378px;
+                        height: 482px;
+                        right: 0;
+                        top: 130px;
+                        object-fit: contain;
+                        z-index: 1;
+                    }
+
+                    /* Responsive adjustments */
+                    @media (max-width: 1440px) {
+                        .services-grid {
+                            grid-template-columns: repeat(2, 1fr);
+                            max-width: 1320px;
+                            margin: 0 auto;
+                        }
+
+                        .service-card-new {
+                            width: 100%;
+                            max-width: 650px;
+                        }
+
+                        .service-txt {
+                            width: 100%;
+                            max-width: 590px;
+                        }
+                    }
+
+                    @media (max-width: 992px) {
+                        .services-container {
+                            padding: 0 30px;
+                        }
+
+                        .services-main-title {
+                            font-size: 36px;
+                            margin-bottom: 40px;
+                        }
+
+                        .services-grid {
+                            grid-template-columns: 1fr;
+                            gap: 20px;
+                        }
+
+                        .service-card-new {
+                            height: auto;
+                            min-height: 400px;
+                            padding: 20px;
+                        }
+
+                        .service-txt {
+                            width: 100%;
+                        }
+
+                        .service-image-new {
+                            width: 250px;
+                            height: 250px;
+                            top: auto;
+                            bottom: 80px;
+                            right: 20px;
+                        }
+
+                        .service-btn-new {
+                            left: 20px;
+                            bottom: 20px;
+                        }
+                    }
+
+                    @media (max-width: 768px) {
+                        .services-main-title {
+                            font-size: 28px;
+                        }
+
+                        .service-card-title {
+                            font-size: 22px;
+                        }
+
+                        .service-card-new {
+                            min-height: 350px;
+                        }
+
+                        .service-image-new {
+                            width: 200px;
+                            height: 200px;
+                        }
+                    }
+
+                    @media (max-width: 480px) {
+                        .services-container {
+                            padding: 0 15px;
+                        }
+
+                        .services-main-title {
+                            font-size: 24px;
+                        }
+
+                        .service-card-title {
+                            font-size: 20px;
+                        }
+
+                        .service-btn-new {
+                            width: auto;
+                            padding: 16px 20px;
+                        }
+
+                        .service-btn-new span {
+                            font-size: 14px;
+                            max-width: 120px;
+                        }
+
+                        .service-image-new {
+                            width: 150px;
+                            height: 150px;
+                            bottom: 70px;
+                        }
+                    }
+
+                    /* Old services section styles (keeping for backward compatibility) */
                     .services-section {
                         padding: 60px 0;
                     }
@@ -1557,6 +2252,200 @@
                         color: #fff;
                     }
 
+                    /* UPPERLICENSE Section - Figma Design */
+                    .upperlicense-section {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: flex-start;
+                        padding: 120px 60px 0px;
+                        gap: 40px;
+                        width: 100%;
+                        max-width: 1440px;
+                        margin: 0 auto;
+                    }
+
+                    .upperlicense-container {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 40px;
+                        width: 100%;
+                        max-width: 1320px;
+                    }
+
+                    .upperlicense-title {
+                        font-family: 'Manrope', sans-serif;
+                        font-style: normal;
+                        font-weight: 500;
+                        font-size: 40px;
+                        line-height: 100%;
+                        letter-spacing: -0.02em;
+                        color: #191E1D;
+                        margin: 0;
+                    }
+
+                    .upperlicense-grid {
+                        display: flex;
+                        flex-direction: row;
+                        flex-wrap: wrap;
+                        align-items: center;
+                        align-content: flex-start;
+                        padding: 0px;
+                        gap: 20px;
+                        width: 100%;
+                        max-width: 1320px;
+                    }
+
+                    .upperlicense-card {
+                        box-sizing: border-box;
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        padding: 30px;
+                        gap: 20px;
+                        width: 650px;
+                        height: 140px;
+                        background: #FFFFFF;
+                        border: 1px solid #E8E8E8;
+                        border-radius: 0px;
+                        position: relative;
+                    }
+
+                    .upperlicense-icon {
+                        width: 80px;
+                        height: 80px;
+                        flex-shrink: 0;
+                        object-fit: contain;
+                    }
+
+                    .upperlicense-text {
+                        font-family: 'Manrope', sans-serif;
+                        font-style: normal;
+                        font-weight: 500;
+                        font-size: 20px;
+                        line-height: 120%;
+                        letter-spacing: -0.02em;
+                        color: #191E1D;
+                        flex: 1;
+                    }
+
+                    /* Decorative corners (optional - as per Figma) */
+                    .upperlicense-card::before,
+                    .upperlicense-card::after {
+                        content: '';
+                        position: absolute;
+                        width: 10px;
+                        height: 10px;
+                        border: 1px solid #279760;
+                    }
+
+                    .upperlicense-card::before {
+                        top: 30px;
+                        left: 30px;
+                    }
+
+                    .upperlicense-card::after {
+                        bottom: 30px;
+                        right: 30px;
+                        transform: rotate(180deg);
+                    }
+
+                    /* Responsive adjustments */
+                    @media (max-width: 1440px) {
+                        .upperlicense-section {
+                            padding: 100px 40px 0px;
+                        }
+
+                        .upperlicense-grid {
+                            justify-content: center;
+                        }
+
+                        .upperlicense-card {
+                            width: calc(50% - 10px);
+                            max-width: 650px;
+                        }
+                    }
+
+                    @media (max-width: 992px) {
+                        .upperlicense-section {
+                            padding: 80px 30px 0px;
+                        }
+
+                        .upperlicense-title {
+                            font-size: 32px;
+                        }
+
+                        .upperlicense-card {
+                            width: 100%;
+                            height: auto;
+                            min-height: 140px;
+                        }
+
+                        .upperlicense-text {
+                            font-size: 18px;
+                        }
+                    }
+
+                    @media (max-width: 768px) {
+                        .upperlicense-section {
+                            padding: 60px 20px 0px;
+                        }
+
+                        .upperlicense-title {
+                            font-size: 28px;
+                        }
+
+                        .upperlicense-card {
+                            padding: 20px;
+                            gap: 15px;
+                        }
+
+                        .upperlicense-icon {
+                            width: 60px;
+                            height: 60px;
+                        }
+
+                        .upperlicense-text {
+                            font-size: 16px;
+                        }
+
+                        .upperlicense-card::before {
+                            top: 20px;
+                            left: 20px;
+                        }
+
+                        .upperlicense-card::after {
+                            bottom: 20px;
+                            right: 20px;
+                        }
+                    }
+
+                    @media (max-width: 480px) {
+                        .upperlicense-section {
+                            padding: 40px 15px 0px;
+                            gap: 30px;
+                        }
+
+                        .upperlicense-title {
+                            font-size: 24px;
+                        }
+
+                        .upperlicense-card {
+                            padding: 15px;
+                            gap: 12px;
+                            min-height: 120px;
+                        }
+
+                        .upperlicense-icon {
+                            width: 50px;
+                            height: 50px;
+                        }
+
+                        .upperlicense-text {
+                            font-size: 14px;
+                        }
+                    }
+
+                    /* Old service-card-info styles (keeping for backward compatibility) */
                     .service-card-info,
                     .info-card {
                         width: 100%;
@@ -1577,6 +2466,268 @@
                         flex-wrap: wrap;
                     }
 
+                    /* Useful Info Section - Figma Design */
+                    .useful-info-section {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: flex-start;
+                        padding: 120px 60px 0px;
+                        gap: 40px;
+                        width: 100%;
+                        max-width: 1440px;
+                        margin: 0 auto;
+                    }
+
+                    .useful-info-container {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 40px;
+                        width: 100%;
+                        max-width: 1320px;
+                    }
+
+                    .useful-info-title {
+                        font-family: 'Manrope', sans-serif;
+                        font-style: normal;
+                        font-weight: 500;
+                        font-size: 40px;
+                        line-height: 100%;
+                        letter-spacing: -0.02em;
+                        color: #191E1D;
+                        margin: 0;
+                    }
+
+                    .useful-info-grid {
+                        display: flex;
+                        flex-direction: row;
+                        flex-wrap: wrap;
+                        justify-content: space-between;
+                        align-items: center;
+                        align-content: flex-start;
+                        padding: 0px;
+                        gap: 20px;
+                        width: 100%;
+                        max-width: 1320px;
+                    }
+
+                    .useful-info-card {
+                        box-sizing: border-box;
+                        display: flex;
+                        flex-direction: row;
+                        align-items: flex-start;
+                        padding: 30px;
+                        gap: 20px;
+                        width: 650px;
+                        min-height: 128px;
+                        background: #FFFFFF;
+                        border: 1px solid #E8E8E8;
+                        border-radius: 0px;
+                    }
+
+                    .useful-info-content {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: flex-start;
+                        padding: 0px;
+                        gap: 20px;
+                        flex: 1;
+                    }
+
+                    .useful-info-icon {
+                        width: 24px;
+                        height: 24px;
+                        flex-shrink: 0;
+                    }
+
+                    .useful-info-text-wrapper {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: flex-start;
+                        padding: 0px;
+                        gap: 10px;
+                        flex: 1;
+                    }
+
+                    .useful-info-card-title {
+                        font-family: 'Manrope', sans-serif;
+                        font-style: normal;
+                        font-weight: 500;
+                        font-size: 20px;
+                        line-height: 120%;
+                        letter-spacing: -0.02em;
+                        color: #191E1D;
+                        margin: 0;
+                    }
+
+                    .useful-info-description {
+                        font-family: 'Manrope', sans-serif;
+                        font-style: normal;
+                        font-weight: 500;
+                        font-size: 14px;
+                        line-height: 150%;
+                        color: #999999;
+                        margin: 0;
+                    }
+
+                    .useful-info-button-wrapper {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        padding: 0px;
+                        gap: 10px;
+                        align-self: stretch;
+                    }
+
+                    .useful-info-download-btn {
+                        box-sizing: border-box;
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: center;
+                        align-items: center;
+                        padding: 24px;
+                        gap: 10px;
+                        width: 143px;
+                        height: 68px;
+                        background: #FFFFFF;
+                        border: 1px solid #E8E8E8;
+                        border-radius: 60px;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                    }
+
+                    .useful-info-download-btn span {
+                        font-family: 'Manrope', sans-serif;
+                        font-style: normal;
+                        font-weight: 600;
+                        font-size: 16px;
+                        line-height: 100%;
+                        text-align: right;
+                        color: #191E1D;
+                    }
+
+                    .useful-info-download-btn svg {
+                        flex-shrink: 0;
+                    }
+
+                    .useful-info-download-btn:hover {
+                        background: #279760;
+                        border-color: #279760;
+                    }
+
+                    .useful-info-download-btn:hover span {
+                        color: #FFFFFF;
+                    }
+
+                    .useful-info-download-btn:hover svg path {
+                        stroke: #FFFFFF;
+                    }
+
+                    /* Responsive adjustments */
+                    @media (max-width: 1440px) {
+                        .useful-info-section {
+                            padding: 100px 40px 0px;
+                        }
+
+                        .useful-info-card {
+                            width: calc(50% - 10px);
+                            max-width: 650px;
+                        }
+                    }
+
+                    @media (max-width: 992px) {
+                        .useful-info-section {
+                            padding: 80px 30px 0px;
+                        }
+
+                        .useful-info-title {
+                            font-size: 32px;
+                        }
+
+                        .useful-info-card {
+                            width: 100%;
+                            flex-direction: column;
+                            min-height: auto;
+                        }
+
+                        .useful-info-content {
+                            width: 100%;
+                        }
+
+                        .useful-info-button-wrapper {
+                            width: 100%;
+                            align-items: flex-start;
+                        }
+
+                        .useful-info-download-btn {
+                            width: auto;
+                        }
+                    }
+
+                    @media (max-width: 768px) {
+                        .useful-info-section {
+                            padding: 60px 20px 0px;
+                        }
+
+                        .useful-info-title {
+                            font-size: 28px;
+                        }
+
+                        .useful-info-card {
+                            padding: 20px;
+                            gap: 15px;
+                        }
+
+                        .useful-info-card-title {
+                            font-size: 18px;
+                        }
+
+                        .useful-info-description {
+                            font-size: 13px;
+                        }
+
+                        .useful-info-download-btn {
+                            padding: 20px;
+                            height: 60px;
+                        }
+                    }
+
+                    @media (max-width: 480px) {
+                        .useful-info-section {
+                            padding: 40px 15px 0px;
+                            gap: 30px;
+                        }
+
+                        .useful-info-title {
+                            font-size: 24px;
+                        }
+
+                        .useful-info-card {
+                            padding: 15px;
+                            gap: 12px;
+                        }
+
+                        .useful-info-card-title {
+                            font-size: 16px;
+                        }
+
+                        .useful-info-description {
+                            font-size: 12px;
+                        }
+
+                        .useful-info-icon {
+                            width: 20px;
+                            height: 20px;
+                        }
+
+                        .useful-info-download-btn {
+                            padding: 16px;
+                            height: 52px;
+                            font-size: 14px;
+                        }
+                    }
+
+                    /* Old info-card styles (keeping for backward compatibility) */
                     .info-card {
                         min-height: 136px;
                     }
@@ -1640,97 +2791,97 @@
                             padding-left: 15px;
                             padding-right: 15px;
                         }
-                        
+
                         .construction-title {
                             font-size: 24px;
                         }
-                        
+
                         .step-title {
                             font-size: 18px;
                         }
-                        
+
                         .document-option {
                             padding: 15px;
                         }
-                        
+
                         .work-type-header {
                             padding: 15px;
                         }
-                        
+
                         .subcategory-item {
                             padding: 10px;
                         }
-                        
+
                         .pricing-card .card-body {
                             padding: 15px;
                         }
-                        
+
                         .section-title {
                             font-size: 20px;
                         }
-                        
+
                         .service-card {
                             padding: 15px;
                         }
-                        
+
                         .info-card {
                             padding: 15px;
                         }
-                        
+
                         .reviews-title {
                             font-size: 2rem;
                             text-align: center;
                         }
-                        
+
                         .accordion-button {
                             padding: 15px 0;
                             font-size: 16px;
                         }
-                        
+
                         .accordion-body {
                             padding: 0 0 15px 40px;
                             font-size: 14px;
                         }
-                        
+
                         /* Reviews section mobile fixes */
                         .reviews_block .container {
                             padding-left: 15px;
                             padding-right: 15px;
                         }
-                        
+
                         .reviews_block .d-flex {
                             flex-direction: column;
                             align-items: flex-start !important;
                         }
-                        
+
                         .reviews_block .d-flex .d-flex {
                             margin-top: 15px;
                             width: 100%;
                             justify-content: space-between;
                             align-items: center;
                         }
-                        
+
                         .see-all-btn {
                             padding: 6px 16px;
                             font-size: 13px;
                             margin-right: 0;
                             margin-bottom: 10px;
                         }
-                        
+
                         .slider-arrow {
                             width: 35px;
                             height: 35px;
                             font-size: 1rem;
                         }
-                        
+
                         .slider-counter {
                             font-size: 0.9rem;
                         }
-                        
+
                         .reviews_block .row.g-4 {
                             margin: 0;
                         }
-                        
+
                         .reviews_block .col-md-4 {
                             padding: 0 7.5px;
                             margin-bottom: 20px;
@@ -1742,94 +2893,94 @@
                             padding-left: 10px;
                             padding-right: 10px;
                         }
-                        
+
                         .construction-title {
                             font-size: 20px;
                         }
-                        
+
                         .step-title {
                             font-size: 16px;
                         }
-                        
+
                         .section-title {
                             font-size: 18px;
                         }
-                        
+
                         .reviews-title {
                             font-size: 2rem;
                             text-align: center;
                         }
-                        
+
                         .document-option {
                             padding: 12px;
                         }
-                        
+
                         .work-type-header {
                             padding: 12px;
                         }
-                        
+
                         .subcategory-item {
                             padding: 8px;
                         }
-                        
+
                         .pricing-card .card-body {
                             padding: 12px;
                         }
-                        
+
                         .service-card {
                             padding: 12px;
                         }
-                        
+
                         .info-card {
                             padding: 12px;
                         }
-                        
+
                         .review-card {
                             margin-bottom: 15px;
                         }
-                        
+
                         .review-thumb {
                             height: 150px;
                         }
-                        
+
                         .review-title {
                             font-size: 14px;
                         }
-                        
+
                         .review-desc {
                             font-size: 12px;
                         }
-                        
+
                         .reviews_block .col-md-4 {
                             padding: 0 5px;
                             margin-bottom: 15px;
                         }
-                        
+
                         .see-all-btn {
                             padding: 5px 12px;
                             font-size: 12px;
                         }
-                        
+
                         .slider-arrow {
                             width: 30px;
                             height: 30px;
                             font-size: 0.9rem;
                         }
-                        
+
                         .slider-counter {
                             font-size: 0.8rem;
                         }
-                        
+
                         .accordion-button {
                             padding: 12px 0;
                             font-size: 14px;
                         }
-                        
+
                         .accordion-body {
                             padding: 0 0 12px 35px;
                             font-size: 13px;
                         }
-                        
+
                         .accordion-button .number {
                             width: 35px;
                             height: 35px;
@@ -1842,7 +2993,7 @@
                         align-items: center;
                         background: #fff;
                         color: #222;
-                        border: 1.5px solid #00B569;
+                        border: 1px solid;
                         border-radius: 24px;
                         padding: 8px 24px;
                         font-weight: 500;
@@ -1852,11 +3003,7 @@
                         cursor: pointer;
                     }
 
-                    .download-btn:hover {
-                        background: #e6f9f0;
-                        color: #00B569;
-                        border-color: #00B569;
-                    }
+
 
                     .download-icon {
                         display: flex;
@@ -1907,7 +3054,7 @@
                     .slider-arrow {
                         width: 40px;
                         height: 40px;
-                        border-radius: 50%;         
+                        border-radius: 50%;
                         border: 1.5px solid #E0E0E0;
                         background: #fff;
                         color: #222;
@@ -1924,7 +3071,6 @@
                         padding: 0;
                     }
 
-                
 
                     .review-card {
                         background: #fff;
@@ -2003,7 +3149,7 @@
                         font-size: 12px;
                         font-weight: 500;
                     }
-                    
+
                     .tag-separator {
                         color: #999;
                         margin: 0 4px;
@@ -2060,52 +3206,52 @@
                             margin-bottom: 15px;
                             border-radius: 8px;
                         }
-                        
+
                         .review-thumb {
                             height: 180px;
                         }
-                        
+
                         .play-btn {
                             width: 50px;
                             height: 50px;
                         }
-                        
+
                         .play-btn svg {
                             width: 25px;
                             height: 25px;
                         }
-                        
+
                         .review-duration {
                             font-size: 11px;
                             padding: 3px 6px;
                         }
-                        
+
                         .review-tags {
                             padding: 12px 12px 0 12px;
                             gap: 6px;
                         }
-                        
+
                         .review-tags span {
                             font-size: 11px;
                         }
-                        
+
                         .tag-separator {
                             margin: 0 3px;
                         }
-                        
+
                         .review-title {
                             font-size: 16px;
                             padding: 0 12px;
                             margin-bottom: 6px;
                         }
-                        
+
                         .review-desc {
                             font-size: 13px;
                             padding: 0 12px;
                             margin-bottom: 12px;
                             line-height: 1.5;
                         }
-                        
+
                         .review-meta {
                             padding: 0 12px 12px 12px;
                             font-size: 12px;
@@ -2116,39 +3262,39 @@
                         .review-thumb {
                             height: 160px;
                         }
-                        
+
                         .play-btn {
                             width: 45px;
                             height: 45px;
                         }
-                        
+
                         .play-btn svg {
                             width: 20px;
                             height: 20px;
                         }
-                        
+
                         .review-tags {
                             padding: 10px 10px 0 10px;
                         }
-                        
+
                         .review-tags span {
                             font-size: 10px;
                         }
-                        
+
                         .tag-separator {
                             margin: 0 2px;
                         }
-                        
+
                         .review-title {
                             font-size: 15px;
                             padding: 0 10px;
                         }
-                        
+
                         .review-desc {
                             font-size: 12px;
                             padding: 0 10px;
                         }
-                        
+
                         .review-meta {
                             padding: 0 10px 10px 10px;
                             font-size: 11px;
@@ -2159,31 +3305,31 @@
                         .review-thumb {
                             height: 140px;
                         }
-                        
+
                         .play-btn {
                             width: 40px;
                             height: 40px;
                         }
-                        
+
                         .play-btn svg {
                             width: 18px;
                             height: 18px;
                         }
-                        
+
                         .review-tags {
                             padding: 8px 8px 0 8px;
                         }
-                        
+
                         .review-title {
                             font-size: 14px;
                             padding: 0 8px;
                         }
-                        
+
                         .review-desc {
                             font-size: 11px;
                             padding: 0 8px;
                         }
-                        
+
                         .review-meta {
                             padding: 0 8px 8px 8px;
                             font-size: 10px;
@@ -2198,7 +3344,7 @@
                         margin-bottom: 0;
                         background: #fff;
                     }
-                    
+
                     .accordion-item:last-child {
                         border-bottom: none;
                     }
@@ -2220,13 +3366,13 @@
                         box-shadow: none;
                         font-family: 'Manrope', sans-serif;
                     }
-                    
+
                     .accordion-button:not(.collapsed) {
                         background: transparent;
                         color: #333;
                         box-shadow: none;
                     }
-                    
+
                     .accordion-button:focus {
                         box-shadow: none;
                         border: none;
@@ -2247,7 +3393,7 @@
                         border: 2px solid #E5E7EB;
                         transition: all 0.3s ease;
                     }
-                    
+
                     .accordion-button:not(.collapsed) .number {
                         background: #4CAF50;
                         color: #fff;
@@ -2275,235 +3421,15 @@
                         width: auto;
                         height: auto;
                     }
-                    
+
                     .accordion-button:not(.collapsed)::after {
                         content: '−';
                         color: #4CAF50;
                         transform: none;
                     }
+
                     .info-img {
                         margin-right: 20px;
-                    }
-
-                    /* Стили для секции с подвидами работ */
-                    .services__window-documents {
-                        background: #fff;
-                        padding: 20px 0;
-                    }
-
-                    .service-content-data-total {
-                        background: #00B569;
-                        color: #fff;
-                        padding: 20px 0;
-                        margin-bottom: 30px;
-                        position: sticky;
-                        top: 0;
-                        z-index: 100;
-                    }
-
-                    .service-content-data-total-panel {
-                        display: flex;
-                        gap: 30px;
-                        flex-wrap: wrap;
-                    }
-
-                    .service-content-data-total-panel-item {
-                        display: flex;
-                        align-items: center;
-                        gap: 10px;
-                    }
-
-                    .service-content-data-total-panel-item-title {
-                        font-size: 14px;
-                        opacity: 0.9;
-                    }
-
-                    .service-content-data-total-panel-item-description {
-                        font-size: 18px;
-                        font-weight: 600;
-                    }
-
-                    .service-content-data-total-panel-item-icon img {
-                        width: 24px;
-                        height: 24px;
-                    }
-
-                    .service-content-data-total-btn {
-                        display: flex;
-                        gap: 15px;
-                        justify-content: flex-end;
-                    }
-
-                    .service-content-data-total-btn .btn {
-                        padding: 10px 24px;
-                        border-radius: 25px;
-                        font-weight: 500;
-                    }
-
-                    .service-content-data-list-head {
-                        font-size: 16px;
-                        color: #666;
-                        margin-bottom: 20px;
-                    }
-
-                    .service-content-data-list-item {
-                        border: 1px solid #E5E7EB;
-                        border-radius: 8px;
-                        margin-bottom: 16px;
-                        background: #fff;
-                    }
-
-                    .service-content-data-list-item-head {
-                        padding: 20px;
-                        display: flex;
-                        justify-content: space-between;
-                        align-items: center;
-                        cursor: pointer;
-                    }
-
-                    .service-content-data-list-item-head-main-info {
-                        display: flex;
-                        align-items: center;
-                        gap: 15px;
-                        flex: 1;
-                    }
-
-                    .service-content-data-list-item-head-point {
-                        color: #6B7280;
-                        font-size: 14px;
-                    }
-
-                    .service-content-data-list-item-head-additional-info {
-                        display: flex;
-                        align-items: center;
-                        gap: 10px;
-                    }
-
-                    .services__window-link {
-                        color: #00B569;
-                        text-decoration: none;
-                        cursor: pointer;
-                        font-size: 24px;
-                        line-height: 1;
-                        transition: color 0.2s;
-                    }
-
-                    .services__window-link:hover {
-                        color: #008f52;
-                    }
-
-                    .services__window_choices {
-                        padding: 0 20px 20px;
-                        border-top: 1px solid #E5E7EB;
-                    }
-
-                    .services__window_choices_layout {
-                        padding: 12px 0;
-                    }
-
-                    .services__window-strip {
-                        margin: 12px 0;
-                        border-color: #E5E7EB;
-                    }
-
-                    .container_checkbox {
-                        display: flex;
-                        align-items: flex-start;
-                        position: relative;
-                        padding-left: 35px;
-                        cursor: pointer;
-                        font-size: 16px;
-                        user-select: none;
-                        line-height: 1.5;
-                    }
-
-                    .container_checkbox input {
-                        position: absolute;
-                        opacity: 0;
-                        cursor: pointer;
-                        height: 0;
-                        width: 0;
-                    }
-
-                    .checkmark {
-                        position: absolute;
-                        top: 2px;
-                        left: 0;
-                        height: 20px;
-                        width: 20px;
-                        background-color: #fff;
-                        border: 2px solid #00B569;
-                        border-radius: 4px;
-                    }
-
-                    .container_checkbox:hover input ~ .checkmark {
-                        background-color: #f0fff0;
-                    }
-
-                    .container_checkbox input:checked ~ .checkmark {
-                        background-color: #00B569;
-                    }
-
-                    .checkmark:after {
-                        content: "";
-                        position: absolute;
-                        display: none;
-                    }
-
-                    .container_checkbox input:checked ~ .checkmark:after {
-                        display: block;
-                    }
-
-                    .container_checkbox .checkmark:after {
-                        left: 6px;
-                        top: 2px;
-                        width: 5px;
-                        height: 10px;
-                        border: solid white;
-                        border-width: 0 2px 2px 0;
-                        transform: rotate(45deg);
-                    }
-
-                    .checkmark_incomplete {
-                        background-color: #00B569 !important;
-                        opacity: 0.5;
-                    }
-
-                    .loader-line {
-                        height: 3px;
-                        background: linear-gradient(90deg, transparent, #fff, transparent);
-                        animation: loading 1.5s infinite;
-                    }
-
-                    @keyframes loading {
-                        0% { transform: translateX(-100%); }
-                        100% { transform: translateX(100%); }
-                    }
-
-                    @media (max-width: 768px) {
-                        .service-content-data-total-panel {
-                            flex-direction: column;
-                            gap: 15px;
-                        }
-
-                        .service-content-data-total-btn {
-                            flex-direction: column;
-                            width: 100%;
-                        }
-
-                        .service-content-data-total-btn .btn {
-                            width: 100%;
-                        }
-
-                        .service-content-data-list-item-head {
-                            flex-direction: column;
-                            align-items: flex-start;
-                            gap: 15px;
-                        }
-
-                        .service-content-data-list-item-head-additional-info {
-                            align-self: flex-end;
-                        }
                     }
 
                 </style>
@@ -2628,9 +3554,9 @@
                     document.addEventListener('DOMContentLoaded', function () {
                         // Селекторы документов (радио кнопки)
                         const documentOptions = document.querySelectorAll('.document-option');
-                        
+
                         documentOptions.forEach(option => {
-                            option.addEventListener('click', function() {
+                            option.addEventListener('click', function () {
                                 // Убираем выделение со всех опций
                                 documentOptions.forEach(opt => opt.classList.remove('selected'));
                                 // Добавляем выделение к нажатой опции
@@ -2639,49 +3565,18 @@
                                 const radio = this.querySelector('input[type="radio"]');
                                 if (radio) {
                                     radio.checked = true;
-                                    
-                                    // Переключаем видимость контейнеров (без AJAX)
-                                    const documentId = radio.value;
-                                    switchServiceContent(documentId);
                                 }
                             });
                         });
-                        
-                        // Функция для переключения контейнеров на фронте
-                        function switchServiceContent(documentId) {
-                            // Скрываем все контейнеры
-                            const allContainers = document.querySelectorAll('.service-content-container');
-                            allContainers.forEach(container => {
-                                container.style.display = 'none';
-                            });
-                            
-                            // Показываем нужный контейнер
-                            const targetContainer = document.querySelector(`.service-content-container[data-document-id="${documentId}"]`);
-                            if (targetContainer) {
-                                targetContainer.style.display = 'block';
-                                
-                                // Прокручиваем к секции с подвидами работ
-                                const workTypesSection = document.querySelector('.work-types-section');
-                                if (workTypesSection) {
-                                    const header = document.querySelector('.header-new');
-                                    const headerHeight = header ? header.offsetHeight : 0;
-                                    const position = workTypesSection.offsetTop - headerHeight - 20;
-                                    window.scrollTo({
-                                        top: position,
-                                        behavior: 'smooth'
-                                    });
-                                }
-                            }
-                        }
-                        
+
                         // Аккордионы для подвидов работ
                         const toggleBtns = document.querySelectorAll('.btn-toggle');
-                        
+
                         toggleBtns.forEach(btn => {
-                            btn.addEventListener('click', function() {
+                            btn.addEventListener('click', function () {
                                 const workTypeItem = this.closest('.work-type-item');
                                 const content = workTypeItem.querySelector('.work-type-content');
-                                
+
                                 if (workTypeItem.classList.contains('active')) {
                                     // Закрываем аккордион
                                     workTypeItem.classList.remove('active');
@@ -2698,7 +3593,7 @@
                                         const itemContent = item.querySelector('.work-type-content');
                                         if (itemContent) itemContent.style.display = 'none';
                                     });
-                                    
+
                                     // Открываем текущий аккордион
                                     workTypeItem.classList.add('active');
                                     this.textContent = '−';
@@ -2708,13 +3603,13 @@
                                 }
                             });
                         });
-                        
+
                         // Чекбоксы подкатегорий
                         const subcategoryItems = document.querySelectorAll('.subcategory-item');
                         const subcategoryCheckboxes = document.querySelectorAll('.custom-checkbox');
-                        
+
                         subcategoryItems.forEach(item => {
-                            item.addEventListener('click', function(e) {
+                            item.addEventListener('click', function (e) {
                                 if (e.target.type !== 'checkbox') {
                                     const checkbox = this.querySelector('.custom-checkbox');
                                     if (checkbox) {
@@ -2724,14 +3619,14 @@
                                 }
                             });
                         });
-                        
+
                         subcategoryCheckboxes.forEach(checkbox => {
-                            checkbox.addEventListener('change', function() {
+                            checkbox.addEventListener('change', function () {
                                 const item = this.closest('.subcategory-item');
                                 updateSubcategorySelection(item, this.checked);
                             });
                         });
-                        
+
                         function updateSubcategorySelection(item, isSelected) {
                             if (isSelected) {
                                 item.classList.add('selected');
@@ -2740,7 +3635,7 @@
                             }
                             updateSelectedCount();
                         }
-                        
+
                         function updateSelectedCount() {
                             const selectedCheckboxes = document.querySelectorAll('.custom-checkbox:checked');
                             const countElements = document.querySelectorAll('.work-type-header .selected');
@@ -2750,30 +3645,30 @@
                                 }
                             });
                         }
-                        
+
                         // Кнопки "Оставить заявку"
                         const applicationBtns = document.querySelectorAll('.btn-success:not(.btn-outline-success)');
                         applicationBtns.forEach(btn => {
-                            btn.addEventListener('click', function(e) {
+                            btn.addEventListener('click', function (e) {
                                 e.preventDefault();
-                                
+
                                 const serviceName = 'Строительно-монтажные работы';
-                                
+
                                 if (confirm(`Оставить заявку на "${serviceName}"?`)) {
                                     showApplicationForm(serviceName);
                                 }
                             });
                         });
-                        
+
                         function showApplicationForm(serviceName) {
                             const name = prompt('Введите ваше имя:');
                             if (!name) return;
-                            
+
                             const phone = prompt('Введите ваш телефон:');
                             if (!phone) return;
-                            
+
                             const email = prompt('Введите ваш email (необязательно):') || '';
-                            
+
                             alert(`Заявка принята!\n\nУслуга: ${serviceName}\nИмя: ${name}\nТелефон: ${phone}\nEmail: ${email}\n\nНаш специалист свяжется с вами в течение 30 минут.`);
                         }
                     });
@@ -2783,12 +3678,74 @@
 @section('js')
 <script>
 $(document).ready(function () {
+    // Обработчик для переключения между категориями документов
+    $('input[name="document_type"]').on('change', function() {
+        const selectedId = $(this).val();
+        console.log('=== Переключение документа ===');
+        console.log('Выбран документ ID:', selectedId);
+        
+        // Убираем класс selected со всех document-option
+        $('.document-option').removeClass('selected');
+        
+        // Добавляем класс selected к выбранному
+        $(this).closest('.document-option').addClass('selected');
+        
+        // Скрываем все контейнеры
+        console.log('Всего контейнеров:', $('.service-content-container').length);
+        $('.service-content-container').each(function() {
+            console.log('Контейнер ID:', $(this).data('document-id'), 'Будет скрыт');
+        });
+        $('.service-content-container').hide();
+        
+        // Показываем выбранный контейнер
+        const targetContainer = $(`.service-content-container[data-document-id="${selectedId}"]`);
+        console.log('Целевой контейнер найден:', targetContainer.length);
+        if (targetContainer.length > 0) {
+            console.log('Показываем контейнер для ID:', selectedId);
+            targetContainer.show();
+        } else {
+            console.error('Контейнер не найден для ID:', selectedId);
+        }
+        
+        // Сбрасываем все чекбоксы
+        $('.services__window_all input:checkbox').prop('checked', false);
+        
+        // Обновляем UI
+        disableServiceAction();
+        loadServiceCompare();
+    });
+
+    // Дополнительный обработчик клика по label документа
+    $('.document-option').on('click', function(e) {
+        // Предотвращаем двойное срабатывание если кликнули прямо на input
+        if (e.target.type === 'radio') {
+            return; // input сам обработает клик
+        }
+        
+        e.preventDefault();
+        e.stopPropagation();
+        
+        const radio = $(this).find('input[name="document_type"]');
+        console.log('Клик по document-option', e.target.tagName, 'Radio ID:', radio.val(), 'Checked:', radio.is(':checked'));
+        
+        // Всегда переключаем на этот документ
+        if (radio.length) {
+            console.log('Переключаем radio на ID:', radio.val());
+            
+            // Снимаем checked со всех радио
+            $('input[name="document_type"]').prop('checked', false);
+            
+            // Ставим checked на выбранный
+            radio.prop('checked', true).trigger('change');
+        }
+    });
+
     // Обработчик для раскрытия/скрытия подпунктов (аккордеон)
     $(document).on('click', '.services__window-link', function () {
-        let self = this
-        let parent = $(self).parents('.service-content-data-list-item')[0]
-        $('.services__window-link', parent).toggleClass('d-none')
-        $('.services__window_choices', parent).toggleClass('d-none')
+        let self = this;
+        let parent = $(self).parents('.service-content-data-list-item')[0];
+        $('.services__window-link', parent).toggleClass('d-none');
+        $('.services__window_choices', parent).toggleClass('d-none');
     });
 
     // Обработчик для "выбрать все" чекбокса
@@ -2799,22 +3756,24 @@ $(document).ready(function () {
             .prop('checked', $(this).is(':checked'));
         $('.container_checkbox-all .checkmark', parent).removeClass('checkmark_incomplete');
         
-        disableServiceAction()
-        loadServiceCompare()
-    })
+        disableServiceAction();
+        loadServiceCompare();
+    });
 
     // Обработчик для отдельных чекбоксов
-    $(document).on('click', '.services__window_all .container_checkbox input', function () {
-        console.log('Чекбокс кликнут:', $(this).data('service-id'));
+    $(document).on('click', '.services__window_all .container_checkbox input', function (e) {
+        console.log('Чекбокс кликнут:', $(this).data('service-id'), 'Checked:', $(this).is(':checked'));
         
         let parent = $(this).parents('.service-content-data-list-item')[0];
-        $('.container_checkbox-all input:checkbox', parent).prop('checked', false)
+        $('.container_checkbox-all input:checkbox', parent).prop('checked', false);
         
-        let allItems = $('.container_checkbox input:checkbox', parent).length - 1
-        let selectedItems = $('.container_checkbox input:checkbox:checked', parent).length
+        let allItems = $('.container_checkbox input:checkbox', parent).length - 1;
+        let selectedItems = $('.container_checkbox input:checkbox:checked', parent).length;
+        
+        console.log('Всего элементов:', allItems, 'Выбрано:', selectedItems);
         
         if(selectedItems === allItems){
-            $('.container_checkbox-all input:checkbox', parent).prop('checked', true)
+            $('.container_checkbox-all input:checkbox', parent).prop('checked', true);
             $('.container_checkbox-all .checkmark', parent).removeClass('checkmark_incomplete');
         } else if(selectedItems > 0){
             $('.container_checkbox-all .checkmark', parent).addClass('checkmark_incomplete');
@@ -2822,102 +3781,94 @@ $(document).ready(function () {
             $('.container_checkbox-all .checkmark', parent).removeClass('checkmark_incomplete');
         }
         
-        disableServiceAction()
-        loadServiceCompare()
-    })
+        disableServiceAction();
+        loadServiceCompare();
+    });
 
     // Функция для включения/отключения кнопок действий
     function disableServiceAction() {
-        if ($('.services__window_all .container_checkbox input:checkbox:checked').length > 0) {
-            $('.service-action').prop('disabled', false)
+        let serviceCount = $('.services__window_all .container_checkbox input:checkbox:checked').length;
+        
+        console.log('disableServiceAction: выбрано услуг:', serviceCount);
+        
+        if (serviceCount > 0) {
+            // Активируем кнопки
+            console.log('Активируем кнопки');
+            $('.pricing-green .btn').prop('disabled', false).removeClass('disabled');
         } else {
-            $('.service-action').prop('disabled', true)
+            // Деактивируем кнопки
+            console.log('Деактивируем кнопки');
+            $('.pricing-green .btn').prop('disabled', true).addClass('disabled');
         }
     }
 
-    // Функция для загрузки расчета стоимости (БЫСТРЫЙ API)
+    // Функция для загрузки и отображения расчета стоимости
     function loadServiceCompare() {
-        let selectedCount = $('.services__window_all .container_checkbox input:checkbox:checked').length;
-        console.log('loadServiceCompare вызвана, выбрано услуг:', selectedCount);
+        let serviceIdList = getServiceIdList();
         
-        if (selectedCount > 0) {
-            let serviceIds = getServiceIdList();
-            console.log('ID выбранных услуг:', serviceIds);
-            
-            // Показываем индикатор загрузки
-            $('.service-content-data-total .loader-line').removeClass('d-none')
-            
-            // Используем НОВЫЙ СУПЕР-БЫСТРЫЙ API endpoint (один SQL запрос)
-            $.ajax({
-                type: 'POST',
-                url: '{{route('api.service-totals-quick')}}',
-                data: {
-                    '_token': "{{ csrf_token() }}",
-                    'serviceId': serviceIds
-                },
-                success: function (response) {
-                    console.log('✅ Получены данные от сервера (JSON):', response);
-                    $('.service-content-data-total .loader-line').addClass('d-none')
-                    
-                    if (response.success) {
-                        // Обновляем количество выбранных услуг в оригинальной секции "Расчет стоимости"
-                        $('.pricing-card .selected-info .text-success').text(response.count + ' видов работ')
-                        console.log('Обновлено количество:', response.count);
-                        
-                        // Обновляем стоимость
-                        console.log('Рассчитана стоимость:', response.total_cost);
-                        $('.pricing-card .price-value').first().text(response.total_cost.toLocaleString('ru-RU') + ' ₸')
-                        
-                        // Обновляем срок
-                        console.log('Рассчитан срок:', response.total_days);
-                        $('.pricing-card .price-value').eq(1).text(response.total_days + ' дней')
-                        
-                        // Обновляем в верхней панели (если есть)
-                        $('.service-content-data-total-panel .cnt span').text(response.count)
-                        $('.service-content-data-total-panel .price span').text(response.total_cost.toLocaleString('ru-RU'))
-                        $('.service-content-data-total-panel .day_cnt span').text(response.total_days)
-                        
-                        // Активируем кнопки в секции "Расчет стоимости"
-                        $('.pricing-card .btn').prop('disabled', false)
-                        console.log('✅ Кнопки активированы');
-
-                        // Также активируем кнопки в верхней панели
-                        $('.service-content-data-total-btn .btn').prop('disabled', false)
-                        console.log('✅ Кнопки в верхней панели активированы');
-                    } else {
-                        console.error('❌ Ошибка в ответе:', response.error);
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('❌ Ошибка при расчете:', error);
-                    console.error('Статус:', status);
-                    console.error('Ответ сервера:', xhr.responseText);
-                    $('.service-content-data-total .loader-line').addClass('d-none')
-                }
-            });
-        } else {
-            console.log('Нет выбранных услуг, сбрасываем значения');
+        console.log('loadServiceCompare вызвана, услуг выбрано:', serviceIdList.length);
+        
+        if (serviceIdList.length === 0) {
             // Сбрасываем значения
-            $('.pricing-card .selected-info .text-success').text('0 видов работ')
-            $('.pricing-card .price-value').first().text('0 ₸')
-            $('.pricing-card .price-value').eq(1).text('0 дней')
-            $('.service-content-data-total-panel .cnt span').text('0')
-            $('.service-content-data-total-panel .price span').text('0')
-            $('.service-content-data-total-panel .day_cnt span').text('0')
+            $('.pricing-green .selected-info span').text('0 видов работ');
+            $('.pricing-green .pricing-item:eq(0) .value').text('0 ₸');
+            $('.pricing-green .pricing-item:eq(1) .value').text('0 дней');
             
             // Деактивируем кнопки
-            $('.pricing-card .btn').prop('disabled', true)
-            $('.service-content-data-total-btn .btn').prop('disabled', true)
+            $('.pricing-green .btn').prop('disabled', true);
+            return;
         }
+
+        // Отправляем AJAX запрос для получения стоимости
+        $.ajax({
+            type: 'POST',
+            url: '{{route('api.service-totals-quick')}}',
+            data: {
+                '_token': "{{ csrf_token() }}",
+                'serviceIdList': serviceIdList
+            },
+            success: function (data) {
+                console.log('Результат расчета:', data);
+                
+                if (data.success) {
+                    // Обновляем количество
+                    let countText = data.count + ' ' + declension(data.count, ['вид работ', 'вида работ', 'видов работ']);
+                    console.log('Обновляем количество:', countText);
+                    $('.pricing-green .selected-info span').text(countText);
+                    
+                    // Обновляем стоимость
+                    let formattedCost = Number(data.total_cost).toLocaleString('ru-RU');
+                    console.log('Обновляем стоимость:', formattedCost);
+                    $('.pricing-green .pricing-item:eq(0) .value').text(formattedCost + ' ₸');
+                    
+                    // Обновляем срок
+                    let daysText = data.total_days + ' ' + declension(data.total_days, ['день', 'дня', 'дней']);
+                    console.log('Обновляем срок:', daysText);
+                    $('.pricing-green .pricing-item:eq(1) .value').text(daysText);
+                    
+                    console.log('Элементы обновлены успешно');
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Ошибка при расчете:', error);
+                console.error('Response:', xhr.responseText);
+            }
+        });
     }
 
     // Функция для получения списка ID выбранных услуг
     function getServiceIdList() {
         let serviceIdList = [];
         $('.services__window_all .container_checkbox input:checkbox:checked').each(function () {
-            serviceIdList.push($(this).data('service-id'))
+            serviceIdList.push($(this).data('service-id'));
         });
         return serviceIdList;
+    }
+
+    // Функция для правильного склонения слов
+    function declension(number, words) {
+        let cases = [2, 0, 1, 1, 1, 2];
+        return words[(number % 100 > 4 && number % 100 < 20) ? 2 : cases[Math.min(number % 10, 5)]];
     }
 
     // Обработчик для кнопки "Заказать услугу"
@@ -2972,9 +3923,9 @@ $(document).ready(function () {
             success: function (data) {
                 $('.formDownloadCommercialOffer_submit').attr('disabled', false);
 
-                $('#commercialOfferEmail').val('')
-                $('#commercialOfferPhone').val('')
-                $('#commercialOfferName').val('')
+                $('#commercialOfferEmail').val('');
+                $('#commercialOfferPhone').val('');
+                $('#commercialOfferName').val('');
 
                 $('#downloadCommercialOfferModal').modal('hide');
                 
@@ -2990,15 +3941,22 @@ $(document).ready(function () {
         });
     });
 
-    // Функция для получения имен выбранных услуг
-    function getServiceNameList() {
-        let result = '<ul>';
-        $('.services__window_all .container_checkbox input:checkbox:checked').each(function () {
-            result += "<li>" + $(this).data('name') + "</li>";
-        });
-        result += '</ul>';
-        return result;
-    }
+    // Инициализация при загрузке
+    console.log('=== Инициализация страницы строительства ===');
+    console.log('Документы на странице:');
+    $('input[name="document_type"]').each(function() {
+        console.log('- ID:', $(this).val(), 'Название:', $(this).siblings('.document-content').find('h3').text(), 'Checked:', $(this).is(':checked'));
+    });
+    
+    console.log('Контейнеры на странице:');
+    $('.service-content-container').each(function() {
+        const docId = $(this).data('document-id');
+        const visible = $(this).is(':visible');
+        const hasServices = $(this).find('.container_checkbox').length;
+        console.log('- Document ID:', docId, 'Видимый:', visible, 'Услуг:', hasServices);
+    });
+    
+    disableServiceAction();
 });
 </script>
 @endsection

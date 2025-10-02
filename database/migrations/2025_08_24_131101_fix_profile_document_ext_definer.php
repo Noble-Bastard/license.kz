@@ -44,4 +44,3 @@ class FixProfileDocumentExtDefiner extends Migration
 
 
 
-

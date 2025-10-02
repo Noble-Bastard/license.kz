@@ -144,11 +144,11 @@ class ServicesController extends Controller
     }
 
     /**
-     * НОВЫЙ БЫСТРЫЙ API endpoint - точно воспроизводит логику ServiceDal::getServiceTotals()
+     * НОВЫЙ API endpoint - используем ТОЧНО ТОТ ЖЕ метод что и старый код
      */
     public function getServiceTotalsQuick()
     {
-        $selectedServices = Input::get('serviceId');
+        $selectedServices = request()->input('serviceIdList');
         
         if (empty($selectedServices)) {
             return response()->json(['error' => 'No services selected'], 400);

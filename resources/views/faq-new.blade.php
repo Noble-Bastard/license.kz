@@ -85,6 +85,7 @@
                 <div class="col-lg-7 d-flex flex-column justify-content-center mb-4 mb-lg-0">
                     <h2 class="consultation-hero-title">У вас есть запрос? Давайте обсудим!</h2>
                     <p class="consultation-hero-subtitle">Предоставим быстрое и эффективное открытие и ведение бизнеса в Казахстане</p>
+                    <div class="consultation-hero-decoration"></div>
                 </div>
                 <div class="col-lg-5">
                     <div class="consultation-form-container">
@@ -128,7 +129,7 @@
                 </div>
             </div>
         </div>
-
+        <img src="{{asset('images/Vector_6908.png')}}" alt="" class="consultation-bg-vector">
     </section>
 
     <!-- Custom Modal Overlay -->
