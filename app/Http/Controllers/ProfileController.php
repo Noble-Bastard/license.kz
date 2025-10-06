@@ -59,6 +59,12 @@ class ProfileController extends Controller
         $messageCnt = $messageReadHist->where('message_client_read_by', null)->count();
         $serviceJournalList = ServiceJournalDal::getServiceJournalListByCurrentUserAndStatusType($service_status_type, false);
 
+        // Загружаем документы и шаги для каждой услуги
+        foreach($serviceJournalList as $serviceJournal) {
+            $serviceJournal->clientDocuments = $serviceJournal->clientDocumentList();
+            $serviceJournal->serviceJournalStepList = ServiceJournalDal::getServiceJournalStepList($serviceJournal->id);
+        }
+
         return view('Client.serviceList')
             ->with('messageCnt', $messageCnt)
             ->with('serviceJournalList', $serviceJournalList)
@@ -109,6 +115,11 @@ class ProfileController extends Controller
         $service_status_type = Input::has('service_status_type') ? Input::get('service_status_type') : ServiceStatusTypeList::Opened;
         $serviceJournalList = ServiceJournalDal::getServiceJournalListByCurrentUserAndStatusType($service_status_type, true);
 
+        // Загружаем документы для каждой услуги
+        foreach($serviceJournalList as $serviceJournal) {
+            $serviceJournal->clientDocuments = $serviceJournal->clientDocumentList();
+        }
+
         return view('Client.accounting')
             ->with('serviceJournalList', $serviceJournalList)
             ->with('serviceStatusType', $service_status_type)
@@ -118,6 +129,11 @@ class ProfileController extends Controller
     public function documentList(){
         $service_status_type = Input::has('service_status_type') ? Input::get('service_status_type') : ServiceStatusTypeList::Opened;
         $serviceJournalList = ServiceJournalDal::getServiceJournalListByCurrentUserAndStatusType($service_status_type, false);
+
+        // Загружаем документы для каждой услуги
+        foreach($serviceJournalList as $serviceJournal) {
+            $serviceJournal->clientDocuments = $serviceJournal->clientDocumentList();
+        }
 
         return view('Client.documentList')
             ->with('serviceJournalList', $serviceJournalList)

@@ -1,13 +1,33 @@
-@extends('new.layouts.app')
+@extends('layouts.client-app')
 
 @section('content')
-        <div class="row services-background">
-            <div class="col-12">
-                <div class="card">
-                    <div class="title-main"> @lang('messages.all.service')
+<div class="min-h-screen bg-gray-50">
+    <!-- Header -->
+    <div class="bg-white shadow-sm">
+        <div class="px-5 py-4">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-xl font-semibold text-gray-900">Услуга УСЛ-{{ $serviceJournal->service_no }}</h1>
+                    <p class="text-sm text-gray-500 mt-1">{{ $serviceJournal->service_name ?? 'Название услуги' }}</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <a href="{{ route('Client.serviceList') }}" 
+                       class="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Назад к услугам
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                    </div>
-                    <div class="card-body">
+    <!-- Content -->
+    <div class="px-5 py-6">
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white rounded-lg shadow-sm">
+                <div class="p-6">
 
 
                         <div class="row profilServices">

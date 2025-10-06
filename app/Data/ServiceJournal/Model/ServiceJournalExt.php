@@ -5,6 +5,7 @@ namespace App\Data\ServiceJournal\Model;
 use App\Data\Payment\Model\Agreement;
 use App\Data\Payment\Model\Invoice;
 use App\Data\Payment\Model\PaymentInvoice;
+use App\Data\ServiceJournal\Model\ServiceJournalClientDocument;
 use Illuminate\Database\Eloquent\Model;
 
 class ServiceJournalExt extends Model
@@ -114,7 +115,11 @@ class ServiceJournalExt extends Model
     }
 
     public function clientDocumentList(){
-        return $this->serviceStepList()->with('clientAttachedDocument')->get()->pluck('clientAttachedDocument')->flatten();
+        // Получаем документы клиента через ServiceJournalClientDocument
+        return ServiceJournalClientDocument::where('service_journal_id', $this->id)
+            ->where('is_active', 1)
+            ->with('document')
+            ->get();
     }
 
     public function invoice()

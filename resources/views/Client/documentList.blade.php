@@ -60,12 +60,8 @@
 
                 <!-- Document Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    @php
-                        $clientDocuments = $serviceJournal->clientDocumentList();
-                    @endphp
-
-                    @if($clientDocuments->isNotEmpty())
-                        @foreach($clientDocuments as $document)
+                    @if(isset($serviceJournal->clientDocuments) && $serviceJournal->clientDocuments->isNotEmpty())
+                        @foreach($serviceJournal->clientDocuments as $document)
                             @if($document && $document->document)
                                 @php
                                     $fileName = basename($document->document->path);

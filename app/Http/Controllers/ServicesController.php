@@ -37,6 +37,7 @@ use App\Data\Service\Model\Service;
 use App\Data\Service\Model\ServiceStep;
 use App\Data\ServiceJournal\Dal\ServiceJournalDal;
 use App\Data\ServiceJournal\Dal\ServiceJournalServiceMapDal;
+use App\Data\Payment\Model\Invoice;
 use App\Repositories\Interfaces\IReviewRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -130,7 +131,7 @@ class ServicesController extends Controller
 
             $service = CatalogDal::getFirstServiceByCatalogNode($currentNode->id);
 
-            $currentNode->service = ServiceDal::get($service->id, true);
+            $currentNode->service = ServiceDal::getServiceInfo($service->id, true);
 
             return view('new.partials.page.services')
                 ->with('currentNode', $currentNode);
@@ -477,7 +478,7 @@ class ServicesController extends Controller
         $tableData = RegistrationFormDal::getTableData($serviceJournalId);
 
         $newsList = NewsDal::getTopFiveActualNews();
-        return view('Client.service')
+        return view('Client.service-view')
             ->with('serviceJournal', $serviceJournal)
             ->with('serviceJournalStepList', $serviceJournalStepList)
             ->with('serviceStepRequiredDocumentList', $serviceStepRequiredDocumentList)
@@ -490,6 +491,175 @@ class ServicesController extends Controller
             ->with('tableData', $tableData)
             ->with('newsList', $newsList)
             ->with('stepDocList', $stepDocList);
+    }
+
+    /**
+     * Get service steps for modal display
+     */
+    public function getServiceSteps($serviceId)
+    {
+        try {
+            // Check if user has access to this service
+            $serviceJournal = ServiceJournalDal::getExt($serviceId);
+            
+            if (Auth::user()->isUserInRole(\App\Data\Helper\RoleList::Client) && $serviceJournal->client_id != ProfileDal::getByUserId(Auth::user()->id)->id) {
+                return response()->json(['success' => false, 'error' => 'Access denied'], 403);
+            }
+
+            // Get service steps using the extended view
+            $serviceSteps = DB::table('service_journal_step_ext')
+                ->where('service_journal_id', $serviceId)
+                ->orderBy('service_step_no')
+                ->get();
+            
+            // Format steps for frontend
+            $formattedSteps = $serviceSteps->map(function($step) {
+                return [
+                    'id' => $step->id,
+                    'service_step_no' => $step->service_step_no,
+                    'step_number' => $step->service_step_no,
+                    'description' => $step->service_step_description ?? 'Шаг ' . $step->service_step_no,
+                    'is_completed' => $step->is_completed,
+                    'is_in_progress' => false, // This field doesn't exist in the view
+                    'start_date' => $step->execution_start_date,
+                    'end_date' => $step->completion_date,
+                    'executor_name' => null, // This field doesn't exist in the view
+                    'execution_time_plan' => $step->execution_time_plan ?? null,
+                    'execution_work_day_cnt' => $step->execution_work_day_cnt ?? null,
+                    'task_id' => $step->task_id ?? null,
+                    'status' => $step->is_completed ? 'completed' : 'not_started'
+                ];
+            });
+
+            return response()->json([
+                'success' => true,
+                'steps' => $formattedSteps
+            ]);
+
+        } catch (\Exception $e) {
+            \Log::error('Error loading service steps: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'error' => 'Error loading service steps: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function getServiceDocuments($serviceId)
+    {
+        try {
+            $serviceJournal = ServiceJournalDal::getExt($serviceId);
+
+            if (Auth::user()->isUserInRole(\App\Data\Helper\RoleList::Client) && $serviceJournal->client_id != ProfileDal::getByUserId(Auth::user()->id)->id) {
+                return response()->json(['success' => false, 'error' => 'Access denied'], 403);
+            }
+
+            // Получаем инвойсы для этой услуги
+            $invoices = Invoice::where('service_journal_id', $serviceId)
+                ->with(['invoiceDocuments.document', 'invoiceType'])
+                ->get();
+
+            // Группируем документы по категориям
+            $documents = [
+                'client_check' => [],
+                'prepayment' => [],
+                'full_payment' => []
+            ];
+
+            foreach ($invoices as $invoice) {
+                foreach ($invoice->invoiceDocuments as $invoiceDoc) {
+                    if (!$invoiceDoc->document || !$invoiceDoc->is_actual) continue;
+
+                    $document = $invoiceDoc->document;
+                    $invoiceType = $invoice->invoiceType;
+
+                    $docData = [
+                        'id' => $document->id,
+                        'document_id' => $document->document_id ?: $document->name, // Используем name если document_id пустой
+                        'name' => $document->name,
+                        'type' => $this->getDocumentType($document->document_id ?: $document->name),
+                        'invoice_type' => $invoiceType ? $invoiceType->name : null,
+                        'created_at' => $document->created_at
+                    ];
+
+                    // Определяем категорию документа по типу инвойса
+                    $category = $this->getDocumentCategoryByInvoiceType($invoiceType, $document->document_id, $document->name);
+                    $documents[$category][] = $docData;
+                }
+            }
+
+            return response()->json([
+                'success' => true,
+                'documents' => $documents,
+                'service_info' => [
+                    'service_no' => $serviceJournal->service_no,
+                    'amount' => $serviceJournal->amount ?? 0,
+                    'tax_amount' => $serviceJournal->tax_amount ?? 0,
+                    'prepayment_amount' => $serviceJournal->prepayment_amount ?? 0,
+                    'full_payment_amount' => $serviceJournal->full_payment_amount ?? 0
+                ]
+            ]);
+
+        } catch (\Exception $e) {
+            \Log::error('Error loading service documents: ' . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'error' => 'Error loading service documents: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    private function getDocumentType($documentId)
+    {
+        if (str_contains($documentId, 'IP')) {
+            return 'Счет фактура';
+        } elseif (str_contains($documentId, 'ОПЛ')) {
+            return 'Счета на оплату';
+        } elseif (str_contains($documentId, 'ДОГ') || str_contains($documentId, 'АП')) {
+            return 'Договор';
+        } elseif (str_contains($documentId, 'Счет фактура')) {
+            return 'Счет фактура';
+        } elseif (str_contains($documentId, 'Счета на оплату')) {
+            return 'Счета на оплату';
+        } elseif (str_contains($documentId, 'Договор')) {
+            return 'Договор';
+        }
+        return 'Документ';
+    }
+
+    private function getDocumentCategoryByInvoiceType($invoiceType, $documentId, $name)
+    {
+        // Определяем категорию по типу инвойса
+        if ($invoiceType) {
+            $typeName = strtolower($invoiceType->name);
+            
+            if (str_contains($typeName, 'проверк') || str_contains($typeName, 'провер') || str_contains($typeName, 'client')) {
+                return 'client_check';
+            } elseif (str_contains($typeName, 'предоплат') || str_contains($typeName, 'prepay') || str_contains($typeName, 'prepayment')) {
+                return 'prepayment';
+            } elseif (str_contains($typeName, 'полн') || str_contains($typeName, 'full') || str_contains($typeName, 'final')) {
+                return 'full_payment';
+            }
+        }
+        
+        // Если тип инвойса не определен, определяем по document_id
+        if (str_contains($documentId, 'IP')) {
+            // IP документы обычно для проверки клиента
+            return 'client_check';
+        } elseif (str_contains($documentId, 'ОПЛ')) {
+            // ОПЛ документы могут быть для предоплаты или полной оплаты
+            if (str_contains($name, 'предоплат') || str_contains($name, 'prepay')) {
+                return 'prepayment';
+            } else {
+                return 'full_payment';
+            }
+        } elseif (str_contains($documentId, 'ДОГ') || str_contains($documentId, 'АП')) {
+            // Договоры обычно для полной оплаты
+            return 'full_payment';
+        }
+        
+        // По умолчанию относим к проверке клиента
+        return 'client_check';
     }
 
     public function edit($serviceJournalId)
@@ -611,7 +781,7 @@ class ServicesController extends Controller
 
         $newsList = NewsDal::getTopFiveActualNews();
         $serviceCategory = ServiceCategoryDal::getServiceCategoryByService(intval($serviceId));
-        $service = ServiceDal::get($serviceId, true);
+        $service = ServiceDal::getServiceInfo($serviceId, true);
         $serviceStepList = (new ServiceStepMapDal())->getExtByService($serviceId, true);
 
         $serviceStepResultList = (new ServiceStepResultDal())->getByService($serviceId);
@@ -639,7 +809,7 @@ class ServicesController extends Controller
 
         $license = CatalogDal::get($license->id, true);
 
-        $serviceList = ServiceDal::getListByIdArray($selectedServices, true);
+        $serviceList = ServiceDal::getServiceListByIdArray($selectedServices, true);
         $serviceStepList = (new ServiceStepMapDal())->getListByServiceArray($selectedServices);
 
         $requiredDocumentList = (new ServiceStepRequiredDocumentDal())->getListByServiceArray($selectedServices, true);
@@ -677,7 +847,7 @@ class ServicesController extends Controller
             $selectedServices,
             null
         );
-        $serviceList = ServiceDal::getListByIdArray($selectedServices, true);
+        $serviceList = ServiceDal::getServiceListByIdArray($selectedServices, true);
         return view('services.paymentInfo')
             ->with('serviceList', $serviceList)
             ->with('serviceTotals', $serviceTotals)
@@ -846,7 +1016,7 @@ class ServicesController extends Controller
 
             $comment = '';
             foreach ($params['serviceIdList'] as $serviceId) {
-                $service = ServiceDal::get($serviceId);
+                $service = ServiceDal::getServiceInfo($serviceId);
                 $comment .= $service->name . ' | ';
             }
           $roistatVisitId = array_key_exists('roistat_visit', $_COOKIE) ? $_COOKIE['roistat_visit'] : "неизвестно";

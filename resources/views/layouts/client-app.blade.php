@@ -181,6 +181,9 @@
     }
     </script>
     
+    @yield('js')
+    @stack('scripts')
+    
     @include('layouts.metrix')
 </body>
 </html>

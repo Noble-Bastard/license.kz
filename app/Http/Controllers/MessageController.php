@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Data\ServiceJournal\Dal\ServiceJournalMessageDal;
+use App\Data\Core\Dal\ProfileDal;
+use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
@@ -51,17 +53,30 @@ class MessageController extends Controller
 
     public function clientServiceMessageList()
     {
-        $serviceMessageList = collect(); // TODO: Add actual data logic
+        $userId = Auth::id();
+        $profile = ProfileDal::getByUserId($userId);
+        
+        $serviceMessageList = ServiceJournalMessageDal::getClientReadHist();
+        
         return view('Client.serviceMessageList', compact('serviceMessageList'));
     }
 
     public function clientMessageList($serviceJournalId)
     {
-        return response()->json(['messages' => []]);
+        $messages = ServiceJournalMessageDal::getListByServiceJournal($serviceJournalId);
+        return response()->json(['messages' => $messages]);
     }
 
     public function addClientServiceMessage(Request $request)
     {
-        return response()->json(['success' => true]);
+        $serviceJournalId = $request->input('serviceJournalId');
+        $message = $request->input('message');
+        
+        try {
+            ServiceJournalMessageDal::insertServiceJournalMessage($serviceJournalId, '', $message);
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
+        }
     }
 }
