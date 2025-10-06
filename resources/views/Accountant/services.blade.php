@@ -164,10 +164,9 @@
                                 </td>
                                 <td class="px-4 py-4 whitespace-nowrap text-sm font-medium rounded-r-lg" style="width: 140px;">
                                     <div class="flex items-center space-x-2">
-                                        <button class="text-green-600 hover:text-green-700 transition-colors" title="Просмотр">
+                                        <button onclick="openDocumentsModal({{ $service->id }}, '{{ $service->service_no ?? 'N/A' }}')" class="text-green-600 hover:text-green-700 transition-colors" title="Просмотр документов">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                                             </svg>
                                         </button>
                                         <button class="text-text-muted hover:text-text-primary transition-colors" title="Редактировать">
@@ -256,8 +255,8 @@
                             <div class="ml-2 text-sm text-text-primary">{{ $service->manager_name ?? 'N/A' }}</div>
                         </div>
                         <div class="flex items-center space-x-2">
-                            <button class="text-green-600" title="Просмотр">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg>
+                            <button onclick="openDocumentsModal({{ $service->id }}, '{{ $service->service_no ?? 'N/A' }}')" class="text-green-600" title="Просмотр документов">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                             </button>
                             <button class="text-text-muted" title="Редактировать">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 113 3L11.828 15H9v-2.828l8.586-8.586z"/></svg>
@@ -338,6 +337,31 @@
     </div>
 </div>
 
+<!-- Documents Modal -->
+<div id="documentsModal" class="fixed inset-0 z-50 flex items-center justify-center hidden" style="background: rgba(0,0,0,0.4);">
+    <div class="bg-white w-[90%] max-w-4xl h-[80%] mx-4 flex flex-col rounded-lg shadow-xl">
+        <!-- Modal Header -->
+        <div class="flex items-center justify-between p-6 border-b border-gray-200">
+            <h3 class="text-lg font-semibold text-gray-900" id="documentsModalTitle">Документы</h3>
+            <button onclick="closeDocumentsModal()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        
+        <!-- Modal Body -->
+        <div class="flex-1 overflow-y-auto p-6">
+            <div id="documentsContent">
+                <!-- Loading spinner -->
+                <div class="flex items-center justify-center h-32">
+                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <style>
 .modal {
     position: fixed;
@@ -404,6 +428,9 @@
 
 @push('scripts')
 <script>
+let currentServiceId = null;
+let currentServiceNo = null;
+
 function openModal(modalId) {
     document.getElementById(modalId).style.display = 'flex';
 }
@@ -412,10 +439,166 @@ function closeModal(modalId) {
     document.getElementById(modalId).style.display = 'none';
 }
 
+function openDocumentsModal(serviceId, serviceNo) {
+    console.log('Opening documents modal for service:', serviceId, serviceNo);
+    currentServiceId = serviceId;
+    currentServiceNo = serviceNo;
+    
+    // Update modal title
+    document.getElementById('documentsModalTitle').textContent = `Документы №${serviceNo}`;
+    
+    // Show modal
+    document.getElementById('documentsModal').classList.remove('hidden');
+    
+    // Show loading spinner
+    document.getElementById('documentsContent').innerHTML = `
+        <div class="flex items-center justify-center h-32">
+            <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600"></div>
+        </div>
+    `;
+    
+    // Load documents via API
+    loadServiceDocuments(serviceId);
+}
+
+function closeDocumentsModal() {
+    document.getElementById('documentsModal').classList.add('hidden');
+    currentServiceId = null;
+    currentServiceNo = null;
+}
+
+function loadServiceDocuments(serviceId) {
+    const url = `/service_journal/vue/documents/list?serviceJournalId=${serviceId}`;
+    
+    $.ajax({
+        url: url,
+        type: 'GET',
+        dataType: 'json',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        success: function(data) {
+            if (data.serviceJournalDocuments) {
+                renderDocuments(data.serviceJournalDocuments);
+            } else {
+                renderError('Ошибка загрузки документов');
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error loading service documents:', error);
+            renderError('Ошибка загрузки документов');
+        }
+    });
+}
+
+function renderDocuments(documents) {
+    if (documents.length === 0) {
+        document.getElementById('documentsContent').innerHTML = `
+            <div class="text-center py-12">
+                <svg class="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+                <h3 class="text-lg font-medium text-gray-900 mb-2">Нет документов</h3>
+                <p class="text-sm text-gray-500">Для данной услуги документы не найдены</p>
+            </div>
+        `;
+        return;
+    }
+    
+    let documentsHtml = `
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Номер документа</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Дата</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Тип документа</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Подтип</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Действия</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+    `;
+    
+    documents.forEach(doc => {
+        const documentDate = new Date(doc.document_date).toLocaleDateString('ru-RU');
+        
+        documentsHtml += `
+            <tr class="hover:bg-gray-50">
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                    ${doc.document_no}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    ${documentDate}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    ${doc.document_type_name}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    ${doc.document_sub_type_name}
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <div class="flex space-x-2">
+                        <button onclick="downloadDocument(${doc.document_sub_type_id}, ${doc.document_type_id}, 0)" 
+                                class="text-green-600 hover:text-green-700 transition-colors" 
+                                title="Скачать оригинал">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                        </button>
+                        <button onclick="downloadDocument(${doc.document_sub_type_id}, ${doc.document_type_id}, 1)" 
+                                class="text-blue-600 hover:text-blue-700 transition-colors" 
+                                title="Скачать копию">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+        `;
+    });
+    
+    documentsHtml += `
+                </tbody>
+            </table>
+        </div>
+    `;
+    
+    document.getElementById('documentsContent').innerHTML = documentsHtml;
+}
+
+function renderError(message) {
+    document.getElementById('documentsContent').innerHTML = `
+        <div class="text-center py-12">
+            <svg class="w-12 h-12 text-red-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <h3 class="text-lg font-medium text-gray-900 mb-2">Ошибка</h3>
+            <p class="text-sm text-gray-500">${message}</p>
+        </div>
+    `;
+}
+
+function downloadDocument(documentSubTypeId, documentTypeId, isCopy) {
+    const url = `/service_journal/vue/documents/download?serviceJournalId=${currentServiceId}&documentTypeId=${documentTypeId}&documentSubTypeId=${documentSubTypeId}&isCopy=${isCopy}`;
+    
+    // Создаем временную ссылку для скачивания
+    const link = document.createElement('a');
+    link.href = url;
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
 // Close modal when clicking outside
 window.onclick = function(event) {
     if (event.target.classList.contains('modal')) {
         event.target.style.display = 'none';
+    }
+    if (event.target.id === 'documentsModal') {
+        closeDocumentsModal();
     }
 }
 
