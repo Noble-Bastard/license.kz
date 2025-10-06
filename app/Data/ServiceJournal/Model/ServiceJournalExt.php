@@ -116,10 +116,9 @@ class ServiceJournalExt extends Model
 
     public function clientDocumentList(){
         // Получаем документы клиента через ServiceJournalClientDocument
-        return ServiceJournalClientDocument::where('service_journal_id', $this->id)
+        return $this->hasMany(ServiceJournalClientDocument::class, 'service_journal_id', 'id')
             ->where('is_active', 1)
-            ->with('document')
-            ->get();
+            ->with('document');
     }
 
     public function invoice()

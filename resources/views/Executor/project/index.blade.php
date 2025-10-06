@@ -46,7 +46,7 @@
                 @if(isset($projectList) && $projectList->isNotEmpty())
                     @foreach($projectList->where('project_status_id', $service_status_id) as $project)
                         <!-- Desktop Table View -->
-                        <div class="hidden md:block bg-white rounded-lg shadow-sm mb-3 project-row">
+                        <div class="hidden md:block bg-white rounded-lg shadow-sm mb-3 project-row cursor-pointer hover:bg-gray-50 transition-colors" onclick="openExecutorModal({{ $project->service_journal_id }})">
                             <div class="grid grid-cols-[200px,150px,1fr,150px] items-center gap-[60px,120px,60px,0px] w-full p-5">
                                 <!-- Номер услуги -->
                                 <div class="text-[13px] font-medium text-[#1E2B28] leading-[1] project-no">
@@ -72,7 +72,7 @@
                         </div>
 
                         <!-- Mobile Card View -->
-                        <div class="md:hidden bg-white rounded-lg shadow-sm mb-3 p-4 project-row">
+                        <div class="md:hidden bg-white rounded-lg shadow-sm mb-3 p-4 project-row cursor-pointer hover:bg-gray-50 transition-colors" onclick="openExecutorModal({{ $project->service_journal_id }})">
                             <!-- Header with project number and date -->
                             <div class="flex items-center justify-between mb-4">
                                 <div class="flex items-center gap-[10px]">
@@ -179,5 +179,142 @@
                 });
             }
         });
+    </script>
+
+    <!-- Executor Service Modal -->
+    <div id="executorModal" class="fixed inset-0 z-50 flex items-center justify-center hidden" style="background: rgba(0,0,0,0.4);">
+        <div class="bg-white w-[800px] h-[700px] mx-4 flex flex-col">
+            <!-- Modal content will be loaded here -->
+        </div>
+    </div>
+
+    <script>
+    let currentServiceId = null;
+
+    function openExecutorModal(serviceId) {
+        console.log('Opening executor modal for service:', serviceId);
+        currentServiceId = serviceId;
+        // Show modal
+        document.getElementById('executorModal').classList.remove('hidden');
+        
+        // Load modal content via AJAX
+        fetch(`/executor/service-modal/${serviceId}`)
+            .then(response => response.text())
+            .then(html => {
+                // Extract only the modal content from the response
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const modalContent = doc.querySelector('.fixed.inset-0');
+                
+                if (modalContent) {
+                    document.querySelector('#executorModal .bg-white').innerHTML = modalContent.querySelector('.bg-white').innerHTML;
+                    // Initialize modal functionality after content is loaded
+                    initializeExecutorModalFunctionality();
+                }
+            })
+            .catch(error => {
+                console.error('Error loading modal:', error);
+            });
+    }
+
+    function closeExecutorModal() {
+        document.getElementById('executorModal').classList.add('hidden');
+        currentServiceId = null;
+    }
+
+    function initializeExecutorModalFunctionality() {
+        // Убираем переключение вкладок, так как теперь все в одной вкладке
+
+        // Message sending functionality
+        const sendMessageBtn = document.getElementById('send-message-btn');
+        const messageInput = document.getElementById('message-input');
+
+        if (sendMessageBtn && messageInput) {
+            sendMessageBtn.addEventListener('click', function() {
+                const message = messageInput.value.trim();
+                if (message && currentServiceId) {
+                    // Send message via AJAX
+                    fetch('/executor/send-message', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify({
+                            serviceJournalId: currentServiceId,
+                            message: message
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            messageInput.value = '';
+                            // Reload messages or add new message to list
+                            location.reload(); // Simple reload for now
+                        } else {
+                            alert('Ошибка отправки сообщения: ' + data.error);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error sending message:', error);
+                        alert('Ошибка отправки сообщения');
+                    });
+                }
+            });
+
+            messageInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessageBtn.click();
+                }
+            });
+        }
+    }
+
+    // Close modal when clicking outside
+    document.getElementById('executorModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            closeExecutorModal();
+        }
+    });
+
+    // Close modal with Escape key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeExecutorModal();
+        }
+    });
+
+    // Function to send step comment
+    function sendStepComment(stepId, message) {
+        if (!message.trim() || !currentServiceId) return;
+        
+        fetch('/executor/send-step-message', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({
+                serviceJournalId: currentServiceId,
+                stepId: stepId,
+                message: message
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Clear input
+                event.target.previousElementSibling.value = '';
+                // Reload modal content
+                openExecutorModal(currentServiceId);
+            } else {
+                alert('Ошибка отправки комментария: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error sending step comment:', error);
+            alert('Ошибка отправки комментария');
+        });
+    }
     </script>
 @endsection

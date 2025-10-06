@@ -525,6 +525,9 @@ Route::get('test-alpine', function() {
             Route::get('projects', 'ProjectController@projectList')->name('executor.project.list');
             Route::get('projects/{projectId}', 'ProjectController@projectShow')->name('executor.project.show');
             Route::get('projects/{service_status_id}/list', 'ProjectController@projectListByStatus')->name('executor.project.list_by_status');
+            Route::get('service-modal/{serviceJournalId}', 'ProjectController@serviceModal')->name('executor.service.modal');
+            Route::post('send-message', 'MessageController@addExecutorServiceMessage')->name('executor.send.message');
+            Route::post('send-step-message', 'MessageController@addExecutorStepMessage')->name('executor.send.step.message');
 
             Route::get('task/{taskId}', 'TaskController@taskShow')->name('executor.task.show');
             Route::get('task/start/{taskId}', 'TaskController@start')->name('executor.task.start');

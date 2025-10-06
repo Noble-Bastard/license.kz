@@ -50,5 +50,42 @@ class ProjectController extends Controller
             ->with('taskList', $taskList);
     }
 
+    /**
+     * Show service modal for executor
+     */
+    public function serviceModal($serviceJournalId)
+    {
+        $serviceJournal = ServiceJournalDal::getExt($serviceJournalId);
+        $serviceJournal->load('serviceStatus');
+        $serviceJournalStepList = ServiceJournalDal::getServiceJournalStepList($serviceJournalId);
+        
+        // Get documents for the service
+        $documents = $serviceJournal->clientDocumentList;
+        
+        // Get comments and documents for each step
+        $comments = collect();
+        foreach ($serviceJournalStepList as $step) {
+            // Get step comments - пока без привязки к шагу, так как нет колонки service_journal_step_id
+            $stepComments = collect(); // Пока пустая коллекция
+            $step->comments = $stepComments;
+            
+            // Get step documents - пока без привязки к шагу, так как нет колонки service_journal_step_id
+            $stepDocuments = collect(); // Пока пустая коллекция
+            $step->documents = $stepDocuments;
+        }
+        
+        // Get general messages for the service
+        $messages = \App\Data\ServiceJournal\Model\ServiceJournalMessage::with(['message', 'createdBy'])
+            ->where('service_journal_id', $serviceJournalId)
+            ->orderBy('create_date', 'asc')
+            ->get();
+        
+        return view('Executor.project.modal')
+            ->with('serviceJournal', $serviceJournal)
+            ->with('serviceJournalStepList', $serviceJournalStepList)
+            ->with('documents', $documents)
+            ->with('comments', $comments)
+            ->with('messages', $messages);
+    }
 
 }
