@@ -175,6 +175,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         Route::group(['middleware' => ['auth', 'role:SaleManager']], function () {
             Route::get('services', 'SaleManager\ServicesController@serviceList')->name('sale_manager.service.list');
             Route::get('services/{service_status_id}', 'SaleManager\ServicesController@serviceListByStatus')->name('sale_manager.service.list_by_status');
+            Route::get('service/{serviceJournalId}', 'SaleManager\ServicesController@serviceDetail')->name('sale_manager.service.detail');
             Route::post('services/setManager', 'SaleManager\ServicesController@setManager')->name('sale_manager.service.setManager');
             Route::post('services/setProfileLegalInfo', 'SaleManager\ServicesController@setProfileLegalInfo')->name('sale_manager.service.setProfileLegalInfo');
             Route::get('services/setInWork/{serviceJournal}', 'SaleManager\ServicesController@setInWork')->name('sale_manager.service.setInWork');

@@ -39,15 +39,8 @@
                 </a>
             </nav>
         </div>
-        <!-- Right: Create KP + Logout -->
+        <!-- Right: Logout -->
         <div class="flex items-center gap-2 ml-auto md:ml-0">
-            
-            <!-- Create KP Button -->
-            <a href="#" onclick="openModal('create-commercial-offer')" class="inline-flex items-center gap-2 px-5 py-3 rounded-[14px] bg-primary text-white text-sm font-medium hover:bg-primary-700 transition">
-                <i class="fas fa-plus text-sm"></i>
-                Создать КП
-            </a>
-            
             <form id="logout-form-sales" action="{{ route('logout') }}" method="POST" class="hidden">@csrf</form>
             <button type="submit" form="logout-form-sales"
                     class="flex items-center gap-[6px] px-4 py-4 rounded-[60px] border border-border-light text-text-primary text-sm font-medium leading-[1] hover:bg-bg-tertiary">
@@ -67,9 +60,17 @@
     <div class="px-8" style="padding-left: 32px; padding-right: 32px;">
         <div class="mb-6 flex items-center justify-between">
             <h1 class="text-[24px] leading-[1.2] font-semibold text-text-primary">Коммерческие предложения</h1>
-            <div class="hidden md:flex items-center gap-[11px] px-[16px] pr-[22px] py-[11px] h-[46px] border border-border-light rounded-[80px] bg-white">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.8333 15.8333L13.2083 13.2083" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.33333 15.8333C12.0152 15.8333 15 12.8486 15 9.16667C15 5.48477 12.0152 2.5 8.33333 2.5C4.65143 2.5 1.66667 5.48477 1.66667 9.16667C1.66667 12.8486 4.65143 15.8333 8.33333 15.8333Z" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                <input id="sm-co-search" type="text" placeholder="Поиск по имени, email, телефону" class="bg-transparent border-none outline-none text-[12px] font-medium leading-[1] text-text-primary placeholder:text-text-primary" />
+            <div class="flex items-center gap-3">
+                <!-- Search -->
+                <div class="hidden md:flex items-center gap-[11px] px-[16px] pr-[22px] py-[11px] h-[46px] border border-border-light rounded-[80px] bg-white">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.8333 15.8333L13.2083 13.2083" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.33333 15.8333C12.0152 15.8333 15 12.8486 15 9.16667C15 5.48477 12.0152 2.5 8.33333 2.5C4.65143 2.5 1.66667 5.48477 1.66667 9.16667C1.66667 12.8486 4.65143 15.8333 8.33333 15.8333Z" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    <input id="sm-co-search" type="text" placeholder="Поиск по имени, email, телефону" class="bg-transparent border-none outline-none text-[12px] font-medium leading-[1] text-text-primary placeholder:text-text-primary" />
+                </div>
+                
+                <!-- Create KP Button -->
+                <button onclick="openKpModal()" style="padding: 10px 20px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">
+                    + Создать КП
+                </button>
             </div>
         </div>
     </div>
@@ -95,6 +96,13 @@
             </button>
             <button class="status-filter-btn px-[14px] py-[8px] rounded-[60px] text-xs font-medium transition flex-shrink-0 text-text-primary bg-transparent" data-status="rejected">
                 Отклонены
+            </button>
+        </div>
+
+        <!-- Mobile Create Button -->
+        <div class="md:hidden px-8 mb-4" style="padding-left: 32px; padding-right: 32px;">
+            <button onclick="openKpModal()" style="width: 100%; padding: 12px 20px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">
+                + Создать КП
             </button>
         </div>
 
@@ -231,19 +239,6 @@
             </div>
         @endif
             </div>
-        </div>
-    </div>
-</div>
-
-<!-- Create Commercial Offer Modal -->
-<div id="create-commercial-offer" class="modal" style="display: none;">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h3 class="modal-title">Создать КП</h3>
-            <button onclick="closeModal('create-commercial-offer')" class="modal-close">&times;</button>
-        </div>
-        <div class="modal-body">
-            @include('SaleManager.commercial_offer.partials._create_modal')
         </div>
     </div>
 </div>
@@ -405,4 +400,204 @@ document.addEventListener('DOMContentLoaded', function() {
     padding: 24px;
 }
 </style>
+
+<!-- МОДАЛКА СОЗДАНИЯ КП -->
+<div id="kpModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 10000;">
+    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 30px; border-radius: 8px; width: 600px; max-width: 90%; max-height: 90vh; overflow-y: auto;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h3 style="margin: 0;">Создать КП</h3>
+            <button onclick="closeKpModal()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #999;">&times;</button>
+        </div>
+        
+        <form id="kpForm">
+            @csrf
+            
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: 500;">ID *</label>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" name="service_ids" id="service_ids" placeholder="Укажите ID подвидов через ";*"" style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+                    <button type="button" onclick="fillByServiceId()" style="padding: 10px 20px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; white-space: nowrap;">Заполнить по ID</button>
+                </div>
+            </div>
+            
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: 500;">Наименование разрешительного документа</label>
+                <input type="text" name="license_name" id="license_name" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+            </div>
+            
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: 500;">Выбранные подвиды</label>
+                <input type="text" name="subspecies" id="subspecies" placeholder="Укажите наименования подвидов через ";*"" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+            </div>
+            
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: 500;">Уполномоченный орган</label>
+                <input type="text" name="authorized_body" id="authorized_body" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+            </div>
+            
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: 500;">Дополнительные требования</label>
+                <textarea name="additional_requirements" id="additional_requirements" placeholder="Укажите перечисление групп через "Л"" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; height: 60px; resize: vertical;"></textarea>
+            </div>
+            
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: 500;">Необходимые документы</label>
+                <textarea name="required_documents" id="required_documents" placeholder="Укажите наименование документов через "."" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; height: 60px; resize: vertical;"></textarea>
+            </div>
+            
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: 500;">Стоимость государственной пошлины (МРП)</label>
+                <input type="text" name="state_duty_cost" id="state_duty_cost" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+            </div>
+            
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: 500;">Срок оказания услуги</label>
+                <input type="text" name="service_period" id="service_period" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+            </div>
+            
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: 500;">Стоимость</label>
+                <input type="text" name="cost" id="cost" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+            </div>
+            
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: 500;">Email (куда будет осуществлена отправка)</label>
+                <input type="email" name="client_email" id="client_email" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+            </div>
+            
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: 500;">Телефон</label>
+                <input type="text" name="client_phone" id="client_phone" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 5px; font-weight: 500;">Имя</label>
+                <input type="text" name="client_name" id="client_name" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px;">
+            </div>
+            
+            <div style="text-align: center;">
+                <button type="submit" style="padding: 12px 40px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;">Отправить</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+// ПРОСТЕЙШИЙ JAVASCRIPT
+function openKpModal() {
+    console.log('openKpModal called');
+    var modal = document.getElementById('kpModal');
+    console.log('Modal element:', modal);
+    if (modal) {
+        modal.style.display = 'block';
+        console.log('Modal opened');
+    } else {
+        console.error('Modal not found!');
+    }
+}
+
+function closeKpModal() {
+    console.log('closeKpModal called');
+    var modal = document.getElementById('kpModal');
+    if (modal) {
+        modal.style.display = 'none';
+        console.log('Modal closed');
+    }
+}
+
+// Функция заполнения по ID
+function fillByServiceId() {
+    const serviceIds = document.getElementById('service_ids').value;
+    if (!serviceIds) {
+        alert('Укажите ID подвидов');
+        return;
+    }
+    
+    fetch('{{ route("sale_manager.commercial_offer.prepareServiceById") }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify({ ids: serviceIds })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            document.getElementById('license_name').value = data.data.license_name || '';
+            document.getElementById('subspecies').value = data.data.subspecies || '';
+            document.getElementById('authorized_body').value = data.data.authorized_body || '';
+            document.getElementById('additional_requirements').value = data.data.additional_requirements || '';
+            document.getElementById('required_documents').value = data.data.required_documents || '';
+            document.getElementById('state_duty_cost').value = data.data.state_duty_cost || '';
+            document.getElementById('service_period').value = data.data.service_period || '';
+            document.getElementById('cost').value = data.data.cost || '';
+        } else {
+            alert('Ошибка: ' + (data.error || 'Не удалось загрузить данные'));
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Ошибка при загрузке данных');
+    });
+}
+
+// Ждем загрузки DOM
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM loaded');
+    
+    // Отправка формы
+    var form = document.getElementById('kpForm');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            console.log('Form submitted');
+            
+            var formData = new FormData(this);
+            
+            fetch('{{ route("sale_manager.commercial_offer.store") }}', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Response:', data);
+                if (data.success) {
+                    alert('КП создано!');
+                    closeKpModal();
+                    location.reload();
+                } else {
+                    alert('Ошибка: ' + (data.error || 'Не удалось создать КП'));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Ошибка при создании КП');
+            });
+        });
+    }
+    
+    // Закрытие по Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeKpModal();
+        }
+    });
+    
+    // Закрытие по клику на фон
+    var modal = document.getElementById('kpModal');
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeKpModal();
+            }
+        });
+    }
+    
+    console.log('Event listeners attached');
+});
+</script>
 @endsection

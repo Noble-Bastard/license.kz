@@ -7,6 +7,7 @@ use App\Data\Payment\Model\Invoice;
 use App\Data\Payment\Model\PaymentInvoice;
 use App\Data\ServiceJournal\Model\ServiceJournalClientDocument;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Schema;
 
 class ServiceJournalExt extends Model
 {
@@ -38,6 +39,17 @@ class ServiceJournalExt extends Model
     public function country()
     {
         return $this->hasOne('App\Data\Service\Model\Country','id','country_id');
+    }
+
+    public function service()
+    {
+        // Проверяем, есть ли service_id в таблице, если нет - используем промежуточную таблицу
+        if (Schema::hasColumn('service_journal_ext', 'service_id')) {
+            return $this->hasOne('App\Data\Service\Model\Service', 'id', 'service_id');
+        } else {
+            // Используем промежуточную таблицу
+            return $this->belongsToMany('App\Data\Service\Model\Service', 'service_journal_service_map', 'service_journal_id', 'service_id');
+        }
     }
 
     public function serviceStepList()

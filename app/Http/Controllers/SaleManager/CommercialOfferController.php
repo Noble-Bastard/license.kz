@@ -46,94 +46,139 @@ class CommercialOfferController
 
     public function store()
     {
-        $customService = new \stdClass();
-        $customService->licenseName = Input::get('serviceName');
-        $customService->serviceList = explode (';', Input::get('serviceList'));
-        $customService->executive_agency = Input::get('executiveAgency');
-        $customService->tax = Input::get('tax');
-        $customService->executionWorkDay = Input::get('executionWorkDay');
-        $customService->serviceAdditionalRequirements = [];
-        if(Input::get('serviceAdditionalRequirements')){
-            $reqList = explode('||', Input::get('serviceAdditionalRequirements'));
-            foreach ($reqList as $req){
-                array_push($customService->serviceAdditionalRequirements, $req);
+        try {
+            // Получаем данные из формы
+            $licenseName = Input::get('license_name');
+            $subspecies = Input::get('subspecies');
+            $authorizedBody = Input::get('authorized_body');
+            $additionalRequirements = Input::get('additional_requirements');
+            $requiredDocuments = Input::get('required_documents');
+            $stateDutyCost = Input::get('state_duty_cost');
+            $servicePeriod = Input::get('service_period');
+            $cost = Input::get('cost');
+            $clientName = Input::get('client_name');
+            $clientEmail = Input::get('client_email');
+            $clientPhone = Input::get('client_phone');
+            $serviceIds = Input::get('service_ids');
+
+            // Создаем объект КП
+            $customService = new \stdClass();
+            $customService->licenseName = $licenseName ?: 'Коммерческое предложение';
+            $customService->serviceList = $subspecies ? explode(';', $subspecies) : [];
+            $customService->executive_agency = $authorizedBody ?: 'Уполномоченный орган';
+            $customService->tax = $stateDutyCost ?: 0;
+            $customService->executionWorkDay = $servicePeriod ?: '30 дней';
+            $customService->serviceAdditionalRequirements = $additionalRequirements ? explode(';', $additionalRequirements) : [];
+            $customService->serviceRequiredDocument = $requiredDocuments ? explode('.', $requiredDocuments) : [];
+            $customService->cost = $cost ?: 0;
+
+            $params = [
+                'name' => $clientName,
+                'phone' => $clientPhone,
+                'serviceIdList' => $serviceIds ? explode(';', $serviceIds) : [],
+                'emailToSend' => $clientEmail
+            ];
+            
+            (new ServiceDal())->createCommercialOffer($params, CommercialOfferTypeList::commercialOffer);
+
+            $commercialOffer = (new CustomCommercialOfferDocumentManager($customService))->getPdfFileName();
+
+            $emailEntity = new EmailJournal();
+            $emailEntity->recipients = $clientEmail;
+            $emailEntity->subject = 'Коммерческое предложение';
+            $emailEntity->email_notify_type_id = EmailNotifyTypeList::NewMessage;
+
+            $attachList = array();
+            $attach = new \stdClass();
+            $attach->file_path = $commercialOffer;
+            $attach->name = 'Коммерческое предложение';
+            array_push($attachList, $attach);
+
+            (new CommercialOfferNotification($emailEntity, $attachList))->setData();
+
+            // Проверяем, это AJAX запрос или обычный
+            if (request()->ajax()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'КП успешно создано!'
+                ]);
             }
+
+            return redirect(route('sale_manager.commercial_offer.index'));
+        } catch (\Exception $e) {
+            if (request()->ajax()) {
+                return response()->json([
+                    'success' => false,
+                    'error' => 'Ошибка: ' . $e->getMessage()
+                ], 500);
+            }
+            
+            return redirect()->back()->with('error', 'Ошибка: ' . $e->getMessage());
         }
-        $customService->serviceRequiredDocument = Input::get('serviceRequiredDocument') != null ? explode (';', Input::get('serviceRequiredDocument')) : null;
-        $customService->cost = Input::get('cost');
-
-        $name = Input::get('name');
-        $phone = Input::get('phone');
-        $email = Input::get('emailToSend');
-
-        $params = [
-            'name' => $name,
-            'phone' => $phone,
-            'serviceIdList' => [],
-            'emailToSend' => $email
-        ];
-        (new ServiceDal())->createCommercialOffer($params, CommercialOfferTypeList::commercialOffer);
-
-        $commercialOffer = (new CustomCommercialOfferDocumentManager($customService))->getPdfFileName();
-
-        $emailEntity = new EmailJournal();
-        $emailEntity->recipients = Input::get('emailToSend');
-        $emailEntity->subject = trans('messages.services.commercialOffer.email_title');
-        $emailEntity->email_notify_type_id = EmailNotifyTypeList::NewMessage;
-
-        $attachList = array();
-        $attach = new \stdClass();
-        $attach->file_path = $commercialOffer;
-        $attach->name = trans('messages.services.commercialOffer.email_title');
-        array_push($attachList, $attach);
-
-        (new CommercialOfferNotification($emailEntity, $attachList))->setData();
-
-        return redirect(route('sale_manager.commercial_offer.index'));
     }
 
     public function prepareServiceById()
     {
-        $serviceIdList = explode(';', Input::get('idList'));
-
-        $catalogNode = ServiceCatalogDal::getNodeByService(intval($serviceIdList[0]));
-        $license = CatalogDal::getParentNodeByType($catalogNode->catalog_id, CatalogTypeList::WHITE_BOX_WITH_ICON);
-
-        $serviceList = ServiceDal::getListByIdArray($serviceIdList, true);
-        $serviceAdditionalRequirementsList = (new ServiceAdditionalRequirementsDal())->getListByServiceArray($serviceIdList, true);
-        $serviceStepList = (new ServiceStepMapDal())->getListByServiceArray($serviceIdList);
-        $requiredDocumentList = (new ServiceStepRequiredDocumentDal())->getListByServiceArray($serviceIdList, true);
-        $serviceTotals = ServiceDal::getServiceTotals($serviceIdList, null);
-
-        $serviceStep = $serviceStepList[0];
-        $curStepRequiredDocument = $requiredDocumentList->where('service_step_id', $serviceStep->service_step_id)->all();
-        $documentList = [];
-        foreach($curStepRequiredDocument as $stepRequiredDocument){
-            array_push($documentList, $stepRequiredDocument->serviceRequiredDocumentWithTranslate->description);
-        }
-        $result = new \stdClass();
-        $result->serviceName = $license->name;
-        $result->serviceList = $serviceList->unique('name')->implode('name', '; ');
-        $result->executiveAgency = $serviceList[0]->executive_agency;
-        $result->tax = $serviceTotals->stepTaxMRPTotal;
-        $result->executionWorkDay = $serviceTotals->executionWorkDayTotal;
-        $result->serviceRequiredDocument = implode('; ', $documentList);
-
-        $serviceAdditionalRequirements = [];
-        foreach($serviceAdditionalRequirementsList->groupBy('name') as $type => $valueList){
-            $serviceAdditionalRequirementsItem = '';
-            $serviceAdditionalRequirementsItem .= $type . ": ";
-            $numItems = count($valueList);
-            $j = 0;
-            foreach ($valueList->sortBy('description') as $value) {
-                $serviceAdditionalRequirementsItem .= $value->description . (++$j === $numItems ? '' : ', ');
+        try {
+            $ids = request()->input('ids');
+            if (!$ids) {
+                return response()->json([
+                    'success' => false,
+                    'error' => 'ID подвидов не указаны'
+                ], 400);
             }
 
-            array_push($serviceAdditionalRequirements, $serviceAdditionalRequirementsItem);
-        }
+            $serviceIdList = explode(';', $ids);
 
-        $result->serviceAdditionalRequirements = implode('||', $serviceAdditionalRequirements);
-        $result->cost = $serviceTotals->stepCostTotal;
-        return response()->json($result);
+            $catalogNode = ServiceCatalogDal::getNodeByService(intval($serviceIdList[0]));
+            $license = CatalogDal::getParentNodeByType($catalogNode->catalog_id, CatalogTypeList::WHITE_BOX_WITH_ICON);
+
+            $serviceList = ServiceDal::getListByIdArray($serviceIdList, true);
+            $serviceAdditionalRequirementsList = (new ServiceAdditionalRequirementsDal())->getListByServiceArray($serviceIdList, true);
+            $serviceStepList = (new ServiceStepMapDal())->getListByServiceArray($serviceIdList);
+            $requiredDocumentList = (new ServiceStepRequiredDocumentDal())->getListByServiceArray($serviceIdList, true);
+            $serviceTotals = ServiceDal::getServiceTotals($serviceIdList, null);
+
+            $serviceStep = $serviceStepList[0];
+            $curStepRequiredDocument = $requiredDocumentList->where('service_step_id', $serviceStep->service_step_id)->all();
+            $documentList = [];
+            foreach($curStepRequiredDocument as $stepRequiredDocument){
+                array_push($documentList, $stepRequiredDocument->serviceRequiredDocumentWithTranslate->description);
+            }
+            
+            $result = new \stdClass();
+            $result->license_name = $license->name;
+            $result->subspecies = $serviceList->unique('name')->implode('name', '; ');
+            $result->authorized_body = $serviceList[0]->executive_agency;
+            $result->state_duty_cost = $serviceTotals->stepTaxMRPTotal;
+            $result->service_period = $serviceTotals->executionWorkDayTotal;
+            $result->required_documents = implode('; ', $documentList);
+
+            $serviceAdditionalRequirements = [];
+            foreach($serviceAdditionalRequirementsList->groupBy('name') as $type => $valueList){
+                $serviceAdditionalRequirementsItem = '';
+                $serviceAdditionalRequirementsItem .= $type . ": ";
+                $numItems = count($valueList);
+                $j = 0;
+                foreach ($valueList->sortBy('description') as $value) {
+                    $serviceAdditionalRequirementsItem .= $value->description . (++$j === $numItems ? '' : ', ');
+                }
+
+                array_push($serviceAdditionalRequirements, $serviceAdditionalRequirementsItem);
+            }
+
+            $result->additional_requirements = implode(';', $serviceAdditionalRequirements);
+            $result->cost = $serviceTotals->stepCostTotal;
+            
+            return response()->json([
+                'success' => true,
+                'data' => $result
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => 'Ошибка при загрузке данных: ' . $e->getMessage()
+            ], 500);
+        }
     }
 }

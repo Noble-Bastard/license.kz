@@ -78,7 +78,7 @@
                         
                         <!-- Action -->
                         <div class="flex items-center justify-end gap-[6px] pr-5">
-                            <a href="#" data-service-id="{{ $service->id }}" class="js-open-service-modal inline-flex items-center gap-2 px-3 py-2 rounded-[10px] border border-border-light text-sm text-text-primary hover:bg-bg-tertiary transition">
+                            <a href="{{ route('sale_manager.service.detail', ['serviceJournalId' => $service->id]) }}" class="inline-flex items-center gap-2 px-3 py-2 rounded-[10px] border border-border-light text-sm text-text-primary hover:bg-bg-tertiary transition">
                                 <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M1.66666 10C1.66666 10 4.99999 3.33334 9.99999 3.33334C15 3.33334 18.3333 10 18.3333 10C18.3333 10 15 16.6667 9.99999 16.6667C4.99999 16.6667 1.66666 10 1.66666 10Z" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                     <path d="M10 12.5C11.3807 12.5 12.5 11.3807 12.5 10C12.5 8.61929 11.3807 7.5 10 7.5C8.61929 7.5 7.5 8.61929 7.5 10C7.5 11.3807 8.61929 12.5 10 12.5Z" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -126,7 +126,7 @@
                             </div>
                             <div class="flex flex-col">
                                 <span class="text-xs font-medium text-gray-500 mb-1">Действие</span>
-                                    <a href="#" data-service-id="{{ $service->id }}" class="js-open-service-modal inline-flex items-center gap-2 px-3 py-2 rounded-[10px] border border-border-light text-sm text-text-primary hover:bg-bg-tertiary transition">
+                                    <a href="{{ route('sale_manager.service.detail', ['serviceJournalId' => $service->id]) }}" class="inline-flex items-center gap-2 px-3 py-2 rounded-[10px] border border-border-light text-sm text-text-primary hover:bg-bg-tertiary transition">
                                         <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                             <path d="M1.66666 10C1.66666 10 4.99999 3.33334 9.99999 3.33334C15 3.33334 18.3333 10 18.3333 10C18.3333 10 15 16.6667 9.99999 16.6667C4.99999 16.6667 1.66666 10 1.66666 10Z" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                             <path d="M10 12.5C11.3807 12.5 12.5 11.3807 12.5 10C12.5 8.61929 11.3807 7.5 10 7.5C8.61929 7.5 7.5 8.61929 7.5 10C7.5 11.3807 8.61929 12.5 10 12.5Z" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -215,7 +215,6 @@
                 closeModal();
             }
         });
-
         // Client-side filtering like manager's
         if (searchInput) {
             searchInput.addEventListener('input', function(){

@@ -29,6 +29,43 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
+class ServiceDal
+{
+    const entityName = 'service';
+    const baseField = [
+        'service_ext.id',
+        'service_ext.name',
+        'service_ext.code',
+        'service_ext.description',
+        'service_ext.service_category_id',
+        'service_ext.country_id',
+        'service_ext.service_thematic_group_id',
+        'service_ext.service_thematic_group_name',
+        'service_ext.license_type_id',
+        'service_ext.execution_days_from',
+        'service_ext.execution_days_to',
+        'service_ext.counter_type_id',
+        'service_ext.total_service_cost',
+        'service_ext.total_execution_work_day_cnt',
+        'service_ext.currency_id',
+        'service_ext.currency_name',
+        'service_ext.service_category_name',
+        'service_ext.comment',
+        'service_ext.license_type_name',
+        'service_ext.execuive_agency',
+        'service_ext.live_period',
+        'service_ext.service_type_id',
+        'service_ext.base_cost',
+        'service_ext.additional_cost',
+        'service_ext.service_currency_id',
+        'service_ext.service_currency_name',
+        'service_ext.additional_approvals',
+        'service_ext.special_terms',
+        'service_ext.npa_link',
+        'service_ext.service_start_date',
+        'service_ext.service_end_date',
+    ];
+
     /**
      * Альтернативный метод получения данных услуги без использования view service_ext
      * Использует прямые запросы к таблицам для избежания проблем с view
