@@ -238,7 +238,7 @@
 
 <!-- Service Steps Modal -->
        <div id="serviceStepsModal" class="fixed inset-0 z-50 hidden items-center justify-center" style="background: rgba(0,0,0,0.4);">
-    <div class="bg-white w-full max-w-[800px] h-[600px] max-h-[90vh] mx-4 flex flex-col shadow-2xl md:rounded-none" style="border-radius: 0; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); border: 1px solid var(--color-border-light);">
+    <div class="bg-white w-full max-w-[800px] h-[500px] max-h-[90vh] mx-4 flex flex-col shadow-2xl md:rounded-none" style="border-radius: 0; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); border: 1px solid var(--color-border-light);">
         <!-- Modal content will be loaded here -->
     </div>
 </div>
