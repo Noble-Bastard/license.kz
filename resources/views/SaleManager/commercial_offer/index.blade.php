@@ -122,7 +122,7 @@
                 @if(isset($commercialOfferList) && $commercialOfferList->isNotEmpty())
                 @foreach($commercialOfferList as $commercialOffer)
                     <!-- Desktop Card View -->
-                    <div class="hidden md:grid grid-cols-[200px,200px,200px,200px,200px,150px] gap-[60px,60px,60px,60px,60px,0px] items-center bg-white rounded-lg shadow-sm mb-3 p-5 co-row">
+                    <div class="hidden md:grid grid-cols-[200px,200px,200px,200px,200px,150px] gap-[60px,60px,60px,60px,60px,0px] items-start bg-white rounded-lg shadow-sm mb-3 p-5 co-row">
                     <!-- Date -->
                     <div class="flex items-center gap-[10px]">
                         <span class="text-[13px] font-medium text-[#1E2B28] leading-[1]">{{ \App\Data\Helper\Assistant::formatDate($commercialOffer->created_at) }}</span>
@@ -160,13 +160,22 @@
                                 </div>
                     
                     <!-- Services -->
-                    <div class="flex items-center justify-end gap-[6px] pr-5">
+                    <div class="flex items-start justify-between gap-2 col-span-1" style="padding-right: 0;">
                         @php
                             $servicesText = collect($commercialOffer->serviceList ?? [])->map(function($s){
                                 return optional($s->service)->name;
                             })->filter()->implode(', ');
                         @endphp
-                        <span class="text-[13px] font-medium text-[#1E2B28] leading-[1] truncate" title="{{ $servicesText }}">{{ \Illuminate\Support\Str::limit($servicesText, 30) }}</span>
+                        <div class="flex-1" style="padding-left: 60px;">
+                            <div id="license-text-desktop-{{ $commercialOffer->id }}" class="text-[13px] font-medium text-[#1E2B28] leading-[1.4] overflow-hidden" style="max-height: 1.4em; transition: max-height 0.3s ease;">
+                                {{ $servicesText }}
+                            </div>
+                        </div>
+                        <button onclick="toggleLicenseTextDesktop({{ $commercialOffer->id }})" class="text-gray-400 hover:text-gray-600 transition-colors flex-shrink-0" style="margin-right: -200px; padding-left: 10px;">
+                            <svg id="license-arrow-desktop-{{ $commercialOffer->id }}" class="w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </button>
                                 </div>
                             </div>
                 
@@ -207,14 +216,26 @@
                             @endphp
                             @component('components.modern.badge', ['variant' => $badgeVariant, 'content' => $typeName])
                         </div>
-                        <div class="flex flex-col">
-                            <span class="text-xs font-medium text-gray-500 mb-1">Лицензии</span>
+                        <div class="flex flex-col relative">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-medium text-gray-500 mb-1">Лицензии</span>
+                                <button onclick="toggleLicenseText({{ $commercialOffer->id }})" class="text-gray-400 hover:text-gray-600 transition-colors ml-2">
+                                    <svg id="license-arrow-{{ $commercialOffer->id }}" class="w-4 h-4 transform transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                            </div>
                             @php
                                 $servicesText = collect($commercialOffer->serviceList ?? [])->map(function($s){
                                     return optional($s->service)->name;
                                 })->filter()->implode(', ');
                             @endphp
-                            <span class="text-sm font-medium text-[#1E2B28] truncate" title="{{ $servicesText }}">{{ \Illuminate\Support\Str::limit($servicesText, 50) }}</span>
+                            <div id="license-short-{{ $commercialOffer->id }}" class="text-sm font-medium text-[#1E2B28] truncate" title="{{ $servicesText }}">
+                                {{ \Illuminate\Support\Str::limit($servicesText, 50) }}
+                            </div>
+                            <div id="license-full-{{ $commercialOffer->id }}" class="text-sm font-medium text-[#1E2B28] mt-2" style="display: none;">
+                                {{ $servicesText }}
+                            </div>
                         </div>
                             </div>
                                 </div>
@@ -263,6 +284,35 @@ function toggleAccordion(index) {
     } else {
         row.style.display = 'none';
         icon.className = 'fas fa-chevron-down';
+    }
+}
+
+function toggleLicenseText(id) {
+    const shortText = document.getElementById('license-short-' + id);
+    const fullText = document.getElementById('license-full-' + id);
+    const arrow = document.getElementById('license-arrow-' + id);
+    
+    if (fullText.style.display === 'none') {
+        shortText.style.display = 'none';
+        fullText.style.display = 'block';
+        arrow.style.transform = 'rotate(180deg)';
+    } else {
+        shortText.style.display = 'block';
+        fullText.style.display = 'none';
+        arrow.style.transform = 'rotate(0deg)';
+    }
+}
+
+function toggleLicenseTextDesktop(id) {
+    const textElement = document.getElementById('license-text-desktop-' + id);
+    const arrow = document.getElementById('license-arrow-desktop-' + id);
+    
+    if (textElement.style.maxHeight === '1.4em' || textElement.style.maxHeight === '') {
+        textElement.style.maxHeight = '500px';
+        arrow.style.transform = 'rotate(180deg)';
+    } else {
+        textElement.style.maxHeight = '1.4em';
+        arrow.style.transform = 'rotate(0deg)';
     }
 }
 
