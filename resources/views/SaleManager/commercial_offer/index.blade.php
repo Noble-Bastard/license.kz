@@ -68,7 +68,7 @@
                 </div>
                 
                 <!-- Create KP Button -->
-                <button onclick="openKpModal()" style="padding: 10px 20px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">
+                <button onclick="openKpModal()" style="padding: 10px 20px; background: #28a745; color: white; border: none; border-radius: 80px; cursor: pointer; font-size: 14px;">
                     + Создать КП
                 </button>
             </div>
@@ -101,7 +101,7 @@
 
         <!-- Mobile Create Button -->
         <div class="md:hidden px-8 mb-4" style="padding-left: 32px; padding-right: 32px;">
-            <button onclick="openKpModal()" style="width: 100%; padding: 12px 20px; background: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 14px;">
+            <button onclick="openKpModal()" style="width: 100%; padding: 12px 20px; background: #28a745; color: white; border: none; border-radius: 80px; cursor: pointer; font-size: 14px;">
                 + Создать КП
             </button>
         </div>
