@@ -55,7 +55,7 @@
     <!-- Accounting List -->
     <div class="py-5 pb-20" style="background-color: var(--color-bg-secondary); width: 100vw; margin-left: calc(-50vw + 50%); min-height: calc(100vh - 200px);">
         <div class="px-5" style="padding-left:20px;padding-right:20px;">
-            @if(isset($serviceJournalList) && $serviceJournalList->isNotEmpty())
+            @if(isset($serviceJournalList) && $serviceJournalList->count() > 0)
                 @foreach($serviceJournalList as $service)
                     <!-- Desktop Card View -->
                     <div class="hidden md:grid grid-cols-[200px,150px,150px,150px,150px] gap-[60px,60px,60px,60px,0px] items-center bg-white rounded-lg shadow-sm mb-3 p-5 accounting-card cursor-pointer hover:bg-gray-50 transition-colors" onclick="openDocumentsModal({{ $service->id }}, '{{ $service->service_no }}')">
@@ -133,11 +133,83 @@
 </div>
 
 <!-- Documents Modal -->
-<div id="documentsModal" class="fixed inset-0 z-50 flex items-center justify-center hidden" style="background: rgba(0,0,0,0.4);">
-    <div class="bg-white w-[800px] h-[600px] mx-4 flex flex-col rounded-lg">
+<div id="documentsModal" class="fixed inset-0 z-50 hidden items-center justify-center" style="background: rgba(0,0,0,0.4);">
+    <div class="bg-white w-[800px] h-[600px] mx-4 flex flex-col rounded-lg" style="border-radius: 0; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); border: 1px solid var(--color-border-light);">
         <!-- Modal content will be loaded here -->
     </div>
 </div>
+
+<style>
+/* Modal Animation Styles */
+#documentsModal {
+    transition: opacity 0.3s ease-in-out;
+}
+
+#documentsModal .bg-white {
+    transform: scale(0.95);
+    transition: transform 0.3s ease-in-out;
+}
+
+#documentsModal:not(.hidden) .bg-white {
+    transform: scale(1);
+}
+
+/* Mobile Modal Styles - Bottom Sheet */
+@media (max-width: 768px) {
+    #documentsModal {
+        align-items: flex-end !important;
+        justify-content: center !important;
+    }
+    
+    #documentsModal .bg-white {
+        width: 100% !important;
+        max-width: none !important;
+        height: 75vh !important;
+        max-height: 75vh !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+        transform: translateY(100%) !important;
+        transition: transform 0.3s ease-in-out !important;
+    }
+    
+    #documentsModal:not(.hidden) .bg-white {
+        transform: translateY(0) !important;
+    }
+    
+    /* Белый фон содержимого в мобилке */
+    #documentsModal .flex-1.overflow-y-auto {
+        background-color: var(--color-bg-primary) !important;
+    }
+    
+    /* Убираем линию под заголовком */
+    #documentsModal .border-b {
+        border-bottom: none !important;
+    }
+    
+    /* Увеличиваем размер заголовков секций */
+    #documentsModal h4 {
+        font-size: 20px !important;
+    }
+}
+
+/* Custom scrollbar for modal content */
+#documentsModal .overflow-y-auto::-webkit-scrollbar {
+    width: 6px;
+}
+
+#documentsModal .overflow-y-auto::-webkit-scrollbar-track {
+    background: var(--color-bg-secondary);
+}
+
+#documentsModal .overflow-y-auto::-webkit-scrollbar-thumb {
+    background: var(--color-border-medium);
+    border-radius: 3px;
+}
+
+#documentsModal .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+    background: var(--color-border-muted);
+}
+</style>
 
 <script>
 let currentServiceId = null;
@@ -149,6 +221,7 @@ function openDocumentsModal(serviceId, serviceNo) {
     currentServiceNo = serviceNo;
     // Show modal
     document.getElementById('documentsModal').classList.remove('hidden');
+    document.getElementById('documentsModal').classList.add('flex');
     
     // Load modal content via AJAX
     fetch(`/client/service-documents/${serviceId}`)
@@ -169,6 +242,7 @@ function openDocumentsModal(serviceId, serviceNo) {
 
 function closeDocumentsModal() {
     document.getElementById('documentsModal').classList.add('hidden');
+    document.getElementById('documentsModal').classList.remove('flex');
     currentServiceId = null;
     currentServiceNo = null;
 }
@@ -176,84 +250,72 @@ function closeDocumentsModal() {
 function renderDocuments(documents, serviceInfo) {
     const modalContent = document.querySelector('#documentsModal .bg-white');
     
-    // Отладочная информация
-    console.log('Rendering documents:', documents);
-    
     let documentsHtml = '';
     
-    // Service info header
+    // Service info header (БЕЗ стоимости)
     documentsHtml += `
-        <div class="p-6 border-b bg-gray-50">
+        <div class="p-6 border-b" style="background-color: var(--color-bg-primary);">
             <div class="flex items-center justify-between mb-4">
-                <h3 class="text-lg font-medium text-gray-900">Документы УСЛ-${serviceInfo.service_no}</h3>
-                <button onclick="closeDocumentsModal()" class="text-gray-400 hover:text-gray-600">
+                <h3 class="font-medium text-gray-900" style="margin-top: 20px; font-size: 28px;">Документы УСЛ-${serviceInfo.service_no}</h3>
+                <button onclick="closeDocumentsModal()" class="text-gray-400 hover:text-gray-600" style="margin-top: 20px;">
                     <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                 </button>
             </div>
-            <div class="grid grid-cols-2 gap-4 text-sm">
-                <div>
-                    <span class="text-gray-600">Стоимость:</span>
-                    <span class="font-medium ml-2">${formatNumber(serviceInfo.amount)} ₸</span>
-                </div>
-                <div>
-                    <span class="text-gray-600">Налог, пошлина:</span>
-                    <span class="font-medium ml-2">${formatNumber(serviceInfo.tax_amount)} ₸</span>
-                </div>
-                <div>
-                    <span class="text-gray-600">Предоплата:</span>
-                    <span class="font-medium ml-2">${formatNumber(serviceInfo.prepayment_amount)} ₸</span>
-                </div>
-                <div>
-                    <span class="text-gray-600">Полная оплата:</span>
-                    <span class="font-medium ml-2">${formatNumber(serviceInfo.full_payment_amount)} ₸</span>
-                </div>
-            </div>
         </div>
     `;
     
     // Documents content
-    documentsHtml += '<div class="flex-1 overflow-y-auto p-6">';
+    documentsHtml += '<div class="flex-1 overflow-y-auto p-6" style="background-color: var(--color-bg-secondary);">';
     
     // Client Check documents
     if (documents.client_check && documents.client_check.length > 0) {
-        console.log('Rendering client_check documents:', documents.client_check);
+        // Убираем дублирование документов
+        const uniqueDocs = documents.client_check.filter((doc, index, self) => 
+            index === self.findIndex(d => d.document_id === doc.document_id)
+        );
+        
         documentsHtml += `
             <div class="mb-6">
-                <h4 class="text-base font-medium text-gray-900 mb-3">Проверка клиента</h4>
+                <h4 class="text-base font-medium text-gray-900 mb-3">Предварительная проверка документов</h4>
                 <div class="space-y-2">
-                    ${documents.client_check.map(doc => renderDocumentItem(doc)).join('')}
+                    ${uniqueDocs.map(doc => renderDocumentItem(doc)).join('')}
                 </div>
             </div>
         `;
     }
     
-    // Prepayment documents
-    if (documents.prepayment && documents.prepayment.length > 0) {
-        console.log('Rendering prepayment documents:', documents.prepayment);
-        documentsHtml += `
-            <div class="mb-6">
-                <h4 class="text-base font-medium text-gray-900 mb-3">Предоплата</h4>
-                <div class="space-y-2">
+    // Предоплата section
+    documentsHtml += `
+        <div class="mb-6">
+            <h4 class="text-base font-medium text-gray-900 mb-3">Предоплата</h4>
+            <div class="p-3 rounded-lg">
+                <span class="text-sm font-medium text-gray-900">${formatNumber(serviceInfo.prepayment_amount || 0)} ₸</span>
+            </div>
+            ${documents.prepayment && documents.prepayment.length > 0 ? `
+                <div class="space-y-2 mt-3">
                     ${documents.prepayment.map(doc => renderDocumentItem(doc)).join('')}
                 </div>
-            </div>
-        `;
-    }
+            ` : ''}
+        </div>
+    `;
     
-    // Full Payment documents
-    if (documents.full_payment && documents.full_payment.length > 0) {
-        console.log('Rendering full_payment documents:', documents.full_payment);
-        documentsHtml += `
-            <div class="mb-6">
-                <h4 class="text-base font-medium text-gray-900 mb-3">Полная оплата</h4>
-                <div class="space-y-2">
+    // Полная оплата section
+    documentsHtml += `
+        <div class="mb-6">
+            <h4 class="text-base font-medium text-gray-900 mb-3">Полная оплата</h4>
+            <div class="p-3 rounded-lg">
+                <span class="text-sm font-medium text-gray-900">${formatNumber(serviceInfo.full_payment_amount || 0)} ₸</span>
+            </div>
+            ${documents.full_payment && documents.full_payment.length > 0 ? `
+                <div class="space-y-2 mt-3">
                     ${documents.full_payment.map(doc => renderDocumentItem(doc)).join('')}
                 </div>
-            </div>
-        `;
-    }
+            ` : ''}
+        </div>
+    `;
+    
     
     // No documents message
     if ((!documents.client_check || documents.client_check.length === 0) && 
@@ -278,21 +340,52 @@ function renderDocumentItem(doc) {
     const documentId = doc.document_id || doc.name || 'Неизвестно';
     const documentType = doc.type || 'Документ';
     
-    return `
-        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
-            <div class="flex items-center">
-                <span class="text-sm text-gray-600 mr-3">${documentId}</span>
-                <span class="text-sm text-gray-900">${documentType}</span>
+    // Проверяем, мобильная версия или нет
+    const isMobile = window.innerWidth <= 768;
+    
+    if (isMobile) {
+        // Мобильная версия
+        return `
+            <div class="p-4 mb-0" style="border-bottom: 1px solid var(--color-border-light);">
+                <div class="flex items-center justify-between mb-3">
+                    <div class="text-sm text-gray-900 font-medium">${documentType}</div>
+                    <div class="text-sm text-gray-600">${documentId}</div>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <button onclick="downloadDocument('${documentId}')" class="flex-1 px-4 py-2 text-white font-medium transition-colors flex items-center justify-center gap-2" style="background-color: var(--color-primary); border-radius: var(--radius-3xl);" onmouseover="this.style.backgroundColor='var(--color-primary-dark)'" onmouseout="this.style.backgroundColor='var(--color-primary)'">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                        </svg>
+                        Скачать
+                    </button>
+                    <button onclick="viewDocument('${documentId}')" class="flex-1 px-4 py-2 text-gray-700 font-medium transition-colors flex items-center justify-center gap-2" style="background-color: white; border-radius: var(--radius-3xl); border: 1px solid var(--color-border-light);" onmouseover="this.style.backgroundColor='var(--color-bg-secondary)'" onmouseout="this.style.backgroundColor='white'">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                        </svg>
+                        Просмотреть
+                    </button>
+                </div>
             </div>
-            <div class="flex items-center space-x-2">
-                <button class="text-gray-400 hover:text-gray-600" onclick="downloadDocument('${documentId}')">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                    </svg>
-                </button>
+        `;
+    } else {
+        // Десктопная версия
+        return `
+            <div class="flex items-center justify-between p-3 rounded-lg">
+                <div class="flex items-center">
+                    <span class="text-sm text-gray-600 mr-3">${documentId}</span>
+                    <span class="text-sm text-gray-900">${documentType}</span>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <button class="text-gray-400 hover:text-gray-600" onclick="downloadDocument('${documentId}')">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                    </button>
+                </div>
             </div>
-        </div>
-    `;
+        `;
+    }
 }
 
 function renderError(error) {
@@ -341,6 +434,28 @@ function downloadDocument(documentId) {
     }
 }
 
+function viewDocument(documentId) {
+    console.log('Viewing document:', documentId);
+    
+    // Определяем тип документа и формируем URL для просмотра
+    let viewUrl = '';
+    
+    if (documentId.includes('IP') || documentId.includes('Счет фактура')) {
+        viewUrl = '{{ route("client.invoice.downloadPdf") }}?document_id=' + documentId;
+    } else if (documentId.includes('ОПЛ') || documentId.includes('Счета на оплату')) {
+        viewUrl = '{{ route("client.paymentInvoice.downloadPdf") }}?document_id=' + documentId;
+    } else if (documentId.includes('ДОГ') || documentId.includes('Договор')) {
+        viewUrl = '{{ route("client.agreement.downloadPdf") }}?document_id=' + documentId;
+    }
+    
+    if (viewUrl) {
+        window.open(viewUrl, '_blank');
+    } else {
+        console.error('Неизвестный тип документа:', documentId);
+        alert('Ошибка: Неизвестный тип документа');
+    }
+}
+
 function formatNumber(number) {
     return new Intl.NumberFormat('ru-RU', {
         minimumFractionDigits: 2,
@@ -364,6 +479,24 @@ function filterServices(status) {
     console.log('Filtering by status:', status);
 }
 
+// Search functionality
+document.getElementById('searchInput').addEventListener('input', function(e) {
+    const searchQuery = e.target.value.toLowerCase();
+    const accountingCards = document.querySelectorAll('.accounting-card');
+    
+    accountingCards.forEach(card => {
+        const serviceNo = card.querySelector('.service-no')?.textContent.toLowerCase() || '';
+        
+        const matchesSearch = serviceNo.includes(searchQuery);
+        
+        if (matchesSearch) {
+            card.style.display = '';
+        } else {
+            card.style.display = 'none';
+        }
+    });
+});
+
 // Close modal when clicking outside
 document.getElementById('documentsModal').addEventListener('click', function(e) {
     if (e.target === this) {
@@ -376,24 +509,6 @@ document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
         closeDocumentsModal();
     }
-});
-
-// Search functionality
-document.getElementById('searchInput').addEventListener('input', function(e) {
-    const searchQuery = e.target.value.toLowerCase();
-            const accountingCards = document.querySelectorAll('.accounting-card');
-            
-            accountingCards.forEach(card => {
-                const serviceNo = card.querySelector('.service-no')?.textContent.toLowerCase() || '';
-                
-                const matchesSearch = serviceNo.includes(searchQuery);
-                
-                if (matchesSearch) {
-            card.style.display = '';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
 });
 </script>
 @endsection

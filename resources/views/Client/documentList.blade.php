@@ -46,7 +46,7 @@
     <!-- Documents Content -->
     <div class="py-5 pb-20" style="background-color: var(--color-bg-secondary); width: 100vw; margin-left: calc(-50vw + 50%); min-height: calc(100vh - 200px);">
         <div class="px-5" style="padding-left:20px;padding-right:20px;">
-            @if(isset($serviceJournalList) && $serviceJournalList->isNotEmpty())
+            @if(isset($serviceJournalList) && $serviceJournalList->count() > 0)
                 @foreach($serviceJournalList as $serviceJournal)
             <!-- Service Group -->
             <div class="mb-8 service-group">
@@ -60,7 +60,7 @@
 
                 <!-- Document Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                    @if(isset($serviceJournal->clientDocuments) && $serviceJournal->clientDocuments->isNotEmpty())
+                    @if(isset($serviceJournal->clientDocuments) && $serviceJournal->clientDocuments->count() > 0)
                         @foreach($serviceJournal->clientDocuments as $document)
                             @if($document && $document->document)
                                 @php

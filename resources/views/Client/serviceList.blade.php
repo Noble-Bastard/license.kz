@@ -237,28 +237,93 @@
 </div>
 
 <!-- Service Steps Modal -->
-<div id="serviceStepsModal" class="fixed inset-0 z-50 flex items-center justify-center hidden" style="background: rgba(0,0,0,0.4);">
-    <div class="bg-white w-[800px] h-[600px] mx-4 flex flex-col rounded-lg">
+       <div id="serviceStepsModal" class="fixed inset-0 z-50 hidden items-center justify-center" style="background: rgba(0,0,0,0.4);">
+    <div class="bg-white w-full max-w-[800px] h-[600px] max-h-[90vh] mx-4 flex flex-col shadow-2xl md:rounded-none" style="border-radius: 0; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); border: 1px solid var(--color-border-light);">
         <!-- Modal content will be loaded here -->
     </div>
 </div>
 
 @endsection
 
+<style>
+/* Modal Animation Styles */
+#serviceStepsModal {
+    transition: opacity 0.3s ease-in-out;
+}
+
+#serviceStepsModal .bg-white {
+    transform: scale(0.95);
+    transition: transform 0.3s ease-in-out;
+}
+
+#serviceStepsModal:not(.hidden) .bg-white {
+    transform: scale(1);
+}
+
+/* Mobile Modal Styles - Bottom Sheet */
+@media (max-width: 768px) {
+    #serviceStepsModal {
+        align-items: flex-end !important;
+        justify-content: center !important;
+    }
+    
+    #serviceStepsModal .bg-white {
+        width: 100% !important;
+        max-width: none !important;
+        height: 60vh !important;
+        max-height: 60vh !important;
+        margin: 0 !important;
+        border-radius: 0 !important;
+        transform: translateY(100%) !important;
+        transition: transform 0.3s ease-in-out !important;
+    }
+    
+    #serviceStepsModal:not(.hidden) .bg-white {
+        transform: translateY(0) !important;
+    }
+}
+
+/* Custom scrollbar for modal content */
+#serviceStepsModal .overflow-y-auto::-webkit-scrollbar {
+    width: 6px;
+}
+
+#serviceStepsModal .overflow-y-auto::-webkit-scrollbar-track {
+    background: var(--color-bg-secondary);
+}
+
+#serviceStepsModal .overflow-y-auto::-webkit-scrollbar-thumb {
+    background: var(--color-border-medium);
+    border-radius: 3px;
+}
+
+#serviceStepsModal .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+    background: var(--color-border-muted);
+}
+
+/* Clean text styling */
+.modal-step-text {
+    transition: color 0.2s ease-in-out;
+}
+</style>
+
 <script>
 let currentServiceId = null;
+let currentServiceData = null;
 
 function openServiceStepsModal(serviceId) {
     console.log('Opening service steps modal for service:', serviceId);
     currentServiceId = serviceId;
     // Show modal
     document.getElementById('serviceStepsModal').classList.remove('hidden');
+    document.getElementById('serviceStepsModal').classList.add('flex');
     
     // Load modal content via AJAX
     fetch(`/client/service-steps/${serviceId}`)
         .then(response => response.json())
         .then(data => {
             if (data.success) {
+                currentServiceData = data.service || null;
                 renderServiceSteps(data.steps);
             } else {
                 console.error('Error loading service steps:', data.error);
@@ -273,8 +338,33 @@ function openServiceStepsModal(serviceId) {
 
 function closeServiceStepsModal() {
     document.getElementById('serviceStepsModal').classList.add('hidden');
+    document.getElementById('serviceStepsModal').classList.remove('flex');
     currentServiceId = null;
+    currentServiceData = null;
 }
+
+function getServiceCreationDate() {
+    if (currentServiceData && currentServiceData.created_at) {
+        const date = new Date(currentServiceData.created_at);
+        return date.toLocaleDateString('ru-RU');
+    }
+    return 'дата неизвестна';
+}
+
+function getManagerName() {
+    if (currentServiceData && currentServiceData.manager_full_name) {
+        return currentServiceData.manager_full_name;
+    }
+    return 'Не назначен';
+}
+
+function getManagerInitial() {
+    if (currentServiceData && currentServiceData.manager_full_name) {
+        return currentServiceData.manager_full_name.charAt(0).toUpperCase();
+    }
+    return '?';
+}
+
 
 function renderServiceSteps(steps) {
     const modalContent = document.querySelector('#serviceStepsModal .bg-white');
@@ -282,78 +372,95 @@ function renderServiceSteps(steps) {
     let stepsHtml = '';
     if (steps && steps.length > 0) {
         steps.forEach((step, index) => {
-            const statusClass = step.is_completed ? 'bg-green-50 border-green-200' : 'bg-gray-50 border-gray-200';
-            const iconClass = step.is_completed ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-600';
-            const statusText = step.is_completed ? 'Завершен' : 'Не начато';
-            const statusBadgeClass = step.is_completed ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800';
-            
-            stepsHtml += `
-                <div class="border border-gray-200 rounded-lg p-4 ${statusClass}">
-                    <div class="flex items-start space-x-4">
-                        <div class="flex-shrink-0">
-                            <div class="w-10 h-10 rounded-full flex items-center justify-center ${iconClass}">
-                                ${step.is_completed ? 
-                                    '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>' :
-                                    `<span class="text-sm font-medium">${step.step_number || (index + 1)}</span>`
-                                }
-                            </div>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <div class="flex items-start justify-between">
-                                <div class="flex-1">
-                                    <h5 class="text-base font-medium text-gray-900 mb-2">${step.description || 'Шаг ' + (index + 1)}</h5>
-                                    <div class="space-y-2">
-                                        ${step.start_date || step.end_date ? `
-                                            <div class="flex items-center text-sm text-gray-600">
-                                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                                                </svg>
-                                                <span>${formatDateRange(step.start_date, step.end_date)}</span>
-                                            </div>
-                                        ` : ''}
-                                        ${step.executor_name ? `
-                                            <div class="flex items-center text-sm text-gray-600">
-                                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                                                </svg>
-                                                <span>Исполнитель: ${step.executor_name}</span>
-                                            </div>
-                                        ` : ''}
-                                    </div>
+            // Показываем описание только если оно есть
+            if (step.description && step.description.trim() !== '') {
+                const stepDate = step.created_at ? new Date(step.created_at).toLocaleDateString('ru-RU') : '';
+                
+                // Определяем статус шага и соответствующую иконку
+                let stepIcon = '';
+                let iconColor = '';
+                
+                if (step.is_completed) {
+                    // Выполнен - галочка
+                    stepIcon = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>`;
+                    iconColor = 'var(--color-primary)';
+                } else if (step.execution_start_date) {
+                    // В процессе - часы
+                    stepIcon = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                        <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>`;
+                    iconColor = 'var(--color-status-error)';
+                } else {
+                    // Не начат - пустой круг
+                    stepIcon = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+                    </svg>`;
+                    iconColor = 'var(--color-text-muted)';
+                }
+                
+                stepsHtml += `
+                    <div class="mb-4 modal-step-text" style="margin-bottom: var(--spacing-4); margin-left: var(--spacing-4); position: relative;">
+                        <div class="flex items-start justify-between">
+                            <div class="flex items-start gap-3" style="flex: 1; margin-right: var(--spacing-4);">
+                                <div class="flex-shrink-0" style="color: var(--color-text-muted); position: relative;">
+                                    ${stepIcon}
                                 </div>
-                                <div class="ml-4">
-                                    <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium ${statusBadgeClass}">
-                                        ${statusText}
-                                    </span>
-                                </div>
+                                <p style="color: var(--color-text-primary); font-family: var(--font-family-sans); font-weight: var(--font-weight-medium); font-size: var(--font-size-sm); line-height: var(--line-height-normal);">${step.description}</p>
                             </div>
+                            ${stepDate ? `<p style="color: var(--color-text-muted); font-family: var(--font-family-sans); font-size: var(--font-size-sm); margin: 0; white-space: nowrap;">${stepDate}</p>` : ''}
                         </div>
+                        ${index < steps.length - 1 ? '<div style="position: absolute; top: 20px; left: 7px; width: 2px; height: calc(100% - 12px); background-color: var(--color-border-medium);"></div>' : ''}
                     </div>
+                `;
+            }
+        });
+        
+        // Если после фильтрации не осталось шагов с описанием
+        if (stepsHtml.trim() === '') {
+            stepsHtml = `
+                <div class="text-center py-8" style="color: var(--color-text-muted); padding: var(--spacing-20) 0;">
+                    <p style="font-family: var(--font-family-sans); font-size: var(--font-size-base); color: var(--color-text-muted);">Описания шагов отсутствуют</p>
                 </div>
             `;
-        });
+        }
     } else {
         stepsHtml = `
-            <div class="text-center py-8 text-gray-500">
-                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
-                </svg>
-                <p class="mt-2 text-sm">Шаги не найдены</p>
+            <div class="text-center py-8" style="color: var(--color-text-muted); padding: var(--spacing-20) 0;">
+                <p style="font-family: var(--font-family-sans); font-size: var(--font-size-base); color: var(--color-text-muted);">Шаги не найдены</p>
             </div>
         `;
     }
     
     modalContent.innerHTML = `
-        <div class="flex items-center justify-between p-6 border-b">
-            <h3 class="text-lg font-medium text-gray-900">Шаги услуги УСЛ-${currentServiceId}</h3>
-            <button onclick="closeServiceStepsModal()" class="text-gray-400 hover:text-gray-600">
+        <div class="flex items-start justify-between p-6" style="padding: var(--spacing-6);">
+            <div style="margin-left: var(--spacing-4); margin-top: var(--spacing-4);">
+                <h3 class="text-lg font-medium" style="color: var(--color-text-primary); font-family: var(--font-family-sans); font-weight: var(--font-weight-medium); font-size: 36px; margin: 0;">УСЛ-${currentServiceId}</h3>
+                <p style="color: var(--color-text-muted); font-family: var(--font-family-sans); font-size: var(--font-size-sm); margin: 0; margin-top: var(--spacing-2);">Создана ${getServiceCreationDate()}</p>
+                <div class="flex items-center justify-between" style="margin-top: var(--spacing-3); gap: var(--spacing-4);">
+                    <div class="flex items-center gap-2">
+                        <div class="w-8 h-8 rounded-full bg-neutral-300 overflow-hidden flex-shrink-0" style="width: 32px; height: 32px; border-radius: 50%; background: var(--color-bg-tertiary); overflow: hidden; flex-shrink: 0;">
+                            <div class="w-full h-full bg-neutral-200 flex items-center justify-center" style="width: 100%; height: 100%; background: var(--color-bg-secondary); display: flex; align-items: center; justify-content: center;">
+                                <span class="text-sm font-medium text-gray-600" style="font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); color: var(--color-text-muted);">${getManagerInitial()}</span>
+                            </div>
+                        </div>
+                        <span style="font-family: var(--font-family-sans); font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); color: var(--color-text-primary);">${getManagerName()}</span>
+                    </div>
+                           <a href="{{ route('Client.service.message.list') }}" class="px-3 py-1.5 text-white font-medium transition-colors" style="background-color: var(--color-primary); font-family: var(--font-family-sans); font-size: var(--font-size-sm); font-weight: var(--font-weight-medium); padding: var(--spacing-2) var(--spacing-3); border-radius: var(--radius-3xl); text-decoration: none;" onmouseover="this.style.backgroundColor='var(--color-primary-dark)'" onmouseout="this.style.backgroundColor='var(--color-primary)'">
+                               Связаться
+                           </a>
+                </div>
+            </div>
+            <button onclick="closeServiceStepsModal()" class="text-gray-400 hover:text-gray-600 transition-colors" style="color: var(--color-text-muted); margin-right: var(--spacing-4);">
                 <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                 </svg>
             </button>
         </div>
-        <div class="flex-1 overflow-y-auto p-6">
-            <div class="space-y-4">
+        <div class="flex-1 overflow-y-auto p-6" style="padding: var(--spacing-6); background: var(--color-bg-primary); padding-top: 4px;">
+            <div class="space-y-4" style="gap: var(--spacing-4);">
                 ${stepsHtml}
             </div>
         </div>
@@ -363,16 +470,15 @@ function renderServiceSteps(steps) {
 function renderError(error) {
     const modalContent = document.querySelector('#serviceStepsModal .bg-white');
     modalContent.innerHTML = `
-        <div class="flex items-center justify-between p-6 border-b">
-            <h3 class="text-lg font-medium text-gray-900">Ошибка</h3>
-            <button onclick="closeServiceStepsModal()" class="text-gray-400 hover:text-gray-600">
+        <div class="flex items-center justify-end p-6" style="padding: var(--spacing-6);">
+            <button onclick="closeServiceStepsModal()" class="text-gray-400 hover:text-gray-600 transition-colors" style="color: var(--color-text-muted);">
                 <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                 </svg>
             </button>
         </div>
-        <div class="flex-1 overflow-y-auto p-6">
-            <div class="text-center py-8 text-red-500">
+        <div class="flex-1 overflow-y-auto p-6" style="padding: var(--spacing-6); background: var(--color-bg-primary);">
+            <div class="text-center py-8" style="color: var(--color-status-error); font-family: var(--font-family-sans);">
                 <p>${error}</p>
             </div>
         </div>

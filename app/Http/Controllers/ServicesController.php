@@ -523,6 +523,7 @@ class ServicesController extends Controller
                     'is_in_progress' => false, // This field doesn't exist in the view
                     'start_date' => $step->execution_start_date,
                     'end_date' => $step->completion_date,
+                    'created_at' => $step->execution_start_date, // Use execution_start_date as created_at since there's no created_at field
                     'executor_name' => null, // This field doesn't exist in the view
                     'execution_time_plan' => $step->execution_time_plan ?? null,
                     'execution_work_day_cnt' => $step->execution_work_day_cnt ?? null,
@@ -531,9 +532,20 @@ class ServicesController extends Controller
                 ];
             });
 
+            // Get service data for modal
+            $serviceData = [
+                'id' => $serviceJournal->id,
+                'service_no' => $serviceJournal->service_no,
+                'created_at' => $serviceJournal->create_date,
+                'manager_full_name' => $serviceJournal->manager_full_name ?? null,
+                'client_full_name' => $serviceJournal->client_full_name ?? null,
+                'service_status_name' => $serviceJournal->service_status_name ?? null
+            ];
+
             return response()->json([
                 'success' => true,
-                'steps' => $formattedSteps
+                'steps' => $formattedSteps,
+                'service' => $serviceData
             ]);
 
         } catch (\Exception $e) {

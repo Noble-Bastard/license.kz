@@ -642,7 +642,7 @@ Route::get('test-alpine', function() {
         Route::get('messages', 'MessageController@clientServiceMessageList')->name('Client.service.message.list');
         Route::get('servicesJournal/{servicesJournalId}', 'ServicesController@show')->name('Client.serviceJournal.show');
         Route::get('client/service-steps/{serviceId}', 'ServicesController@getServiceSteps')->name('Client.serviceSteps');
-    Route::get('client/service-documents/{serviceId}', 'ServicesController@getServiceDocuments')->name('Client.serviceDocuments');
+        Route::get('client/service-documents/{serviceId}', 'ServicesController@getServiceDocuments')->name('Client.serviceDocuments');
 
         Route::get('servicesJournal/{servicesJournalId}/sendToCheck', 'ServicesController@sendToCheck')->name('Client.serviceJournal.sendToCheck');
         Route::post('servicesJournal/addStepDocument', 'ServicesController@addStepDocument')->name('Client.StepDocument.add');
