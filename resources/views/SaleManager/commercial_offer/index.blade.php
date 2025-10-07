@@ -5,11 +5,11 @@
 @section('content')
 <div class="py-6 px-4 md:px-10">
     <!-- Local header (ensures logo and nav visible) -->
-    <div class="flex flex-wrap items-center justify-between gap-3 mb-4 px-8 py-4" style="padding-left: 32px; padding-right: 32px;">
+    <div class="flex items-center justify-between gap-3 mb-2 px-8 py-4" style="padding-left: 32px; padding-right: 32px;">
         <!-- Left: Logo + Nav -->
-        <div class="flex items-center gap-3 w-full md:w-auto">
+        <div class="flex items-center gap-3">
             <img src="{{ asset('images/green-logo.png') }}" alt="UpperLicense" class="h-[31px] w-auto" style="width:150px;height:31px;"/>
-            <nav class="flex items-center gap-[10px] overflow-x-auto md:overflow-visible -mx-4 px-4 md:mx-0 md:px-0">
+            <nav class="hidden md:flex items-center gap-[10px]">
                 <a href="{{ route('sale_manager.service.list') }}" class="flex items-center gap-[6px] px-[12px] py-[8px] rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] transition-colors {{ request()->routeIs('sale_manager.service.*') ? 'bg-gray-200' : '' }}">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M17.5 5H6.66667" stroke="#C2BFBF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -40,7 +40,7 @@
             </nav>
         </div>
         <!-- Right: Logout -->
-        <div class="flex items-center gap-2 ml-auto md:ml-0">
+        <div class="flex items-center gap-2">
             <form id="logout-form-sales" action="{{ route('logout') }}" method="POST" class="hidden">@csrf</form>
             <button type="submit" form="logout-form-sales"
                     class="flex items-center gap-[6px] px-4 py-4 rounded-[60px] border border-border-light text-text-primary text-sm font-medium leading-[1] hover:bg-bg-tertiary">
@@ -55,21 +55,34 @@
     </div>
 
     <!-- Divider -->
-    <div class="w-full h-px bg-gray-300 mb-4"></div>
+    <div class="w-screen h-px bg-gray-300 mb-4" style="margin-left: calc(-50vw + 50%); width: 100vw;"></div>
 
-    <div class="px-8" style="padding-left: 32px; padding-right: 32px;">
+    <div class="px-8" style="padding-left: 0px; padding-right: 32px;">
         <div class="mb-6 flex items-center justify-between">
-            <h1 class="text-[24px] leading-[1.2] font-semibold text-text-primary">Коммерческие предложения</h1>
+            <h1 class="text-[24px] leading-[1.2] font-semibold text-text-primary" style="padding-left: 32px;">Коммерческие предложения</h1>
             <div class="flex items-center gap-3">
-                <!-- Search -->
+                <!-- Search - Desktop -->
                 <div class="hidden md:flex items-center gap-[11px] px-[16px] pr-[22px] py-[11px] h-[46px] border border-border-light rounded-[80px] bg-white">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.8333 15.8333L13.2083 13.2083" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.33333 15.8333C12.0152 15.8333 15 12.8486 15 9.16667C15 5.48477 12.0152 2.5 8.33333 2.5C4.65143 2.5 1.66667 5.48477 1.66667 9.16667C1.66667 12.8486 4.65143 15.8333 8.33333 15.8333Z" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     <input id="sm-co-search" type="text" placeholder="Поиск по имени, email, телефону" class="bg-transparent border-none outline-none text-[12px] font-medium leading-[1] text-text-primary placeholder:text-text-primary" />
                 </div>
                 
-                <!-- Create KP Button -->
-                <button onclick="openKpModal()" style="padding: 10px 20px; background: #28a745; color: white; border: none; border-radius: 80px; cursor: pointer; font-size: 14px;">
+                <!-- Search - Mobile (round icon) -->
+                <button class="md:hidden flex items-center justify-center w-[46px] h-[46px] border border-border-light rounded-full bg-white">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.8333 15.8333L13.2083 13.2083" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.33333 15.8333C12.0152 15.8333 15 12.8486 15 9.16667C15 5.48477 12.0152 2.5 8.33333 2.5C4.65143 2.5 1.66667 5.48477 1.66667 9.16667C1.66667 12.8486 4.65143 15.8333 8.33333 15.8333Z" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                
+                <!-- Create KP Button - Desktop -->
+                <button onclick="openKpModal()" class="hidden md:block" style="padding: 10px 20px; background: #28a745; color: white; border: none; border-radius: 80px; cursor: pointer; font-size: 14px;">
                     + Создать КП
+                </button>
+                
+                <!-- Create KP Button - Mobile (round icon) -->
+                <button onclick="openKpModal()" class="md:hidden flex items-center justify-center w-[46px] h-[46px] rounded-full bg-[#28a745] text-white">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 4.16667V15.8333" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M4.16667 10H15.8333" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
                 </button>
             </div>
         </div>
@@ -78,7 +91,7 @@
     <div x-data="commercialOffers()" x-init="loadOffers()">
 
         <!-- Status pills -->
-        <div class="flex items-center gap-2 mb-5 overflow-x-auto md:flex-wrap md:overflow-x-visible px-8" style="padding-left: 32px; padding-right: 32px;">
+        <div class="hidden md:flex items-center gap-2 mb-5 flex-wrap px-8" style="padding-left: 32px; padding-right: 32px;">
             <button class="status-filter-btn px-[14px] py-[8px] rounded-[60px] text-xs font-medium transition flex-shrink-0 text-text-primary bg-transparent" data-status="all">
                 Все КП
             </button>
@@ -96,13 +109,6 @@
             </button>
             <button class="status-filter-btn px-[14px] py-[8px] rounded-[60px] text-xs font-medium transition flex-shrink-0 text-text-primary bg-transparent" data-status="rejected">
                 Отклонены
-            </button>
-        </div>
-
-        <!-- Mobile Create Button -->
-        <div class="md:hidden px-8 mb-4" style="padding-left: 32px; padding-right: 32px;">
-            <button onclick="openKpModal()" style="width: 100%; padding: 12px 20px; background: #28a745; color: white; border: none; border-radius: 80px; cursor: pointer; font-size: 14px;">
-                + Создать КП
             </button>
         </div>
 
@@ -255,8 +261,10 @@
 
         <!-- Pagination -->
         @if($commercialOfferList->hasPages())
-            <div class="mt-4">
-                {{ $commercialOfferList->links('components.manager-pagination') }}
+            <div class="mt-4 overflow-x-auto">
+                <div class="min-w-min">
+                    {{ $commercialOfferList->links('components.manager-pagination') }}
+                </div>
             </div>
         @endif
             </div>

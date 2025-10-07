@@ -194,8 +194,10 @@
     function openExecutorModal(serviceId) {
         console.log('Opening executor modal for service:', serviceId);
         currentServiceId = serviceId;
+        const modal = document.getElementById('executorModal');
         // Show modal
-        document.getElementById('executorModal').classList.remove('hidden');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
         
         // Load modal content via AJAX
         fetch(`/executor/service-modal/${serviceId}`)
@@ -204,12 +206,14 @@
                 // Extract only the modal content from the response
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(html, 'text/html');
-                const modalContent = doc.querySelector('.fixed.inset-0');
+                const modalContent = doc.querySelector('.fixed.inset-0 > .bg-white');
                 
                 if (modalContent) {
-                    document.querySelector('#executorModal .bg-white').innerHTML = modalContent.querySelector('.bg-white').innerHTML;
+                    document.querySelector('#executorModal .bg-white').innerHTML = modalContent.innerHTML;
                     // Initialize modal functionality after content is loaded
                     initializeExecutorModalFunctionality();
+                } else {
+                    console.error('Modal content not found in response');
                 }
             })
             .catch(error => {
@@ -218,7 +222,9 @@
     }
 
     function closeExecutorModal() {
-        document.getElementById('executorModal').classList.add('hidden');
+        const modal = document.getElementById('executorModal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
         currentServiceId = null;
     }
 
