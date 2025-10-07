@@ -59,8 +59,8 @@
 
     <div class="px-8" style="padding-left: 0px; padding-right: 32px;">
         <div class="mb-6 flex items-center justify-between">
-            <h1 class="text-[24px] leading-[1.2] font-semibold text-text-primary" style="padding-left: 32px;">Коммерческие предложения</h1>
-            <div class="flex items-center gap-3">
+            <h1 class="text-[24px] leading-[1.2] font-semibold text-text-primary pl-4 md:pl-8" style="padding-left: 16px;">Коммерческие предложения</h1>
+            <div class="flex items-center gap-3" style="margin-right: -16px;">
                 <!-- Search - Desktop -->
                 <div class="hidden md:flex items-center gap-[11px] px-[16px] pr-[22px] py-[11px] h-[46px] border border-border-light rounded-[80px] bg-white">
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.8333 15.8333L13.2083 13.2083" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.33333 15.8333C12.0152 15.8333 15 12.8486 15 9.16667C15 5.48477 12.0152 2.5 8.33333 2.5C4.65143 2.5 1.66667 5.48477 1.66667 9.16667C1.66667 12.8486 4.65143 15.8333 8.33333 15.8333Z" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -187,15 +187,28 @@
                 
                 <!-- Mobile Card View -->
                 <div class="md:hidden bg-white rounded-lg shadow-sm mb-3 p-4">
-                    <!-- Header with name and date -->
-                    <div class="flex items-center justify-between mb-4">
-                        <div class="flex items-center gap-[10px]">
-                            <span class="text-base font-medium text-[#1E2B28] leading-[1]">{{ $commercialOffer->name }}</span>
-                                </div>
-                        <div class="flex items-center gap-[6px] flex-shrink-0">
-                            <span class="text-sm font-medium text-[#1E2B28] leading-[1]">{{ \App\Data\Helper\Assistant::formatDate($commercialOffer->created_at) }}</span>
-                                </div>
-                            </div>
+                    <!-- Date in top left corner -->
+                    <div class="mb-2">
+                        <span class="text-xs text-gray-500">{{ \App\Data\Helper\Assistant::formatDate($commercialOffer->created_at) }}</span>
+                    </div>
+                    
+                    <!-- Line under date -->
+                    <div class="w-full h-px bg-gray-200 mb-3"></div>
+                    
+                    <!-- Client label -->
+                    <div class="mb-1">
+                        <span class="text-xs font-medium text-gray-500">Клиент</span>
+                    </div>
+                    
+                    <!-- Name with avatar -->
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-8 h-8 rounded-full bg-gray-300 flex-shrink-0 flex items-center justify-center">
+                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            </svg>
+                        </div>
+                        <span class="text-base font-medium text-[#1E2B28]">{{ $commercialOffer->name }}</span>
+                    </div>
                     
                     <!-- Details - Vertical Layout -->
                     <div class="space-y-2">
@@ -206,21 +219,6 @@
                         <div class="flex flex-col">
                             <span class="text-xs font-medium text-gray-500 mb-1">Телефон</span>
                             <a href="tel:{{ $commercialOffer->phone }}" class="text-sm font-medium text-[#1E2B28] hover:underline">{{ $commercialOffer->phone }}</a>
-                        </div>
-                        <div class="flex flex-col">
-                            <span class="text-xs font-medium text-gray-500 mb-1">Тип</span>
-                            @php
-                                $typeName = $commercialOffer->type->name ?? 'Неизвестно';
-                                $badgeVariant ='default';
-                                if (str_contains(strtolower($typeName), 'кп')) {
-                                    $badgeVariant = 'primary';
-                                } elseif (str_contains(strtolower($typeName), 'требования')) {
-                                    $badgeVariant = 'warning';
-                                } elseif (str_contains(strtolower($typeName), 'консультация')) {
-                                    $badgeVariant = 'info';
-                                }
-                            @endphp
-                            @component('components.modern.badge', ['variant' => $badgeVariant, 'content' => $typeName])
                         </div>
                         <div class="flex flex-col relative">
                             <div class="flex items-center justify-between">
