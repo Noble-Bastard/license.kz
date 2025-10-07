@@ -65,7 +65,7 @@
                 <!-- Service Name -->
                 <div class="flex flex-col">
                     <span class="text-[14px] font-medium text-text-primary">
-                        {{ $serviceJournal->service->name ?? 'Не указано' }}
+                        {{ $serviceJournal->service->first()->name ?? 'Не указано' }}
                     </span>
             </div>
         </div>
