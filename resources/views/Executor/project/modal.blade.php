@@ -90,7 +90,12 @@
                             </div>
                             
                             @if(!$step->is_completed)
-                                <button class="px-4 py-2 bg-[#279760] text-white text-[12px] font-medium rounded-full hover:bg-[#1e7a4f] transition-colors">
+                                <button 
+                                    class="px-4 py-2 bg-[#279760] text-white text-[12px] font-medium rounded-full hover:bg-[#1e7a4f] transition-colors send-to-check-btn"
+                                    data-service-journal-id="{{ $serviceJournal->id }}"
+                                    data-step-id="{{ $step->id }}"
+                                    onclick="sendToCheck({{ $serviceJournal->id }})"
+                                >
                                     Отправить на проверку
                                 </button>
                             @endif
@@ -130,26 +135,28 @@
                             </div>
                         </div>
 
-                        <!-- Step Comments - пока отключено, так как нет привязки к шагам -->
+                        <!-- Step Comments -->
                         <div>
-                            <h3 class="text-[13px] font-semibold text-text-primary mb-2">Комментарии</h3>
+                            <h3 class="text-[13px] font-semibold text-text-primary mb-2">Комментарии к шагу</h3>
                             <div class="space-y-2 mb-3">
+                                <!-- Comments for this step would go here -->
                                 <div class="text-center py-2">
-                                    <p class="text-[11px] text-text-muted">Комментарии к шагам временно недоступны</p>
+                                    <p class="text-[11px] text-text-muted">Комментарии к этому шагу</p>
                                 </div>
                             </div>
-                            
-                            <!-- Comment Input for this step - пока отключено -->
+
+                            <!-- Comment Input for this step -->
                             <div class="flex items-center gap-2">
-                                <input 
-                                    type="text" 
-                                    placeholder="Сообщение (временно недоступно)" 
+                                <input
+                                    type="text"
+                                    placeholder="Комментарий к шагу..."
                                     class="flex-1 px-3 py-2 border border-border-light rounded-full text-[12px] focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                                    disabled
+                                    id="step-comment-input-{{ $step->id }}"
+                                    onkeypress="handleStepCommentKeyPress(event, {{ $step->id }})"
                                 />
-                                <button 
-                                    class="w-8 h-8 rounded-full bg-gray-300 cursor-not-allowed flex items-center justify-center"
-                                    disabled
+                                <button
+                                    class="w-8 h-8 rounded-full bg-primary hover:bg-primary-dark transition-colors flex items-center justify-center"
+                                    onclick="sendStepComment({{ $step->id }}, document.getElementById('step-comment-input-{{ $step->id }}').value)"
                                 >
                                     <svg width="14" height="14" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M18.3333 1.66667L9.16667 10.8333" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -176,9 +183,9 @@
                         @foreach($messages as $message)
                             <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg">
                                 <div class="w-8 h-8 rounded-full bg-neutral-300 overflow-hidden flex-shrink-0">
-                                    @if($message->createdBy->profile->photo_id ?? false)
-                                        <img src="/storage_/{{ $message->createdBy->profile->photo_path }}" 
-                                             alt="User" 
+                                    @if(($message->createdBy->profile->photo_id ?? null) && ($message->createdBy->profile->photo_path ?? null))
+                                        <img src="/storage/{{ $message->createdBy->profile->photo_path }}"
+                                             alt="User"
                                              class="w-full h-full object-cover">
                                     @else
                                         <div class="w-full h-full bg-neutral-200 flex items-center justify-center">

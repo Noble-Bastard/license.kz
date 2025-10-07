@@ -249,8 +249,8 @@
                     .then(data => {
                         if (data.success) {
                             messageInput.value = '';
-                            // Reload messages or add new message to list
-                            location.reload(); // Simple reload for now
+                            // Reload modal content to show new message
+                            openExecutorModal(currentServiceId);
                         } else {
                             alert('Ошибка отправки сообщения: ' + data.error);
                         }
@@ -287,7 +287,7 @@
     // Function to send step comment
     function sendStepComment(stepId, message) {
         if (!message.trim() || !currentServiceId) return;
-        
+
         fetch('/executor/send-step-message', {
             method: 'POST',
             headers: {
@@ -304,7 +304,7 @@
         .then(data => {
             if (data.success) {
                 // Clear input
-                event.target.previousElementSibling.value = '';
+                document.getElementById('step-comment-input-' + stepId).value = '';
                 // Reload modal content
                 openExecutorModal(currentServiceId);
             } else {
@@ -316,5 +316,45 @@
             alert('Ошибка отправки комментария');
         });
     }
-    </script>
+
+    // Handle Enter key press for step comments
+    function handleStepCommentKeyPress(event, stepId) {
+        if (event.key === 'Enter') {
+            const input = document.getElementById('step-comment-input-' + stepId);
+            const message = input.value.trim();
+            if (message) {
+                sendStepComment(stepId, message);
+            }
+        }
+    }
+
+    // Function to send service to check
+    function sendToCheck(serviceJournalId) {
+        if (confirm('Вы уверены, что хотите отправить задачу на проверку?')) {
+            const url = '/executor/service-modal/' + serviceJournalId + '/send-to-check';
+
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);
+                    // Reload modal content to show updated status
+                    openExecutorModal(serviceJournalId);
+                } else {
+                    alert('Ошибка: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Ошибка при отправке на проверку');
+            });
+        }
+    }
+</script>
 @endsection

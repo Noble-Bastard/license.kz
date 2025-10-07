@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Executor;
 
 use App\Data\Core\Dal\ProfileDal;
 use App\Data\Helper\ProjectStatus;
+use App\Data\Helper\ServiceStatusList;
 use App\Data\Project\Dal\ProjectDal;
 use App\Data\Task\Model\ExecutorHourlyRate;
 use App\Data\ServiceJournal\Dal\ServiceJournalDal;
@@ -75,7 +76,7 @@ class ProjectController extends Controller
         }
         
         // Get general messages for the service
-        $messages = \App\Data\ServiceJournal\Model\ServiceJournalMessage::with(['message', 'createdBy'])
+        $messages = \App\Data\ServiceJournal\Model\ServiceJournalMessageExt::with(['message', 'createdBy.profile'])
             ->where('service_journal_id', $serviceJournalId)
             ->orderBy('create_date', 'asc')
             ->get();
@@ -88,4 +89,26 @@ class ProjectController extends Controller
             ->with('messages', $messages);
     }
 
+    /**
+     * Send service to check (for Executor)
+     */
+    public function sendToCheck($serviceJournalId)
+    {
+        $serviceJournal = ServiceJournalDal::getExt($serviceJournalId);
+
+        if ($serviceJournal->service_status_id == ServiceStatusList::DataCollection) {
+            ServiceJournalDal::setServiceJournalStatus($serviceJournalId, ServiceStatusList::Check);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Задача отправлена на проверку',
+                'new_status' => 'Check'
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Задачу можно отправить на проверку только в статусе "Сбор данных"'
+        ], 400);
+    }
 }
