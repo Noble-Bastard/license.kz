@@ -338,9 +338,10 @@
                         $startPage = max(1, $currentPage - 2);
                         $endPage = min($lastPage, $currentPage + 2);
                     @endphp
-                    
+
                     @for($i = $startPage; $i <= $endPage; $i++)
-                        <button class="w-8 h-8 rounded-full text-sm font-medium {{ $i === $currentPage ? 'bg-[#279760] text-white' : 'bg-white text-text-primary border border-border-light hover:bg-bg-tertiary' }} transition-colors">
+                        <button onclick="loadServicesPage({{ $i }}, '{{ $statusId ?? 'null' }}')"
+                                class="w-8 h-8 rounded-full text-sm font-medium {{ $i === $currentPage ? 'bg-[#279760] text-white' : 'bg-white text-text-primary border border-border-light hover:bg-bg-tertiary' }} transition-colors cursor-pointer">
                             {{ $i }}
                         </button>
                     @endfor
@@ -389,9 +390,84 @@ function openServiceModal(serviceId) {
         });
 }
 
-function closeServiceModal() {
-    document.getElementById('serviceModal').classList.add('hidden');
-    currentServiceId = null;
+function loadServicesPage(page, statusId) {
+    // Build URL with current filters and search query
+    let url = '{{ route("manager.services.list") }}?page=' + page;
+
+    // Add status filter if present
+    if (statusId && statusId !== 'null') {
+        url += '&status_id=' + statusId;
+    }
+
+    // Add search query if present
+    const searchInput = document.querySelector('input[x-model="searchQuery"]');
+    if (searchInput && searchInput.value.trim()) {
+        url += '&search=' + encodeURIComponent(searchInput.value.trim());
+    }
+
+    // Show loading state
+    const servicesContainer = document.querySelector('.py-5');
+    servicesContainer.style.opacity = '0.5';
+    servicesContainer.style.pointerEvents = 'none';
+
+    // Load new content via AJAX
+    fetch(url)
+        .then(response => response.text())
+        .then(html => {
+            // Extract the services list and pagination from the response
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+
+            // Get the services list content
+            const newServicesContent = doc.querySelector('.py-5');
+            if (newServicesContent) {
+                // Replace current content
+                servicesContainer.innerHTML = newServicesContent.innerHTML;
+
+                // Reinitialize search functionality after content replacement
+                reinitializeSearch();
+            }
+        })
+        .catch(error => {
+            console.error('Error loading services page:', error);
+            alert('Ошибка загрузки страницы');
+        })
+        .finally(() => {
+            // Remove loading state
+            servicesContainer.style.opacity = '1';
+            servicesContainer.style.pointerEvents = 'auto';
+        });
+}
+
+function reinitializeSearch() {
+    // Reinitialize Alpine.js search functionality after content replacement
+    document.querySelectorAll('[x-model="searchQuery"]').forEach(input => {
+        // Remove existing listeners to avoid duplicates
+        const newInput = input.cloneNode(true);
+        input.parentNode.replaceChild(newInput, input);
+
+        // Add new listener
+        newInput.addEventListener('input', function() {
+            const searchQuery = this.value.toLowerCase();
+            const serviceCards = document.querySelectorAll('.service-card');
+
+            serviceCards.forEach(card => {
+                const serviceNo = card.querySelector('.service-no')?.textContent.toLowerCase() || '';
+                const managerName = card.querySelector('.manager-name')?.textContent.toLowerCase() || '';
+                const companyName = card.querySelector('.company-name')?.textContent.toLowerCase() || '';
+
+                const matchesSearch = serviceNo.includes(searchQuery) ||
+                                    managerName.includes(searchQuery) ||
+                                    companyName.includes(searchQuery);
+
+                if (matchesSearch) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    });
 }
 
 function initializeModalFunctionality() {
