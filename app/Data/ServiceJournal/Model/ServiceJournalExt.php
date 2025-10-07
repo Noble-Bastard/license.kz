@@ -43,13 +43,8 @@ class ServiceJournalExt extends Model
 
     public function service()
     {
-        // Проверяем, есть ли service_id в таблице, если нет - используем промежуточную таблицу
-        if (Schema::hasColumn('service_journal_ext', 'service_id')) {
-            return $this->hasOne('App\Data\Service\Model\Service', 'id', 'service_id');
-        } else {
-            // Используем промежуточную таблицу
-            return $this->belongsToMany('App\Data\Service\Model\Service', 'service_journal_service_map', 'service_journal_id', 'service_id');
-        }
+        // The service_journal_ext view has a service_id column, so always use hasOne
+        return $this->hasOne('App\Data\Service\Model\Service', 'id', 'service_id');
     }
 
     public function serviceStepList()

@@ -93,10 +93,19 @@ class ManagerController extends Controller
 
         $serviceJournalList = ServiceJournalDal::getServiceJournalListByManager($manager->id, true);
         $serviceJournal = ServiceJournalDal::getExt($serviceJournalId);
+        
+        // Ensure we have a single model, not a collection
+        if ($serviceJournal instanceof \Illuminate\Database\Eloquent\Collection) {
+            $serviceJournal = $serviceJournal->first();
+        }
+        
+        if (!$serviceJournal) {
+            abort(404, 'Service Journal not found');
+        }
+        
         $serviceJournal->load('serviceStatus');
         $serviceJournalStepList = ServiceJournalDal::getServiceJournalStepList($serviceJournalId);
-        $taskExecutorList=TaskDal::getTaskExecutorsListByProject($serviceJournal->project_id);
-        $manager = ProfileDal::getByUserId(Auth::id());
+        $taskExecutorList = TaskDal::getTaskExecutorsListByProject($serviceJournal->project_id);
         $executorList = ProfileDal::getListByRolesAndManager([RoleList::Executor], $manager->id, true);
         $groupList = ExecutorGroupDal::getList(true);
         
