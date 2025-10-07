@@ -176,9 +176,9 @@
         transform: translateY(0) !important;
     }
     
-    /* Белый фон содержимого в мобилке */
+    /* Серый фон содержимого в мобилке */
     #documentsModal .flex-1.overflow-y-auto {
-        background-color: var(--color-bg-primary) !important;
+        background-color: var(--color-bg-secondary) !important;
     }
     
     /* Убираем линию под заголовком */
@@ -249,20 +249,29 @@ function closeDocumentsModal() {
 
 function renderDocuments(documents, serviceInfo) {
     const modalContent = document.querySelector('#documentsModal .bg-white');
+    console.log('Rendering documents with large title - v2');
     
     let documentsHtml = '';
     
     // Service info header (БЕЗ стоимости)
     documentsHtml += `
-        <div class="p-6 border-b" style="background-color: var(--color-bg-primary);">
-            <div class="flex items-center justify-between mb-4">
-                <h3 class="font-medium text-gray-900" style="margin-top: 20px; font-size: 28px;">Документы УСЛ-${serviceInfo.service_no}</h3>
-                <button onclick="closeDocumentsModal()" class="text-gray-400 hover:text-gray-600" style="margin-top: 20px;">
+        <div class="p-6" style="background-color: white;">
+            <div class="grid grid-cols-1 md:grid-cols-[auto,1fr,auto] items-center gap-4">
+                <h3 class="font-medium text-gray-900" style="font-size: 48px !important; line-height: 1.2;">Документы УСЛ-${serviceInfo.service_no}</h3>
+                <div class="hidden md:grid grid-cols-5 gap-4 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <div>Номер документа</div>
+                    <div>Дата</div>
+                    <div>Тип документа</div>
+                    <div>Подтип</div>
+                    <div>Действия</div>
+                </div>
+                <button onclick="closeDocumentsModal()" class="text-gray-400 hover:text-gray-600">
                     <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                 </button>
             </div>
+            <div class="w-full h-px bg-gray-300 mt-4"></div>
         </div>
     `;
     
@@ -278,8 +287,8 @@ function renderDocuments(documents, serviceInfo) {
         
         documentsHtml += `
             <div class="mb-6">
-                <h4 class="text-base font-medium text-gray-900 mb-3">Предварительная проверка документов</h4>
-                <div class="space-y-2">
+                <h4 class="text-base font-medium text-gray-900 mb-3" style="background-color: transparent;">Предварительная проверка документов</h4>
+                <div class="space-y-2" style="background-color: transparent;">
                     ${uniqueDocs.map(doc => renderDocumentItem(doc)).join('')}
                 </div>
             </div>
@@ -290,7 +299,7 @@ function renderDocuments(documents, serviceInfo) {
     documentsHtml += `
         <div class="mb-6">
             <h4 class="text-base font-medium text-gray-900 mb-3">Предоплата</h4>
-            <div class="p-3 rounded-lg">
+            <div class="p-3">
                 <span class="text-sm font-medium text-gray-900">${formatNumber(serviceInfo.prepayment_amount || 0)} ₸</span>
             </div>
             ${documents.prepayment && documents.prepayment.length > 0 ? `
@@ -305,7 +314,7 @@ function renderDocuments(documents, serviceInfo) {
     documentsHtml += `
         <div class="mb-6">
             <h4 class="text-base font-medium text-gray-900 mb-3">Полная оплата</h4>
-            <div class="p-3 rounded-lg">
+            <div class="p-3">
                 <span class="text-sm font-medium text-gray-900">${formatNumber(serviceInfo.full_payment_amount || 0)} ₸</span>
             </div>
             ${documents.full_payment && documents.full_payment.length > 0 ? `
@@ -371,7 +380,7 @@ function renderDocumentItem(doc) {
     } else {
         // Десктопная версия
         return `
-            <div class="flex items-center justify-between p-3 rounded-lg">
+            <div class="flex items-center justify-between p-3">
                 <div class="flex items-center">
                     <span class="text-sm text-gray-600 mr-3">${documentId}</span>
                     <span class="text-sm text-gray-900">${documentType}</span>

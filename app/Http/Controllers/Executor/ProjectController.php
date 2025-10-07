@@ -57,7 +57,7 @@ class ProjectController extends Controller
     public function serviceModal($serviceJournalId)
     {
         $serviceJournal = ServiceJournalDal::getExt($serviceJournalId);
-        $serviceJournal->load('serviceStatus');
+        $serviceJournal->load('serviceStatus', 'service');
         $serviceJournalStepList = ServiceJournalDal::getServiceJournalStepList($serviceJournalId);
         
         // Get documents for the service
