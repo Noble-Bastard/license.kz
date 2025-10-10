@@ -453,6 +453,7 @@ class ServicesController extends Controller
         return view("catalog.choseServices", ['catalogNode' => $catalogItem]);
     }
 
+
     public function show($serviceJournalId)
     {
         $serviceJournal = ServiceJournalDal::getExt($serviceJournalId);
@@ -478,7 +479,11 @@ class ServicesController extends Controller
         $tableData = RegistrationFormDal::getTableData($serviceJournalId);
 
         $newsList = NewsDal::getTopFiveActualNews();
-        return view('Client.service-view')
+
+        // Определяем представление в зависимости от роли пользователя
+        $viewName = Auth::user()->isUserInRole(\App\Data\Helper\RoleList::Manager) ? 'Manager.service-view' : 'Client.service-view';
+
+        return view($viewName)
             ->with('serviceJournal', $serviceJournal)
             ->with('serviceJournalStepList', $serviceJournalStepList)
             ->with('serviceStepRequiredDocumentList', $serviceStepRequiredDocumentList)

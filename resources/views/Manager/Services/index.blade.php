@@ -76,7 +76,7 @@
                 <div onclick="openServiceModal({{ $service->id }})" class="hidden md:grid grid-cols-[200px,150px,200px,200px,200px,150px,150px,150px,50px] gap-[60px,120px,60px,60px,60px,60px,60px,0px,0px] items-center bg-white rounded-lg shadow-sm mb-3 p-5 cursor-pointer hover:bg-gray-50 transition-colors service-card">
                     <!-- Service Number -->
                     <div class="flex items-center gap-[10px]">
-                        <span class="text-sm font-medium text-[#1E2B28] leading-[1] service-no">УСЛ-{{ $service->id }}</span>
+                        <span class="text-sm font-medium text-[#1E2B28] leading-[1] service-no">УСЛ-{{ $service->service_no ?? $service->id }}</span>
                     </div>
                     
                     <!-- Status -->
@@ -340,7 +340,7 @@
                     @endphp
 
                     @for($i = $startPage; $i <= $endPage; $i++)
-                        <button onclick="loadServicesPage({{ $i }}, '{{ $statusId ?? 'null' }}')"
+                        <button onclick="loadServicesPage({{ $i }}, '{{ $active ?? 'null' }}')"
                                 class="w-8 h-8 rounded-full text-sm font-medium {{ $i === $currentPage ? 'bg-[#279760] text-white' : 'bg-white text-text-primary border border-border-light hover:bg-bg-tertiary' }} transition-colors cursor-pointer">
                             {{ $i }}
                         </button>
@@ -552,6 +552,11 @@ function initializeModalFunctionality() {
             $('#send-message-btn').click();
         }
     });
+
+    // Close modal button
+    $('.close-modal-btn').off('click').on('click', function() {
+        closeServiceModal();
+    });
 }
 
 // Function to add message to chat
@@ -628,6 +633,95 @@ function addCommentToChat(commentText) {
     commentsListElement.scrollTop = commentsListElement.scrollHeight;
 }
 
+// Close modal function
+function closeServiceModal() {
+    document.getElementById('serviceModal').classList.add('hidden');
+    currentServiceId = null;
+}
+
+// Return to Client functionality (for AJAX loaded modal content)
+function returnToClient(serviceJournalId) {
+    const modal = document.getElementById('returnToClientModal');
+    if (modal) {
+        modal.classList.remove('hidden');
+    }
+
+    // Set up form submission handler
+    const form = document.getElementById('returnToClientForm');
+    if (form) {
+        form.onsubmit = function(e) {
+            e.preventDefault();
+
+            const rejectReason = document.getElementById('rejectReason')?.value?.trim();
+            if (!rejectReason) {
+                alert('Пожалуйста, укажите причину возврата');
+                return;
+            }
+
+            // Send AJAX request to return service to client
+            fetch('{{ route("Manager.services.sendBackToClient") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    serviceJournalId: serviceJournalId,
+                    rejectReason: rejectReason
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success || data) {
+                    alert('Услуга успешно возвращена клиенту');
+                    closeReturnToClientModal();
+                    // Reload the page to update the status
+                    window.location.reload();
+                } else {
+                    alert('Ошибка при возврате услуги: ' + (data.message || 'Неизвестная ошибка'));
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Ошибка при отправке запроса');
+            });
+        };
+    }
+}
+
+function closeReturnToClientModal() {
+    const modal = document.getElementById('returnToClientModal');
+    if (modal) {
+        modal.classList.add('hidden');
+    }
+    const reasonField = document.getElementById('rejectReason');
+    if (reasonField) {
+        reasonField.value = '';
+    }
+}
+
+// Document viewing functions (for AJAX loaded modal content)
+function viewDocument(documentPath) {
+    if (documentPath) {
+        window.open('/storage_/' + documentPath, '_blank');
+    } else {
+        alert('Путь к документу не найден');
+    }
+}
+
+function downloadDocument(documentPath) {
+    if (documentPath) {
+        const link = document.createElement('a');
+        link.href = '/storage_/' + documentPath;
+        link.download = '';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    } else {
+        alert('Путь к документу не найден');
+    }
+}
+
 // Close modal when clicking outside
 document.getElementById('serviceModal').addEventListener('click', function(e) {
     if (e.target === this) {
@@ -637,7 +731,7 @@ document.getElementById('serviceModal').addEventListener('click', function(e) {
 
 // Close modal with Escape key
 document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
+    if (e.key === 'Escape' && !document.getElementById('serviceModal').classList.contains('hidden')) {
         closeServiceModal();
     }
 });

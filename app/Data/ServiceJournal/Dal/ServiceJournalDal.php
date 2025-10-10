@@ -275,7 +275,10 @@ class ServiceJournalDal
 
   public static function getServiceJournalClientDocumentList($serviceJournalId)
   {
-    return ServiceJournalClientDocument::where('service_journal_id', $serviceJournalId)->get();
+    return ServiceJournalClientDocument::where('service_journal_id', $serviceJournalId)
+      ->where('is_active', 1)
+      ->with('document')
+      ->get();
   }
 
 

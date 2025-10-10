@@ -30,7 +30,7 @@
                 <p class="text-[12px] text-text-muted">Создана {{ $serviceJournal->created_at ? $serviceJournal->created_at->format('d.m.Y') : 'N/A' }}</p>
         </div>
         
-            <button onclick="closeServiceModal()" class="flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100 transition-colors">
+            <button onclick="closeServiceModal()" class="close-modal-btn flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100 transition-colors">
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M15 5L5 15" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M5 5L15 15" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -52,14 +52,47 @@
                 </button>
             </div>
             
-            <!-- New Task Button -->
-            <button class="flex items-center gap-2 px-4 py-2 bg-[#279760] text-white text-[14px] font-medium rounded-full hover:bg-[#1e7a4f] transition-colors">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M8 3.33333V12.6667" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    <path d="M3.33333 8H12.6667" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                Новая задача
-            </button>
+            <!-- Action Buttons -->
+            <div class="flex items-center gap-2">
+                @php
+                    // Определяем условие показа специальных кнопок
+                    // Показываем только для услуг с назначенным менеджером и определёнными статусами
+                    $showSpecialButtons = $serviceJournal->manager_id != null
+                                        && in_array($serviceJournal->service_status_id, [3, 4, 5, 8, 9]); // DataCollection, Check, Execution, Prepayment, ClientCheck
+                @endphp
+
+                @if($showSpecialButtons)
+                <!-- Return to Client Button -->
+                <button onclick="returnToClient({{ $serviceJournal->id }})"
+                        class="flex items-center gap-2 px-3 py-2 bg-orange-500 text-white text-[12px] font-medium rounded-full hover:bg-orange-600 transition-colors">
+                    <svg width="14" height="14" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 4L4 10L10 16" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M16 4L10 10L16 16" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Вернуть клиенту
+                </button>
+
+                <!-- View Client Documents Button -->
+                <a href="{{ route('manager.serviceJournal.show', $serviceJournal->id) }}"
+                   target="_blank"
+                   class="flex items-center gap-2 px-3 py-2 bg-blue-500 text-white text-[12px] font-medium rounded-full hover:bg-blue-600 transition-colors">
+                    <svg width="14" height="14" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M11.6667 1.66667H5C4.55797 1.66667 4.13405 1.84226 3.82149 2.15482C3.50893 2.46738 3.33333 2.89131 3.33333 3.33334V16.6667C3.33333 17.1087 3.50893 17.5326 3.82149 17.8452C4.13405 18.1577 4.55797 18.3333 5 18.3333H15C15.442 18.3333 15.866 18.1577 16.1785 17.8452C16.4911 17.5326 16.6667 17.1087 16.6667 16.6667V6.66667L11.6667 1.66667Z" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M11.6667 1.66667V6.66667H16.6667" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Документы клиента
+                </a>
+                @endif
+
+                <!-- New Task Button -->
+                <button class="flex items-center gap-2 px-4 py-2 bg-[#279760] text-white text-[14px] font-medium rounded-full hover:bg-[#1e7a4f] transition-colors">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 3.33333V12.6667" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M3.33333 8H12.6667" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Новая задача
+                </button>
+            </div>
         </div>
 
         <!-- Tasks Tab Content -->
@@ -286,4 +319,69 @@
             </div>
         </div>
     </div>
+
+    <!-- Return to Client Modal -->
+    <div id="returnToClientModal" class="fixed inset-0 z-50 flex items-center justify-center hidden" style="background: rgba(0,0,0,0.4);">
+        <div class="bg-white w-[500px] mx-4 flex flex-col rounded-lg">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between px-6 py-4 border-b border-border-light">
+                <h2 class="text-[18px] font-semibold text-text-primary">Вернуть клиенту для сбора данных</h2>
+                <button onclick="closeReturnToClientModal()" class="flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-100 transition-colors">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 4L4 12" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M4 4L12 12" stroke="#191E1D" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="px-6 py-4">
+                <form id="returnToClientForm">
+                    <div class="mb-4">
+                        <label for="rejectReason" class="block text-[14px] font-medium text-text-primary mb-2">
+                            Укажите причину возврата:
+                        </label>
+                        <textarea
+                            id="rejectReason"
+                            name="rejectReason"
+                            rows="4"
+                            class="w-full px-3 py-2 border border-border-light rounded-lg text-[14px] focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none"
+                            placeholder="Опишите причину, по которой услуга возвращается клиенту для сбора дополнительных данных..."
+                            required
+                        ></textarea>
+                    </div>
+
+                    <div class="flex items-center justify-end gap-3">
+                        <button type="button" onclick="closeReturnToClientModal()"
+                                class="px-4 py-2 text-[14px] font-medium text-text-muted hover:text-text-primary transition-colors">
+                            Отмена
+                        </button>
+                        <button type="submit"
+                                class="px-4 py-2 bg-orange-500 text-white text-[14px] font-medium rounded-full hover:bg-orange-600 transition-colors">
+                            Вернуть клиенту
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+@endsection
+
+@section('js')
+<script>
+// Close modal when clicking outside
+document.getElementById('returnToClientModal').addEventListener('click', function(e) {
+    if (e.target === this) {
+        closeReturnToClientModal();
+    }
+});
+
+// Close modal with Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeReturnToClientModal();
+    }
+});
+</script>
 @endsection
