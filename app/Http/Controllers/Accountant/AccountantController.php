@@ -32,7 +32,7 @@ class AccountantController extends Controller
     public function getServiceList()
     {
         $serviceStatuses = ServiceDal::getServiceStatusList();
-        
+
         // Use the first available status, or default to a specific status if none available
         $defaultStatusId = $serviceStatuses->isNotEmpty() ? $serviceStatuses->first()->id : 1; // Default to Creation status
         $serviceJournalList = ServiceJournalDal::getAccountantServiceJournalList($defaultStatusId);
@@ -42,11 +42,18 @@ class AccountantController extends Controller
             ->with('serviceStatuses', $serviceStatuses);
     }
 
-    public function entityList(){
+    public function entityList()
+    {
         $serviceStatusId = Input::get('serviceStatusId');
         $entityData = new stdClass();
-        $serviceJournalList = ServiceJournalDal::getAccountantServiceJournalList($serviceStatusId);
-        
+
+        // If serviceStatusId is 0, get all services (no filter)
+        if ($serviceStatusId == 0) {
+            $serviceJournalList = ServiceJournalDal::getAccountantServiceJournalList(null);
+        } else {
+            $serviceJournalList = ServiceJournalDal::getAccountantServiceJournalList($serviceStatusId);
+        }
+
         $entityData->serviceJournalList = $serviceJournalList;
 
         return response()->json($entityData);
@@ -105,7 +112,8 @@ class AccountantController extends Controller
         InvoiceDal::generateNewDocumentsTask(ServiceStatusList::Payment);
     }
 
-    public function convertToPdf(){
+    public function convertToPdf()
+    {
         (new LibreOfficeToPdfConvertor('ServiceJournal/22/accountant_docs/dnHOrVmp0R8OThnXxDHtTKljpNkDBFTF33VNzW0Q_5e915fee35b03.docx'))->convert();
         //(new LibreOfficeToPdfConvertor('public/123.docx'))->convert();
     }
@@ -166,16 +174,16 @@ class AccountantController extends Controller
         $documentTemplateTypeId = $request->input('document_template_type_id');
         $documentName = $request->input('document_name');
         $file = $request->file('file');
-        
+
         // Use provided name or fallback to filename
         $fileName = $documentName ? $documentName : pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        
+
         // Check if template already exists for this country and type
         $curEntity = DocumentTemplateDal::getByCountryAndTemplateType($countryId, $documentTemplateTypeId);
         if (!is_null($curEntity) && !is_null($curEntity->path)) {
             Storage::delete($curEntity->path);
         }
-        
+
         $path = $file->store(FilePathHelper::getCompanyDocumentTemplatePath());
         $entity = new DocumentTemplate();
         $entity->name = $fileName;
@@ -196,5 +204,31 @@ class AccountantController extends Controller
         $documentTemplateId = Input::get('entityId');
         $documentTemplate = DocumentTemplateDal::get($documentTemplateId);
         return FilePathHelper::downloadFile($documentTemplate->path, $documentTemplate->name);
+    }
+
+    public function deleteDocumentTemplate($id)
+    {
+        $documentTemplateId = $id;
+        $documentTemplate = DocumentTemplateDal::get($documentTemplateId);
+
+        if ($documentTemplate) {
+            // Delete file from storage
+            if ($documentTemplate->path) {
+                Storage::delete($documentTemplate->path);
+            }
+
+            // Delete from database
+            DocumentTemplateDal::delete($documentTemplateId);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Шаблон успешно удален'
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Шаблон не найден'
+        ], 404);
     }
 }

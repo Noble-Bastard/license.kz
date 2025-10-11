@@ -1,21 +1,21 @@
 @extends('layouts.accountant-app')
 
 @section('content')
-<div class="px-6 lg:px-8" x-data="{
+<div class="px-6 lg:px-8" x-data="{ 
     searchQuery: '',
     filterServices() {
         const searchQuery = this.searchQuery.toLowerCase();
         const serviceRows = document.querySelectorAll('.service-row');
-
+        
         serviceRows.forEach(row => {
             const serviceNo = row.querySelector('.service-no')?.textContent.toLowerCase() || '';
             const clientName = row.querySelector('.client-name')?.textContent.toLowerCase() || '';
             const managerName = row.querySelector('.manager-name')?.textContent.toLowerCase() || '';
-
-            const matchesSearch = serviceNo.includes(searchQuery) ||
-                                clientName.includes(searchQuery) ||
+            
+            const matchesSearch = serviceNo.includes(searchQuery) || 
+                                clientName.includes(searchQuery) || 
                                 managerName.includes(searchQuery);
-
+            
             if (matchesSearch) {
                 row.style.display = '';
             } else {
@@ -31,8 +31,10 @@
         </div>
     </div>
 
-    <!-- Status Filters -->
+    <!-- Search and Filter Section -->
     <div class="mb-6">
+        
+        <!-- Status Filters -->
         <div class="flex items-center gap-2 mb-4 overflow-x-auto whitespace-nowrap md:flex-wrap md:whitespace-normal scroll-smooth -mx-1 px-1" style="scrollbar-width: none; -ms-overflow-style: none;">
             <style>
                 /* hide scrollbar in webkit */
@@ -75,15 +77,13 @@
     </div>
 
     <!-- Desktop Headers -->
-    <div class="hidden md:grid bg-white px-4 py-3 text-xs font-semibold text-text-muted uppercase tracking-wider" style="grid-template-columns: 140px 1fr 140px 120px 160px 180px 120px 120px 140px; gap: 20px;">
+    <div class="hidden md:grid bg-white px-4 py-3 text-xs font-semibold text-text-muted uppercase tracking-wider" style="grid-template-columns: 140px 1fr 140px 120px 160px 180px 140px; gap: 20px;">
         <div>Услуга</div>
         <div>ФИО/Название компании</div>
         <div>Стоимость</div>
         <div>Срок</div>
         <div>Статус</div>
         <div>Менеджер</div>
-        <div>Предоплата</div>
-        <div>Полная оплата</div>
         <div>Действия</div>
     </div>
 
@@ -162,50 +162,6 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-4 py-4 whitespace-nowrap" style="width: 120px;">
-                                    @if(($service->is_prepayment_paid ?? 0) == 0 && ($service->prepayment_amount ?? 0) > 0)
-                                        <div class="flex items-center justify-between p-2 bg-red-50 border border-red-200 rounded-lg">
-                                            <div class="text-xs">
-                                                <div class="font-medium text-red-800">{{ number_format($service->prepayment_amount, 0, ',', ' ') }} ₸</div>
-                                                <div class="text-red-600">Предоплата</div>
-                                            </div>
-                                            <button onclick="openConfirmPaymentModal({{ $service->id }}, 2, '{{ $service->prepayment_amount }}', '{{ $service->currency_name ?? '₸' }}')" class="text-green-600 hover:text-green-700 transition-colors" title="Подтвердить предоплату">
-                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    @else
-                                        <div class="text-center text-green-600">
-                                            <svg class="w-5 h-5 mx-auto" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                                            </svg>
-                                            <div class="text-xs mt-1">Оплачено</div>
-                                        </div>
-                                    @endif
-                                </td>
-                                <td class="px-4 py-4 whitespace-nowrap" style="width: 120px;">
-                                    @if(($service->is_final_paid ?? 0) == 0 && ($service->final_amount ?? 0) > 0)
-                                        <div class="flex items-center justify-between p-2 bg-red-50 border border-red-200 rounded-lg">
-                                            <div class="text-xs">
-                                                <div class="font-medium text-red-800">{{ number_format($service->final_amount, 0, ',', ' ') }} ₸</div>
-                                                <div class="text-red-600">Полная оплата</div>
-                                            </div>
-                                            <button onclick="openConfirmPaymentModal({{ $service->id }}, 3, '{{ $service->final_amount }}', '{{ $service->currency_name ?? '₸' }}')" class="text-green-600 hover:text-green-700 transition-colors" title="Подтвердить полную оплату">
-                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    @else
-                                        <div class="text-center text-green-600">
-                                            <svg class="w-5 h-5 mx-auto" fill="currentColor" viewBox="0 0 20 20">
-                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
-                                            </svg>
-                                            <div class="text-xs mt-1">Оплачено</div>
-                                        </div>
-                                    @endif
-                                </td>
                                 <td class="px-4 py-4 whitespace-nowrap text-sm font-medium rounded-r-lg" style="width: 140px;">
                                     <div class="flex items-center space-x-2">
                                         <button onclick="openDocumentsModal({{ $service->id }}, '{{ $service->service_no ?? 'N/A' }}', '{{ $service->service_status_name ?? 'Не указан' }}')" class="text-green-600 hover:text-green-700 transition-colors" title="Просмотр документов">
@@ -219,7 +175,7 @@
                         @endforeach
                     @else
                         <tr>
-                            <td colspan="9" class="px-6 py-12 text-center">
+                            <td colspan="8" class="px-6 py-12 text-center">
                                 <div class="flex flex-col items-center">
                                     <svg class="w-12 h-12 text-text-muted mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
@@ -241,7 +197,7 @@
                 </div>
             </div>
 
-            <!-- Mobile cards -->
+            <!-- Services List (mobile cards) -->
             <div class="md:hidden space-y-3">
         @if(isset($serviceJournalList) && is_iterable($serviceJournalList) && $serviceJournalList->isNotEmpty())
             @foreach($serviceJournalList as $service)
@@ -293,7 +249,7 @@
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                             </button>
                             <button class="text-text-muted" title="Редактировать">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 113 3L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                             </button>
                             <button class="text-red-600" title="Удалить">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
@@ -306,50 +262,105 @@
                 <div class="bg-white rounded-lg shadow-sm px-4 py-6 text-center text-sm text-text-secondary">Нет услуг</div>
             @endif
             </div>
+
+            <!-- Pagination -->
+            @if(isset($serviceJournalList) && method_exists($serviceJournalList, 'hasPages') && $serviceJournalList->hasPages())
+                <div class="mt-6">
+                    @include('components.manager-pagination', ['paginator' => $serviceJournalList])
+                </div>
+            @endif
         </div>
     </div>
 </div>
 
-<!-- Confirm Payment Modal -->
-<div id="confirmPaymentModal" class="modal hidden">
+<!-- Add Service Modal -->
+<div id="add-service-modal" class="modal" style="display: none;">
     <div class="modal-content">
         <div class="modal-header">
-            <h3 id="confirmPaymentModalTitle" class="modal-title">Подтверждение оплаты</h3>
-            <button type="button" class="modal-close" onclick="closeConfirmPaymentModal()">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                </svg>
-            </button>
+            <h3 class="modal-title">Добавить новую услугу</h3>
+            <button class="modal-close" onclick="closeModal('add-service-modal')">&times;</button>
         </div>
         <div class="modal-body">
-            <div class="mb-4">
-                <div id="confirmPaymentAmount" class="text-lg font-semibold text-gray-900 mb-4"></div>
-
-                <div class="mb-4">
-                    <label for="confirmPaymentDocumentNo" class="block text-sm font-medium text-gray-700 mb-2">
-                        Номер счета на оплату
-                    </label>
-                    <input type="text" id="confirmPaymentDocumentNo" name="confirmPaymentDocumentNo"
-                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                           placeholder="Введите номер счета">
+            <form>
+                <div class="space-y-4">
+                    <div>
+                        <label for="service_name" class="block text-sm font-medium text-text-primary mb-1">Название услуги</label>
+                        <input type="text" id="service_name" name="service_name" class="block w-full px-3 py-2 border border-border-medium rounded-lg text-sm placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500" placeholder="Введите название услуги">
+                    </div>
+                    
+                    <div>
+                        <label for="service_description" class="block text-sm font-medium text-text-primary mb-1">Описание</label>
+                        <textarea id="service_description" name="service_description" rows="3" class="block w-full px-3 py-2 border border-border-medium rounded-lg text-sm placeholder-text-muted focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500" placeholder="Описание услуги"></textarea>
+                    </div>
+                    
+                    <div>
+                        <label for="service_status" class="block text-sm font-medium text-text-primary mb-1">Статус</label>
+                        <select id="service_status" name="service_status" class="block w-full px-3 py-2 border border-border-medium rounded-lg text-sm text-text-primary bg-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                            @if(isset($serviceStatuses) && $serviceStatuses->isNotEmpty())
+                                @foreach($serviceStatuses as $status)
+                                    <option value="{{ $status->id }}">{{ $status->name }}</option>
+                                @endforeach
+                            @else
+                                <option value="1">Создание</option>
+                                <option value="2">Оплата</option>
+                                <option value="3">Сбор данных</option>
+                                <option value="4">Проверка</option>
+                                <option value="5">Выполнение</option>
+                                <option value="6">Завершено</option>
+                                <option value="8">Предоплата</option>
+                                <option value="10">Отклонено</option>
+                            @endif
+                        </select>
+                    </div>
                 </div>
+                
+                <div class="mt-6 flex justify-end space-x-3">
+                    <button type="button" onclick="closeModal('add-service-modal')" class="px-4 py-2 border border-border-medium text-sm font-medium text-text-primary bg-white rounded-lg hover:bg-neutral-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors">
+                        Отмена
+                    </button>
+                    <button type="submit" class="px-4 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors">
+                        Добавить услугу
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
-                <div class="mb-4">
-                    <label for="confirmPaymentDocumentDate" class="block text-sm font-medium text-gray-700 mb-2">
-                        Дата оплаты
-                    </label>
-                    <input type="date" id="confirmPaymentDocumentDate" name="confirmPaymentDocumentDate"
-                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
+<!-- Documents Modal -->
+<div id="documentsModal" class="fixed inset-0 z-50 flex items-center md:items-center items-end justify-center hidden" style="background: rgba(0,0,0,0.4);">
+    <div class="bg-white w-full md:w-[90%] max-w-4xl h-[75vh] md:h-[60%] mx-0 md:mx-4 flex flex-col rounded-t-lg md:rounded-lg shadow-xl">
+        <!-- Modal Header -->
+        <div style="background-color: white;">
+            <div class="p-6 pb-4">
+                <div class="flex items-start justify-between mb-4">
+                    <h3 class="font-semibold text-gray-900 text-xl md:text-[28px]" id="documentsModalTitle" style="margin-left: 20px;">Документы</h3>
+                    <button onclick="closeDocumentsModal()" class="text-gray-400 hover:text-gray-600 transition-colors md:ml-[120px]">
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                <!-- Table headers under title (desktop only) -->
+                <div class="hidden md:grid grid-cols-4 gap-4 text-xs font-medium text-gray-500 uppercase tracking-wider pb-2" style="margin-left: 20px;">
+                    <div>Номер документа</div>
+                    <div>Дата</div>
+                    <div>Тип документа</div>
+                    <div>Статус</div>
                 </div>
             </div>
+            <!-- Full width line (desktop only) -->
+            <div class="hidden md:block w-full h-px bg-gray-300"></div>
         </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" onclick="closeConfirmPaymentModal()">
-                Отмена
-            </button>
-            <button type="submit" class="btn btn-primary" onclick="confirmPayment()">
-                Подтвердить оплату
-            </button>
+        
+        <!-- Modal Body -->
+        <div class="flex-1 overflow-y-auto p-6 bg-white md:bg-[var(--color-bg-secondary)]">
+            <div id="documentsContent">
+                <!-- Loading spinner -->
+                <div class="flex items-center justify-center h-32">
+                    <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600"></div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -366,18 +377,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-.modal:not(.hidden) {
-    opacity: 1;
-    visibility: visible;
-}
-
-.modal.hidden {
-    display: none !important;
 }
 
 .modal-content {
@@ -388,12 +387,6 @@
     max-height: 90vh;
     overflow-y: auto;
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-    transform: translateY(20px);
-    transition: transform 0.3s ease;
-}
-
-.modal:not(.hidden) .modal-content {
-    transform: translateY(0);
 }
 
 .modal-header {
@@ -435,60 +428,43 @@
     padding: 24px;
 }
 
-.modal-footer {
-    padding: 16px 24px;
-    border-top: 1px solid #e5e7eb;
-    display: flex;
-    justify-content: flex-end;
-    gap: 12px;
-}
-
-.btn {
-    padding: 8px 16px;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-    border: none;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.btn-secondary {
-    background-color: #f9fafb;
-    color: #374151;
-    border: 1px solid #d1d5db;
-}
-
-.btn-secondary:hover {
-    background-color: #f3f4f6;
-}
-
-.btn-primary {
-    background-color: #10b981;
-    color: white;
-}
-
-.btn-primary:hover {
-    background-color: #059669;
-}
-
-.btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+@media (max-width: 768px) {
+    #documentsModal .bg-white {
+        max-width: 100%;
+        width: 100%;
+        height: 75vh;
+        border-radius: 1rem 1rem 0 0;
+        margin-top: auto;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    #documentsModal h3 {
+        font-size: 20px !important;
+    }
+    
+    #documentsModalHeader {
+        padding: 8px 16px 0 16px !important;
+    }
+    
+    #documentsContent {
+        flex: 1;
+        overflow-y: auto;
+        padding: 0 16px 8px 16px;
+    }
+    
+    #documentsContent button {
+        min-height: 44px;
+        font-size: 14px;
+    }
 }
 </style>
 
 @push('scripts')
 <script>
-// Global variables
 let currentServiceId = null;
 let currentServiceNo = null;
 let currentServiceStatus = null;
-let currentPaymentData = null;
 
 function openModal(modalId) {
     document.getElementById(modalId).style.display = 'flex';
@@ -503,20 +479,20 @@ function openDocumentsModal(serviceId, serviceNo, serviceStatus) {
     currentServiceId = serviceId;
     currentServiceNo = serviceNo;
     currentServiceStatus = serviceStatus || 'Не указан';
-
+    
     // Update modal title
     document.getElementById('documentsModalTitle').textContent = `Документы №${serviceNo}`;
-
+    
     // Show modal
     document.getElementById('documentsModal').classList.remove('hidden');
-
+    
     // Show loading spinner
     document.getElementById('documentsContent').innerHTML = `
         <div class="flex items-center justify-center h-32">
             <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600"></div>
         </div>
     `;
-
+    
     // Load documents via API
     loadServiceDocuments(serviceId);
 }
@@ -531,7 +507,7 @@ function closeDocumentsModal() {
 function loadServiceDocuments(serviceId) {
     const url = `/service_journal/vue/documents/list?serviceJournalId=${serviceId}`;
     console.log('Loading documents from:', url);
-
+    
     $.ajax({
         url: url,
         type: 'GET',
@@ -556,10 +532,10 @@ function loadServiceDocuments(serviceId) {
 }
 
 function renderDocuments(documents) {
-    console.log('Rendering documents:', documents);
-
+    console.log('Rendering documents:', documents, 'isMobile check');
+    
     let documentsHtml = '';
-
+    
     if (documents.length === 0) {
         document.getElementById('documentsContent').innerHTML = `
             <div class="text-center py-12">
@@ -572,56 +548,112 @@ function renderDocuments(documents) {
         `;
         return;
     }
-
-    // Desktop version - grid layout
-    documentsHtml += `
-        <div class="overflow-x-auto">
-            <div class="grid grid-cols-4 gap-4">
-    `;
-
-    documents.forEach((doc, index) => {
-        const documentDate = new Date(doc.document_date).toLocaleDateString('ru-RU');
-
-        documentsHtml += `
-            <div class="col-span-1 px-3 py-3 text-sm font-medium text-gray-900">${doc.document_no}</div>
-            <div class="col-span-1 px-3 py-3 text-sm text-gray-500">${documentDate}</div>
-            <div class="col-span-1 px-3 py-3 text-sm text-gray-500">${doc.document_type_name}</div>
-            <div class="col-span-1 px-3 py-3 text-sm text-gray-500">
-                <div class="flex items-center gap-2">
-                    <button onclick="window.open('/service_journal/vue/documents/download?serviceJournalId=${currentServiceId}&documentTypeId=${doc.document_type_id}&documentSubTypeId=${doc.document_sub_type_id}&isCopy=0', '_blank')"
-                            class="text-gray-400 hover:text-gray-600 transition-colors"
-                            title="Просмотреть">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.023 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
-                        </svg>
-                    </button>
-                    <div class="flex items-center gap-2">
-                        <div class="w-2 h-2 rounded-full bg-green-500"></div>
-                        <span>${currentServiceStatus}</span>
+    
+    const isMobile = window.innerWidth <= 768;
+    
+    if (isMobile) {
+        // Mobile version - vertical layout
+        documentsHtml += '<div class="space-y-2">';
+        
+        documents.forEach((doc, index) => {
+            const documentDate = new Date(doc.document_date).toLocaleDateString('ru-RU');
+            
+            documentsHtml += `
+                <div class="pb-2 ${index < documents.length - 1 ? 'border-b border-gray-300' : ''}">
+                    <div class="flex flex-col space-y-1">
+                        <div class="flex items-center justify-between">
+                            <div class="text-xs font-medium text-gray-500">Номер документа</div>
+                            <div class="text-sm font-medium text-gray-900">${doc.document_no}</div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="text-xs font-medium text-gray-500">Дата</div>
+                            <div class="text-sm text-gray-500">${documentDate}</div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="text-xs font-medium text-gray-500">Тип документа</div>
+                            <div class="text-sm text-gray-500">${doc.document_type_name}</div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="text-xs font-medium text-gray-500">Статус</div>
+                            <div class="flex items-center gap-2">
+                                <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                                <span class="text-sm text-gray-500">${currentServiceStatus}</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-2 mt-2">
+                            <button onclick="downloadDocument(${doc.document_sub_type_id}, ${doc.document_type_id}, 0)" 
+                                    class="flex-1 text-white font-medium transition-colors flex items-center justify-center gap-2" style="background-color: var(--color-primary); border-radius: var(--radius-3xl); padding: 4px 24px; min-width: 0;" onmouseover="this.style.backgroundColor='var(--color-primary-dark)'" onmouseout="this.style.backgroundColor='var(--color-primary)'">
+                                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                                </svg>
+                                Скачать
+                            </button>
+                            <button onclick="window.open('/service_journal/vue/documents/download?serviceJournalId=${currentServiceId}&documentTypeId=${doc.document_type_id}&documentSubTypeId=${doc.document_sub_type_id}&isCopy=0', '_blank')" 
+                                    class="flex-1 font-medium transition-colors flex items-center justify-center gap-2" style="background-color: white; color: #374151; border-radius: var(--radius-3xl); border: 1px solid #d1d5db; padding: 4px 24px; min-width: 0;" onmouseover="this.style.backgroundColor='#f9fafb'" onmouseout="this.style.backgroundColor='white'">
+                                <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.023 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                </svg>
+                                Просмотреть
+                            </button>
+                        </div>
                     </div>
-                    <button onclick="downloadDocument(${doc.document_sub_type_id}, ${doc.document_type_id}, 0)"
-                            class="text-gray-400 hover:text-gray-600 transition-colors"
-                            title="Скачать">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
-                        </svg>
-                    </button>
+                </div>
+            `;
+        });
+        
+        documentsHtml += '</div>';
+    } else {
+        // Desktop version - grid layout
+        documentsHtml += `
+            <div class="overflow-x-auto">
+                <div class="grid grid-cols-4 gap-4">
+        `;
+        
+        documents.forEach((doc, index) => {
+            const documentDate = new Date(doc.document_date).toLocaleDateString('ru-RU');
+            
+            documentsHtml += `
+                <div class="col-span-1 px-3 py-3 text-sm font-medium text-gray-900">${doc.document_no}</div>
+                <div class="col-span-1 px-3 py-3 text-sm text-gray-500">${documentDate}</div>
+                <div class="col-span-1 px-3 py-3 text-sm text-gray-500">${doc.document_type_name}</div>
+                <div class="col-span-1 px-3 py-3 text-sm text-gray-500">
+                    <div class="flex items-center gap-2">
+                        <button onclick="window.open('/service_journal/vue/documents/download?serviceJournalId=${currentServiceId}&documentTypeId=${doc.document_type_id}&documentSubTypeId=${doc.document_sub_type_id}&isCopy=0', '_blank')" 
+                                class="text-gray-400 hover:text-gray-600 transition-colors" 
+                                title="Просмотреть">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.023 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            </svg>
+                        </button>
+                        <div class="flex items-center gap-2">
+                            <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                            <span>${currentServiceStatus}</span>
+                        </div>
+                        <button onclick="downloadDocument(${doc.document_sub_type_id}, ${doc.document_type_id}, 0)" 
+                                class="text-gray-400 hover:text-gray-600 transition-colors" 
+                                title="Скачать">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            // Add full-width line after each row except the last
+            if (index < documents.length - 1) {
+                documentsHtml += `<div class="col-span-4 h-px bg-gray-300 ml-3 mr-12"></div>`;
+            }
+        });
+        
+        documentsHtml += `
                 </div>
             </div>
         `;
-
-        // Add full-width line after each row except the last
-        if (index < documents.length - 1) {
-            documentsHtml += `<div class="col-span-4 h-px bg-gray-300 ml-3 mr-12"></div>`;
-        }
-    });
-
-    documentsHtml += `
-            </div>
-        </div>
-    `;
-
+    }
+    
     document.getElementById('documentsContent').innerHTML = documentsHtml;
 }
 
@@ -639,7 +671,7 @@ function renderError(message) {
 
 function downloadDocument(documentSubTypeId, documentTypeId, isCopy) {
     const url = `/service_journal/vue/documents/download?serviceJournalId=${currentServiceId}&documentTypeId=${documentTypeId}&documentSubTypeId=${documentSubTypeId}&isCopy=${isCopy}`;
-
+    
     // Создаем временную ссылку для скачивания
     const link = document.createElement('a');
     link.href = url;
@@ -649,27 +681,8 @@ function downloadDocument(documentSubTypeId, documentTypeId, isCopy) {
     document.body.removeChild(link);
 }
 
-// Enhanced confirm payment modal function with parameter validation
 function openConfirmPaymentModal(serviceJournalId, invoiceTypeId, amount, currency) {
     console.log('Opening confirm payment modal for service:', serviceJournalId, 'invoiceType:', invoiceTypeId);
-
-    // Validate parameters - prevent automatic calls without parameters
-    if (!serviceJournalId || !invoiceTypeId || !amount || !currency) {
-        console.error('Invalid or missing parameters for openConfirmPaymentModal:', {
-            serviceJournalId: serviceJournalId,
-            invoiceTypeId: invoiceTypeId,
-            amount: amount,
-            currency: currency
-        });
-        return;
-    }
-
-    // Additional check - ensure modal exists
-    const modal = document.getElementById('confirmPaymentModal');
-    if (!modal) {
-        console.error('Confirm payment modal element not found');
-        return;
-    }
 
     // Store current payment data
     currentPaymentData = {
@@ -679,47 +692,35 @@ function openConfirmPaymentModal(serviceJournalId, invoiceTypeId, amount, curren
         currency: currency
     };
 
-    // Set modal content with null checks
+    // Set modal content
     const modalTitle = document.getElementById('confirmPaymentModalTitle');
-    if (modalTitle) {
-        const paymentTypeText = invoiceTypeId === 2 ? 'предоплаты' : 'полной оплаты';
-        modalTitle.textContent = `Подтверждение ${paymentTypeText}`;
-    }
+    const paymentTypeText = invoiceTypeId === 2 ? 'предоплаты' : 'полной оплаты';
+    modalTitle.textContent = `Подтверждение ${paymentTypeText}`;
 
     const amountText = document.getElementById('confirmPaymentAmount');
-    if (amountText) {
-        amountText.textContent = `Сумма: ${Number(amount).toLocaleString('ru-RU')} ${currency}`;
-    }
+    amountText.textContent = `Сумма: ${Number(amount).toLocaleString('ru-RU')} ${currency}`;
 
-    // Clear form fields with null checks
-    const docNoInput = document.getElementById('confirmPaymentDocumentNo');
-    const docDateInput = document.getElementById('confirmPaymentDocumentDate');
-    if (docNoInput) docNoInput.value = '';
-    if (docDateInput) docDateInput.value = new Date().toISOString().split('T')[0];
+    // Clear form fields
+    document.getElementById('confirmPaymentDocumentNo').value = '';
+    document.getElementById('confirmPaymentDocumentDate').value = new Date().toISOString().split('T')[0];
 
     // Show modal
-    modal.classList.remove('hidden');
-    console.log('Confirm payment modal opened successfully');
+    document.getElementById('confirmPaymentModal').classList.remove('hidden');
 }
 
 function closeConfirmPaymentModal() {
-    const modal = document.getElementById('confirmPaymentModal');
-    if (modal) {
-        modal.classList.add('hidden');
-    }
+    document.getElementById('confirmPaymentModal').classList.add('hidden');
     currentPaymentData = null;
-    console.log('Confirm payment modal closed');
 }
 
 function confirmPayment() {
     if (!currentPaymentData) {
         console.error('No payment data available');
-        alert('Ошибка: нет данных для подтверждения оплаты');
         return;
     }
 
-    const documentNo = document.getElementById('confirmPaymentDocumentNo')?.value?.trim();
-    const documentDate = document.getElementById('confirmPaymentDocumentDate')?.value;
+    const documentNo = document.getElementById('confirmPaymentDocumentNo').value.trim();
+    const documentDate = document.getElementById('confirmPaymentDocumentDate').value;
 
     if (!documentNo || !documentDate) {
         alert('Пожалуйста, заполните номер счета и дату оплаты');
@@ -735,53 +736,49 @@ function confirmPayment() {
 
     // Show loading state
     const confirmBtn = document.querySelector('#confirmPaymentModal button[type="submit"]');
-    if (confirmBtn) {
-        const originalText = confirmBtn.textContent;
-        confirmBtn.textContent = 'Подтверждаем...';
-        confirmBtn.disabled = true;
+    const originalText = confirmBtn.textContent;
+    confirmBtn.textContent = 'Подтверждаем...';
+    confirmBtn.disabled = true;
 
-        // Send AJAX request
-        $.ajax({
-            url: `/accountant/vue/services/confirmPayment`,
-            type: 'POST',
-            data: {
-                serviceJournalId: currentPaymentData.serviceJournalId,
-                invoiceTypeId: currentPaymentData.invoiceTypeId,
-                documentNo: documentNo,
-                documentDate: documentDate,
-                _token: $('meta[name="csrf-token"]').attr('content')
-            },
-            dataType: 'json',
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            },
-            success: function(data) {
-                console.log('Payment confirmed:', data);
+    // Send AJAX request
+    $.ajax({
+        url: `/accountant/vue/services/confirmPayment`,
+        type: 'POST',
+        data: {
+            serviceJournalId: currentPaymentData.serviceJournalId,
+            invoiceTypeId: currentPaymentData.invoiceTypeId,
+            documentNo: documentNo,
+            documentDate: documentDate,
+            _token: $('meta[name="csrf-token"]').attr('content')
+        },
+        dataType: 'json',
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        success: function(data) {
+            console.log('Payment confirmed:', data);
 
-                // Close modal
-                closeConfirmPaymentModal();
+            // Close modal
+            closeConfirmPaymentModal();
 
-                // Show success message
-                showNotification('Оплата успешно подтверждена', 'success');
+            // Show success message
+            showNotification('Оплата успешно подтверждена', 'success');
 
-                // Reload current status data to update the UI
-                const activeStatus = document.querySelector('.status-filter-btn.bg-gray-200')?.textContent?.trim() || 'Все услуги';
-                loadServicesByStatus(activeStatus);
-            },
-            error: function(xhr, status, error) {
-                console.error('Error confirming payment:', error, xhr.responseText);
+            // Reload current status data to update the UI
+            const activeStatus = document.querySelector('.status-filter-btn.bg-gray-200')?.textContent?.trim() || 'Все услуги';
+            loadServicesByStatus(activeStatus);
+        },
+        error: function(xhr, status, error) {
+            console.error('Error confirming payment:', error, xhr.responseText);
 
-                // Reset button
-                if (confirmBtn) {
-                    confirmBtn.textContent = originalText;
-                    confirmBtn.disabled = false;
-                }
+            // Reset button
+            confirmBtn.textContent = originalText;
+            confirmBtn.disabled = false;
 
-                // Show error message
-                showNotification('Ошибка при подтверждении оплаты: ' + error, 'error');
-            }
-        });
-    }
+            // Show error message
+            showNotification('Ошибка при подтверждении оплаты: ' + error, 'error');
+        }
+    });
 }
 
 function showNotification(message, type) {
@@ -799,25 +796,23 @@ function showNotification(message, type) {
         notification.style.opacity = '0';
         notification.style.transform = 'translateX(100%)';
         setTimeout(() => {
-            if (notification.parentNode) {
-                document.body.removeChild(notification);
-            }
+            document.body.removeChild(notification);
         }, 300);
     }, 3000);
 }
 
 // Close modal when clicking outside
 window.onclick = function(event) {
-    const modal = document.getElementById('confirmPaymentModal');
-    if (event.target === modal) {
-        closeConfirmPaymentModal();
+    if (event.target.classList.contains('modal')) {
+        event.target.style.display = 'none';
     }
-
-    const documentsModal = document.getElementById('documentsModal');
-    if (event.target === documentsModal) {
+    if (event.target.id === 'documentsModal') {
         closeDocumentsModal();
     }
-};
+    if (event.target.id === 'confirmPaymentModal') {
+        closeConfirmPaymentModal();
+    }
+}
 
 // Status filter functionality
 function filterByStatus(status, clickedBtn) {
@@ -844,11 +839,6 @@ function loadServicesByStatus(status) {
 
     // Show loading spinner
     const servicesContainer = document.querySelector('.py-5.pb-20');
-    if (!servicesContainer) {
-        console.error('Services container not found');
-        return;
-    }
-
     servicesContainer.innerHTML = `
         <div class="flex items-center justify-center h-32">
             <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-green-600"></div>
@@ -1028,6 +1018,7 @@ function renderServicesTable(services, container) {
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                                 </svg>
                             </button>
+
                         </div>
                     </td>
                 </tr>
@@ -1039,6 +1030,66 @@ function renderServicesTable(services, container) {
                         </table>
                     </div>
                 </div>
+
+                <!-- Mobile cards -->
+                <div class="md:hidden space-y-3">
+        `;
+
+        services.forEach(service => {
+            tableHtml += `
+                <div class="bg-white rounded-lg shadow-sm px-4 py-3">
+                    <!-- Top: Услуга + Стоимость -->
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="text-sm font-medium text-text-primary">УСЛ-${service.service_no || 'N/A'}</div>
+                        <div class="text-sm font-semibold text-text-primary">${service.amount ? Number(service.amount).toLocaleString('ru-RU') : '0'} ₸</div>
+                    </div>
+                    <!-- Клиент -->
+                    <div class="mb-2">
+                        <div class="text-[11px] text-text-muted mb-1">ФИО/Название компании</div>
+                        <div class="flex items-center">
+                            <div class="w-7 h-7 bg-primary-100 rounded-full flex items-center justify-center">
+                                <span class="text-xs font-medium text-green-600">${service.client_full_name ? service.client_full_name.charAt(0) : 'N'}</span>
+                            </div>
+                            <div class="ml-2 text-sm text-text-primary">${service.client_full_name || 'N/A'}</div>
+                        </div>
+                    </div>
+                    <!-- Срок и Статус -->
+                    <div class="flex items-center justify-between mb-2">
+                        <div>
+                            <div class="text-[11px] text-text-muted mb-1">Срок</div>
+                            <div class="text-sm text-text-primary">${service.deadline ? new Date(service.deadline).toLocaleDateString('ru-RU') : 'N/A'}</div>
+                        </div>
+                        <div>
+                            <div class="text-[11px] text-text-muted mb-1">Статус</div>
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-white border border-border-light text-text-primary">${service.service_status_name || 'N/A'}</span>
+                        </div>
+                    </div>
+                    <!-- Менеджер и Действия -->
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center">
+                                <span class="text-[10px] font-medium text-gray-600">${service.manager_full_name ? service.manager_full_name.charAt(0) : 'N'}</span>
+                            </div>
+                            <div class="ml-2 text-sm text-text-primary">${service.manager_full_name || 'N/A'}</div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button onclick="openDocumentsModal(${service.id}, '${service.service_no || 'N/A'}', '${service.service_status_name || 'Не указан'}')" class="text-green-600" title="Просмотр документов">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                            </button>
+                            <button class="text-text-muted" title="Редактировать">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                            </button>
+                            <button class="text-red-600" title="Удалить">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+
+        tableHtml += `
+                </div>
             </div>
         `;
     }
@@ -1047,28 +1098,25 @@ function renderServicesTable(services, container) {
     console.log('Services table rendered');
 }
 
+function renderError(message, container) {
+    container.innerHTML = `
+        <div class="text-center py-12">
+            <svg class="w-12 h-12 text-red-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <h3 class="text-lg font-medium text-gray-900 mb-2">Ошибка</h3>
+            <p class="text-sm text-gray-500">${message}</p>
+        </div>
+    `;
+}
+
 // Initialize event listeners when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM Content Loaded - initializing page');
-
-    // Ensure confirm payment modal is hidden on page load
-    const confirmPaymentModal = document.getElementById('confirmPaymentModal');
-    if (confirmPaymentModal) {
-        confirmPaymentModal.classList.add('hidden');
-        console.log('Confirm payment modal hidden on page load');
-    }
-
-    // Reset payment data
-    currentPaymentData = null;
-
     // Add click handlers for status filter buttons
     const statusFilterButtons = document.querySelectorAll('.status-filter-btn');
-    console.log('Found status filter buttons:', statusFilterButtons.length);
-
     statusFilterButtons.forEach(button => {
         button.addEventListener('click', function(event) {
             const status = this.textContent.trim();
-            console.log('Status button clicked:', status);
             filterByStatus(status, this);
         });
     });
@@ -1085,7 +1133,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Load initial data - all services (serviceStatusId = 0)
-    console.log('Loading initial services data...');
     loadServicesByStatus('Все услуги');
 
     // Add search functionality
@@ -1126,10 +1173,59 @@ document.addEventListener('DOMContentLoaded', function() {
             };
         }
     });
-
-    console.log('Accountant services page loaded and initialized');
 });
+
+console.log('Accountant services page loaded and initialized');
+
 </script>
 @endpush
 
-@endsection
+<!-- Confirm Payment Modal -->
+<div id="confirmPaymentModal" class="modal hidden">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="confirmPaymentModalTitle" class="modal-title">Подтверждение оплаты</h3>
+            <button type="button" class="modal-close" onclick="closeConfirmPaymentModal()">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="mb-4">
+                <div id="confirmPaymentAmount" class="text-lg font-semibold text-gray-900 mb-4"></div>
+
+                <div class="mb-4">
+                    <label for="confirmPaymentDocumentNo" class="block text-sm font-medium text-gray-700 mb-2">
+                        Номер счета на оплату
+                    </label>
+                    <input type="text" id="confirmPaymentDocumentNo" name="confirmPaymentDocumentNo"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                           placeholder="Введите номер счета">
+                </div>
+
+                <div class="mb-4">
+                    <label for="confirmPaymentDocumentDate" class="block text-sm font-medium text-gray-700 mb-2">
+                        Дата оплаты
+                    </label>
+                    <input type="date" id="confirmPaymentDocumentDate" name="confirmPaymentDocumentDate"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="closeConfirmPaymentModal()">
+                Отмена
+            </button>
+            <button type="submit" class="btn btn-primary" onclick="confirmPayment()">
+                Подтвердить оплату
+            </button>
+        </div>
+    </div>
+</div>
+
+@endsection.modal.hidden { display: none !important; }
+function openConfirmPaymentModal(serviceJournalId, invoiceTypeId, amount, currency) {\r\n    console.log(\x27Opening confirm payment modal for service:\x27, serviceJournalId, \x27invoiceType:\x27, invoiceTypeId);\r\n\r\n    // Validate parameters\r\n    if (!serviceJournalId || !invoiceTypeId || !amount || !currency) {\r\n        console.error(\x27Invalid parameters for openConfirmPaymentModal:\x27, { serviceJournalId, invoiceTypeId, amount, currency });\r\n        return;\r\n    }\r\n\r\n    // Store current payment data\r\n    currentPaymentData = {\r\n        serviceJournalId: serviceJournalId,\r\n        invoiceTypeId: invoiceTypeId,\r\n        amount: amount,\r\n        currency: currency\r\n    };\r\n\r\n    // Set modal content\r\n    const modalTitle = document.getElementById(\x27confirmPaymentModalTitle\x27);\r\n    const paymentTypeText = invoiceTypeId === 2 ? \x27����������\x27 : \x27������ ������\x27;\r\n    modalTitle.textContent = \x60������������� \x60;\r\n\r\n    const amountText = document.getElementById(\x27confirmPaymentAmount\x27);\r\n    amountText.textContent = \x60�����:  \x60;\r\n\r\n    // Clear form fields\r\n    document.getElementById(\x27confirmPaymentDocumentNo\x27).value = \x27\x27;\r\n    document.getElementById(\x27confirmPaymentDocumentDate\x27).value = new Date().toISOString().split(\x27T\x27)[0];\r\n\r\n    // Show modal\r\n    document.getElementById(\x27confirmPaymentModal\x27).classList.remove(\x27hidden\x27);\r\n}
+    // Check if modal exists\r\n    const modal = document.getElementById(\x27confirmPaymentModal\x27);\r\n    if (!modal) {\r\n        console.error(\x27Confirm payment modal not found\x27);\r\n        return;\r\n    }\r\n\r\n    // Show modal\r\n    modal.classList.remove(\x27hidden\x27);
+\r\n// Enhanced confirm payment modal function with parameter validation\r\nfunction openConfirmPaymentModal(serviceJournalId, invoiceTypeId, amount, currency) {\r\n    console.log(\x27Opening confirm payment modal for service:\x27, serviceJournalId, \x27invoiceType:\x27, invoiceTypeId);\r\n\r\n    // Validate parameters - prevent automatic calls without parameters\r\n    if (!serviceJournalId || !invoiceTypeId || !amount || !currency) {\r\n        console.error(\x27Invalid or missing parameters for openConfirmPaymentModal:\x27, {\r\n            serviceJournalId: serviceJournalId,\r\n            invoiceTypeId: invoiceTypeId,\r\n            amount: amount,\r\n            currency: currency\r\n        });\r\n        return;\r\n    }\r\n\r\n    // Additional check - ensure modal exists\r\n    const modal = document.getElementById(\x27confirmPaymentModal\x27);\r\n    if (!modal) {\r\n        console.error(\x27Confirm payment modal element not found\x27);\r\n        return;\r\n    }\r\n\r\n    // Store current payment data\r\n    currentPaymentData = {\r\n        serviceJournalId: serviceJournalId,\r\n        invoiceTypeId: invoiceTypeId,\r\n        amount: amount,\r\n        currency: currency\r\n    };\r\n\r\n    // Set modal content\r\n    const modalTitle = document.getElementById(\x27confirmPaymentModalTitle\x27);\r\n    if (modalTitle) {\r\n        const paymentTypeText = invoiceTypeId === 2 ? \x27����������\x27 : \x27������ ������\x27;\r\n        modalTitle.textContent = \x60������������� \x60;\r\n    }\r\n\r\n    const amountText = document.getElementById(\x27confirmPaymentAmount\x27);\r\n    if (amountText) {\r\n        amountText.textContent = \x60�����:  \x60;\r\n    }\r\n\r\n    // Clear form fields with null checks\r\n    const docNoInput = document.getElementById(\x27confirmPaymentDocumentNo\x27);\r\n    const docDateInput = document.getElementById(\x27confirmPaymentDocumentDate\x27);\r\n    if (docNoInput) docNoInput.value = \x27\x27;\r\n    if (docDateInput) docDateInput.value = new Date().toISOString().split(\x27T\x27)[0];\r\n\r\n    // Show modal\r\n    modal.classList.remove(\x27hidden\x27);\r\n    console.log(\x27Confirm payment modal opened successfully\x27);\r\n}\r\n
+\r\n    // Ensure confirm payment modal is hidden on page load\r\n    const confirmPaymentModal = document.getElementById(\x27confirmPaymentModal\x27);\r\n    if (confirmPaymentModal) {\r\n        confirmPaymentModal.classList.add(\x27hidden\x27);\r\n        console.log(\x27Confirm payment modal hidden on page load\x27);\r\n    }\r\n\r\n    // Reset payment data\r\n    currentPaymentData = null;

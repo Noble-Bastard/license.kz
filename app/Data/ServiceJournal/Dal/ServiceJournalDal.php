@@ -601,28 +601,193 @@ class ServiceJournalDal
 
   public static function getAccountantServiceJournalList($serviceStatusId)
   {
-    $serviceJournalList = ServiceJournalExt::orderBy('create_date', 'desc')
-      ->where('service_status_id', $serviceStatusId)
-      ->get();
-    return $serviceJournalList;
+    $serviceJournalList = DB::select("
+        SELECT sj.id,
+            sj.service_status_id,
+            ss.name as service_status_name,
+            sj.client_id,
+            cprf.full_name as client_full_name,
+            cprf.email as client_email,
+            sj.manager_id,
+            mprf.full_name as manager_full_name,
+            mprf.email as manager_email,
+            sj.service_no,
+            sj.create_date,
+            sj.modify_date,
+            sjp.amount,
+            sjp.prepayment_percent,
+            sjp.tax,
+            sjp.currency_id,
+            crc.name as currency_name,
+            CASE WHEN pinvc.payment_status_id = 2 THEN 1 ELSE 0 END as is_client_check_paid,
+            pinvc.amount as client_check_amount,
+            CASE WHEN pinvp.payment_status_id = 2 THEN 1 ELSE 0 END as is_prepayment_paid,
+            pinvp.amount as prepayment_amount,
+            CASE WHEN pinvf.payment_status_id = 2 THEN 1 ELSE 0 END as is_final_paid,
+            pinvf.amount as final_amount,
+            prj.id as project_id,
+            prj.project_status_id,
+            prjs.name as project_status_name,
+            sj.country_id,
+            sj.reject_reason,
+            prv.project_review_id,
+            CASE WHEN sjpl.id IS NULL THEN 0 ELSE 1 END as is_profile_legal_exist,
+            COALESCE(sjs_max.completion_date, '') as deadline
+        FROM service_journal sj
+        LEFT JOIN service_journal_profile_legal sjpl ON sjpl.service_journal_id = sj.id
+        LEFT JOIN service_status ss ON ss.id = sj.service_status_id
+        LEFT JOIN profile cprf ON cprf.id = sj.client_id
+        LEFT JOIN profile mprf ON mprf.id = sj.manager_id
+        LEFT JOIN service_journal_payment sjp ON sjp.service_journal_id = sj.id
+        LEFT JOIN currency crc ON crc.id = sjp.currency_id
+        LEFT JOIN project prj ON prj.service_journal_id = sj.id
+        LEFT JOIN project_status prjs ON prjs.id = prj.project_status_id
+        LEFT JOIN (
+            SELECT project_id, MAX(id) as project_review_id
+            FROM project_review
+            GROUP BY project_id
+        ) prv ON prv.project_id = prj.id
+        LEFT JOIN payment_invoice pinvc ON pinvc.service_journal_id = sj.id AND pinvc.invoice_type_id = 1
+        LEFT JOIN payment_invoice pinvp ON pinvp.service_journal_id = sj.id AND pinvp.invoice_type_id = 2
+        LEFT JOIN payment_invoice pinvf ON pinvf.service_journal_id = sj.id AND pinvf.invoice_type_id = 3
+        LEFT JOIN (
+            SELECT service_journal_id, MAX(completion_date) as completion_date
+            FROM service_journal_step
+            GROUP BY service_journal_id
+        ) sjs_max ON sjs_max.service_journal_id = sj.id
+        WHERE ".($serviceStatusId !== null ? "sj.service_status_id = ?" : "1=1")."
+        ORDER BY sj.create_date DESC
+    ", $serviceStatusId !== null ? [$serviceStatusId] : []);
+
+    return collect($serviceJournalList);
   }
 
   public static function getHeadServiceJournalList($serviceStatusId)
   {
-    $serviceJournalList = ServiceJournalExt::orderBy('create_date', 'desc')
-      ->where('service_status_id', $serviceStatusId)
-      ->get();
-    return $serviceJournalList;
+    $serviceJournalList = DB::select("
+        SELECT sj.id,
+            sj.service_status_id,
+            ss.name as service_status_name,
+            sj.client_id,
+            cprf.full_name as client_full_name,
+            cprf.email as client_email,
+            sj.manager_id,
+            mprf.full_name as manager_full_name,
+            mprf.email as manager_email,
+            sj.service_no,
+            sj.create_date,
+            sj.modify_date,
+            sjp.amount,
+            sjp.prepayment_percent,
+            sjp.tax,
+            sjp.currency_id,
+            crc.name as currency_name,
+            CASE WHEN pinvc.payment_status_id = 2 THEN 1 ELSE 0 END as is_client_check_paid,
+            pinvc.amount as client_check_amount,
+            CASE WHEN pinvp.payment_status_id = 2 THEN 1 ELSE 0 END as is_prepayment_paid,
+            pinvp.amount as prepayment_amount,
+            CASE WHEN pinvf.payment_status_id = 2 THEN 1 ELSE 0 END as is_final_paid,
+            pinvf.amount as final_amount,
+            prj.id as project_id,
+            prj.project_status_id,
+            prjs.name as project_status_name,
+            sj.country_id,
+            sj.reject_reason,
+            prv.project_review_id,
+            CASE WHEN sjpl.id IS NULL THEN 0 ELSE 1 END as is_profile_legal_exist,
+            COALESCE(sjs_max.completion_date, '') as deadline
+        FROM service_journal sj
+        LEFT JOIN service_journal_profile_legal sjpl ON sjpl.service_journal_id = sj.id
+        LEFT JOIN service_status ss ON ss.id = sj.service_status_id
+        LEFT JOIN profile cprf ON cprf.id = sj.client_id
+        LEFT JOIN profile mprf ON mprf.id = sj.manager_id
+        LEFT JOIN service_journal_payment sjp ON sjp.service_journal_id = sj.id
+        LEFT JOIN currency crc ON crc.id = sjp.currency_id
+        LEFT JOIN project prj ON prj.service_journal_id = sj.id
+        LEFT JOIN project_status prjs ON prjs.id = prj.project_status_id
+        LEFT JOIN (
+            SELECT project_id, MAX(id) as project_review_id
+            FROM project_review
+            GROUP BY project_id
+        ) prv ON prv.project_id = prj.id
+        LEFT JOIN payment_invoice pinvc ON pinvc.service_journal_id = sj.id AND pinvc.invoice_type_id = 1
+        LEFT JOIN payment_invoice pinvp ON pinvp.service_journal_id = sj.id AND pinvp.invoice_type_id = 2
+        LEFT JOIN payment_invoice pinvf ON pinvf.service_journal_id = sj.id AND pinvf.invoice_type_id = 3
+        LEFT JOIN (
+            SELECT service_journal_id, MAX(completion_date) as completion_date
+            FROM service_journal_step
+            GROUP BY service_journal_id
+        ) sjs_max ON sjs_max.service_journal_id = sj.id
+        WHERE ".($serviceStatusId !== null ? "sj.service_status_id = ?" : "1=1")."
+        ORDER BY sj.create_date DESC
+    ", $serviceStatusId !== null ? [$serviceStatusId] : []);
+
+    return collect($serviceJournalList);
   }
 
   public static function getClientServiceJournalList($serviceStatusId)
   {
     $profile = ProfileDal::getByUserId(Auth::id());
-    $serviceJournalList = ServiceJournalExt::where('client_id', $profile->id)
-      ->where('service_status_id', $serviceStatusId)
-      ->orderBy('create_date', 'desc')
-      ->get();
-    return $serviceJournalList;
+
+    $serviceJournalList = DB::select("
+        SELECT sj.id,
+            sj.service_status_id,
+            ss.name as service_status_name,
+            sj.client_id,
+            cprf.full_name as client_full_name,
+            cprf.email as client_email,
+            sj.manager_id,
+            mprf.full_name as manager_full_name,
+            mprf.email as manager_email,
+            sj.service_no,
+            sj.create_date,
+            sj.modify_date,
+            sjp.amount,
+            sjp.prepayment_percent,
+            sjp.tax,
+            sjp.currency_id,
+            crc.name as currency_name,
+            CASE WHEN pinvc.payment_status_id = 2 THEN 1 ELSE 0 END as is_client_check_paid,
+            pinvc.amount as client_check_amount,
+            CASE WHEN pinvp.payment_status_id = 2 THEN 1 ELSE 0 END as is_prepayment_paid,
+            pinvp.amount as prepayment_amount,
+            CASE WHEN pinvf.payment_status_id = 2 THEN 1 ELSE 0 END as is_final_paid,
+            pinvf.amount as final_amount,
+            prj.id as project_id,
+            prj.project_status_id,
+            prjs.name as project_status_name,
+            sj.country_id,
+            sj.reject_reason,
+            prv.project_review_id,
+            CASE WHEN sjpl.id IS NULL THEN 0 ELSE 1 END as is_profile_legal_exist,
+            COALESCE(sjs_max.completion_date, '') as deadline
+        FROM service_journal sj
+        LEFT JOIN service_journal_profile_legal sjpl ON sjpl.service_journal_id = sj.id
+        LEFT JOIN service_status ss ON ss.id = sj.service_status_id
+        LEFT JOIN profile cprf ON cprf.id = sj.client_id
+        LEFT JOIN profile mprf ON mprf.id = sj.manager_id
+        LEFT JOIN service_journal_payment sjp ON sjp.service_journal_id = sj.id
+        LEFT JOIN currency crc ON crc.id = sjp.currency_id
+        LEFT JOIN project prj ON prj.service_journal_id = sj.id
+        LEFT JOIN project_status prjs ON prjs.id = prj.project_status_id
+        LEFT JOIN (
+            SELECT project_id, MAX(id) as project_review_id
+            FROM project_review
+            GROUP BY project_id
+        ) prv ON prv.project_id = prj.id
+        LEFT JOIN payment_invoice pinvc ON pinvc.service_journal_id = sj.id AND pinvc.invoice_type_id = 1
+        LEFT JOIN payment_invoice pinvp ON pinvp.service_journal_id = sj.id AND pinvp.invoice_type_id = 2
+        LEFT JOIN payment_invoice pinvf ON pinvf.service_journal_id = sj.id AND pinvf.invoice_type_id = 3
+        LEFT JOIN (
+            SELECT service_journal_id, MAX(completion_date) as completion_date
+            FROM service_journal_step
+            GROUP BY service_journal_id
+        ) sjs_max ON sjs_max.service_journal_id = sj.id
+        WHERE ".($serviceStatusId !== null ? "sj.service_status_id = ? AND " : "")."sj.client_id = ?
+        ORDER BY sj.create_date DESC
+    ", $serviceStatusId !== null ? [$serviceStatusId, $profile->id] : [$profile->id]);
+
+    return collect($serviceJournalList);
   }
 
   public static function getPaymentByServiceJournalId($serviceJournalId)

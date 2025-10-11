@@ -532,10 +532,9 @@ document.addEventListener('click', function(event) {
 
 function deleteDocument(templateId) {
     if (confirm('Вы уверены, что хотите удалить этот документ?')) {
-        fetch(`/accountant/document-templates/${templateId}`, {
-            method: 'DELETE',
+        fetch(`/document-delete/${templateId}`, {
+            method: 'GET',
             headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
                 'Content-Type': 'application/json'
             }
         })

@@ -4,7 +4,7 @@ use App\Data\Notify\Dal\EmailDal;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
-
+use App\Http\Controllers\Accountant\AccountantController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -705,6 +705,8 @@ Route::get('test-alpine', function() {
         });
     });
 
+    Route::get('document-delete/{id}', [AccountantController::class, 'deleteDocumentTemplate']);
+
     Route::namespace('Accountant')->prefix('accountant')->group(function () {
         Route::group(['middleware' => ['auth', 'setLocale', 'role:Accountant']], function () {
             Route::get('/', 'AccountantController@index')->name('Accountant.index');
@@ -712,6 +714,8 @@ Route::get('test-alpine', function() {
             Route::get('document-templates', 'AccountantController@documentTemplates')->name('Accountant.document_templates');
             Route::post('document-templates/upload', 'AccountantController@uploadDocument')->name('Accountant.document_templates.upload');
             Route::get('document-templates/{id}/download', 'AccountantController@downloadDocument')->name('Accountant.document_templates.download');
+            Route::get('document-delete/{id}', 'AccountantController@deleteDocumentTemplate');
+
             Route::get('vue/services/list', 'AccountantController@entityList');
             Route::post('vue/services/confirmPayment', 'AccountantController@confirmPayment')->name('accountant.service.confirmPayment');
             Route::post('services/generateAgreement', 'AccountantController@generateAgreement')->name('accountant.service.generateAgreement');
@@ -785,3 +789,4 @@ Route::get('test_document', [\App\Http\Controllers\Accountant\AccountantControll
 Route::get('php_info', function () {
   phpinfo();
 });
+
