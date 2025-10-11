@@ -52,7 +52,7 @@ class ManagerController extends Controller
 
         $groupList = ExecutorGroupDal::getList(true);
 
-        return view('Manager.Groups.index')
+        return view('Manager.Groups.index_new')
             ->with('groupList', $groupList);
     }
 
@@ -201,7 +201,7 @@ class ManagerController extends Controller
         ExecutorGroupDal::set($new);
 
         $groupList = ExecutorGroupDal::getList(true);
-        return view('Manager.Groups.index')
+        return view('Manager.Groups.index_new')
             ->with('groupList', $groupList);
     }
 
@@ -217,7 +217,7 @@ class ManagerController extends Controller
         $executorGroupBodyList=ExecutorGroupBodyDal::getListByExecutorGroupId($id);
         $manager = ProfileDal::getByUserId(Auth::id());
         $executorList = ProfileDal::getListByRolesAndManager([RoleList::Executor], $manager->id, true);
-        return view('Manager.Groups.bodyEdit')
+        return view('Manager.Groups.bodyEdit_clean')
             ->with('executorGroup', $executorGroup)
             ->with('executorGroupBodyList', $executorGroupBodyList)
             ->with('executorList', $executorList->pluck('full_name', 'id'));
@@ -235,7 +235,7 @@ class ManagerController extends Controller
 
         ExecutorGroupDal::set($new);
         $groupList = ExecutorGroupDal::getList(true);
-        return view('Manager.Groups.index')
+        return view('Manager.Groups.index_new')
             ->with('groupList', $groupList);
     }
 
@@ -254,17 +254,19 @@ class ManagerController extends Controller
         $executorGroupBodyList=ExecutorGroupBodyDal::getListByExecutorGroupId($new->executor_group_id);
         $manager = ProfileDal::getByUserId(Auth::id());
         $executorList = ProfileDal::getListByRolesAndManager([RoleList::Executor], $manager->id, true);
-        return view('Manager.Groups.bodyEdit')
+        return view('Manager.Groups.bodyEdit_clean')
             ->with('executorGroup', $executorGroup)
             ->with('executorGroupBodyList', $executorGroupBodyList)
             ->with('executorList', $executorList->pluck('full_name', 'id'));
     }
 
     public function destroyGroup($id)
-    {   ExecutorGroupBodyDal::deleteByExecutorGroup($id);
+    {
+        // Handle both GET and POST requests
+        ExecutorGroupBodyDal::deleteByExecutorGroup($id);
         ExecutorGroupDal::delete($id);
         $groupList = ExecutorGroupDal::getList(true);
-        return view('Manager.Groups.index')
+        return view('Manager.Groups.index_new')
             ->with('groupList', $groupList);
     }
 
@@ -277,7 +279,7 @@ class ManagerController extends Controller
         $executorGroupBodyList=ExecutorGroupBodyDal::getListByExecutorGroupId($executorGroupBody->executor_group_id);
         $manager = ProfileDal::getByUserId(Auth::id());
         $executorList = ProfileDal::getListByRolesAndManager([RoleList::Executor], $manager->id, true);
-        return view('Manager.Groups.bodyEdit')
+        return view('Manager.Groups.bodyEdit_clean')
             ->with('executorGroup', $executorGroup)
             ->with('executorGroupBodyList', $executorGroupBodyList)
             ->with('executorList', $executorList->pluck('full_name', 'id'));

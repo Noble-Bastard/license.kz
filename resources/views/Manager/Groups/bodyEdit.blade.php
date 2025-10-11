@@ -1,83 +1,485 @@
-@extends('new.layouts.app')
+@extends('layouts.figma-app')
 
-@section('content')
-    <div class="container">
-    <div class="row">
-        <div class="col-12">
+<div class="w-full" x-data="{ showAddExecutorModal: false }">
+    <div class="px-5 py-5" style="padding-left:20px;padding-right:20px;">
+        <div class="flex items-center justify-between gap-[10px] mb-[30px]">
+            <h1 class="text-[39px] leading-[1] font-normal tracking-[-0.02em] text-text-primary">Управление исполнителями: {{ $executorGroup->name }}</h1>
+        <script>
+function removeExecutor(executorBodyId, executorName) {
+    if (confirm('Вы уверены, что хотите удалить исполнителя "' + executorName + '" из группы?')) {
+        // Create a form to submit DELETE request
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '{{ route("Manager.groups.bodyDestroy", ":id") }}'.replace(':id', executorBodyId);
 
-                <div class="title-main">{{$executorGroup->name }}
+        // Add CSRF token
+        var csrfInput = document.createElement('input');
+        csrfInput.type = 'hidden';
+        csrfInput.name = '_token';
+        csrfInput.value = '{{ csrf_token() }}';
+        form.appendChild(csrfInput);
 
-                </div>
-                </div>
+        // Add method field for DELETE
+        var methodInput = document.createElement('input');
+        methodInput.type = 'hidden';
+        methodInput.name = '_method';
+        methodInput.value = 'DELETE';
+        form.appendChild(methodInput);
 
-        <div class="col-12">
-            <div class="card">
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+</script>
+    <script>
+function removeExecutor(executorBodyId, executorName) {
+    if (confirm('Вы уверены, что хотите удалить исполнителя "' + executorName + '" из группы?')) {
+        // Create a form to submit DELETE request
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '{{ route("Manager.groups.bodyDestroy", ":id") }}'.replace(':id', executorBodyId);
 
-                <div class="card-body">
-                <div class="pb-3">
-                    {!! Form::open(['url' => route('Manager.groups.bodyUpdate',$executorGroup->id), 'method' => 'put', 'class' => 'form-horizontal']) !!}
-                    <input name="executor_group_id" type="hidden" value="{{$executorGroup->id}}"/>
+        // Add CSRF token
+        var csrfInput = document.createElement('input');
+        csrfInput.type = 'hidden';
+        csrfInput.name = '_token';
+        csrfInput.value = '{{ csrf_token() }}';
+        form.appendChild(csrfInput);
 
-                    <div class="form-row">
-                        {!! Form::label('profile_id', trans('messages.manager.performer'), ['class' => 'col-xl-3 col-lg-4 col-md-3 col-sm-3 control-label']) !!}
-                        <div class="col-xl-9 col-lg-8 col-md-9 col-sm-9 elementinline pb-3">
-                            {!! Form::select('profile_id', $executorList, null, array_merge(['placeholder' => '', 'class' => $errors->has('profile_id') ? 'form-control is-invalid' : 'form-control'])) !!}
-                            @if ($errors->has('profile_id'))
-                                <span class="help-block invalid-feedback">
-                                        <strong>{{ $errors->first('profile_id') }}</strong>
-                                    </span>
-                            @endif
-                        </div>
-                    </div>
+        // Add method field for DELETE
+        var methodInput = document.createElement('input');
+        methodInput.type = 'hidden';
+        methodInput.name = '_method';
+        methodInput.value = 'DELETE';
+        form.appendChild(methodInput);
 
-                    <div class="form-row">
-                        <div class="col-xl-9 col-lg-8 col-md-9 col-sm-9">
-                            <submitfiled>{!! Form::submit(trans('messages.manager.add'), ['class' => 'btn btn-success']) !!}</submitfiled>
-                        </div>
-                    </div>
-                    {!! Form::close() !!}
-                </div>
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+</script>
+
+    <div class="px-5 pb-20" style="padding-left:20px;padding-right:20px;">
+        <div class="bg-white rounded-lg p-6 shadow-sm border border-border-light">
+            <!-- Add Executor Form -->
+            <div class="mb-8">
+                {!! Form::open(['url' => route('Manager.groups.bodyUpdate', $executorGroup->id), 'method' => 'put', 'class' => 'space-y-4']) !!}
+                <input name="executor_group_id" type="hidden" value="{{ $executorGroup->id }}"/>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+                    <div class="md:col-span-2">
+                        {!! Form::label('profile_id', 'Выберите исполнителя', ['class' => 'block text-sm font-medium text-text-primary mb-2']) !!}
+                        {!! Form::select('profile_id', $executorList, null, array_merge([
+                            'placeholder' => 'Выберите исполнителя...',
+                            'class' => 'w-full px-3 py-2 border border-border-light rounded-lg bg-white text-text-primary focus:outline-none focus:ring-2 focus:ring-[#279760] focus:border-transparent'
+                        ])) !!}
+                        @if ($errors->has('profile_id'))
+                            <p class="mt-1 text-sm text-red-600">{{ $errors->first('profile_id') }}</p>
+                        @endif
+                    <script>
+function removeExecutor(executorBodyId, executorName) {
+    if (confirm('Вы уверены, что хотите удалить исполнителя "' + executorName + '" из группы?')) {
+        // Create a form to submit DELETE request
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '{{ route("Manager.groups.bodyDestroy", ":id") }}'.replace(':id', executorBodyId);
+
+        // Add CSRF token
+        var csrfInput = document.createElement('input');
+        csrfInput.type = 'hidden';
+        csrfInput.name = '_token';
+        csrfInput.value = '{{ csrf_token() }}';
+        form.appendChild(csrfInput);
+
+        // Add method field for DELETE
+        var methodInput = document.createElement('input');
+        methodInput.type = 'hidden';
+        methodInput.name = '_method';
+        methodInput.value = 'DELETE';
+        form.appendChild(methodInput);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+</script>
                     <div>
-                        <table id="executors" class="table table-striped table-responsive-sm col-12">
-                            <thead>
-                            <tr>
-                                <th>@lang('messages.manager.executor_name')</th>
-                                <th>@lang('messages.all.actions')</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($executorGroupBodyList as $executorGroupBody)
-                                <tr>
-                                    <td>{{$executorGroupBody->profile_full_name }}</td>
+                        {!! Form::submit('Добавить исполнителя', ['class' => 'w-full inline-flex items-center justify-center px-4 py-2 bg-[#279760] text-white rounded-lg hover:bg-[#1f7a4f] transition-colors']) !!}
+                    <script>
+function removeExecutor(executorBodyId, executorName) {
+    if (confirm('Вы уверены, что хотите удалить исполнителя "' + executorName + '" из группы?')) {
+        // Create a form to submit DELETE request
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '{{ route("Manager.groups.bodyDestroy", ":id") }}'.replace(':id', executorBodyId);
 
-                                    <td class="text-center">
-                                        <div class="dropdown">
-                                            <button class="btn btn-success dropdown-toggle" type="button"
-                                                    id="dropdownMenuButton" data-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
-                                                <i class="fa fa-bars"></i>
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        // Add CSRF token
+        var csrfInput = document.createElement('input');
+        csrfInput.type = 'hidden';
+        csrfInput.name = '_token';
+        csrfInput.value = '{{ csrf_token() }}';
+        form.appendChild(csrfInput);
 
-                                                <a class="dropdown-item"
-                                                   href="{{route('Manager.groups.bodyDestroy', $executorGroupBody->id)}}"
-                                                   data-method="delete">@lang('messages.all.delete')</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
-                        {{--<div class="row padding-t-15">--}}
-                            {{--<div class="col">--}}
-                                {{--{{ $executorGroupBodyList->links() }}--}}
-                            {{--</div>--}}
-                        {{--</div>--}}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
-@endsection
+        // Add method field for DELETE
+        var methodInput = document.createElement('input');
+        methodInput.type = 'hidden';
+        methodInput.name = '_method';
+        methodInput.value = 'DELETE';
+        form.appendChild(methodInput);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+</script>
+                <script>
+function removeExecutor(executorBodyId, executorName) {
+    if (confirm('Вы уверены, что хотите удалить исполнителя "' + executorName + '" из группы?')) {
+        // Create a form to submit DELETE request
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '{{ route("Manager.groups.bodyDestroy", ":id") }}'.replace(':id', executorBodyId);
+
+        // Add CSRF token
+        var csrfInput = document.createElement('input');
+        csrfInput.type = 'hidden';
+        csrfInput.name = '_token';
+        csrfInput.value = '{{ csrf_token() }}';
+        form.appendChild(csrfInput);
+
+        // Add method field for DELETE
+        var methodInput = document.createElement('input');
+        methodInput.type = 'hidden';
+        methodInput.name = '_method';
+        methodInput.value = 'DELETE';
+        form.appendChild(methodInput);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+</script>
+                {!! Form::close() !!}
+            <script>
+function removeExecutor(executorBodyId, executorName) {
+    if (confirm('Вы уверены, что хотите удалить исполнителя "' + executorName + '" из группы?')) {
+        // Create a form to submit DELETE request
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '{{ route("Manager.groups.bodyDestroy", ":id") }}'.replace(':id', executorBodyId);
+
+        // Add CSRF token
+        var csrfInput = document.createElement('input');
+        csrfInput.type = 'hidden';
+        csrfInput.name = '_token';
+        csrfInput.value = '{{ csrf_token() }}';
+        form.appendChild(csrfInput);
+
+        // Add method field for DELETE
+        var methodInput = document.createElement('input');
+        methodInput.type = 'hidden';
+        methodInput.name = '_method';
+        methodInput.value = 'DELETE';
+        form.appendChild(methodInput);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+</script>
+
+            <!-- Executors List -->
+            <div>
+                <h3 class="text-lg font-medium text-text-primary mb-4">Исполнители в группе ({{ $executorGroupBodyList->count() }})</h3>
+                <div class="space-y-3">
+                    @forelse($executorGroupBodyList as $executorGroupBody)
+                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg border border-border-light">
+                            <div class="flex items-center gap-3">
+                                <img class="w-10 h-10 rounded-full object-cover" src="{{ asset('images/user1.png') }}" alt="{{ $executorGroupBody->profile_full_name }}"/>
+                                <span class="text-text-primary font-medium">{{ $executorGroupBody->profile_full_name }}</span>
+                            <script>
+function removeExecutor(executorBodyId, executorName) {
+    if (confirm('Вы уверены, что хотите удалить исполнителя "' + executorName + '" из группы?')) {
+        // Create a form to submit DELETE request
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '{{ route("Manager.groups.bodyDestroy", ":id") }}'.replace(':id', executorBodyId);
+
+        // Add CSRF token
+        var csrfInput = document.createElement('input');
+        csrfInput.type = 'hidden';
+        csrfInput.name = '_token';
+        csrfInput.value = '{{ csrf_token() }}';
+        form.appendChild(csrfInput);
+
+        // Add method field for DELETE
+        var methodInput = document.createElement('input');
+        methodInput.type = 'hidden';
+        methodInput.name = '_method';
+        methodInput.value = 'DELETE';
+        form.appendChild(methodInput);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+</script>
+                            <button onclick="removeExecutor({{ $executorGroupBody->id }}, '{{ $executorGroupBody->profile_full_name }}')"
+                                    class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-red-500 text-white hover:bg-red-600 transition-colors"
+                                    title="Удалить исполнителя">
+                                <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M15 5L5 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M5 5L15 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                        <script>
+function removeExecutor(executorBodyId, executorName) {
+    if (confirm('Вы уверены, что хотите удалить исполнителя "' + executorName + '" из группы?')) {
+        // Create a form to submit DELETE request
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '{{ route("Manager.groups.bodyDestroy", ":id") }}'.replace(':id', executorBodyId);
+
+        // Add CSRF token
+        var csrfInput = document.createElement('input');
+        csrfInput.type = 'hidden';
+        csrfInput.name = '_token';
+        csrfInput.value = '{{ csrf_token() }}';
+        form.appendChild(csrfInput);
+
+        // Add method field for DELETE
+        var methodInput = document.createElement('input');
+        methodInput.type = 'hidden';
+        methodInput.name = '_method';
+        methodInput.value = 'DELETE';
+        form.appendChild(methodInput);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+</script>
+                    @empty
+                        <div class="text-center py-8">
+                            <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <svg width="24" height="24" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M16.25 3.75L12.5 7.5L8.75 3.75L3.75 8.75L7.5 12.5L3.75 16.25L7.5 20L11.25 16.25L15 20L20 15L16.25 11.25L20 7.5L16.25 3.75Z" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            <script>
+function removeExecutor(executorBodyId, executorName) {
+    if (confirm('Вы уверены, что хотите удалить исполнителя "' + executorName + '" из группы?')) {
+        // Create a form to submit DELETE request
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '{{ route("Manager.groups.bodyDestroy", ":id") }}'.replace(':id', executorBodyId);
+
+        // Add CSRF token
+        var csrfInput = document.createElement('input');
+        csrfInput.type = 'hidden';
+        csrfInput.name = '_token';
+        csrfInput.value = '{{ csrf_token() }}';
+        form.appendChild(csrfInput);
+
+        // Add method field for DELETE
+        var methodInput = document.createElement('input');
+        methodInput.type = 'hidden';
+        methodInput.name = '_method';
+        methodInput.value = 'DELETE';
+        form.appendChild(methodInput);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+</script>
+                            <p class="text-text-secondary">В группе нет исполнителей</p>
+                        <script>
+function removeExecutor(executorBodyId, executorName) {
+    if (confirm('Вы уверены, что хотите удалить исполнителя "' + executorName + '" из группы?')) {
+        // Create a form to submit DELETE request
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '{{ route("Manager.groups.bodyDestroy", ":id") }}'.replace(':id', executorBodyId);
+
+        // Add CSRF token
+        var csrfInput = document.createElement('input');
+        csrfInput.type = 'hidden';
+        csrfInput.name = '_token';
+        csrfInput.value = '{{ csrf_token() }}';
+        form.appendChild(csrfInput);
+
+        // Add method field for DELETE
+        var methodInput = document.createElement('input');
+        methodInput.type = 'hidden';
+        methodInput.name = '_method';
+        methodInput.value = 'DELETE';
+        form.appendChild(methodInput);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+</script>
+                    @endforelse
+                <script>
+function removeExecutor(executorBodyId, executorName) {
+    if (confirm('Вы уверены, что хотите удалить исполнителя "' + executorName + '" из группы?')) {
+        // Create a form to submit DELETE request
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '{{ route("Manager.groups.bodyDestroy", ":id") }}'.replace(':id', executorBodyId);
+
+        // Add CSRF token
+        var csrfInput = document.createElement('input');
+        csrfInput.type = 'hidden';
+        csrfInput.name = '_token';
+        csrfInput.value = '{{ csrf_token() }}';
+        form.appendChild(csrfInput);
+
+        // Add method field for DELETE
+        var methodInput = document.createElement('input');
+        methodInput.type = 'hidden';
+        methodInput.name = '_method';
+        methodInput.value = 'DELETE';
+        form.appendChild(methodInput);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+</script>
+            <script>
+function removeExecutor(executorBodyId, executorName) {
+    if (confirm('Вы уверены, что хотите удалить исполнителя "' + executorName + '" из группы?')) {
+        // Create a form to submit DELETE request
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '{{ route("Manager.groups.bodyDestroy", ":id") }}'.replace(':id', executorBodyId);
+
+        // Add CSRF token
+        var csrfInput = document.createElement('input');
+        csrfInput.type = 'hidden';
+        csrfInput.name = '_token';
+        csrfInput.value = '{{ csrf_token() }}';
+        form.appendChild(csrfInput);
+
+        // Add method field for DELETE
+        var methodInput = document.createElement('input');
+        methodInput.type = 'hidden';
+        methodInput.name = '_method';
+        methodInput.value = 'DELETE';
+        form.appendChild(methodInput);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+</script>
+        <script>
+function removeExecutor(executorBodyId, executorName) {
+    if (confirm('Вы уверены, что хотите удалить исполнителя "' + executorName + '" из группы?')) {
+        // Create a form to submit DELETE request
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '{{ route("Manager.groups.bodyDestroy", ":id") }}'.replace(':id', executorBodyId);
+
+        // Add CSRF token
+        var csrfInput = document.createElement('input');
+        csrfInput.type = 'hidden';
+        csrfInput.name = '_token';
+        csrfInput.value = '{{ csrf_token() }}';
+        form.appendChild(csrfInput);
+
+        // Add method field for DELETE
+        var methodInput = document.createElement('input');
+        methodInput.type = 'hidden';
+        methodInput.name = '_method';
+        methodInput.value = 'DELETE';
+        form.appendChild(methodInput);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+</script>
+    <script>
+function removeExecutor(executorBodyId, executorName) {
+    if (confirm('Вы уверены, что хотите удалить исполнителя "' + executorName + '" из группы?')) {
+        // Create a form to submit DELETE request
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '{{ route("Manager.groups.bodyDestroy", ":id") }}'.replace(':id', executorBodyId);
+
+        // Add CSRF token
+        var csrfInput = document.createElement('input');
+        csrfInput.type = 'hidden';
+        csrfInput.name = '_token';
+        csrfInput.value = '{{ csrf_token() }}';
+        form.appendChild(csrfInput);
+
+        // Add method field for DELETE
+        var methodInput = document.createElement('input');
+        methodInput.type = 'hidden';
+        methodInput.name = '_method';
+        methodInput.value = 'DELETE';
+        form.appendChild(methodInput);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+</script>
+<script>
+function removeExecutor(executorBodyId, executorName) {
+    if (confirm('Вы уверены, что хотите удалить исполнителя "' + executorName + '" из группы?')) {
+        // Create a form to submit DELETE request
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '{{ route("Manager.groups.bodyDestroy", ":id") }}'.replace(':id', executorBodyId);
+
+        // Add CSRF token
+        var csrfInput = document.createElement('input');
+        csrfInput.type = 'hidden';
+        csrfInput.name = '_token';
+        csrfInput.value = '{{ csrf_token() }}';
+        form.appendChild(csrfInput);
+
+        // Add method field for DELETE
+        var methodInput = document.createElement('input');
+        methodInput.type = 'hidden';
+        methodInput.name = '_method';
+        methodInput.value = 'DELETE';
+        form.appendChild(methodInput);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+</script>
+<script>
+function removeExecutor(executorBodyId, executorName) {
+    if (confirm('Вы уверены, что хотите удалить исполнителя "' + executorName + '" из группы?')) {
+        // Create a form to submit DELETE request
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '{{ route("Manager.groups.bodyDestroy", ":id") }}'.replace(':id', executorBodyId);
+
+        // Add CSRF token
+        var csrfInput = document.createElement('input');
+        csrfInput.type = 'hidden';
+        csrfInput.name = '_token';
+        csrfInput.value = '{{ csrf_token() }}';
+        form.appendChild(csrfInput);
+
+        // Add method field for DELETE
+        var methodInput = document.createElement('input');
+        methodInput.type = 'hidden';
+        methodInput.name = '_method';
+        methodInput.value = 'DELETE';
+        form.appendChild(methodInput);
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+}
+</script>
