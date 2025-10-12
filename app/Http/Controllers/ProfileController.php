@@ -55,7 +55,13 @@ class ProfileController extends Controller
 
     public function serviceList()
     {
-        $service_status_type = Input::has('service_status_type') ? Input::get('service_status_type') : ServiceStatusTypeList::Opened;
+        $service_status_type = Input::has('service_status_type') ? (int)Input::get('service_status_type') : ServiceStatusTypeList::Opened;
+
+        // Обрабатываем значение -1 как "все услуги"
+        if ($service_status_type == -1) {
+            $service_status_type = null;
+        }
+
         $messageReadHist = ServiceJournalMessageDal::getClientReadHist();
         $messageCnt = $messageReadHist->where('message_client_read_by', null)->count();
         $serviceJournalList = ServiceJournalDal::getServiceJournalListByCurrentUserAndStatusType($service_status_type, false);
@@ -69,7 +75,7 @@ class ProfileController extends Controller
         return view('Client.serviceList')
             ->with('messageCnt', $messageCnt)
             ->with('serviceJournalList', $serviceJournalList)
-            ->with('serviceStatusType', $service_status_type)
+            ->with('serviceStatusType', $service_status_type ?? -1)
         ;
     }
 
@@ -113,7 +119,13 @@ class ProfileController extends Controller
 
     public function bookkeeping()
     {
-        $service_status_type = Input::has('service_status_type') ? Input::get('service_status_type') : ServiceStatusTypeList::Opened;
+        $service_status_type = Input::has('service_status_type') ? (int)Input::get('service_status_type') : ServiceStatusTypeList::Opened;
+
+        // Обрабатываем значение -1 как "все услуги"
+        if ($service_status_type == -1) {
+            $service_status_type = null;
+        }
+
         $serviceJournalList = ServiceJournalDal::getServiceJournalListByCurrentUserAndStatusType($service_status_type, true);
 
         // Загружаем документы для каждой услуги
@@ -123,12 +135,18 @@ class ProfileController extends Controller
 
         return view('Client.accounting')
             ->with('serviceJournalList', $serviceJournalList)
-            ->with('serviceStatusType', $service_status_type)
-            ;
+            ->with('serviceStatusType', $service_status_type ?? -1)
+        ;
     }
 
     public function documentList(){
-        $service_status_type = Input::has('service_status_type') ? Input::get('service_status_type') : ServiceStatusTypeList::All;
+        $service_status_type = Input::has('service_status_type') ? (int)Input::get('service_status_type') : ServiceStatusTypeList::All;
+
+        // Обрабатываем значение -1 как "все услуги"
+        if ($service_status_type == -1) {
+            $service_status_type = null;
+        }
+
         $serviceJournalList = ServiceJournalDal::getServiceJournalListByCurrentUserAndStatusType($service_status_type, false);
 
         // Добавляем отладочную информацию
@@ -146,7 +164,7 @@ class ProfileController extends Controller
 
         return view('Client.documentList')
             ->with('serviceJournalList', $serviceJournalList)
-            ->with('serviceStatusType', $service_status_type);
+            ->with('serviceStatusType', $service_status_type ?? -1);
     }
 
 }

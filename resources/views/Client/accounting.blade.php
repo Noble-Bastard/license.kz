@@ -506,8 +506,8 @@ function filterServices(status) {
 
     console.log('serviceStatusType:', serviceStatusType);
 
-    // Делаем редирект на страницу документов с параметром фильтрации
-    const redirectUrl = `{{ url('profile/documents') }}?service_status_type=${serviceStatusType}`;
+    // Делаем редирект на страницу бухгалтерии с параметром фильтрации
+    const redirectUrl = `{{ url('profile/bookkeeping') }}?service_status_type=${serviceStatusType}`;
     console.log('Redirect URL:', redirectUrl);
 
     window.location.href = redirectUrl;
@@ -520,13 +520,37 @@ document.getElementById('documentsModal').addEventListener('click', function(e) 
     if (e.target === this) {
         closeDocumentsModal();
     }
-{{ ... }}
+});
 
-// Close modal with Escape key
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-        closeDocumentsModal();
-    }
+// Initialize filter buttons based on current status
+document.addEventListener('DOMContentLoaded', function() {
+    @if(isset($serviceStatusType))
+        const currentStatus = {{ $serviceStatusType }};
+        let activeStatus = 'all';
+
+        if (currentStatus === 1 || currentStatus === '1') {
+            activeStatus = 'open';
+        } else if (currentStatus === 2 || currentStatus === '2') {
+            activeStatus = 'closed';
+        } else if (currentStatus === -1 || currentStatus === '-1') {
+            activeStatus = 'all';
+        }
+
+        console.log('Current status:', currentStatus, 'Active status:', activeStatus);
+
+        // Update button styles - remove active state from all buttons first
+        document.querySelectorAll('[id^="filter-"]').forEach(btn => {
+            btn.classList.remove('bg-gray-200');
+            btn.classList.add('text-text-primary');
+        });
+
+        // Add active state to the correct button
+        const activeBtn = document.getElementById(`filter-${activeStatus}`);
+        if (activeBtn) {
+            activeBtn.classList.add('bg-gray-200');
+            activeBtn.classList.remove('text-text-primary');
+        }
+    @endif
 });
 </script>
 @endsection

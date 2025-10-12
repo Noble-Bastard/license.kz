@@ -308,6 +308,45 @@
 </style>
 
 <script>
+// Глобальная функция для фильтрации услуг
+window.filterServices = function(status) {
+    // Update button styles
+    document.querySelectorAll('[id^="filter-"]').forEach(btn => {
+        btn.classList.remove('bg-gray-200', 'text-text-primary');
+        btn.classList.add('text-text-primary');
+    });
+
+    const activeBtn = document.getElementById(`filter-${status}`);
+    if (activeBtn) {
+        activeBtn.classList.add('bg-gray-200', 'text-text-primary');
+        activeBtn.classList.remove('text-text-primary');
+    }
+
+    console.log('Filtering by status:', status);
+
+    // Определяем параметр service_status_type в зависимости от выбранного фильтра
+    let serviceStatusType = -1; // По умолчанию - все (ServiceStatusTypeList::All)
+
+    switch(status) {
+        case 'all':
+            serviceStatusType = -1; // Все услуги
+            break;
+        case 'open':
+            serviceStatusType = 1; // Открытые услуги
+            break;
+        case 'closed':
+            serviceStatusType = 2; // Закрытые услуги
+            break;
+    }
+
+    console.log('serviceStatusType:', serviceStatusType);
+
+    // Делаем редирект на страницу услуг с параметром фильтрации
+    const redirectUrl = `{{ url('profile/services') }}?service_status_type=${serviceStatusType}`;
+    console.log('Redirect URL:', redirectUrl);
+
+    window.location.href = redirectUrl;
+};
 let currentServiceId = null;
 let currentServiceData = null;
 
@@ -505,57 +544,56 @@ function formatDateRange(startDate, endDate) {
     } else if (endDate) {
         return `до ${formatDate(endDate)}`;
     }
-    
     return '';
 }
-
-function filterServices(status) {
-    // Update button styles
-    document.querySelectorAll('[id^="filter-"]').forEach(btn => {
-        btn.classList.remove('bg-gray-200', 'text-text-primary');
-        btn.classList.add('text-text-primary');
-    });
-    
-    const activeBtn = document.getElementById(`filter-${status}`);
-    if (activeBtn) {
-        activeBtn.classList.add('bg-gray-200', 'text-text-primary');
-        activeBtn.classList.remove('text-text-primary');
-    }
-    
-    // Filter logic would go here
-    console.log('Filtering by status:', status);
-}
-
-// Close modal when clicking outside
-document.getElementById('serviceStepsModal').addEventListener('click', function(e) {
-    if (e.target === this) {
-        closeServiceStepsModal();
-    }
-});
-
-// Close modal with Escape key
-document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-        closeServiceStepsModal();
-    }
-});
 
 // Search functionality
 document.getElementById('searchInput').addEventListener('input', function(e) {
     const searchQuery = e.target.value.toLowerCase();
     const serviceCards = document.querySelectorAll('.service-card');
-    
+
     serviceCards.forEach(card => {
         const serviceNo = card.querySelector('.service-no')?.textContent.toLowerCase() || '';
         const managerName = card.querySelector('.manager-name')?.textContent.toLowerCase() || '';
-        
+
         const matchesSearch = serviceNo.includes(searchQuery) || managerName.includes(searchQuery);
-        
+
         if (matchesSearch) {
             card.style.display = '';
         } else {
             card.style.display = 'none';
         }
     });
+});
+
+// Initialize filter buttons based on current status
+document.addEventListener('DOMContentLoaded', function() {
+    @if(isset($serviceStatusType))
+        const currentStatus = {{ $serviceStatusType }};
+        let activeStatus = 'all';
+
+        if (currentStatus === 1 || currentStatus === '1') {
+            activeStatus = 'open';
+        } else if (currentStatus === 2 || currentStatus === '2') {
+            activeStatus = 'closed';
+        } else if (currentStatus === -1 || currentStatus === '-1') {
+            activeStatus = 'all';
+        }
+
+        console.log('Current status:', currentStatus, 'Active status:', activeStatus);
+
+        // Update button styles - remove active state from all buttons first
+        document.querySelectorAll('[id^="filter-"]').forEach(btn => {
+            btn.classList.remove('bg-gray-200');
+            btn.classList.add('text-text-primary');
+        });
+
+        // Add active state to the correct button
+        const activeBtn = document.getElementById(`filter-${activeStatus}`);
+        if (activeBtn) {
+            activeBtn.classList.add('bg-gray-200');
+            activeBtn.classList.remove('text-text-primary');
+        }
+    @endif
 });
 </script>
