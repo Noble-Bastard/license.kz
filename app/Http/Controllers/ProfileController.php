@@ -21,6 +21,7 @@ use App\Data\Document\Model\Document;
 use App\Data\Service\Model\Country;
 use App\Data\Helper\Assistant;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Log;
 
 class ProfileController extends Controller
 {
@@ -127,12 +128,20 @@ class ProfileController extends Controller
     }
 
     public function documentList(){
-        $service_status_type = Input::has('service_status_type') ? Input::get('service_status_type') : ServiceStatusTypeList::Opened;
+        $service_status_type = Input::has('service_status_type') ? Input::get('service_status_type') : ServiceStatusTypeList::All;
         $serviceJournalList = ServiceJournalDal::getServiceJournalListByCurrentUserAndStatusType($service_status_type, false);
+
+        // Добавляем отладочную информацию
+        \Log::info('DocumentList: service_status_type = ' . $service_status_type . ', services count = ' . $serviceJournalList->count());
 
         // Загружаем документы для каждой услуги
         foreach($serviceJournalList as $serviceJournal) {
+            $serviceJournal->companyDocuments = $serviceJournal->documentList();
             $serviceJournal->clientDocuments = $serviceJournal->clientDocumentList();
+
+            // Добавляем отладочную информацию
+            $serviceJournal->debug_client_docs_count = $serviceJournal->clientDocuments ? $serviceJournal->clientDocuments->count() : 0;
+            $serviceJournal->debug_company_docs_count = $serviceJournal->companyDocuments ? $serviceJournal->companyDocuments->count() : 0;
         }
 
         return view('Client.documentList')

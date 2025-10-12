@@ -473,45 +473,54 @@ function formatNumber(number) {
 }
 
 function filterServices(status) {
+    console.log('filterServices called with status:', status);
+
     // Update button styles
     document.querySelectorAll('[id^="filter-"]').forEach(btn => {
         btn.classList.remove('bg-gray-200', 'text-text-primary');
         btn.classList.add('text-text-primary');
     });
-    
+
     const activeBtn = document.getElementById(`filter-${status}`);
     if (activeBtn) {
         activeBtn.classList.add('bg-gray-200', 'text-text-primary');
         activeBtn.classList.remove('text-text-primary');
     }
-    
+
     console.log('Filtering by status:', status);
+
+    // Определяем параметр service_status_type в зависимости от выбранного фильтра
+    let serviceStatusType = -1; // По умолчанию - все
+
+    switch(status) {
+        case 'all':
+            serviceStatusType = -1; // Все услуги
+            break;
+        case 'open':
+            serviceStatusType = 1; // Открытые услуги
+            break;
+        case 'closed':
+            serviceStatusType = 2; // Закрытые услуги
+            break;
+    }
+
+    console.log('serviceStatusType:', serviceStatusType);
+
+    // Делаем редирект на страницу документов с параметром фильтрации
+    const redirectUrl = `{{ url('profile/documents') }}?service_status_type=${serviceStatusType}`;
+    console.log('Redirect URL:', redirectUrl);
+
+    window.location.href = redirectUrl;
 }
 
-// Search functionality
-document.getElementById('searchInput').addEventListener('input', function(e) {
-    const searchQuery = e.target.value.toLowerCase();
-    const accountingCards = document.querySelectorAll('.accounting-card');
-    
-    accountingCards.forEach(card => {
-        const serviceNo = card.querySelector('.service-no')?.textContent.toLowerCase() || '';
-        
-        const matchesSearch = serviceNo.includes(searchQuery);
-        
-        if (matchesSearch) {
-            card.style.display = '';
-        } else {
-            card.style.display = 'none';
-        }
-    });
-});
+
 
 // Close modal when clicking outside
 document.getElementById('documentsModal').addEventListener('click', function(e) {
     if (e.target === this) {
         closeDocumentsModal();
     }
-});
+{{ ... }}
 
 // Close modal with Escape key
 document.addEventListener('keydown', function(e) {

@@ -8,6 +8,7 @@ use App\Data\Payment\Model\PaymentInvoice;
 use App\Data\ServiceJournal\Model\ServiceJournalClientDocument;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Log;
 
 class ServiceJournalExt extends Model
 {
@@ -117,15 +118,25 @@ class ServiceJournalExt extends Model
             array_push($docList, $obj);
         }
 
+        $result = collect($docList)->groupBy('doc_type');
 
-        return collect($docList)->groupBy('doc_type');
+        // Добавляем отладочную информацию
+        \Log::info('ServiceJournal ID: ' . $this->id . ', Company Documents Count: ' . $result->count() . ', Total Documents: ' . collect($docList)->count());
+
+        return $result;
     }
 
     public function clientDocumentList(){
         // Получаем документы клиента через ServiceJournalClientDocument
-        return $this->hasMany(ServiceJournalClientDocument::class, 'service_journal_id', 'id')
+        $documents = $this->hasMany(ServiceJournalClientDocument::class, 'service_journal_id', 'id')
             ->where('is_active', 1)
-            ->with('document');
+            ->with('document')
+            ->get();
+
+        // Добавляем отладочную информацию
+        \Log::info('ServiceJournal ID: ' . $this->id . ', Client Documents Count: ' . $documents->count());
+
+        return $documents;
     }
 
     public function invoice()

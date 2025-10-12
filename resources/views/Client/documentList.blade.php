@@ -25,17 +25,17 @@
     <!-- Status Filter Tabs -->
     <div class="px-5" style="padding-left:20px;padding-right:20px;">
         <div class="flex items-center gap-[10px] mb-[16px] md:flex-wrap overflow-x-auto md:overflow-x-visible">
-            <button @click="filterStatus = 'all'" 
+            <button @click="setFilterStatus('all')" 
                     :class="filterStatus === 'all' ? 'bg-gray-200 text-text-primary' : 'text-text-primary'"
                     class="px-[14px] py-[10px] rounded-[80px] text-[12px] font-medium flex-shrink-0">
                 Все документы
             </button>
-            <button @click="filterStatus = 'open'" 
+            <button @click="setFilterStatus('open')" 
                     :class="filterStatus === 'open' ? 'bg-gray-200 text-text-primary' : 'text-text-primary'"
                     class="px-[14px] py-[10px] rounded-[80px] text-[12px] font-medium flex-shrink-0">
                 Открытые
             </button>
-            <button @click="filterStatus = 'closed'" 
+            <button @click="setFilterStatus('closed')" 
                     :class="filterStatus === 'closed' ? 'bg-gray-200 text-text-primary' : 'text-text-primary'"
                     class="px-[14px] py-[10px] rounded-[80px] text-[12px] font-medium flex-shrink-0">
                 Закрытые
@@ -52,9 +52,14 @@
             <div class="mb-8 service-group">
                 <div class="flex items-center mb-4">
                     <h2 class="text-lg font-medium text-gray-900 service-no">УСЛ-{{ $serviceJournal->service_no }}</h2>
-                    <span class="ml-3 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
+                    <span class="ml-3 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium service-status
                         {{ $serviceJournal->serviceStatus && strtolower($serviceJournal->serviceStatus->name) === 'выполнено' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800' }}">
                         {{ $serviceJournal->serviceStatus->name ?? 'Выполнение услуги' }}
+                    </span>
+                    <!-- Отладочная информация -->
+                    <span class="ml-3 text-xs text-gray-500">
+                        Клиентских документов: {{ $serviceJournal->debug_client_docs_count ?? 0 }},
+                        Корпоративных документов: {{ $serviceJournal->debug_company_docs_count ?? 0 }}
                     </span>
                 </div>
 
@@ -85,7 +90,45 @@
                                 </div>
                             @endif
                         @endforeach
-                    @else
+                    @endif
+
+                    @if(isset($serviceJournal->companyDocuments) && $serviceJournal->companyDocuments->count() > 0)
+                        @foreach($serviceJournal->companyDocuments as $docType => $documents)
+                            @if($documents && $documents->count() > 0)
+                                @foreach($documents as $document)
+                                    @php
+                                        $documentId = $document->doc_no ?? 'Неизвестно';
+                                        $documentType = $document->doc_type ?? 'Документ';
+                                        $createDate = $document->create_date ?? '';
+                                        $documentPath = isset($document->documents[0]) ? $document->documents[0]->path : '';
+                                        $fileName = basename($documentPath);
+                                        $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+                                    @endphp
+                                    <div class="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-shadow cursor-pointer"
+                                         @click="downloadDocument('{{ $documentId }}')">
+                                        <div class="flex flex-col items-center text-center">
+                                            <!-- File Icon -->
+                                            <div class="w-16 h-20 mb-4 flex items-center justify-center rounded-lg bg-blue-100">
+                                                <div class="text-white text-xs font-medium bg-blue-600 px-2 py-1 rounded">
+                                                    .{{ $fileExtension }}
+                                                </div>
+                                            </div>
+
+                                            <!-- Document Info -->
+                                            <h3 class="text-sm font-medium text-gray-900 mb-1 document-name">{{ $documentType }}</h3>
+                                            <p class="text-xs text-gray-500">{{ $documentId }}</p>
+                                            @if($createDate)
+                                                <p class="text-xs text-gray-400 mt-1">{{ date('d.m.Y', strtotime($createDate)) }}</p>
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endforeach
+                            @endif
+                        @endforeach
+                    @endif
+
+                    @if((!isset($serviceJournal->clientDocuments) || $serviceJournal->clientDocuments->count() == 0) &&
+                        (!isset($serviceJournal->companyDocuments) || $serviceJournal->companyDocuments->count() == 0))
                         <div class="col-span-full text-center py-8 text-gray-500">
                             Нет документов для данной услуги
                         </div>
@@ -109,8 +152,6 @@
             </div>
         </div>
     @endif
-        </div>
-    </div>
 </div>
 
 @push('scripts')
@@ -121,28 +162,58 @@ function clientDocuments() {
         filterStatus: 'all',
 
         init() {
-            // Initialize component
+            // Инициализируем фильтр из URL параметра
+            const urlParams = new URLSearchParams(window.location.search);
+            const statusParam = urlParams.get('service_status_type');
+            if (statusParam) {
+                this.filterStatus = statusParam === '-1' ? 'all' : (statusParam === '1' ? 'open' : (statusParam === '2' ? 'closed' : 'all'));
+            }
+
+            // Добавляем watcher для filterStatus и searchQuery
+            this.$watch('filterStatus', () => {
+                this.filterDocuments();
+            });
+
+            this.$watch('searchQuery', () => {
+                this.filterDocuments();
+            });
+        },
+
+        setFilterStatus(status) {
+            this.filterStatus = status;
+            // Обновляем URL без перезагрузки страницы
+            const url = new URL(window.location);
+            const statusType = status === 'all' ? -1 : (status === 'open' ? 1 : (status === 'closed' ? 2 : -1));
+            url.searchParams.set('service_status_type', statusType);
+            window.history.pushState({}, '', url);
         },
 
         filterDocuments() {
             const searchQuery = this.searchQuery.toLowerCase();
             const serviceGroups = document.querySelectorAll('.service-group');
-            
+
             serviceGroups.forEach(group => {
                 const serviceNo = group.querySelector('.service-no')?.textContent.toLowerCase() || '';
                 const documentNames = group.querySelectorAll('.document-name');
                 let hasMatchingDocument = false;
-                
+
                 documentNames.forEach(docName => {
                     const docText = docName.textContent.toLowerCase();
                     if (docText.includes(searchQuery)) {
                         hasMatchingDocument = true;
                     }
                 });
-                
+
                 const matchesSearch = serviceNo.includes(searchQuery) || hasMatchingDocument;
-                
-                if (matchesSearch) {
+
+                // Проверяем фильтр по статусу
+                const statusElement = group.querySelector('.service-status');
+                const serviceStatus = statusElement ? statusElement.textContent.toLowerCase() : '';
+                const matchesStatus = this.filterStatus === 'all' ||
+                    (this.filterStatus === 'open' && !serviceStatus.includes('выполнено')) ||
+                    (this.filterStatus === 'closed' && serviceStatus.includes('выполнено'));
+
+                if (matchesSearch && matchesStatus) {
                     group.style.display = 'block';
                 } else {
                     group.style.display = 'none';
@@ -151,9 +222,41 @@ function clientDocuments() {
         },
 
         downloadDocument(fileName) {
-            // Handle document download
             console.log('Downloading:', fileName);
-            // In real implementation, you would trigger the actual download
+
+            // Для клиентских документов (зеленые иконки) - скачиваем напрямую
+            if (fileName.includes('storage') || fileName.startsWith('/')) {
+                // Это клиентский документ - скачиваем напрямую
+                const link = document.createElement('a');
+                link.href = '/' + fileName;
+                link.download = fileName.split('/').pop();
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            } else {
+                // Это корпоративный документ - определяем тип и формируем URL
+                let downloadUrl = '';
+
+                if (fileName.includes('IP') || fileName.includes('Счет фактура')) {
+                    downloadUrl = '{{ route("client.invoice.downloadPdf") }}?document_id=' + encodeURIComponent(fileName);
+                } else if (fileName.includes('ОПЛ') || fileName.includes('Счета на оплату')) {
+                    downloadUrl = '{{ route("client.paymentInvoice.downloadPdf") }}?document_id=' + encodeURIComponent(fileName);
+                } else if (fileName.includes('ДОГ') || fileName.includes('Договор')) {
+                    downloadUrl = '{{ route("client.agreement.downloadPdf") }}?document_id=' + encodeURIComponent(fileName);
+                }
+
+                if (downloadUrl) {
+                    const link = document.createElement('a');
+                    link.href = downloadUrl;
+                    link.download = fileName + '.pdf';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                } else {
+                    console.error('Неизвестный тип документа:', fileName);
+                    alert('Ошибка: Неизвестный тип документа');
+                }
+            }
         }
     }
 }
