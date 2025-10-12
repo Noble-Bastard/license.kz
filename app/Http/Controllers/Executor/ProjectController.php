@@ -57,11 +57,14 @@ class ProjectController extends Controller
     public function serviceModal($serviceJournalId)
     {
         $serviceJournal = ServiceJournalDal::getExt($serviceJournalId);
-        $serviceJournal->load('serviceStatus', 'service');
+        $serviceJournal->load('serviceStatus', 'service', 'clientDocuments.document', 'projectStatus');
         $serviceJournalStepList = ServiceJournalDal::getServiceJournalStepList($serviceJournalId);
+
+        // Загружаем отношения для шагов
+        $serviceJournalStepList->load('serviceStep');
         
         // Get documents for the service
-        $documents = $serviceJournal->clientDocumentList;
+        $documents = $serviceJournal->clientDocuments;
         
         // Get comments and documents for each step
         $comments = collect();

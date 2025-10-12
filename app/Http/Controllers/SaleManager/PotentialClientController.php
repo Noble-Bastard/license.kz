@@ -26,18 +26,19 @@ class PotentialClientController
         $potentialClientList = (new NewPotentialClientDal())->getList(true, ['serviceList']);
 
         return view('SaleManager.potential_client.index')
-            ->with('potentialClientList', $potentialClientList);
+            ->with('potentialClientList', $potentialClientList)
+            ->with('success', request('success'));
     }
 
     public function createCabinet($potentialClientId)
     {
         (new NewPotentialClientDal())->createCabinet($potentialClientId);
-        return redirect(URL::previous());
+        return redirect()->route('sale_manager.potential_client.index', ['success' => 'cabinet_created']);
     }
 
     public function setContacted($potentialClientId)
     {
         (new NewPotentialClientDal())->setContacted($potentialClientId);
-        return redirect(URL::previous());
+        return redirect()->route('sale_manager.potential_client.index');
     }
 }

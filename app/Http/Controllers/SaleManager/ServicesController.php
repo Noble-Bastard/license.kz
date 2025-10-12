@@ -39,7 +39,7 @@ class ServicesController extends Controller
     public function serviceDetail($serviceJournalId)
     {
         $serviceJournal = ServiceJournalDal::getExt($serviceJournalId);
-        $serviceJournal->load('serviceStatus', 'manager', 'client', 'service');
+        $serviceJournal->load('serviceStatus', 'manager', 'client', 'service', 'clientDocuments.document');
         
         // Get service steps with documents and comments
         $serviceJournalStepList = ServiceJournalDal::getServiceJournalStepList($serviceJournalId);
@@ -56,7 +56,7 @@ class ServicesController extends Controller
         }
         
         // Get general documents for the service
-        $documents = $serviceJournal->clientDocumentList;
+        $documents = $serviceJournal->clientDocuments;
         
         // Get general messages for the service
         $messages = \App\Data\ServiceJournal\Model\ServiceJournalMessage::with(['message', 'createdBy'])

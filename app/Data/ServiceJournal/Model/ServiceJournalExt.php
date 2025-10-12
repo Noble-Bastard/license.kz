@@ -139,6 +139,13 @@ class ServiceJournalExt extends Model
         return $documents;
     }
 
+    public function clientDocuments()
+    {
+        return $this->hasMany(ServiceJournalClientDocument::class, 'service_journal_id', 'id')
+            ->where('is_active', 1)
+            ->with('document');
+    }
+
     public function invoice()
     {
         return $this->hasMany(Invoice::class, 'service_journal_id', 'id');

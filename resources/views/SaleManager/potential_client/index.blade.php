@@ -209,6 +209,11 @@ document.addEventListener('DOMContentLoaded', function(){
             row.style.display = match ? '' : 'none';
         });
     });
+
+    // Показываем alert сообщение об успешном создании кабинета
+    @if(isset($success) && $success === 'cabinet_created')
+        alert('Кабинет успешно создан!');
+    @endif
 });
 </script>
 @endpush

@@ -68,7 +68,8 @@ class ProfileController extends Controller
 
         // Загружаем документы и шаги для каждой услуги
         foreach($serviceJournalList as $serviceJournal) {
-            $serviceJournal->clientDocuments = $serviceJournal->clientDocumentList();
+            $serviceJournal->load('clientDocuments.document');
+            $serviceJournal->clientDocuments = $serviceJournal->clientDocuments;
             $serviceJournal->serviceJournalStepList = ServiceJournalDal::getServiceJournalStepList($serviceJournal->id);
         }
 
@@ -130,7 +131,8 @@ class ProfileController extends Controller
 
         // Загружаем документы для каждой услуги
         foreach($serviceJournalList as $serviceJournal) {
-            $serviceJournal->clientDocuments = $serviceJournal->clientDocumentList();
+            $serviceJournal->load('clientDocuments.document');
+            $serviceJournal->clientDocuments = $serviceJournal->clientDocuments;
         }
 
         return view('Client.accounting')
@@ -154,8 +156,9 @@ class ProfileController extends Controller
 
         // Загружаем документы для каждой услуги
         foreach($serviceJournalList as $serviceJournal) {
+            $serviceJournal->load('clientDocuments.document');
             $serviceJournal->companyDocuments = $serviceJournal->documentList();
-            $serviceJournal->clientDocuments = $serviceJournal->clientDocumentList();
+            $serviceJournal->clientDocuments = $serviceJournal->clientDocuments;
 
             // Добавляем отладочную информацию
             $serviceJournal->debug_client_docs_count = $serviceJournal->clientDocuments ? $serviceJournal->clientDocuments->count() : 0;

@@ -9,7 +9,7 @@
                 <div class="flex items-center gap-3 mb-1">
                     <h1 class="text-[18px] leading-[1] font-semibold text-text-primary">УСЛ-{{ $serviceJournal->id }}</h1>
                     @php
-                        $statusName = $serviceJournal->projectStatus->name ?? 'Не указано';
+                        $statusName = $serviceJournal->projectStatus ? $serviceJournal->projectStatus->name : 'Не указано';
                         $statusColor = '#6F6F6F';
                         
                         if (str_contains(strtolower($statusName), 'завершен') || str_contains(strtolower($statusName), 'выполнен') || str_contains(strtolower($statusName), 'выполнено')) {
@@ -65,7 +65,7 @@
                 <!-- Service Name -->
                 <div class="flex flex-col">
                     <span class="text-[14px] font-medium text-text-primary">
-                        {{ $serviceJournal->service->first()->name ?? 'Не указано' }}
+                        {{ $serviceJournal->service ? $serviceJournal->service->name : 'Не указано' }}
                     </span>
             </div>
         </div>
@@ -84,7 +84,7 @@
                                 @endphp
                                 <div class="flex items-center gap-2">
                                     <div class="w-2 h-2 rounded-full" style="background-color: {{ $stepStatusColor }};"></div>
-                                    <span class="text-[14px] font-medium text-text-primary">{{ $step->serviceStep->description ?? 'Шаг ' . $step->service_step_no }}</span>
+                                    <span class="text-[14px] font-medium text-text-primary">{{ $step->serviceStep->description ?? $step->service_step_description ?? ('Шаг ' . $step->service_step_no) }}</span>
                                 </div>
                                 <span class="text-[12px] text-text-muted">{{ $step->execution_time_plan ?? '1 день 3 часа' }}</span>
                             </div>
