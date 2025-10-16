@@ -253,26 +253,19 @@ function renderDocuments(documents, serviceInfo) {
     
     let documentsHtml = '';
     
-    // Service info header (БЕЗ стоимости)
+    // Service info header
     documentsHtml += `
-        <div class="p-6" style="background-color: white;">
-            <div class="grid grid-cols-1 md:grid-cols-[auto,1fr,auto] items-center gap-4">
-                <h3 class="font-medium text-gray-900" style="font-size: 48px !important; line-height: 1.2;">Документы УСЛ-${serviceInfo.service_no}</h3>
-                <div class="hidden md:grid grid-cols-5 gap-4 text-xs font-medium text-gray-500 uppercase tracking-wider">
-                    <div>Номер документа</div>
-                    <div>Дата</div>
-                    <div>Тип документа</div>
-                    <div>Подтип</div>
-                    <div>Действия</div>
-                </div>
+        <div class="p-6 pb-0" style="background-color: white;">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-2xl font-semibold text-gray-900">Документы УСЛ-${serviceInfo.service_no}</h3>
                 <button onclick="closeDocumentsModal()" class="text-gray-400 hover:text-gray-600">
                     <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
                 </button>
             </div>
-            <div class="w-full h-px bg-gray-300 mt-4"></div>
         </div>
+        <div class="w-full h-px bg-gray-300"></div>
     `;
     
     // Documents content
