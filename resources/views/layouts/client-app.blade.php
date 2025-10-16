@@ -151,11 +151,11 @@
                         </button>
                     </div>
                 </div>
-                
-                <!-- Divider -->
-                <div class="w-full h-px bg-gray-300"></div>
             </div>
         </header>
+        
+        <!-- Divider -->
+        <div class="w-full h-px bg-gray-300"></div>
 
         <!-- Profile Modal -->
         @include('Client.partials.profile-modal')

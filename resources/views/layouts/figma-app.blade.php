@@ -138,11 +138,11 @@
                         </button>
                     </div>
                 </div>
-
-                <!-- Divider -->
-                <div class="w-full h-px bg-gray-300"></div>
             </div>
         </header>
+        
+        <!-- Divider -->
+        <div class="w-full h-px bg-gray-300"></div>
 
         <!-- Main Content -->
         <main class="flex-1 bg-bg-secondary">
