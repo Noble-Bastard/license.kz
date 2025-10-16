@@ -51,7 +51,7 @@
 <body class="h-full font-sans antialiased" style="font-family: 'Manrope', sans-serif;">
     <div class="min-h-full bg-bg-secondary">
         <!-- Header -->
-        <header class="bg-bg-primary">
+        <header class="bg-white sticky top-0 z-50 shadow-sm">
             <div class="w-full">
                 <!-- Top bar -->
                 <div class="flex items-center justify-between px-8 py-4" style="padding-left: 32px; padding-right: 32px;">

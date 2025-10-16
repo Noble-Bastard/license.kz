@@ -48,7 +48,7 @@
 <body class="h-full font-sans antialiased" style="font-family: 'Manrope', sans-serif;" x-data="clientHeader()" x-init="init()">
     <div class="min-h-full bg-gray-50">
         <!-- Header -->
-        <header class="bg-white border-b border-gray-200">
+        <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
             <div class="w-full">
                 <!-- Top section with logo, navigation, and user controls -->
                 <div class="flex items-center justify-between gap-2 px-8 py-4" style="padding-left: 32px; padding-right: 32px;">
