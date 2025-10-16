@@ -64,6 +64,76 @@
 
 <body class="h-full font-sans antialiased" style="font-family: 'Manrope', sans-serif;">
     <div class="min-h-full bg-bg-secondary">
+        <!-- Header -->
+        <header class="bg-white sticky top-0 z-50 shadow-sm">
+            <div class="w-full">
+                <!-- Top bar -->
+                <div class="flex items-center justify-between px-8 py-4" style="padding-left: 32px; padding-right: 32px;">
+                    <!-- Left side: Logo + Navigation -->
+                    <div class="flex items-center gap-3">
+                        <!-- Logo -->
+                        <a href="{{ url('/') }}" class="inline-flex items-center">
+                            <img src="{{ asset('images/green-logo.png') }}" alt="UpperLicense" class="h-[31px] w-auto" style="width:150px;height:31px;"/>
+                        </a>
+
+                        <!-- Navigation Pills -->
+                        <nav class="hidden md:flex items-center gap-1">
+                            <a href="{{ Route::has('sale_manager.service.list') ? route('sale_manager.service.list') : '#' }}"
+                               class="flex items-center gap-[6px] px-[12px] py-[8px] rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] transition-colors {{ request()->routeIs('sale_manager.service.*') ? 'bg-gray-200' : '' }}">
+                                <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M17.5 5H6.66667" stroke="#279760" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M17.5 10H6.66667" stroke="#279760" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M17.5 15H6.66667" stroke="#279760" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M2.5 5H2.50833" stroke="#279760" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M2.5 10H2.50833" stroke="#279760" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M2.5 15H2.50833" stroke="#279760" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Услуги
+                            </a>
+                            <a href="{{ Route::has('sale_manager.potential_client.index') ? route('sale_manager.potential_client.index') : '#' }}"
+                               class="flex items-center gap-[6px] px-[12px] py-[8px] rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] transition-colors {{ request()->routeIs('sale_manager.potential_client.*') ? 'bg-gray-200' : '' }}">
+                                <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M13.3333 17.5V15.8333C13.3333 14.9493 12.9821 14.1014 12.357 13.4763C11.7319 12.8512 10.884 12.5 10 12.5H4.16667C3.28261 12.5 2.43477 12.8512 1.80964 13.4763C1.18452 14.1014 0.833333 14.9493 0.833333 15.8333V17.5" stroke="#279760" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M7.08333 9.16667C8.92428 9.16667 10.4167 7.67428 10.4167 5.83333C10.4167 3.99238 8.92428 2.5 7.08333 2.5C5.24238 2.5 3.75 3.99238 3.75 5.83333C3.75 7.67428 5.24238 9.16667 7.08333 9.16667Z" stroke="#279760" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M15.8333 6.66667V11.6667" stroke="#279760" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M18.3333 9.16667H13.3333" stroke="#279760" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Потенциальные клиенты
+                            </a>
+                            <a href="{{ Route::has('sale_manager.commercial_offer.index') ? route('sale_manager.commercial_offer.index') : '#' }}"
+                               class="flex items-center gap-[6px] px-[12px] py-[8px] rounded-[60px] text-text-primary text-xs font-medium leading-[1.4] transition-colors {{ request()->routeIs('sale_manager.commercial_offer.*') ? 'bg-gray-200' : '' }}">
+                                <svg width="16" height="16" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M11.6667 1.66667H5C4.55797 1.66667 4.13405 1.84226 3.82149 2.15482C3.50893 2.46738 3.33333 2.89131 3.33333 3.33333V16.6667C3.33333 17.1087 3.50893 17.5326 3.82149 17.8452C4.13405 18.1577 4.55797 18.3333 5 18.3333H15C15.442 18.3333 15.866 18.1577 16.1785 17.8452C16.491 17.5326 16.6667 17.1087 16.6667 16.6667V6.66667L11.6667 1.66667Z" stroke="#279760" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M11.6667 1.66667V6.66667H16.6667" stroke="#279760" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Коммерческие предложения
+                            </a>
+                        </nav>
+                    </div>
+
+                    <!-- Right side: Controls -->
+                    <div class="flex items-center gap-1">
+                        <!-- Logout -->
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+                            @csrf
+                        </form>
+                        <button type="submit" form="logout-form"
+                                class="flex items-center gap-[4px] px-3 py-2 rounded-[60px] border border-border-light text-text-primary text-xs font-medium leading-[1] hover:bg-bg-tertiary transition-colors">
+                            <svg width="12" height="12" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5.25 12.25H2.625C2.42609 12.25 2.23532 12.171 2.09467 12.0303C1.95402 11.8897 1.875 11.6989 1.875 11.5V2.5C1.875 2.30109 1.95402 2.11032 2.09467 1.96967C2.23532 1.82902 2.42609 1.75 2.625 1.75H5.25" stroke="#191E1D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M9.1875 9.625L12.125 7L9.1875 4.375" stroke="#191E1D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12.125 7H5.25" stroke="#191E1D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            Выйти
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Divider -->
+                <div class="w-full h-px bg-gray-300"></div>
+            </div>
+        </header>
+
         <!-- Main Content -->
         <main class="flex-1 bg-bg-secondary">
             @yield('content')
