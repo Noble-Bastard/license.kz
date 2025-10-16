@@ -1,10 +1,6 @@
-@extends('layouts.figma-executor')
-
-@section('content')
-<div class="fixed inset-0 z-50 flex items-center justify-center" style="background: rgba(0,0,0,0.4);">
-    <div class="bg-white w-[800px] h-[700px] mx-4 flex flex-col">
+<div class="bg-white w-full max-w-[800px] h-[90vh] max-h-[700px] mx-2 md:mx-4 flex flex-col overflow-hidden rounded-lg shadow-xl">
         <!-- Modal Header -->
-        <div class="flex items-center justify-between px-8 py-6">
+        <div class="flex items-center justify-between px-4 md:px-8 py-4 md:py-6 flex-shrink-0 border-b border-border-light">
             <div>
                 <div class="flex items-center gap-3 mb-1">
                     <h1 class="text-[18px] leading-[1] font-semibold text-text-primary">УСЛ-{{ $serviceJournal->id }}</h1>
@@ -39,10 +35,10 @@
         </div>
 
         <!-- Modal Body -->
-        <div class="px-8 py-2 flex-1 flex flex-col">
+        <div class="px-4 md:px-8 py-2 flex-1 flex flex-col overflow-hidden">
         
         <!-- Header with New Task Button -->
-        <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center justify-between mb-4 flex-shrink-0">
             <h2 class="text-[16px] font-semibold text-text-primary">Задачи и сообщения</h2>
             <button class="flex items-center gap-2 px-4 py-2 bg-[#279760] text-white text-[14px] font-medium rounded-full hover:bg-[#1e7a4f] transition-colors">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -54,19 +50,20 @@
         </div>
 
         <!-- Main Content -->
-        <div class="flex-1 overflow-y-auto">
+        <div class="flex-1 overflow-y-auto min-h-0 pr-2" style="scrollbar-width: thin; scrollbar-color: #cbd5e0 #f7fafc;">
         
         <!-- All Content in One Frame -->
-        <div class="border border-border-light rounded-lg p-3">
+        <div class="border border-border-light rounded-lg p-3 mb-4">
         
         <!-- Service Information Card -->
-        <div class="mb-3">
+        <div class="mb-4">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
                 <!-- Service Name -->
                 <div class="flex flex-col">
                     <span class="text-[14px] font-medium text-text-primary">
                         {{ $serviceJournal->service ? $serviceJournal->service->name : 'Не указано' }}
                     </span>
+                </div>
             </div>
         </div>
 
@@ -234,6 +231,6 @@
             </div>
         </div>
     </div>
-
     </div>
-@endsection
+    </div>
+</div>

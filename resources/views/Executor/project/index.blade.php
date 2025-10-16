@@ -44,7 +44,12 @@
         <div class="py-5 pb-20" style="background-color: var(--color-bg-secondary); width: 100vw; margin-left: calc(-50vw + 50%); min-height: calc(100vh - 200px);">
             <div class="px-5" style="padding-left:20px;padding-right:20px;">
                 @if(isset($projectList) && $projectList->isNotEmpty())
-                    @foreach($projectList->where('project_status_id', $service_status_id) as $project)
+                    @php
+                        $filteredProjects = $service_status_id 
+                            ? $projectList->where('project_status_id', $service_status_id) 
+                            : $projectList;
+                    @endphp
+                    @foreach($filteredProjects as $project)
                         <!-- Desktop Table View -->
                         <div class="hidden md:block bg-white rounded-lg shadow-sm mb-3 project-row cursor-pointer hover:bg-gray-50 transition-colors" onclick="openExecutorModal({{ $project->service_journal_id }})">
                             <div class="grid grid-cols-[200px,150px,1fr,150px] items-center gap-[60px,120px,60px,0px] w-full p-5">
@@ -183,10 +188,29 @@
 
     <!-- Executor Service Modal -->
     <div id="executorModal" class="fixed inset-0 z-50 flex items-center justify-center hidden" style="background: rgba(0,0,0,0.4);">
-        <div class="bg-white w-[800px] h-[700px] mx-4 flex flex-col">
-            <!-- Modal content will be loaded here -->
-        </div>
+        <!-- Modal content will be loaded here via AJAX -->
     </div>
+
+    <style>
+        /* Custom scrollbar styles for modal content */
+        #executorModal .overflow-y-auto::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        #executorModal .overflow-y-auto::-webkit-scrollbar-track {
+            background: #f7fafc;
+            border-radius: 4px;
+        }
+        
+        #executorModal .overflow-y-auto::-webkit-scrollbar-thumb {
+            background: #cbd5e0;
+            border-radius: 4px;
+        }
+        
+        #executorModal .overflow-y-auto::-webkit-scrollbar-thumb:hover {
+            background: #a0aec0;
+        }
+    </style>
 
     <script>
     let currentServiceId = null;
@@ -200,21 +224,13 @@
         modal.classList.add('flex');
         
         // Load modal content via AJAX
-        fetch(`/executor/service-modal/${serviceId}`)
+        fetch(`/{{ app()->getLocale() }}/executor/service-modal/${serviceId}`)
             .then(response => response.text())
             .then(html => {
-                // Extract only the modal content from the response
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                const modalContent = doc.querySelector('.fixed.inset-0 > .bg-white');
-                
-                if (modalContent) {
-                    document.querySelector('#executorModal .bg-white').innerHTML = modalContent.innerHTML;
-                    // Initialize modal functionality after content is loaded
-                    initializeExecutorModalFunctionality();
-                } else {
-                    console.error('Modal content not found in response');
-                }
+                // Replace the modal's inner content with the fetched HTML
+                document.querySelector('#executorModal').innerHTML = html;
+                // Initialize modal functionality after content is loaded
+                initializeExecutorModalFunctionality();
             })
             .catch(error => {
                 console.error('Error loading modal:', error);
@@ -225,6 +241,8 @@
         const modal = document.getElementById('executorModal');
         modal.classList.add('hidden');
         modal.classList.remove('flex');
+        // Clear modal content
+        modal.innerHTML = '<!-- Modal content will be loaded here via AJAX -->';
         currentServiceId = null;
     }
 
@@ -240,7 +258,7 @@
                 const message = messageInput.value.trim();
                 if (message && currentServiceId) {
                     // Send message via AJAX
-                    fetch('/executor/send-message', {
+                    fetch('/{{ app()->getLocale() }}/executor/send-message', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -294,7 +312,7 @@
     function sendStepComment(stepId, message) {
         if (!message.trim() || !currentServiceId) return;
 
-        fetch('/executor/send-step-message', {
+        fetch('/{{ app()->getLocale() }}/executor/send-step-message', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -337,7 +355,7 @@
     // Function to send service to check
     function sendToCheck(serviceJournalId) {
         if (confirm('Вы уверены, что хотите отправить задачу на проверку?')) {
-            const url = '/executor/service-modal/' + serviceJournalId + '/send-to-check';
+            const url = '/{{ app()->getLocale() }}/executor/service-modal/' + serviceJournalId + '/send-to-check';
 
             fetch(url, {
                 method: 'GET',

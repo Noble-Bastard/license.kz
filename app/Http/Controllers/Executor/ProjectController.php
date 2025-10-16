@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
 {
-    public function projectList($service_status_id = 1)
+    public function projectList($service_status_id = null)
     {
         $profile = ProfileDal::getByUserId(Auth::id());
         $executorHourlyRateList = ExecutorHourlyRate::get();
