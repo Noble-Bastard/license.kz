@@ -439,7 +439,7 @@
     <section class="about-us">
         <div class="about-us__find">
             <div class="about-us__find__header">
-                <h2>Все, что нужно для получения<br>лицензий и разрешений</h2>
+                <h2>Преимущества работы с UPPERLICENSE</h2>
             </div>
             <div class="about-us__find__cards-container">
                 <div class="about-us__find__card">
@@ -486,51 +486,102 @@
         </div>
     </section>
 
-    <!-- Advantages Section -->
-    <section style="padding: 80px 0; background: white;">
+    <!-- Categories Slider Section -->
+    <section style="padding: 80px 0; background: white; overflow: hidden;">
         <div class="container">
-            <h2 style="font-size: 52px; font-weight: 500; text-align: center; margin-bottom: 60px; font-family: 'Manrope', sans-serif;">Преимущества работы с UPPERLICENSE</h2>
-            <div class="row g-4">
-                <div class="col-lg-3 col-md-6">
-                    <div style="background: #F9FAFB; border-radius: 16px; padding: 24px; text-align: center; height: 100%;">
-                        <div style="width: 80px; height: 80px; background: #E8F5F3; border-radius: 12px; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center;">
-                            <img src="{{asset('current/img/image-18@2x.png')}}" alt="Инновации" style="width: 60px;" />
-                        </div>
-                        <div style="font-size: 16px; color: #6B7280; margin-bottom: 8px;">01</div>
-                        <h4 style="font-size: 20px; font-weight: 600; margin-bottom: 12px;">Контроль и инновации</h4>
-                        <p style="font-size: 16px; color: #6B7280; line-height: 1.5;">Уникальная онлайн-панель управления для вашего бизнеса</p>
+            <h2 style="font-size: 52px; font-weight: 500; text-align: center; margin-bottom: 16px; font-family: 'Manrope', sans-serif;">
+                Уже выбрали вашу <span style="color: #279760;">сферу</span> деятельности?
+            </h2>
+            <div style="text-align: center; margin-bottom: 60px;">
+                <div style="display: inline-flex; gap: 10px;">
+                    <div class="category-arrow-prev hero-arrow" style="cursor: pointer;">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12.5 15L7.5 10L12.5 5" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="category-arrow-next hero-arrow" style="cursor: pointer;">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7.5 5L12.5 10L7.5 15" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
-                    <div style="background: #F9FAFB; border-radius: 16px; padding: 24px; text-align: center; height: 100%;">
-                        <div style="width: 80px; height: 80px; background: #E8F5F3; border-radius: 12px; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center;">
-                            <img src="{{asset('current/img/image-19.png')}}" alt="Экспертность" style="width: 60px;" />
+            </div>
+            
+            <div class="categories-slider-wrapper" style="position: relative; overflow: hidden;">
+                <div class="categories-slider" style="display: flex; gap: 24px; transition: transform 0.5s ease;">
+                    <!-- Category 1 - Строительство -->
+                    <div class="category-slide" style="min-width: calc(50% - 12px); background: #F9FAFB; border-radius: 20px; padding: 32px; position: relative;">
+                        <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Строительство</h3>
+                        <div style="margin-bottom: 80px;">
+                            <div style="margin-bottom: 12px;">
+                                <div style="display: inline-block; background: white; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Строительные работы</div>
+                            </div>
+                            <div style="margin-bottom: 12px;">
+                                <div style="display: inline-block; background: white; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Контроль СР</div>
+                            </div>
+                            <div>
+                                <div style="display: inline-block; background: white; border-radius: 20px; padding: 8px 16px; font-size: 14px; color: #279760; font-weight: 600;">+2</div>
+                            </div>
                         </div>
-                        <div style="font-size: 16px; color: #6B7280; margin-bottom: 8px;">02</div>
-                        <h4 style="font-size: 20px; font-weight: 600; margin-bottom: 12px;">Экспертность</h4>
-                        <p style="font-size: 16px; color: #6B7280; line-height: 1.5;">Полный спектр квалифицированной поддержки для вашего бизнеса</p>
+                        <img src="{{asset('current/img/image-spheres-01-10@2x.png')}}" alt="Строительство" style="position: absolute; right: 32px; bottom: 32px; width: 200px; height: 200px; object-fit: contain;" />
+                    </div>
+
+                    <!-- Category 2 - Промышленность -->
+                    <div class="category-slide" style="min-width: calc(50% - 12px); background: #F9FAFB; border-radius: 20px; padding: 32px; position: relative;">
+                        <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Промышленность</h3>
+                        <div style="margin-bottom: 80px;">
+                            <div style="margin-bottom: 12px;">
+                                <div style="display: inline-block; background: white; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Энергетика</div>
+                            </div>
+                            <div style="margin-bottom: 12px;">
+                                <div style="display: inline-block; background: white; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Добыча полезных ископаемых</div>
+                            </div>
+                            <div>
+                                <div style="display: inline-block; background: white; border-radius: 20px; padding: 8px 16px; font-size: 14px; color: #279760; font-weight: 600;">+4</div>
+                            </div>
+                        </div>
+                        <img src="{{asset('current/img/image-spheres-01-10@2x.png')}}" alt="Промышленность" style="position: absolute; right: 32px; bottom: 32px; width: 200px; height: 200px; object-fit: contain;" />
+                    </div>
+
+                    <!-- Category 3 - Медицина -->
+                    <div class="category-slide" style="min-width: calc(50% - 12px); background: #F9FAFB; border-radius: 20px; padding: 32px; position: relative;">
+                        <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Медицина</h3>
+                        <div style="margin-bottom: 80px;">
+                            <div style="margin-bottom: 12px;">
+                                <div style="display: inline-block; background: white; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Медицинское оборудование</div>
+                            </div>
+                            <div style="margin-bottom: 12px;">
+                                <div style="display: inline-block; background: white; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Фарм. индустрия</div>
+                            </div>
+                            <div>
+                                <div style="display: inline-block; background: white; border-radius: 20px; padding: 8px 16px; font-size: 14px; color: #279760; font-weight: 600;">+4</div>
+                            </div>
+                        </div>
+                        <img src="{{asset('current/img/image-spheres-01-6@2x.png')}}" alt="Медицина" style="position: absolute; right: 32px; bottom: 32px; width: 200px; height: 200px; object-fit: contain;" />
+                    </div>
+
+                    <!-- Category 4 - Импорт-экспорт -->
+                    <div class="category-slide" style="min-width: calc(50% - 12px); background: #F9FAFB; border-radius: 20px; padding: 32px; position: relative;">
+                        <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Импорт-экспорт</h3>
+                        <div style="margin-bottom: 80px;">
+                            <div style="margin-bottom: 12px;">
+                                <div style="display: inline-block; background: white; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Таможенные процедуры</div>
+                            </div>
+                            <div style="margin-bottom: 12px;">
+                                <div style="display: inline-block; background: white; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Транспорт</div>
+                            </div>
+                            <div>
+                                <div style="display: inline-block; background: white; border-radius: 20px; padding: 8px 16px; font-size: 14px; color: #279760; font-weight: 600;">+3</div>
+                            </div>
+                        </div>
+                        <img src="{{asset('current/img/image-spheres-01-7@2x.png')}}" alt="Импорт-экспорт" style="position: absolute; right: 32px; bottom: 32px; width: 200px; height: 200px; object-fit: contain;" />
                     </div>
                 </div>
-                <div class="col-lg-3 col-md-6">
-                    <div style="background: #F9FAFB; border-radius: 16px; padding: 24px; text-align: center; height: 100%;">
-                        <div style="width: 80px; height: 80px; background: #E8F5F3; border-radius: 12px; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center;">
-                            <img src="{{asset('current/img/image-20.png')}}" alt="Удобство" style="width: 60px;" />
-                        </div>
-                        <div style="font-size: 16px; color: #6B7280; margin-bottom: 8px;">03</div>
-                        <h4 style="font-size: 20px; font-weight: 600; margin-bottom: 12px;">Удобство и доступность</h4>
-                        <p style="font-size: 16px; color: #6B7280; line-height: 1.5;">Персональный онлайн-кабинет и актуальная база данных</p>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6">
-                    <div style="background: #F9FAFB; border-radius: 16px; padding: 24px; text-align: center; height: 100%;">
-                        <div style="width: 80px; height: 80px; background: #E8F5F3; border-radius: 12px; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center;">
-                            <img src="{{asset('current/img/image-21.png')}}" alt="Развитие" style="width: 60px;" />
-                        </div>
-                        <div style="font-size: 16px; color: #6B7280; margin-bottom: 8px;">04</div>
-                        <h4 style="font-size: 20px; font-weight: 600; margin-bottom: 12px;">Устойчивость и развитие</h4>
-                        <p style="font-size: 16px; color: #6B7280; line-height: 1.5;">Фундамент для долгосрочного партнерства</p>
-                    </div>
-                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 40px;">
+                <p style="font-size: 28px; font-weight: 500; margin-bottom: 24px; font-family: 'Manrope', sans-serif;">Делаем процесс лицензирования легким и доступным!</p>
+                <a href="#" style="display: inline-flex; align-items: center; background: #279760; color: white; padding: 16px 32px; border-radius: 60px; text-decoration: none; font-weight: 600; font-size: 16px;">Оформить заявку</a>
             </div>
         </div>
     </section>
@@ -1113,41 +1164,46 @@
 
 @push('js')
     <script>
-        // Hero Slider
-        let currentSlide = 1;
-        const totalSlides = 4;
-        let slideInterval;
-
-        function showSlide(n) {
-            const slides = document.querySelectorAll('.hero-slide');
-            if (n > totalSlides) currentSlide = 1;
-            if (n < 1) currentSlide = totalSlides;
-            
-            slides.forEach(slide => slide.classList.remove('active'));
-            slides[currentSlide - 1].classList.add('active');
-            
-            document.querySelector('.current-slide').textContent = String(currentSlide).padStart(2, '0');
-        }
-
-        function nextSlide() {
-            currentSlide++;
-            showSlide(currentSlide);
-        }
-
-        function prevSlide() {
-            currentSlide--;
-            showSlide(currentSlide);
-        }
-
-        function startSlideShow() {
-            slideInterval = setInterval(nextSlide, 5000);
-        }
-
-        function stopSlideShow() {
-            clearInterval(slideInterval);
-        }
-
         document.addEventListener('DOMContentLoaded', function() {
+            // Hero Slider
+            let currentSlide = 1;
+            const totalSlides = 4;
+            let slideInterval;
+
+            function showSlide(n) {
+                const slides = document.querySelectorAll('.hero-slide');
+                if (n > totalSlides) currentSlide = 1;
+                if (n < 1) currentSlide = totalSlides;
+                
+                slides.forEach(slide => slide.classList.remove('active'));
+                if (slides[currentSlide - 1]) {
+                    slides[currentSlide - 1].classList.add('active');
+                }
+                
+                const currentSlideEl = document.querySelector('.current-slide');
+                if (currentSlideEl) {
+                    currentSlideEl.textContent = String(currentSlide).padStart(2, '0');
+                }
+            }
+
+            function nextSlide() {
+                currentSlide++;
+                showSlide(currentSlide);
+            }
+
+            function prevSlide() {
+                currentSlide--;
+                showSlide(currentSlide);
+            }
+
+            function startSlideShow() {
+                slideInterval = setInterval(nextSlide, 5000);
+            }
+
+            function stopSlideShow() {
+                clearInterval(slideInterval);
+            }
+
             const nextArrow = document.querySelector('.next-arrow');
             const prevArrow = document.querySelector('.prev-arrow');
             
@@ -1169,6 +1225,41 @@
 
             // Start slideshow
             startSlideShow();
+
+            // Categories Slider
+            let currentCategorySlide = 0;
+            const categorySlides = document.querySelectorAll('.category-slide');
+            const categoriesSlider = document.querySelector('.categories-slider');
+            const categoryPrevArrow = document.querySelector('.category-arrow-prev');
+            const categoryNextArrow = document.querySelector('.category-arrow-next');
+
+            function updateCategorySlider() {
+                if (categoriesSlider && categorySlides.length > 0) {
+                    const slideWidth = categorySlides[0].offsetWidth + 24; // width + gap
+                    categoriesSlider.style.transform = `translateX(-${currentCategorySlide * slideWidth}px)`;
+                }
+            }
+
+            if (categoryNextArrow) {
+                categoryNextArrow.addEventListener('click', () => {
+                    if (currentCategorySlide < categorySlides.length - 2) {
+                        currentCategorySlide++;
+                        updateCategorySlider();
+                    }
+                });
+            }
+
+            if (categoryPrevArrow) {
+                categoryPrevArrow.addEventListener('click', () => {
+                    if (currentCategorySlide > 0) {
+                        currentCategorySlide--;
+                        updateCategorySlider();
+                    }
+                });
+            }
+
+            // Update slider on window resize
+            window.addEventListener('resize', updateCategorySlider);
         });
     </script>
 @endpush
