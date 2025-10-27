@@ -6,14 +6,14 @@
 @section('css')
     <link href="{{asset('css/faq-redesign.css')}}" rel="stylesheet">
 @endsection
-@push('css')
-    <link href="{{asset('css/app_new.css')}}" rel="stylesheet" type="text/css">
+        @push('css')
+            <link href="{{asset('css/app_new.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('/current/css/index.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('/current/css/styleguide.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('/current/css/globals.css')}}" rel="stylesheet" type="text/css">
 
-    <link href="{{asset('css/about-new-styles.css')}}" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+            <link href="{{asset('css/about-new-styles.css')}}" rel="stylesheet" type="text/css">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         /* Hero Slider Styles */
         .hero-slider-section {
@@ -366,13 +366,13 @@
             }
         }
     </style>
-@endpush
+        @endpush
 
-@section('content')
+        @section('content')
     <!-- Hero Slider Section -->
     <section class="hero-slider-section">
-        <div class="container">
-            <div class="row align-items-center">
+                    <div class="container">
+                        <div class="row align-items-center">
                 <div class="col-lg-6">
                     <!-- Slide 1 -->
                     <div class="hero-slide active" data-slide="1">
@@ -415,12 +415,12 @@
                             <span class="current-slide">01</span> / <span class="total-slides">04</span>
                         </div>
                         <div class="hero-slider-arrows">
-                            <div class="hero-arrow prev-arrow">
+                            <div class="hero-arrow prev-arrow" id="hero-prev" style="cursor: pointer;">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M12.5 15L7.5 10L12.5 5" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
                             </div>
-                            <div class="hero-arrow next-arrow">
+                            <div class="hero-arrow next-arrow" id="hero-next" style="cursor: pointer;">
                                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M7.5 5L12.5 10L7.5 15" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
@@ -481,25 +481,25 @@
                         <h3 class="about-us__find__card__title">Устойчивость и развитие</h3>
                         <p class="about-us__find__card__description">Фундамент для долгосрочного партнерства, поддержка вашего бизнеса на каждом этапе</p>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
+                            </div>
+                        </div>
+                    </div>
+                </section>
 
     <!-- Categories Slider Section -->
     <section style="padding: 80px 0; background: white; overflow: hidden;">
-        <div class="container">
+                    <div class="container">
             <h2 style="font-size: 52px; font-weight: 500; text-align: center; margin-bottom: 16px; font-family: 'Manrope', sans-serif;">
                 Уже выбрали вашу <span style="color: #279760;">сферу</span> деятельности?
             </h2>
             <div style="text-align: center; margin-bottom: 60px;">
                 <div style="display: inline-flex; gap: 10px;">
-                    <div class="category-arrow-prev hero-arrow" style="cursor: pointer;">
+                    <div class="category-arrow-prev hero-arrow" id="cat-prev" style="cursor: pointer;">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12.5 15L7.5 10L12.5 5" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
-                    <div class="category-arrow-next hero-arrow" style="cursor: pointer;">
+                    <div class="category-arrow-next hero-arrow" id="cat-next" style="cursor: pointer;">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M7.5 5L12.5 10L7.5 15" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
@@ -575,25 +575,25 @@
                             </div>
                         </div>
                         <img src="{{asset('current/img/image-spheres-01-7@2x.png')}}" alt="Импорт-экспорт" style="position: absolute; right: 32px; bottom: 32px; width: 200px; height: 200px; object-fit: contain;" />
-                    </div>
-                </div>
-            </div>
+                                        </div>
+                                    </div>
+                                </div>
             
             <div style="text-align: center; margin-top: 40px;">
                 <p style="font-size: 28px; font-weight: 500; margin-bottom: 24px; font-family: 'Manrope', sans-serif;">Делаем процесс лицензирования легким и доступным!</p>
                 <a href="#" style="display: inline-flex; align-items: center; background: #279760; color: white; padding: 16px 32px; border-radius: 60px; text-decoration: none; font-weight: 600; font-size: 16px;">Оформить заявку</a>
-            </div>
-        </div>
-    </section>
+                        </div>
+                    </div>
+                </section>
 
-    <!-- Services Section -->
+                <!-- Services Section -->
     <section style="padding: 80px 0; background: #F9FAFB;">
-        <div class="container">
+                    <div class="container">
             <h2 style="font-size: 52px; font-weight: 500; text-align: center; margin-bottom: 60px; font-family: 'Manrope', sans-serif;">
                 Предоставляем качественные и комплексные <span style="color: #279760;">решения</span> для вашего бизнеса
             </h2>
             
-            <div class="row g-4">
+                        <div class="row g-4">
                 <!-- Service 1 -->
                 <div class="col-lg-6">
                     <div style="background: #FFF9E6; border-radius: 20px; padding: 32px; position: relative; min-height: 280px;">
@@ -694,11 +694,11 @@
                                 <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px;" />
                                 <div style="font-size: 14px;">Услуги юриста на аутсорсинге</div>
                             </div>
-                        </div>
+                                        </div>
                         <a href="#" style="display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
                         <img src="{{asset('current/img/image-services-06-2@2x.png')}}" alt="Service" style="position: absolute; right: 24px; bottom: 24px; width: 120px; opacity: 0.9;" />
-                    </div>
-                </div>
+                                        </div>
+                                    </div>
 
                 <!-- Service 7 -->
                 <div class="col-lg-6">
@@ -712,7 +712,7 @@
                             <div style="display: flex; align-items: start;">
                                 <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px;" />
                                 <div style="font-size: 14px;">Сбор данных клиентов</div>
-                            </div>
+                                </div>
                         </div>
                         <a href="#" style="display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
                         <img src="{{asset('current/img/image-services-07-2@2x.png')}}" alt="Service" style="position: absolute; right: 24px; bottom: 24px; width: 120px; opacity: 0.9;" />
@@ -740,15 +740,15 @@
                         <a href="#" style="display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
                         <img src="{{asset('current/img/image-services-08-2@2x.png')}}" alt="Service" style="position: absolute; right: 24px; bottom: 24px; width: 120px; opacity: 0.9;" />
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
+                            </div>
+                        </div>
+                    </div>
+                </section>
 
     <!-- Stats Section -->
     <section style="padding: 80px 0; background: white;" class="about-us">
         <div class="about-us__stats">
-            <div class="container">
+                    <div class="container">
                 <div class="about-us__stats__grid">
                     <div class="about-us__stats__header">
                         <div class="about-us__stats__logo">
@@ -789,7 +789,7 @@
             <div style="width: 100%; height: 100%; background: repeating-linear-gradient(45deg, transparent, transparent 10px, white 10px, white 12px);"></div>
         </div>
         <div class="container" style="position: relative; z-index: 2;">
-            <div class="row align-items-center">
+                        <div class="row align-items-center">
                 <div class="col-lg-8">
                     <h2 style="font-size: 48px; font-weight: 500; color: white; margin-bottom: 24px; font-family: 'Manrope', sans-serif;">Пользователю портала предоставляется простой и удобный личный кабинет</h2>
                     <p style="font-size: 18px; color: white; margin-bottom: 32px; opacity: 0.9;">Специалисты готовы помочь вам</p>
@@ -953,7 +953,7 @@
                 <div class="col-lg-7 d-flex flex-column justify-content-center mb-4 mb-lg-0">
                     <h2 class="consultation-hero-title">Свяжитесь с нами</h2>
                     <p class="consultation-hero-subtitle">Предоставим быстрое и эффективное открытие и ведение бизнеса в Казахстане</p>
-                </div>
+                            </div>
                 <div class="col-lg-5">
                     <div class="consultation-form-container">
                         <div class="consultation-form">
@@ -990,12 +990,12 @@
                                         <p class="privacy-text mb-0">Нажимая на кнопку, я соглашаюсь на обработку персональных данных</p>
                                     </div>
                                 </div>
-                            </form>
+                                </form>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
+                                    </div>
+                                </div>
+                            </div>
         <img src="{{asset('images/Vector_6908.png')}}" alt="" class="consultation-bg-vector">
     </section>
 
@@ -1034,14 +1034,14 @@
                     <h2 class="accordion-header">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" style="background: white; border: none; padding: 24px; font-size: 18px; font-weight: 600;">
                             Как получить рабочую визу в Казахстане?
-                        </button>
-                    </h2>
+                                        </button>
+                                    </h2>
                     <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                         <div class="accordion-body" style="padding: 0 24px 24px; color: #6B7280; font-size: 16px; line-height: 1.6;">
                             Для получения рабочей визы необходимо иметь приглашение от работодателя, действующий загранпаспорт и пакет документов. Мы оказываем полное сопровождение процесса получения виз С3 и С5.
-                        </div>
-                    </div>
-                </div>
+                                        </div>
+                                    </div>
+                                </div>
 
                 <div class="accordion-item" style="border: none; background: white; border-radius: 16px; margin-bottom: 16px; overflow: hidden;">
                     <h2 class="accordion-header">
@@ -1054,7 +1054,7 @@
                             Бухгалтерский аутсорсинг включает ведение бухгалтерского учета, подготовку и сдачу отчетности, консультации по налоговым вопросам, работу с банками и контролирующими органами.
                         </div>
                     </div>
-                </div>
+                                </div>
 
                 <div class="accordion-item" style="border: none; background: white; border-radius: 16px; margin-bottom: 16px; overflow: hidden;">
                     <h2 class="accordion-header">
@@ -1068,9 +1068,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
+                        </div>
+                    </div>
+                </section>
     <section class="roadmap-section">
         <div class="container">
             <h2 class="roadmap-title">UPPERLICENSE RoadMap</h2>
@@ -1160,106 +1160,98 @@
             </div>
         </div>
     </section>
+        @endsection
+
+@section('js')
+            <script>
+        (function() {
+            function pad2(n) { return String(n).padStart(2, '0'); }
+
+            function initHero() {
+                var slides = document.querySelectorAll('.hero-slide');
+                if (!slides || slides.length === 0) return;
+
+                var totalSlides = slides.length;
+                var current = 1;
+                var timerId;
+
+                var totalSlideEl = document.querySelector('.total-slides');
+                if (totalSlideEl) totalSlideEl.textContent = pad2(totalSlides);
+
+                function show(n) {
+                    if (n > totalSlides) current = 1;
+                    else if (n < 1) current = totalSlides;
+                    else current = n;
+
+                    for (var i = 0; i < slides.length; i++) {
+                        slides[i].classList.remove('active');
+                    }
+                    slides[current - 1].classList.add('active');
+
+                    var currentEl = document.querySelector('.current-slide');
+                    if (currentEl) currentEl.textContent = pad2(current);
+                }
+
+                function next() { show(current + 1); }
+                function prev() { show(current - 1); }
+                function start() { timerId = setInterval(next, 5000); }
+                function stop() { if (timerId) clearInterval(timerId); }
+
+                var nextBtn = document.getElementById('hero-next');
+                var prevBtn = document.getElementById('hero-prev');
+                if (nextBtn) nextBtn.addEventListener('click', function(e) { e.preventDefault(); stop(); next(); start(); });
+                if (prevBtn) prevBtn.addEventListener('click', function(e) { e.preventDefault(); stop(); prev(); start(); });
+
+                show(1);
+                start();
+            }
+
+            function initCategories() {
+                var track = document.querySelector('.categories-slider');
+                var slides = document.querySelectorAll('.category-slide');
+                if (!track || !slides || slides.length === 0) return;
+
+                var current = 0;
+
+                function getStep() {
+                    var width = slides[0].getBoundingClientRect().width;
+                    var gap = 24; // matches inline style gap
+                    return width + gap;
+                }
+
+                function update() {
+                    track.style.transform = 'translateX(-' + (current * getStep()) + 'px)';
+                }
+
+                var nextBtn = document.getElementById('cat-next');
+                var prevBtn = document.getElementById('cat-prev');
+                if (nextBtn) nextBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (current < slides.length - 2) current++; else current = 0;
+                    update();
+                });
+                if (prevBtn) prevBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (current > 0) current--; else current = Math.max(0, slides.length - 2);
+                    update();
+                });
+
+                window.addEventListener('resize', update);
+                update();
+            }
+
+            function ready(fn) {
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', fn);
+                } else {
+                    fn();
+                }
+            }
+
+            ready(function() {
+                initHero();
+                initCategories();
+            });
+        })();
+            </script>
 @endsection
-
-@push('js')
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Hero Slider
-            let currentSlide = 1;
-            const totalSlides = 4;
-            let slideInterval;
-
-            function showSlide(n) {
-                const slides = document.querySelectorAll('.hero-slide');
-                if (n > totalSlides) currentSlide = 1;
-                if (n < 1) currentSlide = totalSlides;
-                
-                slides.forEach(slide => slide.classList.remove('active'));
-                if (slides[currentSlide - 1]) {
-                    slides[currentSlide - 1].classList.add('active');
-                }
-                
-                const currentSlideEl = document.querySelector('.current-slide');
-                if (currentSlideEl) {
-                    currentSlideEl.textContent = String(currentSlide).padStart(2, '0');
-                }
-            }
-
-            function nextSlide() {
-                currentSlide++;
-                showSlide(currentSlide);
-            }
-
-            function prevSlide() {
-                currentSlide--;
-                showSlide(currentSlide);
-            }
-
-            function startSlideShow() {
-                slideInterval = setInterval(nextSlide, 5000);
-            }
-
-            function stopSlideShow() {
-                clearInterval(slideInterval);
-            }
-
-            const nextArrow = document.querySelector('.next-arrow');
-            const prevArrow = document.querySelector('.prev-arrow');
-            
-            if (nextArrow) {
-                nextArrow.addEventListener('click', () => {
-                    stopSlideShow();
-                    nextSlide();
-                    startSlideShow();
-                });
-            }
-            
-            if (prevArrow) {
-                prevArrow.addEventListener('click', () => {
-                    stopSlideShow();
-                    prevSlide();
-                    startSlideShow();
-                });
-            }
-
-            // Start slideshow
-            startSlideShow();
-
-            // Categories Slider
-            let currentCategorySlide = 0;
-            const categorySlides = document.querySelectorAll('.category-slide');
-            const categoriesSlider = document.querySelector('.categories-slider');
-            const categoryPrevArrow = document.querySelector('.category-arrow-prev');
-            const categoryNextArrow = document.querySelector('.category-arrow-next');
-
-            function updateCategorySlider() {
-                if (categoriesSlider && categorySlides.length > 0) {
-                    const slideWidth = categorySlides[0].offsetWidth + 24; // width + gap
-                    categoriesSlider.style.transform = `translateX(-${currentCategorySlide * slideWidth}px)`;
-                }
-            }
-
-            if (categoryNextArrow) {
-                categoryNextArrow.addEventListener('click', () => {
-                    if (currentCategorySlide < categorySlides.length - 2) {
-                        currentCategorySlide++;
-                        updateCategorySlider();
-                    }
-                });
-            }
-
-            if (categoryPrevArrow) {
-                categoryPrevArrow.addEventListener('click', () => {
-                    if (currentCategorySlide > 0) {
-                        currentCategorySlide--;
-                        updateCategorySlider();
-                    }
-                });
-            }
-
-            // Update slider on window resize
-            window.addEventListener('resize', updateCategorySlider);
-        });
-    </script>
-@endpush
