@@ -24,8 +24,71 @@
             padding: 100px 0;
         }
         
+        .hero-top-title {
+            position: absolute;
+            top: -10px;
+            left: 3%;
+            font-size: 52px;
+            font-weight: 500;
+            color: #1E1E1E;
+            font-family: 'Manrope', sans-serif;
+            z-index: 5;
+        }
+        
+        /* Огромный зеленый фон за текстом */
+        .hero-slider-section::before {
+            content: '';
+            position: absolute;
+            left: 3%;
+            top: 55.3%;
+            transform: translateY(-50%);
+            width: 730px;
+            height: 550px;
+            background: #279760;
+            border-radius: 0;
+            z-index: 0;
+        }
+        
+        /* Сероватый фон за изображением */
+        .hero-slider-section::after {
+            content: '';
+            position: absolute;
+            right: 3%;
+            top: 55.3%;
+            transform: translateY(-50%);
+            width: 710px;
+            height: 550px;
+            background: #E5E7EB;
+            border-radius: 0;
+            z-index: 0;
+        }
+        
+        /* Декоративный чекмарк на фоне */
+        .hero-background-checkmark {
+            position: absolute;
+            right: 10%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 180px;
+            height: 180px;
+            background: #279760;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.8;
+            z-index: 1;
+        }
+        
+        .hero-background-checkmark svg {
+            width: 100px;
+            height: 100px;
+        }
+        
         .hero-slide {
             display: none;
+            padding-top: 100px;
+            margin-left: -20px;
         }
         
         .hero-slide.active {
@@ -40,30 +103,43 @@
         
         .hero-slide-content {
             max-width: 650px;
+            position: relative;
+            z-index: 2;
+            margin-bottom: 120px;
         }
         
         .hero-slide-title {
-            font-size: 52px;
+            font-size: 40px;
             font-weight: 500;
             line-height: 1.2;
-            color: #1E1E1E;
+            color: white;
             margin-bottom: 24px;
             font-family: 'Manrope', sans-serif;
         }
         
         .hero-slide-description {
-            font-size: 18px;
+            font-size: 16px;
             line-height: 1.6;
-            color: #6B7280;
+            color: white;
             margin-bottom: 32px;
             font-family: 'Manrope', sans-serif;
+        }
+        
+        .hero-slider-section .img-fluid {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-slider-section .col-lg-6 {
+            position: relative;
+            z-index: 2;
         }
         
         .hero-slide-button {
             display: inline-flex;
             align-items: center;
-            background: #279760;
-            color: white;
+            background: white;
+            color: #279760;
             padding: 16px 32px;
             border-radius: 60px;
             text-decoration: none;
@@ -74,8 +150,8 @@
         }
         
         .hero-slide-button:hover {
-            background: #1E7B4E;
-            color: white;
+            background: #f0f0f0;
+            color: #279760;
             transform: translateY(-2px);
         }
         
@@ -83,12 +159,23 @@
             display: flex;
             align-items: center;
             gap: 20px;
-            margin-top: 40px;
+            margin-top: 0;
+            position: absolute;
+            right: 5%;
+            bottom: 40px;
+            z-index: 10;
+        }
+        
+        .hero-slide-content {
+            max-width: 650px;
+            position: relative;
+            z-index: 2;
+            margin-bottom: 120px;
         }
         
         .hero-slider-pagination {
             font-size: 16px;
-            color: #6B7280;
+            color: white;
             font-family: 'Manrope', sans-serif;
         }
         
@@ -100,23 +187,71 @@
         .hero-arrow {
             width: 40px;
             height: 40px;
-            border: 1px solid #E5E7EB;
+            border: 1px solid white;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transition: all 0.3s;
-            background: white;
+            background: transparent;
+        }
+        
+        .hero-arrow svg path {
+            stroke: white;
         }
         
         .hero-arrow:hover {
-            border-color: #279760;
-            background: #279760;
+            border-color: white;
+            background: white;
         }
         
         .hero-arrow:hover svg path {
-            stroke: white;
+            stroke: #279760;
+        }
+        
+        /* About-us Section */
+        .about-us__find__header h2 {
+            white-space: nowrap;
+            text-align: left !important;
+            margin: 0 !important;
+            padding-left: 200px !important;
+        }
+        
+        /* Consultation Block - убираем верхнюю линию */
+        .consultation-block::before {
+            display: none !important;
+        }
+        
+        /* FAQ Accordion - плюс/минус вместо стрелки */
+        .accordion-button::after {
+            content: '+' !important;
+            background-image: none !important;
+            font-size: 32px !important;
+            font-weight: 300 !important;
+            width: auto !important;
+            height: auto !important;
+            transform: none !important;
+            color: #191E1D !important;
+        }
+        
+        .accordion-button:not(.collapsed)::after {
+            content: '−' !important;
+            transform: none !important;
+            color: #D1D5DB !important;
+        }
+        
+        .accordion-button:not(.collapsed) {
+            color: #D1D5DB !important;
+        }
+        
+        .accordion-button:focus {
+            box-shadow: none !important;
+            outline: none !important;
+        }
+        
+        .accordion-button {
+            box-shadow: none !important;
         }
         
         /* Industries Section */
@@ -371,13 +506,23 @@
         @section('content')
     <!-- Hero Slider Section -->
     <section class="hero-slider-section">
+        <h2 class="hero-top-title">Мгновенный старт для вашего<br>бизнеса в Казахстане</h2>
+        
+        <!-- Декоративный чекмарк на фоне -->
+        <div class="hero-background-checkmark">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M20 6L9 17L4 12" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        
                     <div class="container">
                         <div class="row align-items-center">
                 <div class="col-lg-6">
                     <!-- Slide 1 -->
                     <div class="hero-slide active" data-slide="1">
                         <div class="hero-slide-content">
-                            <h1 class="hero-slide-title">Мгновенный старт для вашего бизнеса в Казахстане</h1>
+                            <h1 class="hero-slide-title">UPPERLICENSE: Идеальное решение для регистрации вашего бизнеса в РК</h1>
+                            <p class="hero-slide-description">Полная автоматизация и удобство управления — откройте новые возможности для вашего бизнеса в Казахстане с нашей инновационной онлайн-платформой!</p>
                             <a href="#" class="hero-slide-button">Начать регистрацию</a>
                         </div>
                     </div>
@@ -490,7 +635,7 @@
     <section style="padding: 80px 0; background: white; overflow: hidden;">
                     <div class="container">
             <h2 style="font-size: 52px; font-weight: 500; text-align: center; margin-bottom: 16px; font-family: 'Manrope', sans-serif;">
-                Уже выбрали вашу <span style="color: #279760;">сферу</span> деятельности?
+                Уже выбрали вашу <span style="color: #279760;">сферу</span><br>деятельности?
             </h2>
             <div style="text-align: center; margin-bottom: 60px;">
                 <div style="display: inline-flex; gap: 10px;">
@@ -510,93 +655,85 @@
             <div class="categories-slider-wrapper" style="position: relative; overflow: hidden;">
                 <div class="categories-slider" style="display: flex; gap: 24px; transition: transform 0.5s ease;">
                     <!-- Category 1 - Строительство -->
-                    <div class="category-slide" style="min-width: calc(50% - 12px); background: #F9FAFB; border-radius: 20px; padding: 32px; position: relative;">
+                    <div class="category-slide" style="min-width: calc(50% - 12px); background: #F9FAFB; border-radius: 0; padding: 32px; position: relative; min-height: 350px;">
                         <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Строительство</h3>
-                        <div style="margin-bottom: 80px;">
+                        <div style="position: absolute; bottom: 32px; left: 32px;">
                             <div style="margin-bottom: 12px;">
-                                <div style="display: inline-block; background: white; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Строительные работы</div>
+                                <div style="display: inline-block; background: white; border: 1px solid #D1D5DB; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Строительные работы</div>
                             </div>
-                            <div style="margin-bottom: 12px;">
-                                <div style="display: inline-block; background: white; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Контроль СР</div>
-                            </div>
-                            <div>
-                                <div style="display: inline-block; background: white; border-radius: 20px; padding: 8px 16px; font-size: 14px; color: #279760; font-weight: 600;">+2</div>
+                            <div style="display: flex; gap: 8px; align-items: center;">
+                                <div style="display: inline-block; background: white; border: 1px solid #D1D5DB; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Контроль СР</div>
+                                <div style="display: inline-flex; align-items: center; justify-content: center; background: #E5E7EB; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 14px; color: #1E7B4E; font-weight: 600;">+2</div>
                             </div>
                         </div>
-                        <img src="{{asset('current/img/image-spheres-01-10@2x.png')}}" alt="Строительство" style="position: absolute; right: 32px; bottom: 32px; width: 200px; height: 200px; object-fit: contain;" />
+                        <img src="{{asset('current/img/image-spheres-01-10@2x.png')}}" alt="Строительство" style="position: absolute; right: 15px; bottom: 0px; width: 350px; height: 350px; object-fit: contain;" />
                     </div>
 
                     <!-- Category 2 - Промышленность -->
-                    <div class="category-slide" style="min-width: calc(50% - 12px); background: #F9FAFB; border-radius: 20px; padding: 32px; position: relative;">
+                    <div class="category-slide" style="min-width: calc(50% - 12px); background: #F9FAFB; border-radius: 0; padding: 32px; position: relative; min-height: 350px;">
                         <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Промышленность</h3>
-                        <div style="margin-bottom: 80px;">
+                        <div style="position: absolute; bottom: 32px; left: 32px;">
                             <div style="margin-bottom: 12px;">
-                                <div style="display: inline-block; background: white; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Энергетика</div>
+                                <div style="display: inline-block; background: white; border: 1px solid #D1D5DB; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Энергетика</div>
                             </div>
-                            <div style="margin-bottom: 12px;">
-                                <div style="display: inline-block; background: white; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Добыча полезных ископаемых</div>
-                            </div>
-                            <div>
-                                <div style="display: inline-block; background: white; border-radius: 20px; padding: 8px 16px; font-size: 14px; color: #279760; font-weight: 600;">+4</div>
+                            <div style="display: flex; gap: 8px; align-items: center;">
+                                <div style="display: inline-block; background: white; border: 1px solid #D1D5DB; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Добыча полезных ископаемых</div>
+                                <div style="display: inline-flex; align-items: center; justify-content: center; background: #E5E7EB; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 14px; color: #1E7B4E; font-weight: 600;">+4</div>
                             </div>
                         </div>
-                        <img src="{{asset('current/img/image-spheres-01-10@2x.png')}}" alt="Промышленность" style="position: absolute; right: 32px; bottom: 32px; width: 200px; height: 200px; object-fit: contain;" />
+                        <img src="{{asset('current/img/Image-Spheres-02.png')}}" alt="Промышленность" style="position: absolute; right: 15px; bottom: 0px; width: 350px; height: 350px; object-fit: contain;" />
                     </div>
 
                     <!-- Category 3 - Медицина -->
-                    <div class="category-slide" style="min-width: calc(50% - 12px); background: #F9FAFB; border-radius: 20px; padding: 32px; position: relative;">
+                    <div class="category-slide" style="min-width: calc(50% - 12px); background: #F9FAFB; border-radius: 0; padding: 32px; position: relative; min-height: 350px;">
                         <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Медицина</h3>
-                        <div style="margin-bottom: 80px;">
+                        <div style="position: absolute; bottom: 32px; left: 32px;">
                             <div style="margin-bottom: 12px;">
-                                <div style="display: inline-block; background: white; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Медицинское оборудование</div>
+                                <div style="display: inline-block; background: white; border: 1px solid #D1D5DB; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Медицинское оборудование</div>
                             </div>
-                            <div style="margin-bottom: 12px;">
-                                <div style="display: inline-block; background: white; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Фарм. индустрия</div>
-                            </div>
-                            <div>
-                                <div style="display: inline-block; background: white; border-radius: 20px; padding: 8px 16px; font-size: 14px; color: #279760; font-weight: 600;">+4</div>
+                            <div style="display: flex; gap: 8px; align-items: center;">
+                                <div style="display: inline-block; background: white; border: 1px solid #D1D5DB; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Фарм. индустрия</div>
+                                <div style="display: inline-flex; align-items: center; justify-content: center; background: #E5E7EB; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 14px; color: #1E7B4E; font-weight: 600;">+4</div>
                             </div>
                         </div>
-                        <img src="{{asset('current/img/image-spheres-01-6@2x.png')}}" alt="Медицина" style="position: absolute; right: 32px; bottom: 32px; width: 200px; height: 200px; object-fit: contain;" />
+                        <img src="{{asset('current/img/image-spheres-01-6@2x.png')}}" alt="Медицина" style="position: absolute; right: 15px; bottom: 0px; width: 350px; height: 350px; object-fit: contain;" />
                     </div>
 
                     <!-- Category 4 - Импорт-экспорт -->
-                    <div class="category-slide" style="min-width: calc(50% - 12px); background: #F9FAFB; border-radius: 20px; padding: 32px; position: relative;">
+                    <div class="category-slide" style="min-width: calc(50% - 12px); background: #F9FAFB; border-radius: 0; padding: 32px; position: relative; min-height: 350px;">
                         <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Импорт-экспорт</h3>
-                        <div style="margin-bottom: 80px;">
+                        <div style="position: absolute; bottom: 32px; left: 32px;">
                             <div style="margin-bottom: 12px;">
-                                <div style="display: inline-block; background: white; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Таможенные процедуры</div>
+                                <div style="display: inline-block; background: white; border: 1px solid #D1D5DB; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Таможенные процедуры</div>
                             </div>
-                            <div style="margin-bottom: 12px;">
-                                <div style="display: inline-block; background: white; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Транспорт</div>
-                            </div>
-                            <div>
-                                <div style="display: inline-block; background: white; border-radius: 20px; padding: 8px 16px; font-size: 14px; color: #279760; font-weight: 600;">+3</div>
+                            <div style="display: flex; gap: 8px; align-items: center;">
+                                <div style="display: inline-block; background: white; border: 1px solid #D1D5DB; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Транспорт</div>
+                                <div style="display: inline-flex; align-items: center; justify-content: center; background: #E5E7EB; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 14px; color: #1E7B4E; font-weight: 600;">+3</div>
                             </div>
                         </div>
-                        <img src="{{asset('current/img/image-spheres-01-7@2x.png')}}" alt="Импорт-экспорт" style="position: absolute; right: 32px; bottom: 32px; width: 200px; height: 200px; object-fit: contain;" />
+                        <img src="{{asset('current/img/image-spheres-01-7@2x.png')}}" alt="Импорт-экспорт" style="position: absolute; right: 15px; bottom: 0px; width: 350px; height: 350px; object-fit: contain;" />
                                         </div>
                                     </div>
                                 </div>
             
-            <div style="text-align: center; margin-top: 40px;">
-                <p style="font-size: 28px; font-weight: 500; margin-bottom: 24px; font-family: 'Manrope', sans-serif;">Делаем процесс лицензирования легким и доступным!</p>
-                <a href="#" style="display: inline-flex; align-items: center; background: #279760; color: white; padding: 16px 32px; border-radius: 60px; text-decoration: none; font-weight: 600; font-size: 16px;">Оформить заявку</a>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 40px; max-width: 1320px; margin-left: auto; margin-right: auto;">
+                <p style="font-size: 28px; font-weight: 500; margin: 0; font-family: 'Manrope', sans-serif; text-align: left;">Делаем процесс лицензирования легким и доступным!</p>
+                <a href="#" style="display: inline-flex; align-items: center; background: #279760; color: white; padding: 16px 32px; border-radius: 60px; text-decoration: none; font-weight: 600; font-size: 16px; white-space: nowrap;">Оформить заявку</a>
                         </div>
                     </div>
                 </section>
 
                 <!-- Services Section -->
-    <section style="padding: 80px 0; background: #F9FAFB;">
+    <section style="padding: 80px 0; background: white;">
                     <div class="container">
             <h2 style="font-size: 52px; font-weight: 500; text-align: center; margin-bottom: 60px; font-family: 'Manrope', sans-serif;">
-                Предоставляем качественные и комплексные <span style="color: #279760;">решения</span> для вашего бизнеса
+                Предоставляем качественные<br>и комплексные <span style="color: #279760;">решения</span><br>для вашего бизнеса
             </h2>
             
                         <div class="row g-4">
                 <!-- Service 1 -->
                 <div class="col-lg-6">
-                    <div style="background: #FFF9E6; border-radius: 20px; padding: 32px; position: relative; min-height: 280px;">
+                    <div style="background: #E8F5F3; border-radius: 0; padding: 32px; position: relative; height: 520px;">
                         <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Регистрация компании</h3>
                         <div style="margin-bottom: 24px;">
                             <div style="display: flex; align-items: start; margin-bottom: 12px;">
@@ -612,14 +749,14 @@
                                 <div style="font-size: 14px;">Заполнение формы на регистрацию</div>
                             </div>
                         </div>
-                        <a href="#" style="display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
-                        <img src="{{asset('current/img/image-services-01-2@2x.png')}}" alt="Service" style="position: absolute; right: 24px; bottom: 24px; width: 120px; opacity: 0.9;" />
+                        <a href="#" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
+                        <img src="{{asset('current/img/image-services-01-2@2x.png')}}" alt="Service" style="position: absolute; right: 0px; bottom: 0px; width: 380px; opacity: 0.9;" />
                     </div>
                 </div>
 
                 <!-- Service 2 -->
                 <div class="col-lg-6">
-                    <div style="background: #E8F5F3; border-radius: 20px; padding: 32px; position: relative; min-height: 280px;">
+                    <div style="background: #FFF9E6; border-radius: 0; padding: 32px; position: relative; height: 520px;">
                         <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Регистрация в СЭЗ и МФЦА</h3>
                         <div style="margin-bottom: 24px;">
                             <div style="display: flex; align-items: start;">
@@ -627,14 +764,14 @@
                                 <div style="font-size: 14px;">Регистрация в Astana Hub</div>
                             </div>
                         </div>
-                        <a href="#" style="display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
-                        <img src="{{asset('current/img/image-services-02-2@2x.png')}}" alt="Service" style="position: absolute; right: 24px; bottom: 24px; width: 120px; opacity: 0.9;" />
+                        <a href="#" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
+                        <img src="{{asset('current/img/image-services-02-2@2x.png')}}" alt="Service" style="position: absolute; right: 0px; bottom: 0px; width: 380px; opacity: 0.9;" />
                     </div>
                 </div>
 
                 <!-- Service 3 -->
                 <div class="col-lg-6">
-                    <div style="background: #FFF9E6; border-radius: 20px; padding: 32px; position: relative; min-height: 280px;">
+                    <div style="background: #E8F5F3; border-radius: 0; padding: 32px; position: relative; height: 520px;">
                         <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Открытие банковских счетов</h3>
                         <div style="margin-bottom: 24px;">
                             <div style="display: flex; align-items: start; margin-bottom: 12px;">
@@ -646,14 +783,14 @@
                                 <div style="font-size: 14px;">Подача заявки на открытие счета</div>
                             </div>
                         </div>
-                        <a href="#" style="display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
-                        <img src="{{asset('current/img/image-services-03-2@2x.png')}}" alt="Service" style="position: absolute; right: 24px; bottom: 24px; width: 120px; opacity: 0.9;" />
+                        <a href="#" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
+                        <img src="{{asset('current/img/image-services-03-2@2x.png')}}" alt="Service" style="position: absolute; right: 0px; bottom: 0px; width: 380px; opacity: 0.9;" />
                     </div>
                 </div>
 
                 <!-- Service 4 -->
                 <div class="col-lg-6">
-                    <div style="background: #F3F4F6; border-radius: 20px; padding: 32px; position: relative; min-height: 280px;">
+                    <div style="background: #F3F4F6; border-radius: 0; padding: 32px; position: relative; height: 520px;">
                         <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Лицензирование</h3>
                         <div style="margin-bottom: 24px;">
                             <div style="display: flex; align-items: start;">
@@ -661,14 +798,14 @@
                                 <div style="font-size: 14px;">Получение лицензий для всех видов деятельности</div>
                             </div>
                         </div>
-                        <a href="#" style="display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
-                        <img src="{{asset('current/img/image-services-04-2@2x.png')}}" alt="Service" style="position: absolute; right: 24px; bottom: 24px; width: 120px; opacity: 0.9;" />
+                        <a href="#" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
+                        <img src="{{asset('current/img/image-services-04-2@2x.png')}}" alt="Service" style="position: absolute; right: 0px; bottom: 0px; width: 380px; opacity: 0.9;" />
                     </div>
                 </div>
 
                 <!-- Service 5 -->
                 <div class="col-lg-6">
-                    <div style="background: #FFF9E6; border-radius: 20px; padding: 32px; position: relative; min-height: 280px;">
+                    <div style="background: #E8F5F3; border-radius: 0; padding: 32px; position: relative; height: 520px;">
                         <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Получение визы С3 и С5</h3>
                         <div style="margin-bottom: 24px;">
                             <div style="display: flex; align-items: start; margin-bottom: 12px;">
@@ -680,14 +817,14 @@
                                 <div style="font-size: 14px;">Оформление визы в консульстве РК</div>
                             </div>
                         </div>
-                        <a href="#" style="display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
-                        <img src="{{asset('current/img/image-services-05-2@2x.png')}}" alt="Service" style="position: absolute; right: 24px; bottom: 24px; width: 120px; opacity: 0.9;" />
+                        <a href="#" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
+                        <img src="{{asset('current/img/image-services-05-2@2x.png')}}" alt="Service" style="position: absolute; right: 0px; bottom: 0px; width: 380px; opacity: 0.9;" />
                     </div>
                 </div>
 
                 <!-- Service 6 -->
                 <div class="col-lg-6">
-                    <div style="background: #FEF3C7; border-radius: 20px; padding: 32px; position: relative; min-height: 280px;">
+                    <div style="background: #FFF9E6; border-radius: 0; padding: 32px; position: relative; height: 520px;">
                         <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Отраслевой юрист</h3>
                         <div style="margin-bottom: 24px;">
                             <div style="display: flex; align-items: start;">
@@ -695,14 +832,14 @@
                                 <div style="font-size: 14px;">Услуги юриста на аутсорсинге</div>
                             </div>
                                         </div>
-                        <a href="#" style="display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
-                        <img src="{{asset('current/img/image-services-06-2@2x.png')}}" alt="Service" style="position: absolute; right: 24px; bottom: 24px; width: 120px; opacity: 0.9;" />
+                        <a href="#" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
+                        <img src="{{asset('current/img/image-services-06-2@2x.png')}}" alt="Service" style="position: absolute; right: 0px; bottom: 0px; width: 380px; opacity: 0.9;" />
                                         </div>
                                     </div>
 
                 <!-- Service 7 -->
                 <div class="col-lg-6">
-                    <div style="background: #DBEAFE; border-radius: 20px; padding: 32px; position: relative; min-height: 280px;">
+                    <div style="background: #DBEAFE; border-radius: 0; padding: 32px; position: relative; height: 520px;">
                         <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Бухгалтерский аутсорсинг</h3>
                         <div style="margin-bottom: 24px;">
                             <div style="display: flex; align-items: start; margin-bottom: 12px;">
@@ -714,14 +851,14 @@
                                 <div style="font-size: 14px;">Сбор данных клиентов</div>
                                 </div>
                         </div>
-                        <a href="#" style="display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
-                        <img src="{{asset('current/img/image-services-07-2@2x.png')}}" alt="Service" style="position: absolute; right: 24px; bottom: 24px; width: 120px; opacity: 0.9;" />
+                        <a href="#" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
+                        <img src="{{asset('current/img/image-services-07-2@2x.png')}}" alt="Service" style="position: absolute; right: 0px; bottom: 0px; width: 380px; opacity: 0.9;" />
                     </div>
                 </div>
 
                 <!-- Service 8 -->
                 <div class="col-lg-6">
-                    <div style="background: #F3F4F6; border-radius: 20px; padding: 32px; position: relative; min-height: 280px;">
+                    <div style="background: #F3F4F6; border-radius: 0; padding: 32px; position: relative; height: 520px;">
                         <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Дополнительные услуги</h3>
                         <div style="margin-bottom: 24px;">
                             <div style="display: flex; align-items: start; margin-bottom: 12px;">
@@ -737,8 +874,8 @@
                                 <div style="font-size: 14px;">Оформление РВП</div>
                             </div>
                         </div>
-                        <a href="#" style="display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
-                        <img src="{{asset('current/img/image-services-08-2@2x.png')}}" alt="Service" style="position: absolute; right: 24px; bottom: 24px; width: 120px; opacity: 0.9;" />
+                        <a href="#" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
+                        <img src="{{asset('current/img/image-services-08-2@2x.png')}}" alt="Service" style="position: absolute; right: 0px; bottom: 0px; width: 380px; opacity: 0.9;" />
                     </div>
                             </div>
                         </div>
@@ -747,36 +884,49 @@
 
     <!-- Stats Section -->
     <section style="padding: 80px 0; background: white;" class="about-us">
-        <div class="about-us__stats">
+        <div class="about-us__stats" style="background: white !important;">
                     <div class="container">
-                <div class="about-us__stats__grid">
-                    <div class="about-us__stats__header">
+                <div class="about-us__stats__grid" style="background: white !important; display: flex; flex-direction: column; gap: 0;">
+                    <div class="about-us__stats__header" style="display: none;">
                         <div class="about-us__stats__logo">
                             <i class="fas fa-chevron-up"></i>
                             <span>UPPERCASE</span>
                         </div>
                         <p>UPPERLICENSE создан и разработан<br>экспертами группы компаний UPPERCASE</p>
                     </div>
-                    <div class="about-us__stats__item">
-                        <div class="about-us__stats__number">13+</div>
-                        <p>лет</p>
-                        <span>На рынке юридических услуг и консалтинга</span>
+                    <!-- Ряд 1 -->
+                    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+                        <div style="display: flex; align-items: center;">
+                            <h2 style="font-size: 52px; font-weight: 500; margin: 0; font-family: 'Manrope', sans-serif; color: #191E1D;">О группе UPPERCASE</h2>
+                        </div>
+                        <div class="about-us__stats__item" style="width: 660px; background: white !important; border: none !important; padding: 40px 20px 30px 20px !important; margin-left: auto; margin-right: 0;">
+                            <div class="about-us__stats__number">3000+</div>
+                            <p style="margin: 0 !important; padding: 0 !important;">Клиентов в области регистрации, лицензирования, сопровождения международных сделок и корпоративного права</p>
+                        </div>
                     </div>
-                    <div class="about-us__stats__item">
-                        <div class="about-us__stats__number">6</div>
-                        <p>Филиалов в ОАЭ и РК</p>
-                    </div>
-                    <div class="about-us__stats__item">
-                        <div class="about-us__stats__number">500+</div>
-                        <p>Успешно завершенных проектов</p>
-                    </div>
-                    <div class="about-us__stats__item">
-                        <div class="about-us__stats__number">300+</div>
-                        <p>Опытных специалистов в команде</p>
-                    </div>
-                    <div class="about-us__stats__item">
-                        <div class="about-us__stats__number">3000+</div>
-                        <p>Клиентов в области регистрации, лицензирования, сопровождения международных сделок и корпоративного права</p>
+                    
+                    <!-- Ряд 2 -->
+                    <div style="position: relative; display: flex; justify-content: space-between; gap: 60px !important; width: 100%; align-items: stretch;">
+                        <div class="about-us__stats__item" style="background: white !important; border: none !important; flex: 1 1 20%; min-width: 0; margin-left: 30px; padding: 40px 20px 30px 20px !important; gap: 20px !important;">
+                            <div class="about-us__stats__number" style="white-space: nowrap;">13+ лет</div>
+                            <p style="margin: 0 !important; padding: 0 !important;">На рынке юридических услуг<br>и консалтинга</p>
+                        </div>
+                        <div class="about-us__stats__item" style="background: white !important; border: none !important; flex: 1 1 20%; min-width: 0; margin-left: 130px; padding: 40px 20px 30px 20px !important; gap: 20px !important;">
+                            <div class="about-us__stats__number">6</div>
+                            <p style="white-space: nowrap; margin: 0 !important; padding: 0 !important;">Филиалов в ОАЭ и РК</p>
+                        </div>
+                        <div class="about-us__stats__item" style="background: white !important; border: none !important; position: absolute; left: calc(50% + 80px); transform: translateX(-50%); padding: 40px 20px 30px 20px !important; gap: 20px !important;">
+                            <div class="about-us__stats__number" style="white-space: nowrap;">IT-решения</div>
+                            <p style="margin: 0 !important; padding: 0 !important;">В области юридических услуг и консалтинга</p>
+                        </div>
+                        <div class="about-us__stats__item" style="background: white !important; border: none !important; flex: 1 1 20%; min-width: 0; margin-left: 550px; padding: 40px 20px 30px 20px !important; gap: 20px !important;">
+                            <div class="about-us__stats__number">500+</div>
+                            <p style="margin: 0 !important; padding: 0 !important; white-space: normal !important; word-wrap: break-word !important;">Успешно завершенных<br>проектов</p>
+                        </div>
+                        <div class="about-us__stats__item" style="background: white !important; border: none !important; flex: 1 1 20%; min-width: 0; margin-left: 100px; padding: 40px 20px 30px 20px !important; gap: 20px !important;">
+                            <div class="about-us__stats__number">300+</div>
+                            <p style="margin: 0 !important; padding: 0 !important; white-space: normal !important; word-wrap: break-word !important;">Опытных специалистов в<br>команде</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -784,20 +934,38 @@
     </section>
 
     <!-- CTA Section -->
-    <section style="padding: 80px 0; background: #279760; position: relative; overflow: hidden;">
-        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; opacity: 0.1;">
-            <div style="width: 100%; height: 100%; background: repeating-linear-gradient(45deg, transparent, transparent 10px, white 10px, white 12px);"></div>
-        </div>
+    <section style="padding: 80px 0; background: white; position: relative; overflow: hidden;">
         <div class="container" style="position: relative; z-index: 2;">
-                        <div class="row align-items-center">
-                <div class="col-lg-8">
-                    <h2 style="font-size: 48px; font-weight: 500; color: white; margin-bottom: 24px; font-family: 'Manrope', sans-serif;">Пользователю портала предоставляется простой и удобный личный кабинет</h2>
-                    <p style="font-size: 18px; color: white; margin-bottom: 32px; opacity: 0.9;">Специалисты готовы помочь вам</p>
+            <div class="row align-items-center" style="position: relative;">
+                <!-- Чистый зеленый фон за текстом -->
+                <div style="position: absolute; top: 0; left: 0; width: 50%; height: 100%; background: #279760; z-index: 0;"></div>
+                
+                <!-- Темный фон за картинкой -->
+                <div style="position: absolute; top: 0; right: 0; width: 50%; height: 100%; background: rgba(100, 100, 100, 0.2); z-index: 0;"></div>
+                
+                <div class="col-lg-6" style="position: relative; z-index: 2; padding: 0px 40px; display: flex; flex-direction: column; justify-content: flex-start;">
+                    <h2 style="font-size: 32px; font-weight: 500; color: white; margin-bottom: 24px; margin-top: -40px; font-family: 'Manrope', sans-serif;">Пользователю портала<br>предоставляется простой и удобный<br>личный кабинет</h2>
+                    
+                    <div style="margin-bottom: 32px;">
+                        <div style="display: flex; align-items: start; margin-bottom: 12px;">
+                            <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px; filter: brightness(0) invert(1);" />
+                            <div style="font-size: 16px; color: white;">Отслеживание статус заказанных услуг</div>
+                        </div>
+                        <div style="display: flex; align-items: start; margin-bottom: 12px;">
+                            <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px; filter: brightness(0) invert(1);" />
+                            <div style="font-size: 16px; color: white;">Создание надежного архива ваших документов</div>
+                        </div>
+                        <div style="display: flex; align-items: start; margin-bottom: 12px;">
+                            <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px; filter: brightness(0) invert(1);" />
+                            <div style="font-size: 16px; color: white;">Получение специализированных отраслевых услуг</div>
+                        </div>
+                    </div>
+                    
                     <div style="display: flex; gap: 16px; flex-wrap: wrap;">
-                        <a href="#" style="display: inline-flex; align-items: center; background: white; color: #279760; padding: 16px 32px; border-radius: 60px; text-decoration: none; font-weight: 600; font-size: 16px;">Связаться с нами</a>
+                        <a href="#" style="display: inline-flex; align-items: center; background: white; color: #279760; padding: 16px 32px; border-radius: 60px; text-decoration: none; font-weight: 600; font-size: 16px;">Получить консультацию</a>
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-6" style="position: relative; z-index: 2; padding: 60px 40px;">
                     <img src="{{asset('current/img/image-personalarea-2.png')}}" alt="CTA" class="img-fluid" />
                 </div>
             </div>
@@ -922,7 +1090,7 @@
     <!-- Trust Section -->
     <section style="padding: 80px 0; background: #F9FAFB;">
         <div class="container">
-            <h2 style="font-size: 52px; font-weight: 500; text-align: center; margin-bottom: 60px; font-family: 'Manrope', sans-serif;">Нам доверяют</h2>
+            <h2 style="font-size: 52px; font-weight: 500; text-align: left; margin-bottom: 60px; font-family: 'Manrope', sans-serif;">Нам доверяют</h2>
             <div class="row g-4 align-items-center justify-content-center">
                 <div class="col-lg-2 col-md-3 col-4 text-center">
                     <img src="{{asset('current/img/group-7@2x.png')}}" alt="Partner" style="max-width: 100%; height: auto; opacity: 0.7;" />
@@ -1002,11 +1170,15 @@
     <!-- FAQ Section -->
     <section style="padding: 80px 0; background: #F9FAFB;">
         <div class="container">
-            <h2 style="font-size: 52px; font-weight: 500; text-align: center; margin-bottom: 60px; font-family: 'Manrope', sans-serif;">Ответы на вопросы</h2>
-            <div class="accordion" id="faqAccordion">
-                <div class="accordion-item" style="border: none; background: white; border-radius: 16px; margin-bottom: 16px; overflow: hidden;">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h2 style="font-size: 52px; font-weight: 500; text-align: left; margin-bottom: 60px; font-family: 'Manrope', sans-serif;">Ответы на вопросы</h2>
+                </div>
+                <div class="col-lg-6">
+                    <div class="accordion" id="faqAccordion">
+                <div class="accordion-item" style="border: none; border-bottom: 1px solid #E5E7EB; background: transparent; border-radius: 0; margin-bottom: 0; overflow: visible;">
                     <h2 class="accordion-header">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" style="background: white; border: none; padding: 24px; font-size: 18px; font-weight: 600;">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1" style="background: transparent; border: none; padding: 24px; font-size: 18px; font-weight: 600;">
                             Какие документы нужны для регистрации ТОО?
                         </button>
                     </h2>
@@ -1017,9 +1189,9 @@
                     </div>
                 </div>
 
-                <div class="accordion-item" style="border: none; background: white; border-radius: 16px; margin-bottom: 16px; overflow: hidden;">
+                <div class="accordion-item" style="border: none; border-bottom: 1px solid #E5E7EB; background: transparent; border-radius: 0; margin-bottom: 0; overflow: visible;">
                     <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" style="background: white; border: none; padding: 24px; font-size: 18px; font-weight: 600;">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2" style="background: transparent; border: none; padding: 24px; font-size: 18px; font-weight: 600;">
                             Сколько времени занимает получение лицензии?
                         </button>
                     </h2>
@@ -1030,9 +1202,9 @@
                     </div>
                 </div>
 
-                <div class="accordion-item" style="border: none; background: white; border-radius: 16px; margin-bottom: 16px; overflow: hidden;">
+                <div class="accordion-item" style="border: none; border-bottom: 1px solid #E5E7EB; background: transparent; border-radius: 0; margin-bottom: 0; overflow: visible;">
                     <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" style="background: white; border: none; padding: 24px; font-size: 18px; font-weight: 600;">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3" style="background: transparent; border: none; padding: 24px; font-size: 18px; font-weight: 600;">
                             Как получить рабочую визу в Казахстане?
                                         </button>
                                     </h2>
@@ -1043,9 +1215,9 @@
                                     </div>
                                 </div>
 
-                <div class="accordion-item" style="border: none; background: white; border-radius: 16px; margin-bottom: 16px; overflow: hidden;">
+                <div class="accordion-item" style="border: none; border-bottom: 1px solid #E5E7EB; background: transparent; border-radius: 0; margin-bottom: 0; overflow: visible;">
                     <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4" style="background: white; border: none; padding: 24px; font-size: 18px; font-weight: 600;">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4" style="background: transparent; border: none; padding: 24px; font-size: 18px; font-weight: 600;">
                             Какие услуги входят в бухгалтерский аутсорсинг?
                         </button>
                     </h2>
@@ -1056,9 +1228,9 @@
                     </div>
                                 </div>
 
-                <div class="accordion-item" style="border: none; background: white; border-radius: 16px; margin-bottom: 16px; overflow: hidden;">
+                <div class="accordion-item" style="border: none; border-bottom: 1px solid #E5E7EB; background: transparent; border-radius: 0; margin-bottom: 0; overflow: visible;">
                     <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5" style="background: white; border: none; padding: 24px; font-size: 18px; font-weight: 600;">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5" style="background: transparent; border: none; padding: 24px; font-size: 18px; font-weight: 600;">
                             Что такое Astana Hub и как в него попасть?
                         </button>
                     </h2>
@@ -1068,9 +1240,11 @@
                         </div>
                     </div>
                 </div>
-                        </div>
                     </div>
-                </section>
+                </div>
+            </div>
+        </div>
+    </section>
     <section class="roadmap-section">
         <div class="container">
             <h2 class="roadmap-title">UPPERLICENSE RoadMap</h2>

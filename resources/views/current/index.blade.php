@@ -19,6 +19,68 @@
             width: 100%;
             height: 720px;
             overflow: hidden;
+            background: white;
+        }
+        
+        .hero-top-title {
+            position: absolute;
+            top: -10px;
+            left: 3%;
+            font-size: 52px;
+            font-weight: 500;
+            color: #1E1E1E;
+            font-family: 'Manrope', sans-serif;
+            z-index: 5;
+        }
+        
+        /* Огромный зеленый фон за текстом */
+        .hero-slider::before {
+            content: '';
+            position: absolute;
+            left: 3%;
+            top: 55.3%;
+            transform: translateY(-50%);
+            width: 730px;
+            height: 550px;
+            background: #279760;
+            border-radius: 0;
+            z-index: 0;
+        }
+        
+        /* Сероватый фон за изображением */
+        .hero-slider::after {
+            content: '';
+            position: absolute;
+            right: 3%;
+            top: 55.3%;
+            transform: translateY(-50%);
+            width: 710px;
+            height: 550px;
+            background: #E5E7EB;
+            border-radius: 0;
+            z-index: 0;
+        }
+        
+        /* Декоративный чекмарк на фоне */
+        .hero-background-checkmark {
+            position: absolute;
+            right: 10%;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 180px;
+            height: 180px;
+            background: #279760;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0.8;
+            z-index: 1;
+        }
+        
+        .hero-background-checkmark svg {
+            width: 100px;
+            height: 100px;
         }
         
         .hero-slide {
@@ -30,6 +92,8 @@
             display: flex;
             align-items: center;
             padding: 0 80px;
+            padding-top: 100px;
+            padding-left: 60px;
         }
         
         .hero-slide.active {
@@ -40,20 +104,21 @@
         .hero-slide-content {
             max-width: 650px;
             z-index: 2;
+            position: relative;
         }
         
         .hero-slide-title {
-            font-size: 52px;
+            font-size: 40px;
             font-weight: 500;
             line-height: 1.2;
-            color: #1E1E1E;
+            color: white;
             margin-bottom: 24px;
         }
         
         .hero-slide-description {
-            font-size: 16px;
+            font-size: 14px;
             line-height: 1.6;
-            color: #6B7280;
+            color: white;
             margin-bottom: 32px;
         }
         
@@ -63,39 +128,40 @@
             top: 50%;
             transform: translateY(-50%);
             max-width: 600px;
-            z-index: 1;
+            z-index: 2;
         }
         
         .hero-slide-button {
             display: inline-flex;
             align-items: center;
-            background: #2DD4BF;
-            color: #2DD4BF;
+            background: white;
+            color: #279760;
             padding: 16px 32px;
             border-radius: 60px;
             text-decoration: none;
             font-weight: 600;
             font-size: 16px;
-            transition: background 0.3s;
+            transition: all 0.3s;
         }
         
         .hero-slide-button:hover {
-            background: #14B8A6;
+            background: #f0f0f0;
+            color: #279760;
         }
         
         .hero-slider-controls {
             position: absolute;
             bottom: 40px;
-            left: 80px;
+            right: 5%;
             display: flex;
             align-items: center;
             gap: 20px;
-            z-index: 3;
+            z-index: 10;
         }
         
         .hero-slider-pagination {
             font-size: 16px;
-            color: #6B7280;
+            color: white;
         }
         
         .hero-slider-arrows {
@@ -106,23 +172,35 @@
         .hero-arrow {
             width: 40px;
             height: 40px;
-            border: 1px solid #E5E7EB;
+            border: 1px solid white;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transition: all 0.3s;
-            background: white;
+            background: transparent;
+        }
+        
+        .hero-arrow svg path {
+            stroke: white;
         }
         
         .hero-arrow:hover {
-            border-color: #2DD4BF;
-            background: #2DD4BF;
+            border-color: white;
+            background: white;
         }
         
-        .hero-arrow:hover svg {
-            stroke: white;
+        .hero-arrow:hover svg path {
+            stroke: #279760;
+        }
+        
+        /* About-us Section */
+        .about-us__find__header h2 {
+            white-space: nowrap;
+            text-align: left !important;
+            margin: 0 !important;
+            padding-left: 200px !important;
         }
         
         /* Industries Section */
@@ -406,10 +484,20 @@
 
         <!-- Hero Slider -->
         <div class="hero-slider">
+            <h2 class="hero-top-title">Мгновенный старт для вашего<br>бизнеса в Казахстане</h2>
+            
+            <!-- Декоративный чекмарк на фоне -->
+            <div class="hero-background-checkmark">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M20 6L9 17L4 12" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            
             <!-- Slide 1 -->
             <div class="hero-slide active" data-slide="1">
                 <div class="hero-slide-content">
-                    <h1 class="hero-slide-title">Мгновенный старт для вашего бизнеса в Казахстане</h1>
+                    <h1 class="hero-slide-title">UPPERLICENSE: Идеальное решение для регистрации вашего бизнеса в РК</h1>
+                    <p class="hero-slide-description">Полная автоматизация и удобство управления — откройте новые возможности для вашего бизнеса в Казахстане с нашей инновационной онлайн-платформой!</p>
                     <a href="#" class="hero-slide-button">Начать регистрацию</a>
                 </div>
                 <img class="hero-slide-image" src="{{asset('current/img/image-slider-1-2.png')}}" alt="Slide 1" />
