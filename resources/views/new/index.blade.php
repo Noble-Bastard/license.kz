@@ -515,6 +515,9 @@
             </svg>
         </div>
         
+        <!-- Маленькая зеленая рамка в правом верхнем углу серого блока -->
+        <div style="position: absolute; right: 3%; top: calc(55.3% - 275px); width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760; z-index: 1;"></div>
+        
                     <div class="container">
                         <div class="row align-items-center">
                 <div class="col-lg-6">
@@ -656,6 +659,9 @@
                 <div class="categories-slider" style="display: flex; gap: 24px; transition: transform 0.5s ease;">
                     <!-- Category 1 - Строительство -->
                     <div class="category-slide" style="min-width: calc(50% - 12px); background: #F9FAFB; border-radius: 0; padding: 32px; position: relative; min-height: 350px;">
+                        <!-- Зеленая рамка в правом верхнем углу -->
+                        <div style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
+                        
                         <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Строительство</h3>
                         <div style="position: absolute; bottom: 32px; left: 32px;">
                             <div style="margin-bottom: 12px;">
@@ -671,6 +677,9 @@
 
                     <!-- Category 2 - Промышленность -->
                     <div class="category-slide" style="min-width: calc(50% - 12px); background: #F9FAFB; border-radius: 0; padding: 32px; position: relative; min-height: 350px;">
+                        <!-- Зеленая рамка в правом верхнем углу -->
+                        <div style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
+                        
                         <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Промышленность</h3>
                         <div style="position: absolute; bottom: 32px; left: 32px;">
                             <div style="margin-bottom: 12px;">
@@ -686,6 +695,9 @@
 
                     <!-- Category 3 - Медицина -->
                     <div class="category-slide" style="min-width: calc(50% - 12px); background: #F9FAFB; border-radius: 0; padding: 32px; position: relative; min-height: 350px;">
+                        <!-- Зеленая рамка в правом верхнем углу -->
+                        <div style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
+                        
                         <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Медицина</h3>
                         <div style="position: absolute; bottom: 32px; left: 32px;">
                             <div style="margin-bottom: 12px;">
@@ -701,6 +713,9 @@
 
                     <!-- Category 4 - Импорт-экспорт -->
                     <div class="category-slide" style="min-width: calc(50% - 12px); background: #F9FAFB; border-radius: 0; padding: 32px; position: relative; min-height: 350px;">
+                        <!-- Зеленая рамка в правом верхнем углу -->
+                        <div style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
+                        
                         <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Импорт-экспорт</h3>
                         <div style="position: absolute; bottom: 32px; left: 32px;">
                             <div style="margin-bottom: 12px;">
@@ -734,6 +749,9 @@
                 <!-- Service 1 -->
                 <div class="col-lg-6">
                     <div style="background: #E8F5F3; border-radius: 0; padding: 32px; position: relative; height: 520px;">
+                        <!-- Зеленая рамка -->
+                        <div style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
+                        
                         <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Регистрация компании</h3>
                         <div style="margin-bottom: 24px;">
                             <div style="display: flex; align-items: start; margin-bottom: 12px;">
@@ -757,6 +775,7 @@
                 <!-- Service 2 -->
                 <div class="col-lg-6">
                     <div style="background: #FFF9E6; border-radius: 0; padding: 32px; position: relative; height: 520px;">
+                        <div style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
                         <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Регистрация в СЭЗ и МФЦА</h3>
                         <div style="margin-bottom: 24px;">
                             <div style="display: flex; align-items: start;">
@@ -772,6 +791,7 @@
                 <!-- Service 3 -->
                 <div class="col-lg-6">
                     <div style="background: #E8F5F3; border-radius: 0; padding: 32px; position: relative; height: 520px;">
+                        <div style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
                         <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Открытие банковских счетов</h3>
                         <div style="margin-bottom: 24px;">
                             <div style="display: flex; align-items: start; margin-bottom: 12px;">
@@ -791,6 +811,7 @@
                 <!-- Service 4 -->
                 <div class="col-lg-6">
                     <div style="background: #F3F4F6; border-radius: 0; padding: 32px; position: relative; height: 520px;">
+                        <div style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
                         <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Лицензирование</h3>
                         <div style="margin-bottom: 24px;">
                             <div style="display: flex; align-items: start;">
@@ -806,6 +827,7 @@
                 <!-- Service 5 -->
                 <div class="col-lg-6">
                     <div style="background: #E8F5F3; border-radius: 0; padding: 32px; position: relative; height: 520px;">
+                        <div style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
                         <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Получение визы С3 и С5</h3>
                         <div style="margin-bottom: 24px;">
                             <div style="display: flex; align-items: start; margin-bottom: 12px;">
@@ -825,6 +847,7 @@
                 <!-- Service 6 -->
                 <div class="col-lg-6">
                     <div style="background: #FFF9E6; border-radius: 0; padding: 32px; position: relative; height: 520px;">
+                        <div style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
                         <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Отраслевой юрист</h3>
                         <div style="margin-bottom: 24px;">
                             <div style="display: flex; align-items: start;">
@@ -840,6 +863,7 @@
                 <!-- Service 7 -->
                 <div class="col-lg-6">
                     <div style="background: #DBEAFE; border-radius: 0; padding: 32px; position: relative; height: 520px;">
+                        <div style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
                         <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Бухгалтерский аутсорсинг</h3>
                         <div style="margin-bottom: 24px;">
                             <div style="display: flex; align-items: start; margin-bottom: 12px;">
@@ -859,6 +883,7 @@
                 <!-- Service 8 -->
                 <div class="col-lg-6">
                     <div style="background: #F3F4F6; border-radius: 0; padding: 32px; position: relative; height: 520px;">
+                        <div style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
                         <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Дополнительные услуги</h3>
                         <div style="margin-bottom: 24px;">
                             <div style="display: flex; align-items: start; margin-bottom: 12px;">
