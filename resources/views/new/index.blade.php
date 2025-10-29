@@ -911,47 +911,38 @@
     <section style="padding: 80px 0; background: white;" class="about-us">
         <div class="about-us__stats" style="background: white !important;">
                     <div class="container">
-                <div class="about-us__stats__grid" style="background: white !important; display: flex; flex-direction: column; gap: 0;">
-                    <div class="about-us__stats__header" style="display: none;">
-                        <div class="about-us__stats__logo">
-                            <i class="fas fa-chevron-up"></i>
-                            <span>UPPERCASE</span>
-                        </div>
-                        <p>UPPERLICENSE создан и разработан<br>экспертами группы компаний UPPERCASE</p>
-                    </div>
-                    <!-- Ряд 1 -->
-                    <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-                        <div style="display: flex; align-items: center;">
-                            <h2 style="font-size: 52px; font-weight: 500; margin: 0; font-family: 'Manrope', sans-serif; color: #191E1D;">О группе UPPERCASE</h2>
-                        </div>
-                        <div class="about-us__stats__item" style="width: 660px; background: white !important; border: none !important; padding: 40px 20px 30px 20px !important; margin-left: auto; margin-right: 0;">
-                            <div class="about-us__stats__number">3000+</div>
-                            <p style="margin: 0 !important; padding: 0 !important;">Клиентов в области регистрации, лицензирования, сопровождения международных сделок и корпоративного права</p>
-                        </div>
+                <div class="about-us__stats__grid" style="background: white !important; display: grid; grid-template-columns: 670px 135px 135px 185px 150px 150px; grid-template-rows: 270px 65px; gap: 0; margin-left: 100px;">
+                    <!-- Заголовок О группе UPPERCASE -->
+                    <div style="grid-column: 1; grid-row: 1; width: 670px; height: 270px; background: white; padding: 40px; display: flex; flex-direction: column; justify-content: center; border: 1px solid #E8E8E8; border-left: none; border-top: none;">
+                        <h2 style="font-size: 52px; font-weight: 500; margin: 0; font-family: 'Manrope', sans-serif; color: #191E1D;">О группе UPPERCASE</h2>
                     </div>
                     
-                    <!-- Ряд 2 -->
-                    <div style="position: relative; display: flex; justify-content: space-between; gap: 60px !important; width: 100%; align-items: stretch;">
-                        <div class="about-us__stats__item" style="background: white !important; border: none !important; flex: 1 1 20%; min-width: 0; margin-left: 30px; padding: 40px 20px 30px 20px !important; gap: 20px !important;">
-                            <div class="about-us__stats__number" style="white-space: nowrap;">13+ лет</div>
-                            <p style="margin: 0 !important; padding: 0 !important;">На рынке юридических услуг<br>и консалтинга</p>
-                        </div>
-                        <div class="about-us__stats__item" style="background: white !important; border: none !important; flex: 1 1 20%; min-width: 0; margin-left: 130px; padding: 40px 20px 30px 20px !important; gap: 20px !important;">
-                            <div class="about-us__stats__number">6</div>
-                            <p style="white-space: nowrap; margin: 0 !important; padding: 0 !important;">Филиалов в ОАЭ и РК</p>
-                        </div>
-                        <div class="about-us__stats__item" style="background: white !important; border: none !important; position: absolute; left: calc(50% + 80px); transform: translateX(-50%); padding: 40px 20px 30px 20px !important; gap: 20px !important;">
-                            <div class="about-us__stats__number" style="white-space: nowrap;">IT-решения</div>
-                            <p style="margin: 0 !important; padding: 0 !important;">В области юридических услуг и консалтинга</p>
-                        </div>
-                        <div class="about-us__stats__item" style="background: white !important; border: none !important; flex: 1 1 20%; min-width: 0; margin-left: 550px; padding: 40px 20px 30px 20px !important; gap: 20px !important;">
-                            <div class="about-us__stats__number">500+</div>
-                            <p style="margin: 0 !important; padding: 0 !important; white-space: normal !important; word-wrap: break-word !important;">Успешно завершенных<br>проектов</p>
-                        </div>
-                        <div class="about-us__stats__item" style="background: white !important; border: none !important; flex: 1 1 20%; min-width: 0; margin-left: 100px; padding: 40px 20px 30px 20px !important; gap: 20px !important;">
-                            <div class="about-us__stats__number">300+</div>
-                            <p style="margin: 0 !important; padding: 0 !important; white-space: normal !important; word-wrap: break-word !important;">Опытных специалистов в<br>команде</p>
-                        </div>
+                    <!-- Ряд 1 - правая часть: 3000+ занимает остальные колонки -->
+                    <div class="about-us__stats__item" style="grid-column: 2 / 7; grid-row: 1; background: white !important; padding: 40px 30px 30px 30px !important; border-right: none !important; border-top: none !important;">
+                        <div class="about-us__stats__number">3000+</div>
+                        <span>Клиентов в области регистрации, лицензирования, сопровождения международных сделок и корпоративного права</span>
+                    </div>
+                    
+                    <!-- Ряд 2 - 5 блоков -->
+                    <div class="about-us__stats__item" style="grid-column: 1; grid-row: 2; background: white !important; padding: 20px 10px 15px 15px !important; border-bottom: none !important; border-left: none !important; border-top: none !important;">
+                        <div class="about-us__stats__number" style="white-space: nowrap; font-size: 32px !important;">13+ лет</div>
+                        <p style="margin: 0 !important; padding: 0 !important; font-size: 12px !important; line-height: 1.4 !important;">На рынке юридических услуг<br>и консалтинга</p>
+                    </div>
+                    <div class="about-us__stats__item" style="grid-column: 2; grid-row: 2; background: white !important; padding: 20px 15px 15px 0px !important; margin-left: -30px !important; border-bottom: none !important; border-top: none !important; border-left: 1px solid #E8E8E8 !important; transform: translateX(-30px);">
+                        <div class="about-us__stats__number" style="font-size: 32px !important;">6</div>
+                        <p style="margin: 0 !important; padding: 0 !important; white-space: nowrap; font-size: 12px !important; line-height: 1.4 !important;">Филиалов в ОАЭ и РК</p>
+                    </div>
+                    <div class="about-us__stats__item" style="grid-column: 3; grid-row: 2; background: white !important; padding: 20px 10px 15px 10px !important; border-bottom: none !important; border-top: none !important;">
+                        <div class="about-us__stats__number" style="white-space: nowrap; font-size: 32px !important;">IT-решения</div>
+                        <p style="margin: 0 !important; padding: 0 !important; font-size: 12px !important; line-height: 1.4 !important;">В области юридических услуг и консалтинга</p>
+                    </div>
+                    <div class="about-us__stats__item" style="grid-column: 4; grid-row: 2; background: white !important; padding: 20px 15px 15px 15px !important; border-bottom: none !important; border-top: none !important;">
+                        <div class="about-us__stats__number" style="font-size: 32px !important;">500+</div>
+                        <p style="margin: 0 !important; padding: 0 !important; font-size: 12px !important; line-height: 1.4 !important;">Успешно завершенных<br>проектов</p>
+                    </div>
+                    <div class="about-us__stats__item" style="grid-column: 5; grid-row: 2; background: white !important; padding: 30px 10px 20px 15px !important; border-bottom: none !important; border-top: none !important; border-right: none !important;">
+                        <div class="about-us__stats__number" style="font-size: 32px !important;">300+</div>
+                        <p style="margin: 0 !important; padding: 0 !important; font-size: 12px !important; line-height: 1.4 !important;">Опытных специалистов в<br>команде</p>
                     </div>
                 </div>
             </div>
