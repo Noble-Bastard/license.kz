@@ -924,23 +924,23 @@
                     </div>
                     
                     <!-- Ряд 2 - 5 блоков -->
-                    <div class="about-us__stats__item" style="grid-column: 1; grid-row: 2; background: white !important; padding: 20px 10px 15px 15px !important; border-bottom: none !important; border-left: none !important; border-top: none !important;">
+                    <div class="about-us__stats__item" style="grid-column: 1; grid-row: 2; background: white !important; padding: 20px 10px 15px 15px !important; border-bottom: none !important; border-left: none !important; border-top: none !important; border-right: none !important;">
                         <div class="about-us__stats__number" style="white-space: nowrap; font-size: 32px !important;">13+ лет</div>
                         <p style="margin: 0 !important; padding: 0 !important; font-size: 12px !important; line-height: 1.4 !important;">На рынке юридических услуг<br>и консалтинга</p>
                     </div>
-                    <div class="about-us__stats__item" style="grid-column: 2; grid-row: 2; background: white !important; padding: 20px 15px 15px 0px !important; margin-left: -30px !important; border-bottom: none !important; border-top: none !important; border-left: 1px solid #E8E8E8 !important; transform: translateX(-30px);">
+                    <div class="about-us__stats__item" style="grid-column: 2; grid-row: 2; background: white !important; padding: 20px 35px 15px 40px !important; margin-left: -200px !important; border-bottom: none !important; border-top: none !important; border-left: 1px solid #E8E8E8 !important; transform: translateX(-200px);">
                         <div class="about-us__stats__number" style="font-size: 32px !important;">6</div>
                         <p style="margin: 0 !important; padding: 0 !important; white-space: nowrap; font-size: 12px !important; line-height: 1.4 !important;">Филиалов в ОАЭ и РК</p>
                     </div>
-                    <div class="about-us__stats__item" style="grid-column: 3; grid-row: 2; background: white !important; padding: 20px 10px 15px 10px !important; border-bottom: none !important; border-top: none !important;">
+                    <div class="about-us__stats__item" style="grid-column: 3; grid-row: 2; background: white !important; padding: 20px 35px 15px 40px !important; margin-left: -140px !important; border-bottom: none !important; border-top: none !important; border-left: 1px solid #E8E8E8 !important; transform: translateX(-140px);">
                         <div class="about-us__stats__number" style="white-space: nowrap; font-size: 32px !important;">IT-решения</div>
                         <p style="margin: 0 !important; padding: 0 !important; font-size: 12px !important; line-height: 1.4 !important;">В области юридических услуг и консалтинга</p>
                     </div>
-                    <div class="about-us__stats__item" style="grid-column: 4; grid-row: 2; background: white !important; padding: 20px 15px 15px 15px !important; border-bottom: none !important; border-top: none !important;">
+                    <div class="about-us__stats__item" style="grid-column: 4; grid-row: 2; background: white !important; padding: 20px 35px 15px 40px !important; margin-left: -40px !important; border-bottom: none !important; border-top: 1px solid #E8E8E8 !important; border-left: 1px solid #E8E8E8 !important; transform: translateX(-40px);">
                         <div class="about-us__stats__number" style="font-size: 32px !important;">500+</div>
                         <p style="margin: 0 !important; padding: 0 !important; font-size: 12px !important; line-height: 1.4 !important;">Успешно завершенных<br>проектов</p>
                     </div>
-                    <div class="about-us__stats__item" style="grid-column: 5; grid-row: 2; background: white !important; padding: 30px 10px 20px 15px !important; border-bottom: none !important; border-top: none !important; border-right: none !important;">
+                    <div class="about-us__stats__item" style="grid-column: 5; grid-row: 2; background: white !important; padding: 20px 100px 15px 100px !important; margin-left: -20px !important; border-bottom: none !important; border-top: 1px solid #E8E8E8 !important; border-left: 1px solid #E8E8E8 !important; border-right: none !important; transform: translateX(-20px);">
                         <div class="about-us__stats__number" style="font-size: 32px !important;">300+</div>
                         <p style="margin: 0 !important; padding: 0 !important; font-size: 12px !important; line-height: 1.4 !important;">Опытных специалистов в<br>команде</p>
                     </div>
