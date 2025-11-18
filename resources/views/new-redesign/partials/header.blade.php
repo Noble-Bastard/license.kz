@@ -74,7 +74,7 @@
                 </ul>
             </div>
         @else
-            <a href="{{ route('login') }}" class="header-redesigned__login-btn">
+            <a href="javascript:void(0)" onclick="openLoginModal(); return false;" class="header-redesigned__login-btn">
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M5.25 12.25H2.625C2.42609 12.25 2.23532 12.171 2.09467 12.0303C1.95402 11.8897 1.875 11.6989 1.875 11.5V2.5C1.875 2.30109 1.95402 2.11032 2.09467 1.96967C2.23532 1.82902 2.42609 1.75 2.625 1.75H5.25" stroke="#191E1D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
                     <path d="M9.1875 9.625L12.125 7L9.1875 4.375" stroke="#191E1D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -173,7 +173,7 @@
             </div>
         @else
             <div class="d-grid">
-                <a href="{{ route('login') }}" class="btn" style="background: #279760; color: white; border: none;">{{ __('Войти') }}</a>
+                <a href="javascript:void(0)" onclick="openLoginModal(); return false;" class="btn" style="background: #279760; color: white; border: none;">{{ __('Войти') }}</a>
             </div>
         @endauth
     </div>

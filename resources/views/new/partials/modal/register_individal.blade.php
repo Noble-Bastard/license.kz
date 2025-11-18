@@ -7,9 +7,22 @@
 
 
   <div class="form-group">
-    {!! Form::label('full_name', trans('messages.all.full_name')) !!}
+    <label for="full_name" style="display: block; color: #191E1D; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem;">
+      Полное имя
+    </label>
 
-    {!! Form::text('full_name', null, array_merge(['class' => $registerError->has('full_name') ? 'form-control is-invalid' : 'form-control',  'autofocus' => 'autofocus'])) !!}
+    {!! Form::text('full_name', null, array_merge([
+        'class' => $registerError->has('full_name') ? 'form-control is-invalid' : 'form-control',  
+        'autofocus' => 'autofocus',
+        'placeholder' => 'Ф.И.О.',
+        'style' => 'border-color: #D9D9D9; color: #191E1D; background-color: #FFFFFF;'
+    ])) !!}
+    
+    <style>
+      #registerFormContainer input::placeholder {
+        color: rgba(111, 111, 111, 0.6);
+      }
+    </style>
 
     @if ($registerError->has('full_name'))
       <span class="help-block invalid-feedback">
@@ -19,9 +32,16 @@
   </div>
 
   <div class="form-group">
-    {!! Form::label('phone', trans('messages.all.phone'), ['style' => 'display:block']) !!}
+    <label for="phone" style="display: block; color: #191E1D; font-size: 0.875rem; font-weight: 500; margin-bottom: 0.5rem;">
+      {{ trans('messages.all.phone') }}
+    </label>
 
-    {!! Form::text('phone', null, array_merge(['class' => $registerError->has('phone') ? 'form-control is-invalid phone' : 'form-control phone',  'autofocus' => 'autofocus'])) !!}
+    {!! Form::text('phone', null, array_merge([
+        'class' => $registerError->has('phone') ? 'form-control is-invalid phone' : 'form-control phone',  
+        'autofocus' => 'autofocus',
+        'placeholder' => '+7(___)___-__-__',
+        'style' => 'border-color: #D9D9D9; color: #191E1D; background-color: #FFFFFF;'
+    ])) !!}
     <span class="help-block invalid-feedback hide" id="error-msg"></span>
     @if ($registerError->has('phone'))
       <span class="help-block invalid-feedback">
@@ -31,12 +51,46 @@
   </div>
 
   <div class="form-group">
-    <div class="custom-control custom-checkbox">
-      <input type="checkbox" class="custom-control-input" id="is_resident"
-             name="is_resident" checked>
-      <label class="custom-control-label"
-             for="is_resident">@lang('messages.all.is_resident')</label>
+    <div style="display: flex; align-items: center; gap: 0.5rem;">
+      <label style="position: relative; display: inline-block; cursor: pointer; margin: 0;">
+        <input type="checkbox" 
+               id="is_resident"
+               name="is_resident" 
+               checked
+               style="position: absolute; opacity: 0; cursor: pointer; width: 0; height: 0;">
+        <span class="custom-checkbox" style="
+          display: inline-block;
+          width: 18px;
+          height: 18px;
+          border: 1px solid #D9D9D9;
+          background-color: #FFFFFF;
+          border-radius: 2px;
+          position: relative;
+          vertical-align: middle;
+        "></span>
+        <span style="color: #191E1D; font-size: 0.875rem; margin-left: 0.5rem; vertical-align: middle;">
+          @lang('messages.all.is_resident')
+        </span>
+      </label>
     </div>
+    
+    <style>
+      #registerFormContainer input[type="checkbox"]:checked + .custom-checkbox {
+        background-color: #279760;
+        border-color: #279760;
+      }
+      #registerFormContainer input[type="checkbox"]:checked + .custom-checkbox::after {
+        content: '';
+        position: absolute;
+        left: 5px;
+        top: 2px;
+        width: 5px;
+        height: 9px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+      }
+    </style>
 
     @if ($registerError->has('is_resident'))
       <span class="help-block invalid-feedback">

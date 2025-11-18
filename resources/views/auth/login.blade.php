@@ -3,8 +3,13 @@
 @section('title', 'Вход в систему')
 
 @section('content')
-<div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 via-white to-neutral-50 py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-md w-full space-y-8">
+<!-- Modal Overlay with Blur -->
+<div id="loginModal" class="fixed inset-0 z-50 flex items-center justify-center" style="display: flex;">
+    <!-- Backdrop with blur - shows the page behind with blur effect -->
+    <div class="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-lg" onclick="closeLoginModal()" style="z-index: 2;"></div>
+    
+    <!-- Modal Content -->
+    <div class="relative z-50 max-w-md w-full mx-4 space-y-8" style="z-index: 3;">
         <!-- Logo and Header -->
         <div class="text-center">
             <div class="mx-auto mb-6 login-logo flex items-center justify-center">
@@ -19,7 +24,11 @@
         </div>
 
         <!-- Login Form -->
-        <div class="bg-white rounded-lg border border-border-light shadow-md p-6">
+        <div class="bg-white rounded-lg border border-border-light shadow-xl p-6 relative">
+            <!-- Close Button -->
+            <button onclick="closeLoginModal()" class="absolute top-4 right-4 text-text-secondary hover:text-text-primary transition-colors">
+                <i class="fas fa-times text-xl"></i>
+            </button>
             <form method="POST" action="{{ route('login') }}" x-data="loginForm()" @submit.prevent="handleSubmit()">
                 @csrf
                 
@@ -174,7 +183,7 @@
         </div>
 
         <!-- Additional Info -->
-        <div class="text-center">
+        <div class="text-center mt-6">
             <p class="text-xs text-text-tertiary">
                 Продолжая, вы соглашаетесь с нашими
                 <a href="#" class="text-primary-600 hover:text-primary-500">условиями использования</a>
@@ -184,6 +193,43 @@
         </div>
     </div>
 </div>
+
+<style>
+    /* Prevent body scroll when modal is open */
+    body.modal-open {
+        overflow: hidden;
+    }
+    
+    /* Smooth animation for modal */
+    #loginModal {
+        animation: fadeIn 0.3s ease-out;
+    }
+    
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    
+    #loginModal > div:last-child {
+        animation: slideUp 0.3s ease-out;
+    }
+    
+    @keyframes slideUp {
+        from {
+            transform: translateY(20px);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+    
+</style>
 @endsection
 
 @section('js')
@@ -240,13 +286,72 @@ function loginForm() {
     };
 }
 
-// Маски для телефона
+// Modal functions
+function closeLoginModal() {
+    const modal = document.getElementById('loginModal');
+    
+    if (modal) {
+        modal.style.animation = 'fadeOut 0.3s ease-out';
+        setTimeout(() => {
+            modal.style.display = 'none';
+            document.body.classList.remove('modal-open');
+            // Redirect to previous page or home
+            if (document.referrer && document.referrer !== window.location.href) {
+                window.history.back();
+            } else {
+                window.location.href = '{{ route("new-index") }}';
+            }
+        }, 300);
+    }
+}
+
+// Close modal on Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+        closeLoginModal();
+    }
+});
+
+// Prevent modal from closing when clicking inside
 document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('loginModal');
+    if (modal) {
+        const modalContent = modal.querySelector('.relative.z-50');
+        if (modalContent) {
+            modalContent.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        }
+        
+        // Add body class to prevent scrolling
+        document.body.classList.add('modal-open');
+        
+        // If we're on the login page directly, open the modal
+        if (window.location.pathname.includes('/login')) {
+            openLoginModal();
+        }
+    }
+    
+    // Маски для телефона
     const phoneInputs = document.querySelectorAll('input[name="commercialOfferPhone"]');
     phoneInputs.forEach(input => {
         // Здесь можно добавить маску для телефона
         input.placeholder = '+7 (___) ___-__-__';
     });
 });
+
+// Add fadeOut animation
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes fadeOut {
+        from {
+            opacity: 1;
+        }
+        to {
+            opacity: 0;
+        }
+    }
+`;
+document.head.appendChild(style);
 </script>
 @endsection
