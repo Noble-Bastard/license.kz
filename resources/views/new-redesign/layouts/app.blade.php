@@ -67,7 +67,8 @@
                 if (modal) {
                     modal.style.animation = 'fadeOut 0.3s ease-out';
                     setTimeout(function() {
-                        modal.style.cssText = 'display: none !important;';
+                        modal.style.display = 'none';
+                        modal.style.animation = '';
                         document.body.classList.remove('modal-open');
                         document.body.style.overflow = '';
                     }, 300);

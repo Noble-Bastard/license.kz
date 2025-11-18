@@ -6,9 +6,9 @@
         <div style="position: relative; max-width: 500px; width: 100%; margin: auto;" onclick="event.stopPropagation();">
         <!-- Login Form -->
         <div class="bg-white rounded-lg border shadow-xl relative" style="border-color: #E8E8E8;">
-            <!-- Close Button -->
-            <button onclick="closeLoginModal()" class="absolute top-4 right-4 transition-colors" style="color: #6F6F6F; z-index: 10;" onmouseover="this.style.color='#191E1D'" onmouseout="this.style.color='#6F6F6F'">
-                <i class="fas fa-times text-xl"></i>
+            <!-- Close Button - Top right corner of modal -->
+            <button onclick="closeLoginModal()" style="position: absolute; top: 5px; right: -55px; z-index: 1000000; width: 40px; height: 40px; border-radius: 50%; background-color: #FFFFFF; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.15); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                <i class="fas fa-times" style="color: #191E1D; font-size: 12px; font-weight: 300;"></i>
             </button>
             
             <!-- Tabs -->
@@ -223,7 +223,8 @@ if (typeof window.closeLoginModal === 'undefined' || !window.closeLoginModal.toS
         if (modal) {
             modal.style.animation = 'fadeOut 0.3s ease-out';
             setTimeout(function() {
-                modal.style.cssText = 'display: none !important;';
+                modal.style.display = 'none';
+                modal.style.animation = '';
                 document.body.classList.remove('modal-open');
                 document.body.style.overflow = '';
             }, 300);
@@ -267,6 +268,38 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+    
+    // Handle custom checkbox click for is_resident
+    // Use event delegation on document to catch all clicks
+    document.addEventListener('click', function(e) {
+        // Check if clicked on custom-checkbox
+        if (e.target.classList.contains('custom-checkbox')) {
+            e.preventDefault();
+            e.stopPropagation();
+            // Find the input checkbox - it's the previous sibling in the DOM
+            const input = e.target.previousElementSibling;
+            if (input && input.type === 'checkbox') {
+                input.checked = !input.checked;
+                
+                // Manually update custom checkbox styles
+                const customCheckbox = e.target;
+                if (input.checked) {
+                    customCheckbox.style.backgroundColor = '#279760';
+                    customCheckbox.style.borderColor = '#279760';
+                    // Add checkmark via pseudo-element by ensuring CSS applies
+                    customCheckbox.setAttribute('data-checked', 'true');
+                } else {
+                    customCheckbox.style.backgroundColor = '#FFFFFF';
+                    customCheckbox.style.borderColor = '#D9D9D9';
+                    customCheckbox.removeAttribute('data-checked');
+                }
+                
+                // Trigger change event to update CSS styles
+                const changeEvent = new Event('change', { bubbles: true });
+                input.dispatchEvent(changeEvent);
+            }
+        }
+    }, true);
     
     // Make functions globally available
     window.openLoginModal = openLoginModal;
