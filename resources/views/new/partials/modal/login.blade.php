@@ -1,10 +1,9 @@
 <!-- Login Modal -->
-<div id="loginModal" class="fixed inset-0 z-[9999] flex items-center justify-center" style="display: none;">
-    <!-- Backdrop with blur - shows the page behind with blur effect -->
-    <div class="fixed inset-0 bg-black bg-opacity-40" onclick="closeLoginModal()" style="z-index: 1; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);"></div>
-    
-    <!-- Modal Content -->
-    <div class="relative z-10 max-w-md w-full mx-4" style="z-index: 2;">
+<div id="loginModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 999999; width: 100vw; height: 100vh; overflow: auto; background: rgba(0,0,0,0.4); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);" onclick="if(event.target === this) closeLoginModal();">
+    <!-- Modal Content Container - Centered -->
+    <div style="display: flex; align-items: center; justify-content: center; min-height: 100%; padding: 20px;">
+        <!-- Modal Content -->
+        <div style="position: relative; max-width: 500px; width: 100%; margin: auto;" onclick="event.stopPropagation();">
         <!-- Login Form -->
         <div class="bg-white rounded-lg border shadow-xl relative" style="border-color: #E8E8E8;">
             <!-- Close Button -->
@@ -26,15 +25,15 @@
                         onclick="switchTab('register')"
                         class="transition-colors"
                         style="color: #6F6F6F; font-size: 1.5rem; font-weight: 400; padding-bottom: 1rem; text-align: left;">
-                    Регистрация
+            Регистрация
                 </button>
-            </div>
-            
+        </div>
+
             <!-- Login Form -->
             <div id="loginFormContainer" style="padding: 1.5rem;">
             <form method="POST" action="{{ route('login') }}" id="loginForm">
-                @csrf
-                
+            @csrf
+
                 @php
                     $request = request()->create(redirect()->intended()->getTargetUrl());
                     $locale = app('laravellocalization')->getCurrentLocale() != 'ru' ? app('laravellocalization')->getCurrentLocale() : '';
@@ -60,7 +59,7 @@
                                    placeholder="example@gmail.com"
                                    class="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all duration-200"
                                    style="border-color: #D9D9D9; color: #191E1D; background-color: #FFFFFF;">
-                        </div>
+            </div>
 
                         <div>
                             <label class="block text-sm font-medium mb-2" style="color: #191E1D;">
@@ -85,17 +84,17 @@
                             <span id="loginBtnLoading" style="display: none;" class="flex items-center">
                                 <i class="fas fa-spinner fa-spin mr-2"></i>
                                 Загрузка...
-                            </span>
+                                  </span>
                         </button>
                         @if (Route::has('password.request'))
                         <a href="{{ route('password.request') }}" class="text-sm transition-colors" style="color: #191E1D;" onmouseover="this.style.color='#000'" onmouseout="this.style.color='#191E1D'">
                             Забыли пароль?
                         </a>
-                        @endif
-                    </div>
-                </div>
-            </form>
+              @endif
             </div>
+            </div>
+          </form>
+        </div>
             
             <!-- Register Form Container (hidden by default) -->
             <div id="registerFormContainer" style="display: none; padding: 1.5rem;">
@@ -110,24 +109,24 @@
                                 onclick="switchPersonType('legal')"
                                 class="transition-colors whitespace-nowrap"
                                 style="color: #191E1D; background-color: #FFFFFF; border: 1px solid #E8E8E8; border-radius: 25px; padding: 0.25rem 1rem; font-size: 0.875rem;">
-                            @lang('messages.all.entity')
+              @lang('messages.all.entity')
                         </button>
                         <button type="button" 
                                 id="individualTab" 
                                 onclick="switchPersonType('individual')"
                                 class="transition-colors whitespace-nowrap"
                                 style="color: #FFFFFF; background-color: #279760; border: 1px solid #279760; border-radius: 25px; padding: 0.25rem 1rem; font-size: 0.875rem;">
-                            @lang('messages.all.individual')
+              @lang('messages.all.individual')
                         </button>
                     </div>
-                </div>
-                
+          </div>
+
                 <!-- Individual Registration Form -->
                 <div id="individualFormContainer">
                     @php
                         $registerError = $errors ?? new \Illuminate\Support\MessageBag();
                     @endphp
-                    @include('new.partials.modal.register_individal')
+          @include('new.partials.modal.register_individal')
                 </div>
                 
                 <!-- Legal Registration Form -->
@@ -140,13 +139,25 @@
                 </div>
             </div>
         </div>
+      </div>
     </div>
-</div>
+  </div>
 
 <style>
     /* Prevent body scroll when modal is open */
     body.modal-open {
-        overflow: hidden;
+        overflow: hidden !important;
+    }
+    
+    /* Ensure modal is visible when opened */
+    #loginModal[style*="flex"] {
+        display: flex !important;
+        z-index: 99999 !important;
+        position: fixed !important;
+    }
+    
+    #loginModal {
+        z-index: 99999 !important;
     }
     
     /* Smooth animation for modal */
@@ -194,30 +205,38 @@
 </style>
 
 <script>
-// Modal functions
-function openLoginModal() {
-    const modal = document.getElementById('loginModal');
-    if (modal) {
-        modal.style.display = 'flex';
-        document.body.classList.add('modal-open');
-    }
+// Modal functions - override if not already defined in layout
+if (typeof window.openLoginModal === 'undefined') {
+    window.openLoginModal = function() {
+        var modal = document.getElementById('loginModal');
+        if (modal) {
+            modal.style.display = 'block';
+            document.body.classList.add('modal-open');
+            document.body.style.overflow = 'hidden';
+        }
+    };
 }
 
-function closeLoginModal() {
-    const modal = document.getElementById('loginModal');
-    if (modal) {
-        modal.style.animation = 'fadeOut 0.3s ease-out';
-        setTimeout(() => {
-            modal.style.display = 'none';
-            document.body.classList.remove('modal-open');
-        }, 300);
-    }
+if (typeof window.closeLoginModal === 'undefined' || !window.closeLoginModal.toString().includes('setTimeout')) {
+    window.closeLoginModal = function() {
+        var modal = document.getElementById('loginModal');
+        if (modal) {
+            modal.style.animation = 'fadeOut 0.3s ease-out';
+            setTimeout(function() {
+                modal.style.cssText = 'display: none !important;';
+                document.body.classList.remove('modal-open');
+                document.body.style.overflow = '';
+            }, 300);
+        }
+    };
 }
 
 // Close modal on Escape key
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
-        closeLoginModal();
+        if (typeof window.closeLoginModal === 'function') {
+            window.closeLoginModal();
+        }
     }
 });
 

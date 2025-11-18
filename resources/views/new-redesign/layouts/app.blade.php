@@ -45,6 +45,49 @@
         window.Laravel = {"csrfToken": "{!!csrf_token()!!}"};
         window.default_locale = "{{ \Illuminate\Support\Facades\App::getLocale() }}";
         window.fallback_locale = "{{ config('app.fallback_locale') }}";
+        
+        // Define modal functions immediately - must be available before page loads
+        window.openLoginModal = function() {
+            try {
+                var modal = document.getElementById('loginModal');
+                if (modal) {
+                    modal.style.display = 'block';
+                    document.body.classList.add('modal-open');
+                    document.body.style.overflow = 'hidden';
+                }
+            } catch (e) {
+                console.error('Error opening login modal:', e);
+            }
+            return false;
+        };
+        
+        window.closeLoginModal = function() {
+            try {
+                var modal = document.getElementById('loginModal');
+                if (modal) {
+                    modal.style.animation = 'fadeOut 0.3s ease-out';
+                    setTimeout(function() {
+                        modal.style.cssText = 'display: none !important;';
+                        document.body.classList.remove('modal-open');
+                        document.body.style.overflow = '';
+                    }, 300);
+                }
+            } catch (e) {
+                console.error('Error closing login modal:', e);
+            }
+            return false;
+        };
+        
+        // Ensure body is not blocked on page load
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function() {
+                document.body.classList.remove('modal-open');
+                document.body.style.overflow = '';
+            });
+        } else {
+            document.body.classList.remove('modal-open');
+            document.body.style.overflow = '';
+        }
     </script>
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -61,8 +104,8 @@
             @yield('content')
             @include('new-redesign.partials.footer')
         </div>
-        @include('new.partials.modal.login')
     </div>
+    @include('new.partials.modal.login')
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 
