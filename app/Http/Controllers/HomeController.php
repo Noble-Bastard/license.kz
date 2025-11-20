@@ -100,8 +100,65 @@ class HomeController extends Controller
             $countryId
         );
 
+        // Маппинг названий разделов к ID категорий по названию
+        $categoryMapping = [];
+        foreach($categoryList as $category) {
+            $categoryName = mb_strtolower(trim($category->name));
+            $categoryMapping[$categoryName] = $category->id;
+            
+            // Дополнительные варианты названий для сопоставления
+            if (strpos($categoryName, 'лицензи') !== false) {
+                $categoryMapping['лицензирование'] = $category->id;
+            }
+            if (strpos($categoryName, 'регистрац') !== false && strpos($categoryName, 'компани') !== false) {
+                $categoryMapping['регистрация компании'] = $category->id;
+            }
+            if (strpos($categoryName, 'юридическ') !== false) {
+                $categoryMapping['юридическое сопровождение'] = $category->id;
+            }
+            if (strpos($categoryName, 'бухгалтер') !== false || strpos($categoryName, 'аутсорс') !== false) {
+                $categoryMapping['бухгалтерский аутсорсинг'] = $category->id;
+            }
+            if (strpos($categoryName, 'виза') !== false) {
+                $categoryMapping['получение визы'] = $category->id;
+            }
+        }
+
+        // Загружаем все категории с их каталогами
+        $allCategoriesWithCatalogs = [];
+        foreach($categoryList as $category) {
+            try {
+                $rootNode = \App\Data\Catalog\Dal\ServiceCategoryCatalogDal::getByServiceCategory($category->id, true);
+                if($rootNode && $rootNode->childNodeList) {
+                    $allCategoriesWithCatalogs[] = [
+                        'category' => $category,
+                        'catalogItems' => collect($rootNode->childNodeList->where('is_visible', 1)->all())->sortBy('name')
+                    ];
+                }
+            } catch (\Exception $e) {
+                \Log::error('Error loading category ' . $category->id . ': ' . $e->getMessage());
+            }
+        }
+
+        // Загружаем первую категорию по умолчанию (если есть)
+        $defaultCategoryId = null;
+        $defaultRootNode = null;
+        if(count($categoryList) > 0) {
+            $defaultCategoryId = $categoryList[0]->id;
+            try {
+                $defaultRootNode = \App\Data\Catalog\Dal\ServiceCategoryCatalogDal::getByServiceCategory($defaultCategoryId, true);
+            } catch (\Exception $e) {
+                \Log::error('Error loading default category: ' . $e->getMessage());
+                $defaultRootNode = null;
+            }
+        }
+
         return view('services-new')
-            ->with('categoryList', $categoryList);
+            ->with('categoryList', $categoryList)
+            ->with('categoryMapping', $categoryMapping)
+            ->with('defaultCategoryId', $defaultCategoryId)
+            ->with('defaultRootNode', $defaultRootNode)
+            ->with('allCategoriesWithCatalogs', $allCategoriesWithCatalogs);
     }
 
     public function callMe()
