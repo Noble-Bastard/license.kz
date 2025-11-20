@@ -87,7 +87,7 @@
                                   </span>
                         </button>
                         @if (Route::has('password.request'))
-                        <a href="{{ route('password.request') }}" class="text-sm transition-colors" style="color: #191E1D;" onmouseover="this.style.color='#000'" onmouseout="this.style.color='#191E1D'">
+                        <a href="javascript:void(0)" onclick="if(typeof window.openForgotPasswordModal === 'function') { window.openForgotPasswordModal(); } else { window.location.href='{{ route('password.request') }}'; } return false;" class="text-sm transition-colors" style="color: #191E1D; cursor: pointer;" onmouseover="this.style.color='#000'" onmouseout="this.style.color='#191E1D'">
                             Забыли пароль?
                         </a>
               @endif
@@ -158,6 +158,68 @@
     
     #loginModal {
         z-index: 99999 !important;
+    }
+    
+    /* Responsive styles for mobile */
+    @media (max-width: 768px) {
+        #loginModal {
+            padding: 0 !important;
+        }
+        
+        #loginModal > div {
+            padding: 0 !important;
+            align-items: flex-start !important;
+            min-height: 100vh !important;
+        }
+        
+        #loginModal > div > div {
+            max-width: 100% !important;
+            width: 100% !important;
+            margin: 0 !important;
+        }
+        
+        #loginModal .bg-white {
+            border-radius: 0 !important;
+            margin: 0 !important;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        #loginModal button[onclick*="closeLoginModal"] {
+            position: fixed !important;
+            top: 10px !important;
+            right: 10px !important;
+            width: 36px !important;
+            height: 36px !important;
+        }
+        
+        #loginModal button[type="button"][id*="Tab"] {
+            font-size: 1.25rem !important;
+            padding: 1rem 1rem 0.75rem 1rem !important;
+        }
+        
+        #loginModal > div > div > div > div[id*="FormContainer"],
+        #loginModal > div > div > div > div > div[style*="padding: 1.5rem"] {
+            padding: 1rem !important;
+        }
+        
+        #loginModal button[type="submit"] {
+            width: 100% !important;
+            padding-left: 1.5rem !important;
+            padding-right: 1.5rem !important;
+        }
+        
+        #loginModal > div > div > div > div > div > div[style*="display: flex"][style*="justify-content: space-between"] {
+            flex-direction: column !important;
+            gap: 1rem !important;
+            align-items: flex-start !important;
+        }
+        
+        #loginModal > div > div > div > div > div > div[style*="display: flex"][style*="justify-content: space-between"] > a {
+            text-align: left !important;
+            width: 100% !important;
+        }
     }
     
     /* Smooth animation for modal */

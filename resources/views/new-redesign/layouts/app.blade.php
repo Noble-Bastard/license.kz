@@ -79,14 +79,117 @@
             return false;
         };
         
+        // Define reset password modal functions
+        window.openResetPasswordModal = function(email, token) {
+            try {
+                var modal = document.getElementById('resetPasswordModal');
+                if (modal) {
+                    // Set email and token if provided
+                    if (email) {
+                        var emailInput = modal.querySelector('#email');
+                        if (emailInput) {
+                            emailInput.value = email;
+                        }
+                    }
+                    if (token) {
+                        var tokenInput = modal.querySelector('input[name="token"]');
+                        if (tokenInput) {
+                            tokenInput.value = token;
+                        }
+                    }
+                    modal.style.display = 'block';
+                    document.body.classList.add('modal-open-reset-password');
+                    document.body.style.overflow = 'hidden';
+                }
+            } catch (e) {
+                console.error('Error opening reset password modal:', e);
+            }
+            return false;
+        };
+        
+        window.closeResetPasswordModal = function() {
+            try {
+                var modal = document.getElementById('resetPasswordModal');
+                if (modal) {
+                    modal.style.animation = 'fadeOut 0.3s ease-out';
+                    setTimeout(function() {
+                        modal.style.display = 'none';
+                        modal.style.animation = '';
+                        document.body.classList.remove('modal-open-reset-password');
+                        document.body.style.overflow = '';
+                    }, 300);
+                }
+            } catch (e) {
+                console.error('Error closing reset password modal:', e);
+            }
+            return false;
+        };
+        
+        window.closeResetPasswordModal = function() {
+            try {
+                var modal = document.getElementById('resetPasswordModal');
+                if (modal) {
+                    modal.style.animation = 'fadeOut 0.3s ease-out';
+                    setTimeout(function() {
+                        modal.style.display = 'none';
+                        modal.style.animation = '';
+                        document.body.classList.remove('modal-open-reset-password');
+                        document.body.style.overflow = '';
+                    }, 300);
+                }
+            } catch (e) {
+                console.error('Error closing reset password modal:', e);
+            }
+            return false;
+        };
+        
+        // Define forgot password modal functions
+        window.openForgotPasswordModal = function() {
+            try {
+                var modal = document.getElementById('forgotPasswordModal');
+                if (modal) {
+                    // Close login modal if open
+                    if (typeof window.closeLoginModal === 'function') {
+                        window.closeLoginModal();
+                    }
+                    modal.style.display = 'block';
+                    document.body.classList.add('modal-open-forgot-password');
+                    document.body.style.overflow = 'hidden';
+                }
+            } catch (e) {
+                console.error('Error opening forgot password modal:', e);
+            }
+            return false;
+        };
+        
+        window.closeForgotPasswordModal = function() {
+            try {
+                var modal = document.getElementById('forgotPasswordModal');
+                if (modal) {
+                    modal.style.animation = 'fadeOut 0.3s ease-out';
+                    setTimeout(function() {
+                        modal.style.display = 'none';
+                        modal.style.animation = '';
+                        document.body.classList.remove('modal-open-forgot-password');
+                        document.body.style.overflow = '';
+                    }, 300);
+                }
+            } catch (e) {
+                console.error('Error closing forgot password modal:', e);
+            }
+            return false;
+        };
+        
         // Ensure body is not blocked on page load
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', function() {
                 document.body.classList.remove('modal-open');
+                document.body.classList.remove('modal-open-reset-password');
                 document.body.style.overflow = '';
             });
         } else {
             document.body.classList.remove('modal-open');
+            document.body.classList.remove('modal-open-reset-password');
             document.body.style.overflow = '';
         }
     </script>
@@ -107,6 +210,8 @@
         </div>
     </div>
     @include('new.partials.modal.login')
+    @include('new.partials.modal.reset_password')
+    @include('new.partials.modal.forgot_password')
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 

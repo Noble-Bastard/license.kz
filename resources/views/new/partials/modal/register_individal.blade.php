@@ -151,8 +151,8 @@
   </div>
 
   <div class="form-group">
-    <div style="display: flex; align-items: flex-start; gap: 0.5rem; margin-top: 1rem;">
-      <label style="position: relative; display: inline-block; cursor: pointer; margin: 0; margin-top: 2px;">
+    <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 1rem; flex-wrap: nowrap;">
+      <label style="position: relative; display: inline-flex; align-items: center; cursor: pointer; margin: 0; flex-shrink: 0;">
         <input type="checkbox" 
                id="offerCheck"
                name="offerCheck" 
@@ -170,7 +170,7 @@
           flex-shrink: 0;
         "></span>
       </label>
-      <span style="color: #6F6F6F; font-size: 0.75rem; line-height: 1.4; margin: 0;">
+      <span style="color: #6F6F6F; font-size: 0.75rem; line-height: 1.4; margin: 0; white-space: nowrap;">
         @lang('messages.pages.setPaymentType.i_accept_the_terms_of_the_public_offer_1') <a href="{{route("offer")}}" target="_blank" style="color: #6F6F6F; text-decoration: underline;">@lang('messages.pages.setPaymentType.i_accept_the_terms_of_the_public_offer_2')</a>
       </span>
     </div>
