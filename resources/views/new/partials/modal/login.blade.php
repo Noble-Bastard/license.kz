@@ -103,7 +103,7 @@
                     <p style="color: #191E1D; font-size: 0.875rem; margin-bottom: 0.75rem; text-align: left;">
                         Выберите статус
                     </p>
-                    <div style="display: flex; gap: 0.75rem; margin-bottom: 1.5rem; justify-content: center; align-items: center;">
+                    <div style="display: flex; gap: 0.75rem; margin-bottom: 1.5rem; justify-content: flex-start; align-items: center;">
                         <button type="button" 
                                 id="legalTab" 
                                 onclick="switchPersonType('legal')"

@@ -113,8 +113,8 @@
                         @if($categoryData['catalogItems']->count() > 0)
                           @php
                             $items = $categoryData['catalogItems'];
-                            $visibleItems = $items->take(3);
-                            $hiddenItems = collect($items->all())->slice(3)->values();
+                            $visibleItems = $items->take(4);
+                            $hiddenItems = collect($items->all())->slice(4)->values();
                           @endphp
                           <div class="services-category-column">
                             <h3 class="services-category-title-inline">
@@ -289,9 +289,27 @@
     
     .services-categories-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(4, 1fr);
       gap: 32px 40px;
       align-items: start;
+    }
+    
+    @media (max-width: 1200px) {
+      .services-categories-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .services-categories-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .services-categories-grid {
+        grid-template-columns: 1fr;
+      }
     }
     
     .services-category-column {
