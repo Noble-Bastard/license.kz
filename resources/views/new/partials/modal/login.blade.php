@@ -103,19 +103,19 @@
                     <p style="color: #191E1D; font-size: 0.875rem; margin-bottom: 0.75rem; text-align: left;">
                         Выберите статус
                     </p>
-                    <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; justify-content: flex-start;">
+                    <div style="display: flex; gap: 0.75rem; margin-bottom: 1.5rem; justify-content: center; align-items: center;">
                         <button type="button" 
                                 id="legalTab" 
                                 onclick="switchPersonType('legal')"
                                 class="transition-colors whitespace-nowrap"
-                                style="color: #191E1D; background-color: #FFFFFF; border: 1px solid #E8E8E8; border-radius: 25px; padding: 0.25rem 1rem; font-size: 0.875rem;">
+                                style="color: #191E1D; background-color: #FFFFFF; border: 1px solid #E8E8E8; border-radius: 25px; padding: 0.5rem 1.5rem; font-size: 1rem; font-weight: 400;">
               @lang('messages.all.entity')
                         </button>
                         <button type="button" 
                                 id="individualTab" 
                                 onclick="switchPersonType('individual')"
                                 class="transition-colors whitespace-nowrap"
-                                style="color: #FFFFFF; background-color: #279760; border: 1px solid #279760; border-radius: 25px; padding: 0.25rem 1rem; font-size: 0.875rem;">
+                                style="color: #FFFFFF; background-color: #279760; border: 1px solid #279760; border-radius: 25px; padding: 0.5rem 1.5rem; font-size: 1rem; font-weight: 400;">
               @lang('messages.all.individual')
                         </button>
                     </div>
@@ -144,6 +144,12 @@
   </div>
 
 <style>
+    /* Override global CSS that hides registration forms */
+    #registerFormContainer form.new_modal_login_main_tab_pane_register {
+        display: flex !important;
+        flex-direction: column;
+    }
+    
     /* Prevent body scroll when modal is open */
     body.modal-open {
         overflow: hidden !important;
@@ -164,39 +170,71 @@
     @media (max-width: 768px) {
         #loginModal {
             padding: 0 !important;
+            align-items: flex-end !important;
+            justify-content: flex-end !important;
         }
         
         #loginModal > div {
             padding: 0 !important;
-            align-items: flex-start !important;
+            align-items: flex-end !important;
+            justify-content: flex-end !important;
             min-height: 100vh !important;
+            width: 100% !important;
         }
         
         #loginModal > div > div {
             max-width: 100% !important;
             width: 100% !important;
             margin: 0 !important;
+            max-height: 50vh !important;
+            display: flex !important;
+            flex-direction: column !important;
+        }
+        
+        /* Registration form takes more space */
+        #loginModal > div > div.register-mode {
+            max-height: 70vh !important;
         }
         
         #loginModal .bg-white {
-            border-radius: 0 !important;
+            border-radius: 8px 8px 0 0 !important;
             margin: 0 !important;
-            min-height: 100vh;
+            max-height: 50vh !important;
+            min-height: auto !important;
+            height: auto !important;
             display: flex;
             flex-direction: column;
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        /* Registration form container visible - increase height */
+        #loginModal .bg-white.register-mode {
+            max-height: 70vh !important;
         }
         
         #loginModal button[onclick*="closeLoginModal"] {
-            position: fixed !important;
+            position: absolute !important;
             top: 10px !important;
             right: 10px !important;
             width: 36px !important;
             height: 36px !important;
+            z-index: 10 !important;
         }
         
-        #loginModal button[type="button"][id*="Tab"] {
+        #loginModal button[type="button"][id="loginTab"],
+        #loginModal button[type="button"][id="registerTab"] {
             font-size: 1.25rem !important;
             padding: 1rem 1rem 0.75rem 1rem !important;
+        }
+        
+        /* Status buttons (legalTab, individualTab) - keep desktop style, just scale down */
+        #loginModal button[type="button"][id="legalTab"],
+        #loginModal button[type="button"][id="individualTab"] {
+            font-size: 0.875rem !important;
+            padding: 0.4rem 1.25rem !important;
+            border-radius: 25px !important;
         }
         
         #loginModal > div > div > div > div[id*="FormContainer"],
@@ -248,6 +286,24 @@
         to {
             transform: translateY(0);
             opacity: 1;
+        }
+    }
+    
+    /* Mobile slide up animation from bottom */
+    @media (max-width: 768px) {
+        #loginModal > div > div {
+            animation: slideUpFromBottom 0.3s ease-out !important;
+        }
+        
+        @keyframes slideUpFromBottom {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
     }
     
@@ -374,6 +430,8 @@ function switchTab(tab) {
     const registerTab = document.getElementById('registerTab');
     const loginFormContainer = document.getElementById('loginFormContainer');
     const registerFormContainer = document.getElementById('registerFormContainer');
+    const modalContent = document.querySelector('#loginModal > div > div');
+    const modalWhite = document.querySelector('#loginModal .bg-white');
     
     if (tab === 'login') {
         // Activate login tab
@@ -383,6 +441,14 @@ function switchTab(tab) {
         // Show login form
         loginFormContainer.style.display = 'block';
         registerFormContainer.style.display = 'none';
+        
+        // Remove register mode class for mobile (50vh)
+        if (modalContent) {
+            modalContent.classList.remove('register-mode');
+        }
+        if (modalWhite) {
+            modalWhite.classList.remove('register-mode');
+        }
     } else {
         // Activate register tab
         registerTab.style.color = '#191E1D';
@@ -391,6 +457,44 @@ function switchTab(tab) {
         // Show register form
         registerFormContainer.style.display = 'block';
         loginFormContainer.style.display = 'none';
+        
+        // Ensure individual form is visible by default
+        const individualFormContainer = document.getElementById('individualFormContainer');
+        const legalFormContainer = document.getElementById('legalFormContainer');
+        if (individualFormContainer && legalFormContainer) {
+            individualFormContainer.style.display = 'block';
+            legalFormContainer.style.display = 'none';
+            // Add active class to individual form
+            const individualForm = individualFormContainer.querySelector('form.new_modal_login_main_tab_pane_register');
+            if (individualForm) {
+                individualForm.classList.add('active');
+            }
+            // Remove active class from legal form
+            const legalForm = legalFormContainer.querySelector('form.new_modal_login_main_tab_pane_register');
+            if (legalForm) {
+                legalForm.classList.remove('active');
+            }
+        }
+        
+        // Reset person type tabs to default (individual active)
+        const individualTab = document.getElementById('individualTab');
+        const legalTab = document.getElementById('legalTab');
+        if (individualTab && legalTab) {
+            individualTab.style.color = '#FFFFFF';
+            individualTab.style.backgroundColor = '#279760';
+            individualTab.style.borderColor = '#279760';
+            legalTab.style.color = '#191E1D';
+            legalTab.style.backgroundColor = '#FFFFFF';
+            legalTab.style.borderColor = '#E8E8E8';
+        }
+        
+        // Add register mode class for mobile (70vh)
+        if (modalContent) {
+            modalContent.classList.add('register-mode');
+        }
+        if (modalWhite) {
+            modalWhite.classList.add('register-mode');
+        }
     }
 }
 
@@ -404,6 +508,11 @@ function switchPersonType(type) {
     const individualFormContainer = document.getElementById('individualFormContainer');
     const legalFormContainer = document.getElementById('legalFormContainer');
     
+    if (!individualTab || !legalTab || !individualFormContainer || !legalFormContainer) {
+        console.error('Form elements not found');
+        return;
+    }
+    
     if (type === 'individual') {
         // Activate individual tab
         individualTab.style.color = '#FFFFFF';
@@ -414,9 +523,23 @@ function switchPersonType(type) {
         legalTab.style.borderColor = '#E8E8E8';
         
         // Show individual form
-        individualFormContainer.style.display = 'block';
-        legalFormContainer.style.display = 'none';
-    } else {
+        if (individualFormContainer) {
+            individualFormContainer.style.display = 'block';
+            // Also add active class to form inside
+            const individualForm = individualFormContainer.querySelector('form.new_modal_login_main_tab_pane_register');
+            if (individualForm) {
+                individualForm.classList.add('active');
+            }
+        }
+        if (legalFormContainer) {
+            legalFormContainer.style.display = 'none';
+            // Remove active class from form inside
+            const legalForm = legalFormContainer.querySelector('form.new_modal_login_main_tab_pane_register');
+            if (legalForm) {
+                legalForm.classList.remove('active');
+            }
+        }
+    } else if (type === 'legal') {
         // Activate legal tab
         legalTab.style.color = '#FFFFFF';
         legalTab.style.backgroundColor = '#279760';
@@ -426,8 +549,22 @@ function switchPersonType(type) {
         individualTab.style.borderColor = '#E8E8E8';
         
         // Show legal form
-        legalFormContainer.style.display = 'block';
-        individualFormContainer.style.display = 'none';
+        if (legalFormContainer) {
+            legalFormContainer.style.display = 'block';
+            // Also add active class to form inside
+            const legalForm = legalFormContainer.querySelector('form.new_modal_login_main_tab_pane_register');
+            if (legalForm) {
+                legalForm.classList.add('active');
+            }
+        }
+        if (individualFormContainer) {
+            individualFormContainer.style.display = 'none';
+            // Remove active class from form inside
+            const individualForm = individualFormContainer.querySelector('form.new_modal_login_main_tab_pane_register');
+            if (individualForm) {
+                individualForm.classList.remove('active');
+            }
+        }
     }
 }
 

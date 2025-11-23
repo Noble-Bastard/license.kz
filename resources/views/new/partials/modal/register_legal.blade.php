@@ -251,8 +251,8 @@
   @endif
 
   <div class="form-group">
-    <div style="display: flex; align-items: center; gap: 0.5rem; margin-top: 1.5rem; flex-wrap: nowrap;">
-      <label style="position: relative; display: inline-flex; align-items: center; cursor: pointer; margin: 0; flex-shrink: 0;">
+    <div class="offer-acceptance-container" style="display: flex; align-items: flex-start; gap: 0.5rem; margin-top: 1.5rem;">
+      <label style="position: relative; display: inline-flex; align-items: flex-start; cursor: pointer; margin: 0; flex-shrink: 0; padding-top: 2px;">
         <input type="checkbox" 
                id="offerCheck"
                name="offerCheck" 
@@ -270,10 +270,32 @@
           flex-shrink: 0;
         "></span>
       </label>
-      <span style="color: #6F6F6F; font-size: 0.75rem; line-height: 1.4; margin: 0; white-space: nowrap;">
-        @lang('messages.pages.setPaymentType.i_accept_the_terms_of_the_public_offer_1') <a href="{{route("offer")}}" target="_blank" style="color: #6F6F6F; text-decoration: underline;">@lang('messages.pages.setPaymentType.i_accept_the_terms_of_the_public_offer_2')</a>
-      </span>
+      <div class="offer-acceptance-text" style="color: #6F6F6F; font-size: 0.75rem; line-height: 1.4; margin: 0;">
+        <span class="offer-text-part1">@lang('messages.pages.setPaymentType.i_accept_the_terms_of_the_public_offer_1')</span>
+        <span class="offer-text-part2"><a href="{{route("offer")}}" target="_blank" style="color: #6F6F6F; text-decoration: underline;">@lang('messages.pages.setPaymentType.i_accept_the_terms_of_the_public_offer_2')</a></span>
+      </div>
     </div>
+    <style>
+      .offer-acceptance-text {
+        display: inline;
+      }
+      .offer-text-part1::after {
+        content: ' ';
+      }
+      @media (max-width: 768px) {
+        .offer-acceptance-container {
+          align-items: flex-start !important;
+        }
+        .offer-acceptance-text {
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+        }
+        .offer-text-part1::after {
+          content: '';
+        }
+      }
+    </style>
   </div>
   <div class="form-group form-actions">
     {!! Form::submit(trans('messages.all.submit'), ['class' => 'btn btn-success register_submit', 'style' => 'padding: 0.75rem 2rem; border-radius: 25px; font-size: 1rem;']) !!}
