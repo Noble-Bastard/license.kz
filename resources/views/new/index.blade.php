@@ -18,17 +18,17 @@
         /* Hero Slider Styles */
         .hero-slider-section {
             position: relative;
-            min-height: 720px;
+            min-height: clamp(600px, 38vw, 720px);
             overflow: hidden;
             background: white;
-            padding: 100px 0;
+            padding: clamp(60px, 6vw, 100px) 0;
         }
         
         .hero-top-title {
             position: absolute;
             top: -10px;
             left: 3%;
-            font-size: 52px;
+            font-size: clamp(2.5rem, 3vw + 1rem, 3.25rem);
             font-weight: 500;
             color: #1E1E1E;
             font-family: 'Manrope', sans-serif;
@@ -40,10 +40,10 @@
             content: '';
             position: absolute;
             left: 3%;
-            top: 55.3%;
+            top: 58%;
             transform: translateY(-50%);
-            width: 730px;
-            height: 550px;
+            width: clamp(600px, 48vw, 950px);
+            height: clamp(480px, 33vw, 620px);
             background: #279760;
             border-radius: 0;
             z-index: 0;
@@ -54,35 +54,68 @@
             content: '';
             position: absolute;
             right: 3%;
-            top: 55.3%;
+            top: 58%;
             transform: translateY(-50%);
-            width: 710px;
-            height: 550px;
+            width: clamp(600px, 48vw, 950px);
+            height: clamp(480px, 33vw, 620px);
             background: #E5E7EB;
             border-radius: 0;
             z-index: 0;
         }
         
-        /* Декоративный чекмарк на фоне */
-        .hero-background-checkmark {
+        .hero-corner-frame {
             position: absolute;
-            right: 10%;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 180px;
-            height: 180px;
-            background: #279760;
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0.8;
-            z-index: 1;
+            right: 3%;
+            top: calc(58% - 310px);
+            width: clamp(40px, 3.25vw, 70px);
+            height: clamp(40px, 3.25vw, 60px);
+            border: 2px solid #279760;
+            border-left: none;
+            border-bottom: none;
+            z-index: 2;
         }
         
-        .hero-background-checkmark svg {
-            width: 100px;
-            height: 100px;
+        /* Исправление для больших экранов 2560px */
+        @media (min-width: 2560px) {
+            .hero-slider-section::before {
+                width: 950px;
+                height: 620px;
+            }
+            
+            .hero-slider-section::after {
+                width: 950px;
+                height: 620px;
+            }
+            
+            .hero-corner-frame {
+                top: calc(58% - 360px);
+                width: 80px;
+                height: 70px;
+            }
+            
+            .hero-top-title {
+                font-size: 52px;
+            }
+            
+            .hero-slide-content {
+                max-width: 650px;
+            }
+            
+            .hero-slide-title {
+                font-size: 40px;
+            }
+            
+            .hero-slide-description {
+                font-size: 16px;
+            }
+            
+            .about-us__find__header h2 {
+                padding-left: 200px !important;
+            }
+            
+            .roadmap-title {
+                font-size: 52px;
+            }
         }
         
         .hero-slide {
@@ -102,26 +135,26 @@
         }
         
         .hero-slide-content {
-            max-width: 650px;
+            max-width: clamp(500px, 34vw, 650px);
             position: relative;
             z-index: 2;
-            margin-bottom: 120px;
+            margin-bottom: clamp(80px, 6.5vw, 120px);
         }
         
         .hero-slide-title {
-            font-size: 40px;
+            font-size: clamp(2rem, 2.1vw + 0.5rem, 2.5rem);
             font-weight: 500;
             line-height: 1.2;
             color: white;
-            margin-bottom: 24px;
+            margin-bottom: clamp(18px, 1.5vw, 24px);
             font-family: 'Manrope', sans-serif;
         }
         
         .hero-slide-description {
-            font-size: 16px;
+            font-size: clamp(0.875rem, 0.9vw + 0.25rem, 1rem);
             line-height: 1.6;
             color: white;
-            margin-bottom: 32px;
+            margin-bottom: clamp(24px, 2vw, 32px);
             font-family: 'Manrope', sans-serif;
         }
         
@@ -140,11 +173,11 @@
             align-items: center;
             background: white;
             color: #279760;
-            padding: 16px 32px;
-            border-radius: 60px;
+            padding: clamp(12px, 1vw, 16px) clamp(24px, 2vw, 32px);
+            border-radius: clamp(45px, 3.8vw, 60px);
             text-decoration: none;
             font-weight: 600;
-            font-size: 16px;
+            font-size: clamp(0.875rem, 0.9vw + 0.25rem, 1rem);
             transition: all 0.3s;
             font-family: 'Manrope', sans-serif;
         }
@@ -215,7 +248,7 @@
             white-space: nowrap;
             text-align: left !important;
             margin: 0 !important;
-            padding-left: 200px !important;
+            padding-left: clamp(120px, 10.5vw, 200px) !important;
         }
         
         /* Consultation Block - убираем верхнюю линию */
@@ -320,10 +353,10 @@
         }
         
         .roadmap-title {
-            font-size: 52px;
+            font-size: clamp(2.5rem, 3vw + 1rem, 3.25rem);
             font-weight: 500;
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: clamp(40px, 3.8vw, 60px);
             color: #1E1E1E;
             font-family: 'Manrope', sans-serif;
         }
@@ -508,15 +541,8 @@
     <section class="hero-slider-section">
         <h2 class="hero-top-title">Мгновенный старт для вашего<br>бизнеса в Казахстане</h2>
         
-        <!-- Декоративный чекмарк на фоне -->
-        <div class="hero-background-checkmark">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M20 6L9 17L4 12" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-        </div>
-        
-        <!-- Маленькая зеленая рамка в правом верхнем углу серого блока -->
-        <div style="position: absolute; right: 3%; top: calc(55.3% - 275px); width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760; z-index: 1;"></div>
+        <!-- Зеленая рамка в верхнем правом углу серого блока -->
+        <div class="hero-corner-frame"></div>
         
                     <div class="container">
                         <div class="row align-items-center">
@@ -911,7 +937,7 @@
     <section style="padding: 80px 0; background: white;" class="about-us">
         <div class="about-us__stats" style="background: white !important;">
                     <div class="container">
-                <div class="about-us__stats__grid" style="background: white !important; display: grid; grid-template-columns: 670px 135px 135px 185px 150px 150px; grid-template-rows: 270px 65px; gap: 0; margin-left: 100px;">
+                <div class="about-us__stats__grid" style="background: white !important; display: grid; grid-template-columns: 670px 135px 135px 185px 150px 150px; grid-template-rows: 270px 65px; gap: 0; margin: 0 auto; padding-left: 120px; max-width: 1600px;">
                     <!-- Заголовок О группе UPPERCASE -->
                     <div style="grid-column: 1; grid-row: 1; width: 670px; height: 270px; background: white; padding: 40px; display: flex; flex-direction: column; justify-content: center; border: 1px solid #E8E8E8; border-left: none; border-top: none;">
                         <h2 style="font-size: 52px; font-weight: 500; margin: 0; font-family: 'Manrope', sans-serif; color: #191E1D;">О группе UPPERCASE</h2>
