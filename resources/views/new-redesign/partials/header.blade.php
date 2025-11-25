@@ -122,59 +122,90 @@
 
 <!-- Mobile Offcanvas Menu -->
 <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileMenu" aria-labelledby="mobileMenuLabel">
-    <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="mobileMenuLabel">{{ __('Меню') }}</h5>
+    <div class="offcanvas-header" style="padding-left: 0; border-bottom: 1px solid #E8E8E8; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);">
+        <a href="{{ route('new-index') }}" class="text-decoration-none" style="margin-left: -30px;">
+            <img src="{{ asset('/new/images/icons/Frame7.png') }}" alt="Logo" height="32">
+        </a>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-        <!-- Services -->
-        <div class="mb-3">
-            <div class="dropdown">
-                <button class="btn w-100 dropdown-toggle" style="background: #279760; color: white; border: none; border-radius: 8px;" type="button" data-bs-toggle="dropdown">
-                    <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="me-2">
-                        <path d="M2.33 2.92H11.67" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-                        <path d="M2.33 7H11.67" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-                        <path d="M2.33 11.08H11.67" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-                    </svg>
-                    {{ __('Услуги') }}
-                </button>
-                <ul class="dropdown-menu w-100">
-                    <li><a class="dropdown-item" href="{{ route('new-construction') }}">{{ __('Строительство') }}</a></li>
-                    <li><a class="dropdown-item" href="{{ route('new-services') }}">{{ __('Все услуги') }}</a></li>
-                </ul>
+        <!-- Contact -->
+        <div class="mb-3" style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+                <div style="font-family: 'Manrope', sans-serif; font-weight: 500; color: #000;">7 (747) 135-00-00</div>
+                <a href="#" style="color: #279760; text-decoration: none; font-family: 'Manrope', sans-serif;" data-bs-toggle="modal" data-bs-target="#consultModal">{{ __('Заказать звонок') }}</a>
             </div>
+            @auth
+                <div class="dropdown">
+                    <button class="header-redesigned__login-btn dropdown-toggle" type="button" id="mobileUserDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7 7C8.933 7 10.5 5.433 10.5 3.5C10.5 1.567 8.933 0 7 0C5.067 0 3.5 1.567 3.5 3.5C3.5 5.433 5.067 7 7 7Z" stroke="#191E1D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M13.125 14C13.125 11.186 10.439 8.5 7 8.5C3.561 8.5 0.875 11.186 0.875 14" stroke="#191E1D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        <span class="login-text">{{ Auth::user()->name }}</span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="mobileUserDropdown">
+                        <li><a class="dropdown-item" href="#">{{ __('Профиль') }}</a></li>
+                        <li><a class="dropdown-item" href="#">{{ __('Настройки') }}</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="dropdown-item">{{ __('Выйти') }}</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            @else
+                <a href="javascript:void(0)" onclick="openLoginModal(); return false;" class="header-redesigned__login-btn">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M5.25 12.25H2.625C2.42609 12.25 2.23532 12.171 2.09467 12.0303C1.95402 11.8897 1.875 11.6989 1.875 11.5V2.5C1.875 2.30109 1.95402 2.11032 2.09467 1.96967C2.23532 1.82902 2.42609 1.75 2.625 1.75H5.25" stroke="#191E1D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M9.1875 9.625L12.125 7L9.1875 4.375" stroke="#191E1D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M12.125 7H5.25" stroke="#191E1D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="login-text">{{ __('Войти') }}</span>
+                </a>
+            @endauth
         </div>
 
         <!-- Navigation -->
         <nav class="nav flex-column">
-            <a class="nav-link" href="{{ route('about') }}" style="color: #191E1D; font-family: 'Manrope', sans-serif;">{{ __('О компании') }}</a>
-            <a class="nav-link" href="{{ route('news.list') }}" style="color: #191E1D; font-family: 'Manrope', sans-serif;">{{ __('Блог') }}</a>
-            <a class="nav-link" href="{{ route('reviews') }}" style="color: #191E1D; font-family: 'Manrope', sans-serif;">{{ __('Отзывы') }}</a>
-            <a class="nav-link" href="{{ route('faq') }}" style="color: #191E1D; font-family: 'Manrope', sans-serif;">{{ __('FAQ') }}</a>
-            <a class="nav-link" href="{{ route('partners') }}" style="color: #191E1D; font-family: 'Manrope', sans-serif;">{{ __('Партнёрам') }}</a>
+            <a class="nav-link" href="{{ route('new-services') }}" style="color: #191E1D; font-family: 'Manrope', sans-serif; border-bottom: 1px solid #E8E8E8; padding: 0.75rem 0; display: flex; justify-content: space-between; align-items: center;">
+                <span>{{ __('Услуги') }}</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 12L10 8L6 4" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+            <a class="nav-link" href="{{ route('about') }}" style="color: #191E1D; font-family: 'Manrope', sans-serif; border-bottom: 1px solid #E8E8E8; padding: 0.75rem 0; display: flex; justify-content: space-between; align-items: center;">
+                <span>{{ __('О компании') }}</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 12L10 8L6 4" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+            <a class="nav-link" href="{{ route('news.list') }}" style="color: #191E1D; font-family: 'Manrope', sans-serif; border-bottom: 1px solid #E8E8E8; padding: 0.75rem 0; display: flex; justify-content: space-between; align-items: center;">
+                <span>{{ __('Блог') }}</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 12L10 8L6 4" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+            <a class="nav-link" href="{{ route('reviews') }}" style="color: #191E1D; font-family: 'Manrope', sans-serif; border-bottom: 1px solid #E8E8E8; padding: 0.75rem 0; display: flex; justify-content: space-between; align-items: center;">
+                <span>{{ __('Отзывы') }}</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 12L10 8L6 4" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+            <a class="nav-link" href="{{ route('faq') }}" style="color: #191E1D; font-family: 'Manrope', sans-serif; border-bottom: 1px solid #E8E8E8; padding: 0.75rem 0; display: flex; justify-content: space-between; align-items: center;">
+                <span>{{ __('FAQ') }}</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 12L10 8L6 4" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+            <a class="nav-link" href="{{ route('partners') }}" style="color: #191E1D; font-family: 'Manrope', sans-serif; border-bottom: 1px solid #E8E8E8; padding: 0.75rem 0; display: flex; justify-content: space-between; align-items: center;">
+                <span>{{ __('Партнёрам') }}</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 12L10 8L6 4" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
         </nav>
-
-        <hr>
-
-        <!-- Contact -->
-        <div class="mb-3">
-            <div style="font-family: 'Manrope', sans-serif; font-weight: 500; color: #000;">7 (747) 135-00-00</div>
-            <a href="#" style="color: #279760; text-decoration: none; font-family: 'Manrope', sans-serif;" data-bs-toggle="modal" data-bs-target="#consultModal">{{ __('Заказать звонок') }}</a>
-        </div>
-
-        <!-- Login/Profile -->
-        @auth
-            <div class="d-grid gap-2">
-                <a href="#" class="btn btn-outline-secondary">{{ __('Профиль') }}</a>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="btn btn-outline-danger w-100">{{ __('Выйти') }}</button>
-                </form>
-            </div>
-        @else
-            <div class="d-grid">
-                <a href="javascript:void(0)" onclick="openLoginModal(); return false;" class="btn" style="background: #279760; color: white; border: none;">{{ __('Войти') }}</a>
-            </div>
-        @endauth
     </div>
 </div>
