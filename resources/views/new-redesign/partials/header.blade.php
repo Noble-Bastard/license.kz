@@ -122,11 +122,18 @@
 
 <!-- Mobile Offcanvas Menu -->
 <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileMenu" aria-labelledby="mobileMenuLabel">
-    <div class="offcanvas-header" style="padding-left: 0; border-bottom: 1px solid #E8E8E8; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);">
+    <div class="offcanvas-header" style="padding-left: 0; border-bottom: 1px solid #E8E8E8; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); display: flex; align-items: center; gap: 12px;">
         <a href="{{ route('new-index') }}" class="text-decoration-none" style="margin-left: -30px;">
             <img src="{{ asset('/new/images/icons/Frame7.png') }}" alt="Logo" height="32">
         </a>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        <a href="tel:+77471350000" style="display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; background: white; border-radius: 50%; border: 1px solid #E8E8E8;">
+            <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122L9.98 10.98s-.787.205-1.994-1.002C6.782 8.774 6.987 7.987 6.987 7.987l.549-1.805a.678.678 0 0 0-.122-.58L5.62 3.295a.678.678 0 0 0-.58-.122z" fill="#191E1D"/>
+            </svg>
+        </a>
+        <div style="display: flex; align-items: center; justify-content: center; width: 50px; height: 50px; background: white; border-radius: 50%; border: 1px solid #E8E8E8;">
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close" style="opacity: 1; filter: brightness(0) saturate(100%) invert(48%) sepia(79%) saturate(2476%) hue-rotate(123deg) brightness(95%) contrast(85%); transform: scale(0.5); margin-left: -6px;"></button>
+        </div>
     </div>
     <div class="offcanvas-body">
         <!-- Contact -->
