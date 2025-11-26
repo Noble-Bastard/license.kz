@@ -161,9 +161,9 @@
           </svg>
         </a>
         <button type="button" class="services-inline-header__icon" data-close-inline-header>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M1 1L13 13" stroke="#191E1D" stroke-width="1.4" stroke-linecap="round"/>
-            <path d="M13 1L1 13" stroke="#191E1D" stroke-width="1.4" stroke-linecap="round"/>
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M1 1L13 13" stroke="#279760" stroke-width="1.4" stroke-linecap="round"/>
+            <path d="M13 1L1 13" stroke="#279760" stroke-width="1.4" stroke-linecap="round"/>
           </svg>
         </button>
       </div>
@@ -445,6 +445,10 @@
       align-items: center;
       justify-content: center;
       background: #ffffff;
+    }
+
+    .services-inline-header__icon[data-close-inline-header] {
+      border: 1px solid #279760;
     }
 
     .services-inline-header__icon svg {
