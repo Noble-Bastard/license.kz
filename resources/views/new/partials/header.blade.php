@@ -185,14 +185,16 @@
     <div class="offcanvas-body">
         <!-- Services -->
         <div class="mb-3">
-            <button class="btn w-100" style="background: #279760; color: white; border: none; border-radius: 8px;">
+            <a href="{{ route('new-services') }}"
+               class="btn w-100"
+               style="background: #279760; color: white; border: none; border-radius: 8px;">
                 <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg" width="16" height="16" class="me-2">
                     <path d="M2.33 2.92H11.67" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
                     <path d="M2.33 7H11.67" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
                     <path d="M2.33 11.08H11.67" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
                 </svg>
                 {{ __('Услуги') }}
-            </button>
+            </a>
         </div>
 
         <!-- Navigation -->
