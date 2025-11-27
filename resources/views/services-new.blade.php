@@ -242,59 +242,33 @@
                               <span class="services-mobile-detail__title">{{ $section['name'] }}</span>
                             </div>
                             <div class="services-mobile-detail__content">
-                              <div class="services-mobile-subsection-list" data-mobile-subsection-list>
-                                @foreach($categoryData['groupedItems'] as $groupIndex => $group)
-                                  @php
-                                    $groupTitle = $group['title'] ?: __('Прочие услуги');
-                                    $subsectionKey = "{$sectionIndex}-{$groupIndex}";
-                                  @endphp
-                                  <button type="button"
-                                          class="services-mobile-subsection-link"
-                                          data-mobile-subsection-open="{{ $subsectionKey }}">
-                                    <span>{{ $groupTitle }}</span>
+                              <div class="services-mobile-subsection-list">
+                                @php
+                                  $sectionNameLower = mb_strtolower($section['name']);
+                                  $subsectionTitles = [];
+                                  
+                                  // Для Лицензирования используем названия из customGroupOrders
+                                  if (isset($customGroupOrders[$sectionNameLower])) {
+                                    $subsectionTitles = $customGroupOrders[$sectionNameLower];
+                                  } else {
+                                    // Для других разделов используем названия из groupedItems
+                                    foreach($categoryData['groupedItems'] as $group) {
+                                      $groupTitle = $group['title'] ?: __('Прочие услуги');
+                                      if ($groupTitle && !in_array($groupTitle, $subsectionTitles)) {
+                                        $subsectionTitles[] = $groupTitle;
+                                      }
+                                    }
+                                  }
+                                @endphp
+                                @foreach($subsectionTitles as $subsectionTitle)
+                                  <button type="button" class="services-mobile-subsection-link">
+                                    <span>{{ $subsectionTitle }}</span>
                                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                       <path d="M6 12L10 8L6 4" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
                                   </button>
                                 @endforeach
                               </div>
-
-                              @foreach($categoryData['groupedItems'] as $groupIndex => $group)
-                                @php
-                                  $groupTitle = $group['title'] ?: __('Прочие услуги');
-                                  $subsectionKey = "{$sectionIndex}-{$groupIndex}";
-                                @endphp
-                                <div class="services-mobile-subsection-detail"
-                                     data-mobile-subsection-detail="{{ $subsectionKey }}">
-                                  <div class="services-mobile-subsection-detail__header">
-                                    <button type="button" class="services-mobile-back-btn" data-mobile-subsection-back>
-                                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M11 14L5 8L11 2" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                      </svg>
-                                      <span>{{ __('Назад') }}</span>
-                                    </button>
-                                    <span class="services-mobile-subsection-detail__title">{{ $groupTitle }}</span>
-                                  </div>
-                                  <div class="services-mobile-subsection__list">
-                                    @foreach($group['items'] as $item)
-                                      @php
-                                        $itemDescription = trim(strip_tags($item['description'] ?? ''));
-                                      @endphp
-                                      <a href="{{route('new.services-group.info', ['serviceCategoryId'=>$item['pretty_url']])}}" class="services-mobile-detail__item">
-                                        <div class="services-mobile-detail__item-text">
-                                          <span class="services-mobile-detail__item-title">{{ $item['name'] }}</span>
-                                          @if($itemDescription)
-                                            <span class="services-mobile-detail__item-description">{{ $itemDescription }}</span>
-                                          @endif
-                                        </div>
-                                        <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                          <path d="M6 12L10 8L6 4" stroke="#191E1D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-                                        </svg>
-                                      </a>
-                                    @endforeach
-                                  </div>
-                                </div>
-                              @endforeach
                             </div>
                           </div>
                         @endif
@@ -457,7 +431,7 @@
 
     .services-inline-subheader {
       display: none;
-      padding: 18px 0 14px;
+      padding: 32px 0 14px;
       background: #ffffff;
       display: flex;
       align-items: center;
@@ -622,6 +596,7 @@
       justify-content: space-between;
       gap: 12px;
       padding: 18px 0;
+      padding-left: 20px;
       border: none;
       border-top: 1px solid #E8E8E8;
       border-bottom: 1px solid #E8E8E8;
@@ -641,6 +616,7 @@
 
     .services-mobile-section-link svg {
       flex-shrink: 0;
+      margin-right: 20px;
     }
 
     .services-mobile-section-link__icon {
@@ -682,7 +658,12 @@
       align-items: center;
       gap: 12px;
       padding: 12px 0 16px;
+      padding-left: 20px;
       border-bottom: 1px solid #E8E8E8;
+    }
+
+    .services-mobile-detail__header .services-mobile-back-btn span {
+      display: none;
     }
 
     .services-mobile-back-btn {
@@ -727,6 +708,7 @@
       align-items: center;
       justify-content: space-between;
       padding: 16px 0;
+      padding-left: 20px;
       border: none;
       background: none;
       border-bottom: 1px solid #E8E8E8;
@@ -736,18 +718,23 @@
       color: #191E1D;
     }
 
+    .services-mobile-subsection-link:last-child {
+      border-bottom: none;
+    }
+
     .services-mobile-subsection-link svg {
       flex-shrink: 0;
+      margin-right: 20px;
     }
 
     .services-mobile-subsection-detail {
-      display: none;
+      display: none !important;
       flex-direction: column;
       gap: 16px;
     }
 
     .services-mobile-subsection-detail.is-visible {
-      display: flex;
+      display: flex !important;
     }
 
     .services-mobile-subsection-detail__header {
@@ -802,6 +789,112 @@
       font-size: 13px;
       line-height: 1.5;
       color: #5C5C5C;
+    }
+
+    .services-mobile-subsection-more-btn {
+      background: none;
+      color: var(--color-primary, #279760);
+      border: none;
+      padding: 12px 0 0;
+      font-family: var(--font-family-sans, 'Manrope', sans-serif);
+      font-size: var(--font-size-base, 14px);
+      font-weight: var(--font-weight-medium, 500);
+      cursor: pointer;
+      transition: color 0.2s ease;
+      width: fit-content;
+      text-align: left;
+    }
+
+    .services-mobile-subsection-more-btn:hover {
+      color: var(--color-primary-dark, #1e7a50);
+    }
+
+    .services-mobile-subsection-more-btn.expanded {
+      margin-top: 8px;
+    }
+
+    .services-mobile-subsection-hidden-items {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    /* Мобильный grid с колонками сверху вниз */
+    .services-mobile-categories-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      width: 100%;
+    }
+
+    .services-mobile-category-column {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .services-mobile-category-title {
+      font-family: var(--font-family-sans, 'Manrope', sans-serif);
+      font-size: var(--font-size-lg, 16px);
+      font-weight: var(--font-weight-bold, 700);
+      color: var(--color-text-primary, #191E1D);
+      margin: 0 0 16px 0;
+      padding: 0 0 12px 0;
+      border-bottom: 1px solid var(--color-border-light, #E8E8E8);
+    }
+
+    .services-mobile-list-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .services-mobile-item-link {
+      display: block;
+      text-decoration: none;
+      color: var(--color-text-muted, #6F6F6F);
+      font-family: var(--font-family-sans, 'Manrope', sans-serif);
+      font-size: var(--font-size-base, 14px);
+      font-weight: var(--font-weight-normal, 400);
+      line-height: 1.6em;
+      transition: color 0.2s ease;
+      padding: 0;
+      width: 100%;
+    }
+
+    .services-mobile-item-link:hover {
+      color: var(--color-text-primary, #191E1D);
+      text-decoration: none;
+    }
+
+    .services-mobile-hidden-items {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .services-mobile-more-btn {
+      background: none;
+      color: var(--color-primary, #279760);
+      border: none;
+      padding: 0;
+      font-family: var(--font-family-sans, 'Manrope', sans-serif);
+      font-size: var(--font-size-base, 14px);
+      font-weight: var(--font-weight-medium, 500);
+      cursor: pointer;
+      transition: color 0.2s ease;
+      margin-top: 8px;
+      width: fit-content;
+      text-align: left;
+    }
+
+    .services-mobile-more-btn:hover {
+      color: var(--color-primary-dark, #1e7a50);
+    }
+
+    .services-mobile-more-btn.expanded {
+      margin-top: 16px;
     }
     
     @media (max-width: 991.98px) {
@@ -1039,10 +1132,6 @@
       var mobileSectionButtons = document.querySelectorAll('[data-mobile-open]');
       var mobileDetailPanels = document.querySelectorAll('[data-mobile-detail]');
       var mobileBackButtons = document.querySelectorAll('[data-mobile-back]');
-      var mobileSubsectionLists = document.querySelectorAll('[data-mobile-subsection-list]');
-      var mobileSubsectionButtons = document.querySelectorAll('[data-mobile-subsection-open]');
-      var mobileSubsectionPanels = document.querySelectorAll('[data-mobile-subsection-detail]');
-      var mobileSubsectionBackButtons = document.querySelectorAll('[data-mobile-subsection-back]');
 
       function isMobileView() {
         return window.matchMedia('(max-width: 991.98px)').matches;
@@ -1162,14 +1251,13 @@
         if (mobileSectionList) {
           mobileSectionList.classList.remove('is-hidden');
         }
+        // Показываем кнопку "< Услуги" когда возвращаемся к списку разделов
+        var subheader = document.querySelector('.services-inline-subheader');
+        if (subheader) {
+          subheader.style.display = 'flex';
+        }
         mobileDetailPanels.forEach(function(panel) {
           panel.classList.remove('is-visible');
-        });
-        mobileSubsectionPanels.forEach(function(panel) {
-          panel.classList.remove('is-visible');
-        });
-        mobileSubsectionLists.forEach(function(list) {
-          list.classList.remove('is-hidden');
         });
       }
 
@@ -1180,18 +1268,15 @@
         if (mobileSectionList) {
           mobileSectionList.classList.add('is-hidden');
         }
+        // Скрываем кнопку "< Услуги" когда открываем раздел
+        var subheader = document.querySelector('.services-inline-subheader');
+        if (subheader) {
+          subheader.style.display = 'none';
+        }
         mobileDetailPanels.forEach(function(panel) {
           if (panel.getAttribute('data-mobile-detail') === targetId) {
             panel.classList.add('is-visible');
             panel.scrollTop = 0;
-            // reset subsection state inside this panel
-            var list = panel.querySelector('[data-mobile-subsection-list]');
-            if (list) {
-              list.classList.remove('is-hidden');
-            }
-            panel.querySelectorAll('[data-mobile-subsection-detail]').forEach(function(detail) {
-              detail.classList.remove('is-visible');
-            });
           } else {
             panel.classList.remove('is-visible');
           }
@@ -1199,44 +1284,6 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
 
-      function openMobileSubsection(targetId) {
-        if (!isMobileView()) {
-          return;
-        }
-        var parentPanel = document.querySelector('[data-mobile-subsection-detail="' + targetId + '"]');
-        if (!parentPanel) {
-          return;
-        }
-        var container = parentPanel.closest('[data-mobile-detail]');
-        if (container) {
-          var list = container.querySelector('[data-mobile-subsection-list]');
-          if (list) {
-            list.classList.add('is-hidden');
-          }
-          container.querySelectorAll('[data-mobile-subsection-detail]').forEach(function(detail) {
-            if (detail.getAttribute('data-mobile-subsection-detail') === targetId) {
-              detail.classList.add('is-visible');
-            } else {
-              detail.classList.remove('is-visible');
-            }
-          });
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-      }
-
-      function closeMobileSubsection(button) {
-        var container = button.closest('[data-mobile-detail]');
-        if (!container) {
-          return;
-        }
-        var list = container.querySelector('[data-mobile-subsection-list]');
-        if (list) {
-          list.classList.remove('is-hidden');
-        }
-        container.querySelectorAll('[data-mobile-subsection-detail]').forEach(function(detail) {
-          detail.classList.remove('is-visible');
-        });
-      }
 
       function attachMobileSectionHandlers() {
         mobileSectionButtons.forEach(function(button) {
@@ -1247,16 +1294,6 @@
         mobileBackButtons.forEach(function(button) {
           button.addEventListener('click', function () {
             showMobileSectionList();
-          });
-        });
-        mobileSubsectionButtons.forEach(function(button) {
-          button.addEventListener('click', function () {
-            openMobileSubsection(this.getAttribute('data-mobile-subsection-open'));
-          });
-        });
-        mobileSubsectionBackButtons.forEach(function(button) {
-          button.addEventListener('click', function () {
-            closeMobileSubsection(this);
           });
         });
       }
