@@ -438,8 +438,12 @@
                     <img class="icons" src="{{asset('current/img/icons-12.svg')}}" alt="Icons" />
                     <div class="text_label-VdZ3eK manrope-medium-white-14px">Услуги</div>
                     <div id="servicesDropdown" class="services-dropdown" style="display: none; position: absolute; top: 100%; left: 0; background: white; border: 1px solid #ccc; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); z-index: 1000; min-width: 200px;">
-                        <a href="{{ route('new-construction') }}" style="display: block; padding: 10px 15px; text-decoration: none; color: #333; border-bottom: 1px solid #eee;">Строительство</a>
-                        <a href="{{ route('new-services') }}" style="display: block; padding: 10px 15px; text-decoration: none; color: #333;">Все услуги</a>
+                        <a href="{{ route('new-services') }}" style="display: flex; align-items: center; gap: 8px; padding: 10px 15px; text-decoration: none; color: #333;">
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M1 1L13 13M13 1L1 13" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span>Услуги</span>
+                        </a>
                     </div>
                 </div>
             </div>

@@ -555,7 +555,7 @@
 
     .services-content {
       padding: 0;
-      padding-top: 48px;
+      padding-top: 24px;
     }
 
     #services-content-area {

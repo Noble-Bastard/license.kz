@@ -8,22 +8,21 @@
 
     <!-- Services Section - Frame 9 -->
     <div class="header-redesigned__services-section">
-        <div class="dropdown">
-            <button class="header-redesigned__services-btn" type="button" id="servicesDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                <div class="menu-icon">
-                    <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M2.33 2.92H11.67" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>
-                        <path d="M2.33 7H11.67" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>
-                        <path d="M2.33 11.08H11.67" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>
-                    </svg>
-                </div>
-                <span class="services-text">{{ __('Услуги') }}</span>
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="servicesDropdown">
-                <li><a class="dropdown-item" href="{{ route('new-construction') }}">{{ __('Строительство') }}</a></li>
-                <li><a class="dropdown-item" href="{{ route('new-services') }}">{{ __('Все услуги') }}</a></li>
-            </ul>
-        </div>
+        <a href="{{ route('new-services') }}" class="header-redesigned__services-btn {{ request()->routeIs('new-services') ? 'active' : '' }}" id="servicesToggleBtn">
+            <div class="menu-icon" id="servicesMenuIcon" style="{{ request()->routeIs('new-services') ? 'display: none;' : 'display: flex;' }}">
+                <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.33 2.92H11.67" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M2.33 7H11.67" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M2.33 11.08H11.67" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+            </div>
+            <div class="close-icon" id="servicesCloseIcon" style="{{ request()->routeIs('new-services') ? 'display: flex;' : 'display: none;' }}">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 1L13 13M13 1L1 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <span class="services-text" id="servicesText">{{ __('Услуги') }}</span>
+        </a>
     </div>
 
     <!-- Navigation Section - Frame 5 -->
@@ -216,3 +215,58 @@
         </nav>
     </div>
 </div>
+
+<style>
+/* Services Button Active State */
+.header-redesigned__services-btn {
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    gap: 6px;
+    width: 98px;
+    height: 46px;
+    background: #279760;
+    border-radius: 60px;
+    cursor: pointer;
+}
+
+.header-redesigned__services-btn:hover {
+    background: #228854;
+}
+
+.header-redesigned__services-btn.active {
+    background: #FFFFFF;
+    border: 1px solid #279760;
+}
+
+.header-redesigned__services-btn.active:hover {
+    background: #F5F5F5;
+}
+
+.header-redesigned__services-btn.active .services-text {
+    color: #279760;
+}
+
+.header-redesigned__services-btn.active .menu-icon svg path {
+    stroke: #279760;
+}
+
+.header-redesigned__services-btn .close-icon {
+    width: 14px;
+    height: 14px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.header-redesigned__services-btn .close-icon svg {
+    width: 14px;
+    height: 14px;
+    color: #279760;
+}
+</style>
