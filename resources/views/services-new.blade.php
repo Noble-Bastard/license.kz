@@ -5,12 +5,12 @@
     // Определяем маппинг разделов меню к категориям из БД
     $sectionConfigs = [
       'Лицензирование' => ['icon' => '/new/images/icons/uslugilicense.png', 'keywords' => ['лицензи']],
-      'Регистрация компании' => ['icon' => '/new/images/icons/home-02.png', 'keywords' => ['регистрац', 'компани']],
+      'Регистрация компании' => ['icon' => '/new/images/icons/03b375c18b171e19614532b0cdee72ca6e55971b.png', 'keywords' => ['регистрац', 'компани']],
       'Юридическое сопровождение' => ['icon' => '/new/images/icons/uslugilaw.png', 'keywords' => ['юридическ']],
       'Бухгалтерский аутсорсинг' => ['icon' => '/new/images/icons/uslugibuh.png', 'keywords' => ['бухгалтер', 'аутсорс']],
       'Получение визы С3 и С5' => ['icon' => '/new/images/icons/uslugivisa.png', 'keywords' => ['виза']],
       'Дополнительные услуги' => ['icon' => '/new/images/icons/uslugiplus.png', 'keywords' => []],
-      'Регистрация компании в СЭЗ и МФЦА' => ['icon' => '/new/images/icons/home-02.png', 'keywords' => ['сэз', 'мфца']],
+      'Регистрация компании в СЭЗ и МФЦА' => ['icon' => '/new/images/icons/5dc86ec46fe074b98a02e0993dc9458c53e8509e.png', 'keywords' => ['сэз', 'мфца']],
       'Открытие банковских счетов' => ['icon' => '/new/images/icons/uslugibank.png', 'keywords' => ['банковск', 'счет']]
     ];
     
@@ -555,7 +555,7 @@
 
     .services-content {
       padding: 0;
-      padding-top: 24px;
+      padding-top: 0;
     }
 
     #services-content-area {
@@ -573,7 +573,7 @@
     }
     
     .services-categories-container {
-      padding: 20px 0;
+      padding: 0;
     }
     
     .services-categories-mobile {
