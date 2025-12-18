@@ -150,22 +150,24 @@
   @endphp
 
   <div class="services-new-page">
-    <div class="services-inline-header d-lg-none">
-      <a href="{{ route('new-index') }}" class="services-inline-header__logo">
-        <img src="{{ asset('/new/images/icons/Frame7.png') }}" alt="UPPERLICENSE">
-      </a>
-      <div class="services-inline-header__actions">
-        <a href="tel:+77471350000" class="services-inline-header__icon">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122L9.98 10.98s-.787.205-1.994-1.002C6.782 8.774 6.987 7.987 6.987 7.987l.549-1.805a.678.678 0 0 0-.122-.58L5.62 3.295a.678.678 0 0 0-.58-.122z" fill="#191E1D"/>
-          </svg>
+    <div class="services-inline-header-wrapper">
+      <div class="services-inline-header d-lg-none">
+        <a href="{{ route('new-index') }}" class="services-inline-header__logo">
+          <img src="{{ asset('/new/images/icons/Frame7.png') }}" alt="UPPERLICENSE">
         </a>
-        <button type="button" class="services-inline-header__icon" data-close-inline-header>
-          <svg width="12" height="12" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M1 1L13 13" stroke="#279760" stroke-width="1.4" stroke-linecap="round"/>
-            <path d="M13 1L1 13" stroke="#279760" stroke-width="1.4" stroke-linecap="round"/>
-          </svg>
-        </button>
+        <div class="services-inline-header__actions">
+          <a href="tel:+77471350000" class="services-inline-header__icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122L9.98 10.98s-.787.205-1.994-1.002C6.782 8.774 6.987 7.987 6.987 7.987l.549-1.805a.678.678 0 0 0-.122-.58L5.62 3.295a.678.678 0 0 0-.58-.122z" fill="#191E1D"/>
+            </svg>
+          </a>
+          <button type="button" class="services-inline-header__icon" data-close-inline-header onclick="var path = window.location.pathname.split('/').filter(function(p){return p.length>0}); var locale = (path.length>0 && ['en','ru','kz'].includes(path[0])) ? path[0] : 'en'; window.location.href = '/' + locale; return false;">
+            <svg width="12" height="12" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 1L13 13" stroke="#279760" stroke-width="1.4" stroke-linecap="round"/>
+              <path d="M13 1L1 13" stroke="#279760" stroke-width="1.4" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
     <div class="services-inline-subheader d-lg-none">
@@ -380,14 +382,28 @@
       }
     }
 
+    .services-inline-header-wrapper {
+      width: 100%;
+      max-width: 100%;
+      margin-left: 0;
+      margin-right: 0;
+      padding-left: 0;
+      padding-right: 0;
+    }
+
     .services-inline-header {
       display: flex;
-      padding: 2px 16px 0 0;
+      padding: 2px 16px 0 16px;
       background: #ffffff;
       border-bottom: 1px solid #E8E8E8;
       align-items: flex-start;
       justify-content: space-between;
       gap: 16px;
+      width: 100%;
+      max-width: 100%;
+      margin-left: 0;
+      margin-right: 0;
+      box-sizing: border-box;
     }
 
     .services-inline-header__logo img {
@@ -423,10 +439,15 @@
 
     .services-inline-header__icon[data-close-inline-header] {
       border: 1px solid #279760;
+      cursor: pointer;
+      position: relative;
+      z-index: 10;
+      pointer-events: auto !important;
     }
 
     .services-inline-header__icon svg {
       display: block;
+      pointer-events: none;
     }
 
     .services-inline-subheader {
@@ -457,11 +478,14 @@
       margin: 0;
       padding: 0;
       width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
     }
 
     .services-new-page .row {
       margin-left: 0 !important;
       margin-right: 0 !important;
+      max-width: 100%;
     }
 
     .services-sidebar {
@@ -1121,6 +1145,31 @@
   <script>
     const servicesMoreLabel = @json(__('Еще'));
     const servicesHideLabel = @json(__('Скрыть'));
+    const homeUrl = @json(route('new-index'));
+
+    // Функция для получения URL главной страницы с учетом локали (доступна везде)
+    function getHomeUrl() {
+      // Получаем текущий путь
+      var currentPath = window.location.pathname;
+      console.log('Текущий путь:', currentPath);
+      
+      var pathParts = currentPath.split('/').filter(function(part) {
+        return part.length > 0;
+      });
+      console.log('Части пути:', pathParts);
+      
+      // Извлекаем локаль из пути (первая часть пути)
+      var locale = 'en'; // по умолчанию
+      if (pathParts.length > 0 && ['en', 'ru', 'kz'].includes(pathParts[0])) {
+        locale = pathParts[0];
+      }
+      console.log('Определенная локаль:', locale);
+      
+      // Формируем URL главной страницы с локалью
+      var homeUrl = '/' + locale;
+      console.log('Сформированный URL главной:', homeUrl);
+      return homeUrl;
+    }
 
     document.addEventListener('DOMContentLoaded', function () {
       var closeBtn = document.querySelector('[data-close-inline-header]');
@@ -1298,18 +1347,46 @@
         });
       }
 
+      // Обработчик кнопки закрытия
       if (closeBtn) {
-        closeBtn.addEventListener('click', function () {
-          // На мобильной версии при нажатии на крестик возвращаемся назад к предыдущей странице/меню
-          if (window.history.length > 1) {
-            window.history.back();
-          } else {
-            var header = document.querySelector('.services-inline-header');
-            if (header) {
-              header.style.display = 'none';
-            }
-          }
+        // Отключаем pointer events на SVG внутри кнопки
+        var svgInside = closeBtn.querySelector('svg');
+        if (svgInside) {
+          svgInside.style.pointerEvents = 'none';
+        }
+        
+        // Убеждаемся, что кнопка кликабельна
+        closeBtn.style.cursor = 'pointer';
+        closeBtn.style.pointerEvents = 'auto';
+        closeBtn.style.zIndex = '1000';
+        
+        // Обработчик клика - используем обычный обработчик без capture phase
+        closeBtn.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          e.stopImmediatePropagation();
+          
+          // Получаем URL главной страницы с учетом текущей локали
+          var redirectUrl = getHomeUrl();
+          console.log('Кнопка закрытия нажата, переход на:', redirectUrl);
+          
+          // Используем window.location для надежного редиректа
+          window.location.href = redirectUrl;
+          
+          return false;
         });
+        
+        // Также добавляем обработчик через onclick для надежности
+        closeBtn.onclick = function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          var redirectUrl = getHomeUrl();
+          console.log('onclick сработал, переход на:', redirectUrl);
+          window.location.href = redirectUrl;
+          return false;
+        };
+      } else {
+        console.warn('Кнопка закрытия не найдена! Селектор: [data-close-inline-header]');
       }
       if (servicesBtn) {
         servicesBtn.addEventListener('click', function (e) {
@@ -1354,6 +1431,17 @@
     });
 
     $(document).ready(function() {
+      // Обработчик кнопки закрытия через jQuery (как резервный вариант)
+      $('[data-close-inline-header]').on('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+        var redirectUrl = getHomeUrl();
+        console.log('jQuery обработчик сработал, переход на:', redirectUrl);
+        window.location.href = redirectUrl;
+        return false;
+      });
+      
       // Отключаем переключение между разделами - только Лицензирование активно
       $('.services-sidebar-item').on('click', function(e) {
         e.preventDefault();
