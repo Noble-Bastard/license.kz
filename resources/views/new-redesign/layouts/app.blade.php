@@ -186,12 +186,186 @@
                 document.body.classList.remove('modal-open');
                 document.body.classList.remove('modal-open-reset-password');
                 document.body.style.overflow = '';
+                
+                // Check if we're on services page and open modal instead
+                checkAndOpenServicesModal();
             });
         } else {
             document.body.classList.remove('modal-open');
             document.body.classList.remove('modal-open-reset-password');
             document.body.style.overflow = '';
+            
+            // Check if we're on services page and open modal instead
+            checkAndOpenServicesModal();
         }
+        
+        // Function to check URL and open services modal if needed
+        function checkAndOpenServicesModal() {
+            var currentPath = window.location.pathname;
+            // Check if path ends with /new-services
+            if (currentPath.match(/\/new-services$/)) {
+                // Get locale from path
+                var pathParts = currentPath.split('/').filter(function(part) {
+                    return part.length > 0;
+                });
+                var locale = 'en';
+                if (pathParts.length > 0 && ['en', 'ru', 'kz'].includes(pathParts[0])) {
+                    locale = pathParts[0];
+                }
+                
+                // Change URL to home page without reload FIRST
+                var homeUrl = '/' + locale;
+                window.history.replaceState({}, '', homeUrl);
+                
+                // Hide footer, keep header visible
+                var footer = document.querySelector('footer, .footer, [class*="footer"]');
+                if (footer) footer.style.display = 'none';
+                
+                // Make the services page content fullscreen (as modal)
+                var appWrapper = document.getElementById('app');
+                if (appWrapper) {
+                    // Keep header exactly as on main page - ensure it's above modal
+                    var header = document.querySelector('header.header-redesigned');
+                    if (header) {
+                        // Keep header visible and above modal content
+                        header.style.display = 'flex';
+                        header.style.position = 'sticky';
+                        header.style.top = '0';
+                        header.style.zIndex = '10000'; // Higher than appWrapper (9999)
+                        header.style.background = '#FFFFFF';
+                    }
+                    
+                    // Start modal content below header (not from top: 0)
+                    appWrapper.style.position = 'fixed';
+                    appWrapper.style.top = '78px'; // Start below header (header height is 78px)
+                    appWrapper.style.left = '0';
+                    appWrapper.style.width = '100%';
+                    appWrapper.style.height = 'calc(100% - 78px)'; // Full height minus header
+                    appWrapper.style.zIndex = '9999';
+                    appWrapper.style.background = '#ffffff';
+                    appWrapper.style.overflow = 'auto';
+                    appWrapper.style.margin = '0';
+                    appWrapper.style.padding = '0';
+                    
+                    // Add padding-top to show content (less padding since we already offset by header)
+                    var servicesPage = appWrapper.querySelector('.services-new-page');
+                    if (servicesPage) {
+                        servicesPage.style.marginTop = '0';
+                        servicesPage.style.paddingTop = '20px'; // Less padding since header is already above
+                    } else {
+                        // If services-new-page not found, add padding to wrapper
+                        appWrapper.style.paddingTop = '20px';
+                    }
+                    
+                    // Update services button state (the onclick in header will handle closing)
+                    setTimeout(function() {
+                        var servicesBtn = document.getElementById('servicesToggleBtn');
+                        if (servicesBtn) {
+                            servicesBtn.classList.add('active');
+                            var menuIcon = document.getElementById('servicesMenuIcon');
+                            var closeIcon = document.getElementById('servicesCloseIcon');
+                            if (menuIcon) menuIcon.style.display = 'none';
+                            if (closeIcon) closeIcon.style.display = 'flex';
+                            // Don't override onclick - let the header's onclick handle it
+                            // It will detect that appWrapper.position === 'fixed' and call closeServicesModal
+                        }
+                    }, 100);
+                    
+                    document.body.style.overflow = 'hidden';
+                }
+            }
+        }
+        
+        // Override closeServicesModal to restore page when closing from direct access
+        var originalCloseServicesModal = window.closeServicesModal;
+        window.closeServicesModal = function() {
+            console.log('closeServicesModal called');
+            var appWrapper = document.getElementById('app');
+            var modal = document.getElementById('servicesModal');
+            
+            // Check if we're in direct access mode (appWrapper is fixed)
+            // Check both inline style and computed style
+            var appPosition = appWrapper ? (appWrapper.style.position || window.getComputedStyle(appWrapper).position) : '';
+            var isDirectAccess = appWrapper && appPosition === 'fixed';
+            
+            // Or if iframe modal is open
+            var modalDisplay = modal ? (modal.style.display || window.getComputedStyle(modal).display) : '';
+            var isIframeModal = modal && modalDisplay === 'block';
+            
+            console.log('closeServicesModal: isDirectAccess=', isDirectAccess, 'isIframeModal=', isIframeModal, 'appPosition=', appPosition);
+            
+            if (isDirectAccess) {
+                console.log('Closing direct access modal');
+                // Restore page from direct access mode
+                appWrapper.style.position = '';
+                appWrapper.style.top = '';
+                appWrapper.style.left = '';
+                appWrapper.style.width = '';
+                appWrapper.style.height = '';
+                appWrapper.style.zIndex = '';
+                appWrapper.style.background = '';
+                appWrapper.style.overflow = '';
+                appWrapper.style.margin = '';
+                appWrapper.style.padding = '';
+                
+                // Reset services page padding
+                var servicesPage = appWrapper.querySelector('.services-new-page');
+                if (servicesPage) {
+                    servicesPage.style.paddingTop = '';
+                }
+                
+                var footer = document.querySelector('footer, .footer, [class*="footer"]');
+                if (footer) footer.style.display = '';
+                
+                // Restore header - remove any inline styles we might have added
+                var header = document.querySelector('header.header-redesigned');
+                if (header) {
+                    header.style.display = '';
+                    header.style.position = '';
+                    header.style.top = '';
+                    header.style.zIndex = '';
+                    header.style.background = '';
+                }
+                
+                document.body.style.overflow = '';
+                
+                // Update services button state
+                var servicesBtn = document.getElementById('servicesToggleBtn');
+                if (servicesBtn) {
+                    servicesBtn.classList.remove('active');
+                    var menuIcon = document.getElementById('servicesMenuIcon');
+                    var closeIcon = document.getElementById('servicesCloseIcon');
+                    if (menuIcon) menuIcon.style.display = 'flex';
+                    if (closeIcon) closeIcon.style.display = 'none';
+                    
+                    // Restore toggle function
+                    var pathParts = window.location.pathname.split('/').filter(function(part) {
+                        return part.length > 0;
+                    });
+                    var locale = 'en';
+                    if (pathParts.length > 0 && ['en', 'ru', 'kz'].includes(pathParts[0])) {
+                        locale = pathParts[0];
+                    }
+                    servicesBtn.setAttribute('onclick', 'if(typeof window.openServicesModal === \'function\') { var modal = document.getElementById(\'servicesModal\'); var appWrapper = document.getElementById(\'app\'); var isModalOpen = (modal && modal.style.display === \'block\') || (appWrapper && appWrapper.style.position === \'fixed\'); if(isModalOpen) { closeServicesModal(); } else { openServicesModal(); } } else { window.location.href = \'/' + locale + '/new-services\'; } return false;');
+                }
+                
+                // Redirect to home
+                var pathParts = window.location.pathname.split('/').filter(function(part) {
+                    return part.length > 0;
+                });
+                var locale = 'en';
+                if (pathParts.length > 0 && ['en', 'ru', 'kz'].includes(pathParts[0])) {
+                    locale = pathParts[0];
+                }
+                window.location.href = '/' + locale;
+            } else if (isIframeModal) {
+                // Use original function for iframe modal
+                if (originalCloseServicesModal) {
+                    originalCloseServicesModal();
+                }
+            }
+            return false;
+        };
     </script>
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -209,6 +383,7 @@
             @include('new-redesign.partials.footer')
         </div>
     </div>
+    @include('new-redesign.partials.modal.services')
     @include('new.partials.modal.login')
     @include('new.partials.modal.reset_password')
     @include('new.partials.modal.forgot_password')

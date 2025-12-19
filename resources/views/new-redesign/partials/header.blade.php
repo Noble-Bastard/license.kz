@@ -8,15 +8,15 @@
 
     <!-- Services Section - Frame 9 -->
     <div class="header-redesigned__services-section">
-        <a href="{{ route('new-services') }}" class="header-redesigned__services-btn {{ request()->routeIs('new-services') ? 'active' : '' }}" id="servicesToggleBtn">
-            <div class="menu-icon" id="servicesMenuIcon" style="{{ request()->routeIs('new-services') ? 'display: none;' : 'display: flex;' }}">
+        <a href="javascript:void(0)" onclick="if(typeof window.openServicesModal === 'function') { var modal = document.getElementById('servicesModal'); var appWrapper = document.getElementById('app'); var modalDisplay = modal ? (modal.style.display || window.getComputedStyle(modal).display) : 'none'; var appPosition = appWrapper ? (appWrapper.style.position || window.getComputedStyle(appWrapper).position) : ''; var isModalOpen = (modalDisplay === 'block') || (appPosition === 'fixed'); console.log('Services button clicked, isModalOpen:', isModalOpen, 'modalDisplay:', modalDisplay, 'appPosition:', appPosition); if(isModalOpen) { if(typeof window.closeServicesModal === 'function') { window.closeServicesModal(); } } else { openServicesModal(); } } else { window.location.href = '{{ route('new-services') }}'; } return false;" class="header-redesigned__services-btn" id="servicesToggleBtn">
+            <div class="menu-icon" id="servicesMenuIcon" style="display: flex;">
                 <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M2.33 2.92H11.67" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>
                     <path d="M2.33 7H11.67" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>
                     <path d="M2.33 11.08H11.67" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>
                 </svg>
             </div>
-            <div class="close-icon" id="servicesCloseIcon" style="{{ request()->routeIs('new-services') ? 'display: flex;' : 'display: none;' }}">
+            <div class="close-icon" id="servicesCloseIcon" style="display: none;">
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M1 1L13 13M13 1L1 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
@@ -176,7 +176,7 @@
 
         <!-- Navigation -->
         <nav class="nav flex-column">
-            <a class="nav-link" href="{{ route('new-services') }}" style="color: #191E1D; font-family: 'Manrope', sans-serif; border-bottom: 1px solid #E8E8E8; padding: 0.75rem 0; display: flex; justify-content: space-between; align-items: center;">
+            <a class="nav-link" href="javascript:void(0)" onclick="if(typeof window.openServicesModal === 'function') { window.openServicesModal(); var offcanvas = bootstrap.Offcanvas.getInstance(document.getElementById('mobileMenu')); if(offcanvas) offcanvas.hide(); } else { window.location.href = '{{ route('new-services') }}'; } return false;" style="color: #191E1D; font-family: 'Manrope', sans-serif; border-bottom: 1px solid #E8E8E8; padding: 0.75rem 0; display: flex; justify-content: space-between; align-items: center; cursor: pointer;">
                 <span>{{ __('Услуги') }}</span>
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M6 12L10 8L6 4" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
