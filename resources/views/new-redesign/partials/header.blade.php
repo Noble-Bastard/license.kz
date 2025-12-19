@@ -269,4 +269,31 @@
     height: 14px;
     color: #279760;
 }
+
+/* Make sure entire button is clickable, not just icons */
+.header-redesigned__services-btn {
+    position: relative;
+    pointer-events: auto;
+}
+
+.header-redesigned__services-btn * {
+    pointer-events: none;
+}
+
+.header-redesigned__services-btn .menu-icon,
+.header-redesigned__services-btn .close-icon,
+.header-redesigned__services-btn .services-text {
+    pointer-events: none;
+    user-select: none;
+}
+
+/* Make header full width on large screens (1920x1080 and above) */
+@media (min-width: 1920px) {
+    .header-redesigned {
+        max-width: 100% !important;
+        width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+}
 </style>
