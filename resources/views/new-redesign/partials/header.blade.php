@@ -8,7 +8,7 @@
 
     <!-- Services Section - Frame 9 -->
     <div class="header-redesigned__services-section">
-        <a href="javascript:void(0)" onclick="if(typeof window.openServicesModal === 'function') { var modal = document.getElementById('servicesModal'); var appWrapper = document.getElementById('app'); var modalDisplay = modal ? (modal.style.display || window.getComputedStyle(modal).display) : 'none'; var appPosition = appWrapper ? (appWrapper.style.position || window.getComputedStyle(appWrapper).position) : ''; var isModalOpen = (modalDisplay === 'block') || (appPosition === 'fixed'); console.log('Services button clicked, isModalOpen:', isModalOpen, 'modalDisplay:', modalDisplay, 'appPosition:', appPosition); if(isModalOpen) { if(typeof window.closeServicesModal === 'function') { window.closeServicesModal(); } } else { openServicesModal(); } } else { window.location.href = '{{ route('new-services') }}'; } return false;" class="header-redesigned__services-btn" id="servicesToggleBtn">
+        <a href="javascript:void(0)" onclick="toggleServicesModal(); return false;" class="header-redesigned__services-btn" id="servicesToggleBtn">
             <div class="menu-icon" id="servicesMenuIcon" style="display: flex;">
                 <svg viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M2.33 2.92H11.67" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/>

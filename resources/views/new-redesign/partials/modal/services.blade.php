@@ -37,25 +37,49 @@
     }
 }
 
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+.services-modal.fade-out {
+    animation: fadeOut 0.3s ease-out;
+}
+
 </style>
 
 <script>
 // Define services modal functions
 window.openServicesModal = function() {
     try {
-        // Check if modal is already open (either iframe modal or direct access modal)
-        var modal = document.getElementById('servicesModal');
-        var appWrapper = document.getElementById('app');
-        var isModalOpen = (modal && modal.style.display === 'block') || (appWrapper && appWrapper.style.position === 'fixed');
+        // Reset closing flag if it was stuck
+        if (window._closingServicesModal) {
+            window._closingServicesModal = false;
+        }
         
-        if (isModalOpen) {
-            // If already open, close it
-            closeServicesModal();
+        // Get modal element first
+        var modal = document.getElementById('servicesModal');
+        
+        // Use unified function to check if modal is already open
+        if (typeof window.isServicesModalOpen === 'function' && window.isServicesModalOpen()) {
+            console.log('Modal already open, skipping openServicesModal');
+            // Reset flag if it was set
+            if (window._servicesModalToggling !== undefined) {
+                window._servicesModalToggling = false;
+            }
             return false;
         }
         
         if (!modal) {
             console.error('Services modal not found');
+            // Reset flag on error
+            if (window._servicesModalToggling !== undefined) {
+                window._servicesModalToggling = false;
+            }
             return false;
         }
         
@@ -93,12 +117,21 @@ window.openServicesModal = function() {
                 if (menuIcon) menuIcon.style.display = 'none';
                 if (closeIcon) closeIcon.style.display = 'flex';
                 
-                // Update onclick to close modal
-                servicesBtn.setAttribute('onclick', 'closeServicesModal(); return false;');
+                // Keep toggle function - it will detect that modal is open and close it
+                servicesBtn.setAttribute('onclick', 'toggleServicesModal(); return false;');
             }
             
             // Listen for messages from iframe to close modal
             window.addEventListener('message', handleServicesModalMessage);
+            
+            // Reset toggle flag immediately after modal is opened (synchronous operation)
+            // This solves problem #1: no delay needed, operation is complete
+            if (window._servicesModalToggling !== undefined) {
+                // Use requestAnimationFrame to ensure DOM is updated
+                requestAnimationFrame(function() {
+                    window._servicesModalToggling = false;
+                });
+            }
         } else {
             // If no iframe, load content via AJAX
             var modalContent = document.getElementById('servicesModalContent');
@@ -142,18 +175,33 @@ window.openServicesModal = function() {
                             if (menuIcon) menuIcon.style.display = 'none';
                             if (closeIcon) closeIcon.style.display = 'flex';
                             
-                            // Update onclick to close modal
-                            servicesBtn.setAttribute('onclick', 'closeServicesModal(); return false;');
+                            // Keep toggle function
+                            servicesBtn.setAttribute('onclick', 'toggleServicesModal(); return false;');
+                        }
+                        
+                        // Reset toggle flag after modal is opened (synchronous operation)
+                        if (window._servicesModalToggling !== undefined) {
+                            requestAnimationFrame(function() {
+                                window._servicesModalToggling = false;
+                            });
                         }
                     })
                     .catch(function(error) {
                         console.error('Error loading services:', error);
                         modalContent.innerHTML = '<div style="padding: 40px; text-align: center;">Ошибка загрузки</div>';
+                        // Reset toggle flag on error
+                        if (window._servicesModalToggling !== undefined) {
+                            window._servicesModalToggling = false;
+                        }
                     });
             }
         }
     } catch (e) {
         console.error('Error opening services modal:', e);
+        // Reset toggle flag on error
+        if (window._servicesModalToggling !== undefined) {
+            window._servicesModalToggling = false;
+        }
     }
     return false;
 };
@@ -165,15 +213,52 @@ if (!window._originalCloseServicesModal) {
 
 window.closeServicesModal = function() {
     try {
-        // First check if we're in direct access mode (appWrapper is fixed)
+        // Prevent multiple simultaneous close attempts
+        if (window._closingServicesModal) {
+            console.log('Close already in progress, skipping...');
+            return false;
+        }
+        
+        // Use unified function to check if modal is actually open
+        if (typeof window.isServicesModalOpen === 'function' && !window.isServicesModalOpen()) {
+            console.log('Modal is not open, skipping close');
+            // Reset toggle flag if it was set
+            if (window._servicesModalToggling !== undefined) {
+                window._servicesModalToggling = false;
+            }
+            return false;
+        }
+        
+        // Set closing flag
+        window._closingServicesModal = true;
+        
+        // Check if we're inside an iframe
+        var isInIframe = window.self !== window.top || window.frameElement !== null;
+        
+        // Use unified function to check modal state
         var appWrapper = document.getElementById('app');
-        // Check both inline style and computed style
         var appPosition = appWrapper ? (appWrapper.style.position || window.getComputedStyle(appWrapper).position) : '';
-        var isDirectAccess = appWrapper && appPosition === 'fixed';
+        var isDirectAccess = appWrapper && appPosition === 'fixed' && !isInIframe;
         
-        console.log('closeServicesModal in services.blade.php: isDirectAccess=', isDirectAccess, 'appPosition=', appPosition);
+        console.log('closeServicesModal: isInIframe=', isInIframe, 'isDirectAccess=', isDirectAccess, 'appPosition=', appPosition);
         
-        // Handle direct access mode
+        // If we're in iframe, send message to parent to close modal
+        if (isInIframe) {
+            console.log('Inside iframe, sending message to parent to close modal');
+            try {
+                window.parent.postMessage('closeServicesModal', '*');
+            } catch (e) {
+                console.error('Error sending message to parent:', e);
+            }
+            // Reset flags
+            window._closingServicesModal = false;
+            if (window._servicesModalToggling !== undefined) {
+                window._servicesModalToggling = false;
+            }
+            return false;
+        }
+        
+        // Handle direct access mode (only if not in iframe)
         if (isDirectAccess) {
             console.log('Direct access detected, handling close...');
             // Handle direct access close
@@ -214,6 +299,9 @@ window.closeServicesModal = function() {
                 var closeIcon = document.getElementById('servicesCloseIcon');
                 if (menuIcon) menuIcon.style.display = 'flex';
                 if (closeIcon) closeIcon.style.display = 'none';
+                
+                // Restore toggle function
+                servicesBtn.setAttribute('onclick', 'toggleServicesModal(); return false;');
             }
             
             var pathParts = window.location.pathname.split('/').filter(function(part) {
@@ -224,7 +312,15 @@ window.closeServicesModal = function() {
                 locale = pathParts[0];
             }
             console.log('Redirecting to:', '/' + locale);
-            window.location.href = '/' + locale;
+            // Reset flags before redirect
+            window._closingServicesModal = false;
+            if (window._servicesModalToggling !== undefined) {
+                window._servicesModalToggling = false;
+            }
+            // Problem #3 solution: Add delay before redirect to allow animation to complete
+            setTimeout(function() {
+                window.location.href = '/' + locale;
+            }, 300); // Match animation duration (300ms from fadeOut)
             return false;
         }
         
@@ -232,60 +328,85 @@ window.closeServicesModal = function() {
         var modal = document.getElementById('servicesModal');
         var iframe = document.getElementById('servicesModalIframe');
         var modalContent = document.getElementById('servicesModalContent');
-        if (modal) {
-            modal.style.animation = 'fadeOut 0.3s ease-out';
-            setTimeout(function() {
-                modal.style.display = 'none';
-                modal.style.animation = '';
-                document.body.style.overflow = '';
-                
-                // Show main content again (if it was hidden)
-                if (appWrapper && appWrapper.style.display === 'none') {
-                    appWrapper.style.display = '';
-                }
-                
-                // Clear iframe source to stop loading
-                if (iframe) {
-                    iframe.src = '';
-                }
-                
-                // Clear modal content if it was loaded via AJAX
-                if (modalContent) {
-                    modalContent.innerHTML = '';
-                }
-                
-                // Restore header - remove any inline styles
-                var header = document.querySelector('header.header-redesigned');
-                if (header) {
-                    header.style.display = '';
-                }
-                
-                // Update services button state and restore toggle functionality
-                var servicesBtn = document.getElementById('servicesToggleBtn');
-                if (servicesBtn) {
-                    servicesBtn.classList.remove('active');
-                    var menuIcon = document.getElementById('servicesMenuIcon');
-                    var closeIcon = document.getElementById('servicesCloseIcon');
-                    if (menuIcon) menuIcon.style.display = 'flex';
-                    if (closeIcon) closeIcon.style.display = 'none';
-                    
-                    // Restore toggle onclick
-                    var pathParts = window.location.pathname.split('/').filter(function(part) {
-                        return part.length > 0;
-                    });
-                    var locale = 'en';
-                    if (pathParts.length > 0 && ['en', 'ru', 'kz'].includes(pathParts[0])) {
-                        locale = pathParts[0];
-                    }
-                    servicesBtn.setAttribute('onclick', 'if(typeof window.openServicesModal === \'function\') { var modal = document.getElementById(\'servicesModal\'); var appWrapper = document.getElementById(\'app\'); var isModalOpen = (modal && modal.style.display === \'block\') || (appWrapper && appWrapper.style.position === \'fixed\'); if(isModalOpen) { closeServicesModal(); } else { openServicesModal(); } } else { window.location.href = \'/' + locale + '/new-services\'; } return false;');
-                }
-                
-                // Remove message listener
-                window.removeEventListener('message', handleServicesModalMessage);
-            }, 300);
+        
+        if (!modal) {
+            console.error('Services modal not found');
+            window._closingServicesModal = false;
+            if (window._servicesModalToggling !== undefined) {
+                window._servicesModalToggling = false;
+            }
+            return false;
         }
+        
+        // Check if modal is actually visible
+        var modalDisplay = modal.style.display || window.getComputedStyle(modal).display;
+        if (modalDisplay !== 'block') {
+            console.log('Modal is not visible, skipping close');
+            window._closingServicesModal = false;
+            if (window._servicesModalToggling !== undefined) {
+                window._servicesModalToggling = false;
+            }
+            return false;
+        }
+        
+        // Add fade-out class and animate
+        modal.classList.add('fade-out');
+        
+        setTimeout(function() {
+            modal.style.display = 'none';
+            modal.classList.remove('fade-out');
+            document.body.style.overflow = '';
+            
+            // Show main content again (if it was hidden)
+            if (appWrapper && appWrapper.style.display === 'none') {
+                appWrapper.style.display = '';
+            }
+            
+            // Clear iframe source to stop loading
+            if (iframe) {
+                iframe.src = '';
+            }
+            
+            // Clear modal content if it was loaded via AJAX
+            if (modalContent) {
+                modalContent.innerHTML = '';
+            }
+            
+            // Restore header - remove any inline styles
+            var header = document.querySelector('header.header-redesigned');
+            if (header) {
+                header.style.display = '';
+            }
+            
+            // Update services button state and restore toggle functionality
+            var servicesBtn = document.getElementById('servicesToggleBtn');
+            if (servicesBtn) {
+                servicesBtn.classList.remove('active');
+                var menuIcon = document.getElementById('servicesMenuIcon');
+                var closeIcon = document.getElementById('servicesCloseIcon');
+                if (menuIcon) menuIcon.style.display = 'flex';
+                if (closeIcon) closeIcon.style.display = 'none';
+                
+                // Restore toggle function
+                servicesBtn.setAttribute('onclick', 'toggleServicesModal(); return false;');
+            }
+            
+            // Reset flags after animation completes
+            window._closingServicesModal = false;
+            if (window._servicesModalToggling !== undefined) {
+                window._servicesModalToggling = false;
+            }
+            
+            // Remove message listener
+            window.removeEventListener('message', handleServicesModalMessage);
+        }, 300); // Animation duration
     } catch (e) {
         console.error('Error closing services modal:', e);
+        // Reset flags on error
+        window._closingServicesModal = false;
+        if (window._servicesModalToggling !== undefined) {
+            window._servicesModalToggling = false;
+        }
     }
     return false;
 };
@@ -300,10 +421,12 @@ function handleServicesModalMessage(event) {
 
 // Close modal on escape key
 document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') {
-        var modal = document.getElementById('servicesModal');
-        if (modal && modal.style.display === 'block') {
-            closeServicesModal();
+    if (e.key === 'Escape' || e.keyCode === 27) {
+        // Use unified function to check if modal is open
+        if (typeof window.isServicesModalOpen === 'function' && window.isServicesModalOpen()) {
+            if (typeof window.closeServicesModal === 'function') {
+                window.closeServicesModal();
+            }
         }
     }
 });
@@ -312,7 +435,14 @@ document.addEventListener('keydown', function(e) {
 document.addEventListener('click', function(e) {
     var modal = document.getElementById('servicesModal');
     if (modal && e.target === modal) {
-        closeServicesModal();
+        // Use unified function to check if modal is open
+        if (typeof window.isServicesModalOpen === 'function' && window.isServicesModalOpen()) {
+            if (typeof window.closeServicesModal === 'function') {
+                e.preventDefault();
+                e.stopPropagation();
+                window.closeServicesModal();
+            }
+        }
     }
 });
 </script>
