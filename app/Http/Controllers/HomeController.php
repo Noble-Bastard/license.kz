@@ -17,6 +17,7 @@ use App\Data\Service\Model\NewPotentialClientService;
 use App\Repositories\Interfaces\IReviewRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Cache;
 
 class HomeController extends Controller
 {
@@ -94,11 +95,15 @@ class HomeController extends Controller
     public function servicesNew()
     {
         $countryId = 1; // KZ
-        $categoryList = ServiceCategoryDal::getServiceCategoryWithRootCatalog(
-            false,
-            false,
-            $countryId
-        );
+        
+        // Cache categories list (10 minutes)
+        $categoryList = Cache::remember('services_categories_' . $countryId, 10, function() use ($countryId) {
+            return ServiceCategoryDal::getServiceCategoryWithRootCatalog(
+                false,
+                false,
+                $countryId
+            );
+        });
 
         // Маппинг названий разделов к ID категорий по названию
         $categoryMapping = [];
@@ -124,11 +129,15 @@ class HomeController extends Controller
             }
         }
 
-        // Загружаем все категории с их каталогами
+        // Загружаем все категории с их каталогами (кешируем каждый каталог отдельно)
         $allCategoriesWithCatalogs = [];
         foreach($categoryList as $category) {
             try {
-                $rootNode = \App\Data\Catalog\Dal\ServiceCategoryCatalogDal::getByServiceCategory($category->id, true);
+                // Cache each catalog separately (15 minutes)
+                $rootNode = Cache::remember('service_catalog_' . $category->id, 15, function() use ($category) {
+                    return \App\Data\Catalog\Dal\ServiceCategoryCatalogDal::getByServiceCategory($category->id, true);
+                });
+                
                 if($rootNode && $rootNode->childNodeList) {
                     $allCategoriesWithCatalogs[] = [
                         'category' => $category,
@@ -146,7 +155,10 @@ class HomeController extends Controller
         if(count($categoryList) > 0) {
             $defaultCategoryId = $categoryList[0]->id;
             try {
-                $defaultRootNode = \App\Data\Catalog\Dal\ServiceCategoryCatalogDal::getByServiceCategory($defaultCategoryId, true);
+                // Use cached catalog if available
+                $defaultRootNode = Cache::remember('service_catalog_' . $defaultCategoryId, 15, function() use ($defaultCategoryId) {
+                    return \App\Data\Catalog\Dal\ServiceCategoryCatalogDal::getByServiceCategory($defaultCategoryId, true);
+                });
             } catch (\Exception $e) {
                 \Log::error('Error loading default category: ' . $e->getMessage());
                 $defaultRootNode = null;

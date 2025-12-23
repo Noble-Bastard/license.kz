@@ -37,6 +37,8 @@
 
     <link href="{{asset('libs/font-awesome/css/all.min.css')}}" rel="stylesheet" type="text/css">
     <link rel="shortcut icon" href="{{asset('images/favicon.png')}}"/>
+    <!-- Prefetch services page for faster modal loading -->
+    <link rel="prefetch" href="{{ route('new-services') }}" as="document">
     <!-- Tailwind CSS for modal backdrop blur -->
     <script src="https://cdn.tailwindcss.com"></script>
 

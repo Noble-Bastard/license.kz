@@ -98,15 +98,15 @@ window.openServicesModal = function() {
             header.style.display = 'flex';
         }
         
+        // Show modal IMMEDIATELY for instant feedback (before iframe loads)
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+        
         // If iframe exists, use it
         var iframe = document.getElementById('servicesModalIframe');
         if (iframe) {
-            // Set iframe source
+            // Set iframe source (will load in background)
             iframe.src = '/' + locale + '/new-services';
-            
-            // Show modal
-            modal.style.display = 'block';
-            document.body.style.overflow = 'hidden';
             
             // Update services button state
             var servicesBtn = document.getElementById('servicesToggleBtn');
@@ -445,5 +445,42 @@ document.addEventListener('click', function(e) {
         }
     }
 });
+
+// Preload iframe on hover/touch over services button for faster opening
+(function() {
+    var servicesBtn = document.getElementById('servicesToggleBtn');
+    var mobileServicesLink = document.querySelector('a[onclick*="openServicesModal"]');
+    var iframe = document.getElementById('servicesModalIframe');
+    var preloaded = false;
+    
+    function preloadIframe() {
+        if (!preloaded && iframe && !iframe.src) {
+            // Get current locale
+            var pathParts = window.location.pathname.split('/').filter(function(part) {
+                return part.length > 0;
+            });
+            var locale = 'en';
+            if (pathParts.length > 0 && ['en', 'ru', 'kz'].includes(pathParts[0])) {
+                locale = pathParts[0];
+            }
+            // Preload iframe (hidden, will be shown when modal opens)
+            iframe.src = '/' + locale + '/new-services';
+            preloaded = true;
+        }
+    }
+    
+    if (servicesBtn) {
+        // Preload on mouseenter (hover)
+        servicesBtn.addEventListener('mouseenter', preloadIframe, { once: true });
+        // Also preload on touchstart for mobile
+        servicesBtn.addEventListener('touchstart', preloadIframe, { once: true });
+    }
+    
+    // Also preload from mobile menu link
+    if (mobileServicesLink) {
+        mobileServicesLink.addEventListener('mouseenter', preloadIframe, { once: true });
+        mobileServicesLink.addEventListener('touchstart', preloadIframe, { once: true });
+    }
+})();
 </script>
 
