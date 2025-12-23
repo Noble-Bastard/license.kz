@@ -614,6 +614,1162 @@
             font-weight: bold;
         }
         
+        /* Скрываем мобильный логотип на десктопе */
+        .hero-mobile-logo {
+            display: none !important;
+        }
+        
+        /* Скрываем картинку внутри слайда на десктопе */
+        .hero-slide-image {
+            display: none;
+        }
+        
+        /* ==============================================
+           МОБИЛЬНАЯ АДАПТАЦИЯ 360px
+        ============================================== */
+        @media (max-width: 767px) {
+            /* Hero Section - Mobile */
+            .hero-slider-section {
+                min-height: auto;
+                padding: 0 0 20px;
+                background: white;
+            }
+            
+            .hero-slider-section::before {
+                display: none;
+            }
+            
+            .hero-slider-section::after {
+                display: none;
+            }
+            
+            .hero-corner-frame {
+                display: none;
+            }
+            
+            .hero-top-title {
+                position: relative !important;
+                top: auto !important;
+                left: auto !important;
+                font-size: 18px !important;
+                padding: 0 16px !important;
+                margin-bottom: 12px !important;
+                white-space: normal !important;
+                line-height: 1.3 !important;
+                color: #191E1D !important;
+            }
+            
+            .hero-top-title br {
+                display: none;
+            }
+            
+            .hero-slide {
+                padding-top: 0;
+                margin-left: 0;
+            }
+            
+            .hero-slide[data-slide="1"] .hero-slide-content,
+            .hero-slide[data-slide="2"] .hero-slide-content,
+            .hero-slide[data-slide="3"] .hero-slide-content,
+            .hero-slide[data-slide="4"] .hero-slide-content {
+                margin-top: 0;
+                margin-left: 0;
+            }
+            
+            /* Мобильный Hero - зеленый блок с контентом */
+            .hero-slide-content {
+                max-width: 100%;
+                padding: 24px 16px;
+                margin: 0 16px 16px;
+                background: #279760;
+                position: relative;
+                min-height: 400px;
+                overflow: hidden;
+            }
+            
+            .hero-slide-content::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                right: 0;
+                width: 20px;
+                height: 20px;
+                border-top: 2px solid rgba(255,255,255,0.3);
+                border-right: 2px solid rgba(255,255,255,0.3);
+            }
+            
+            .hero-slide-title {
+                font-size: 16px;
+                line-height: 1.3;
+                margin-bottom: 12px;
+                color: white;
+            }
+            
+            .hero-slide-description {
+                font-size: 11px;
+                line-height: 1.5;
+                margin-bottom: 16px;
+                color: rgba(255,255,255,0.9);
+            }
+            
+            .hero-slide-button {
+                padding: 12px 20px;
+                font-size: 12px;
+                border-radius: 30px;
+                background: white;
+                color: #279760;
+            }
+            
+            /* Скрываем отдельную колонку с картинкой на мобильных */
+            .hero-image-col {
+                display: none !important;
+            }
+            
+            .hero-mobile-logo {
+                display: flex !important;
+            }
+            
+            .hero-slider-controls {
+                position: relative;
+                right: auto;
+                bottom: auto;
+                justify-content: flex-start;
+                padding: 0 16px;
+                gap: 12px;
+                margin-top: 0;
+            }
+            
+            .hero-slider-pagination {
+                font-size: 14px;
+                color: #6B7280;
+            }
+            
+            .hero-arrow {
+                width: 36px;
+                height: 36px;
+                border-color: #E5E7EB;
+                background: white;
+            }
+            
+            .hero-arrow svg path {
+                stroke: #6B7280;
+            }
+            
+            /* Картинка внутри слайда - мобильная версия */
+            .hero-slide-image {
+                display: block !important;
+                position: absolute;
+                right: -20px;
+                bottom: -20px;
+                width: 220px;
+                height: auto;
+                object-fit: contain;
+            }
+            
+            /* Преимущества работы - Mobile */
+            .about-us__find {
+                padding: 40px 0;
+            }
+            
+            .about-us__find__header {
+                padding: 0 16px;
+                margin-bottom: 24px !important;
+            }
+            
+            .about-us__find__header h2 {
+                font-size: 24px !important;
+                padding-left: 0 !important;
+                white-space: normal;
+                text-align: left !important;
+                line-height: 1.2 !important;
+            }
+            
+            .about-us__find__cards-container {
+                grid-template-columns: 1fr !important;
+                gap: 0 !important;
+                padding: 0 16px !important;
+            }
+            
+            .about-us__find__card {
+                padding: 20px 0 !important;
+                border-bottom: 1px solid #E5E7EB;
+            }
+            
+            .about-us__find__card:last-child {
+                border-bottom: none;
+            }
+            
+            .about-us__find__card::before {
+                display: none !important;
+            }
+            
+            .about-us__find__card__image {
+                width: 48px !important;
+                height: 48px !important;
+                margin-bottom: 12px !important;
+            }
+            
+            .about-us__find__card__number {
+                font-size: 12px !important;
+                margin-bottom: 8px !important;
+                margin-left: 0 !important;
+            }
+            
+            .about-us__find__card__title {
+                font-size: 16px !important;
+                margin-bottom: 8px !important;
+            }
+            
+            .about-us__find__card__description {
+                font-size: 13px !important;
+            }
+            
+            /* Кнопка "Узнать как это работает" - Mobile */
+            .about-us__find .cta-btn-container {
+                padding: 0 16px;
+                margin-top: 24px;
+            }
+            
+            /* Stats Section (О группе UPPERCASE) - Mobile */
+            .stats-section-mobile {
+                padding: 40px 16px !important;
+            }
+            
+            .about-us__stats__grid {
+                display: flex !important;
+                flex-direction: column !important;
+                gap: 0 !important;
+                padding-left: 0 !important;
+            }
+            
+            .about-us__stats__grid > div {
+                grid-column: auto !important;
+                grid-row: auto !important;
+                width: 100% !important;
+                height: auto !important;
+                margin-left: 0 !important;
+                transform: none !important;
+                padding: 20px 0 !important;
+                border: none !important;
+                border-bottom: 1px solid #E5E7EB !important;
+            }
+            
+            .about-us__stats__grid > div:last-child {
+                border-bottom: none !important;
+            }
+            
+            .about-us__stats h2 {
+                font-size: 24px !important;
+                margin-bottom: 8px !important;
+            }
+            
+            .about-us__stats__number {
+                font-size: 32px !important;
+                color: #279760 !important;
+            }
+            
+            .about-us__stats__item p,
+            .about-us__stats__item span {
+                font-size: 13px !important;
+            }
+            
+            /* CTA Section (Личный кабинет) - Mobile */
+            .cta-section-mobile {
+                padding: 0 !important;
+            }
+            
+            .cta-section-mobile .row {
+                flex-direction: column;
+            }
+            
+            .cta-section-mobile .col-lg-6 {
+                width: 100% !important;
+                padding: 32px 16px !important;
+            }
+            
+            .cta-section-mobile .col-lg-6:first-child {
+                background: #279760;
+            }
+            
+            .cta-section-mobile .col-lg-6:last-child {
+                background: #F3F4F6;
+            }
+            
+            .cta-section-mobile h2 {
+                font-size: 20px !important;
+                margin-bottom: 16px !important;
+                margin-top: 0 !important;
+                line-height: 1.3 !important;
+            }
+            
+            .cta-section-mobile h2 br {
+                display: none;
+            }
+            
+            .cta-section-mobile .cta-list-item {
+                font-size: 13px !important;
+                margin-bottom: 8px !important;
+            }
+            
+            .cta-section-mobile .cta-btn {
+                padding: 14px 24px !important;
+                font-size: 13px !important;
+            }
+            
+            .cta-section-mobile img {
+                max-width: 100%;
+                height: auto;
+            }
+            
+            /* Client Cases - Mobile */
+            .client-cases {
+                padding: 40px 0 !important;
+            }
+            
+            .client-cases__header {
+                padding: 0 16px;
+                margin-bottom: 24px !important;
+            }
+            
+            .client-cases__title {
+                font-size: 24px !important;
+            }
+            
+            .client-case-detail {
+                flex-direction: column !important;
+                gap: 24px !important;
+                padding: 0 16px !important;
+            }
+            
+            .client-case-detail__left,
+            .client-case-detail__right {
+                max-width: 100% !important;
+                flex: none !important;
+            }
+            
+            .client-case-detail__title {
+                font-size: 20px !important;
+            }
+            
+            .client-case-detail__logo {
+                width: 60px !important;
+                height: 60px !important;
+            }
+            
+            .client-case-detail__client-name {
+                font-size: 16px !important;
+            }
+            
+            .client-case-detail__video-btn {
+                width: 100% !important;
+                justify-content: center !important;
+                font-size: 13px !important;
+                padding: 14px 20px !important;
+            }
+            
+            .client-case-detail__section {
+                padding: 16px !important;
+            }
+            
+            .client-case-detail__section-title {
+                font-size: 16px !important;
+            }
+            
+            .client-case-detail__list-item {
+                font-size: 13px !important;
+            }
+            
+            /* Trust Section (Нам доверяют) - Mobile */
+            .trust-section-mobile {
+                padding: 40px 16px !important;
+            }
+            
+            .trust-section-mobile h2 {
+                font-size: 24px !important;
+                text-align: left !important;
+                margin-bottom: 24px !important;
+            }
+            
+            .trust-section-mobile .row {
+                gap: 16px !important;
+            }
+            
+            .trust-section-mobile .col-lg-2 {
+                flex: 0 0 calc(33.333% - 12px) !important;
+                max-width: calc(33.333% - 12px) !important;
+            }
+            
+            .trust-section-mobile img {
+                max-width: 80px !important;
+            }
+            
+            /* Consultation Form - Mobile */
+            .consultation-block {
+                width: 100% !important;
+                height: auto !important;
+                padding: 40px 16px !important;
+            }
+            
+            .consultation-hero-title {
+                position: relative !important;
+                left: auto !important;
+                top: auto !important;
+                width: 100% !important;
+                height: auto !important;
+                font-size: 24px !important;
+                margin-bottom: 12px !important;
+            }
+            
+            .consultation-hero-subtitle {
+                position: relative !important;
+                left: auto !important;
+                top: auto !important;
+                width: 100% !important;
+                height: auto !important;
+                font-size: 14px !important;
+                margin-bottom: 24px !important;
+            }
+            
+            .consultation-form-container {
+                position: relative !important;
+                width: 100% !important;
+                height: auto !important;
+                right: auto !important;
+                top: auto !important;
+            }
+            
+            .consultation-form {
+                padding: 20px !important;
+            }
+            
+            .form-input,
+            .form-select {
+                width: 100% !important;
+                height: 56px !important;
+                padding: 16px !important;
+                font-size: 14px !important;
+            }
+            
+            .form-textarea {
+                width: 100% !important;
+                height: 100px !important;
+            }
+            
+            .submit-btn {
+                width: 100% !important;
+                height: 52px !important;
+                font-size: 14px !important;
+            }
+            
+            .privacy-text {
+                position: relative !important;
+                left: auto !important;
+                top: auto !important;
+                width: 100% !important;
+                height: auto !important;
+                font-size: 11px !important;
+                margin-top: 12px !important;
+                text-align: center !important;
+            }
+            
+            .consultation-bg-vector {
+                display: none !important;
+            }
+            
+            /* FAQ Section - Mobile */
+            .faq-section-mobile {
+                padding: 40px 0 !important;
+            }
+            
+            .faq-section-mobile .row {
+                flex-direction: column;
+            }
+            
+            .faq-section-mobile .col-lg-6 {
+                width: 100%;
+                padding: 0 16px;
+            }
+            
+            .faq-section-mobile h2 {
+                font-size: 24px !important;
+                margin-bottom: 24px !important;
+            }
+            
+            .accordion-item {
+                border-radius: 0 !important;
+            }
+            
+            .accordion-button {
+                font-size: 14px !important;
+                padding: 16px 0 !important;
+            }
+            
+            .accordion-body {
+                font-size: 13px !important;
+                padding: 0 0 16px !important;
+            }
+            
+            /* RoadMap Section - Mobile */
+            .roadmap-section {
+                padding: 40px 16px !important;
+            }
+            
+            .roadmap-title {
+                font-size: 24px !important;
+                margin-bottom: 24px !important;
+            }
+            
+            .roadmap-timeline {
+                flex-direction: column !important;
+                gap: 24px !important;
+                padding-bottom: 0 !important;
+                margin-bottom: 32px !important;
+            }
+            
+            .roadmap-timeline::before {
+                display: none !important;
+            }
+            
+            .roadmap-milestone {
+                display: flex !important;
+                align-items: center !important;
+                gap: 16px !important;
+                text-align: left !important;
+            }
+            
+            .roadmap-dot {
+                width: 32px !important;
+                height: 32px !important;
+                margin: 0 !important;
+                flex-shrink: 0;
+            }
+            
+            .roadmap-year,
+            .roadmap-date {
+                display: inline;
+                font-size: 14px !important;
+                margin: 0 !important;
+            }
+            
+            .roadmap-description {
+                font-size: 12px !important;
+                max-width: none !important;
+                margin: 4px 0 0 0 !important;
+            }
+            
+            .roadmap-cards {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 12px !important;
+                margin-bottom: 32px !important;
+            }
+            
+            .roadmap-card {
+                padding: 20px 16px !important;
+            }
+            
+            .roadmap-card-icon {
+                width: 48px !important;
+                height: 48px !important;
+                margin-bottom: 12px !important;
+            }
+            
+            .roadmap-card-title {
+                font-size: 13px !important;
+            }
+            
+            .roadmap-details {
+                grid-template-columns: 1fr !important;
+                gap: 24px !important;
+            }
+            
+            .roadmap-detail-title {
+                font-size: 16px !important;
+            }
+            
+            .roadmap-detail-list li {
+                font-size: 13px !important;
+            }
+            
+            /* Categories Section - Mobile */
+            .categories-section {
+                padding: 40px 0 !important;
+            }
+            
+            .categories-section-title {
+                font-size: 24px !important;
+                text-align: left !important;
+                padding: 0 16px !important;
+                margin-bottom: 16px !important;
+                line-height: 1.2 !important;
+            }
+            
+            .categories-nav-wrapper {
+                text-align: left !important;
+                padding: 0 16px !important;
+                margin-bottom: 24px !important;
+            }
+            
+            .categories-slider-wrapper {
+                padding: 0 !important;
+                margin: 0 16px !important;
+            }
+            
+            .categories-slider {
+                gap: 12px !important;
+            }
+            
+            /* Categories Section - Mobile */
+            .categories-section {
+                padding: 40px 0 !important;
+            }
+            
+            .categories-section-title {
+                font-size: 24px !important;
+                text-align: left !important;
+                padding: 0 16px !important;
+                margin-bottom: 12px !important;
+                line-height: 1.2 !important;
+            }
+            
+            .categories-section-title br {
+                display: none !important;
+            }
+            
+            .categories-nav-wrapper {
+                text-align: left !important;
+                padding: 0 16px !important;
+                margin-bottom: 20px !important;
+            }
+            
+            .categories-slider-wrapper {
+                padding: 0 !important;
+                margin: 0 16px !important;
+                overflow: hidden !important;
+            }
+            
+            .categories-slider {
+                gap: 12px !important;
+            }
+            
+            .category-slide {
+                min-width: calc(100vw - 64px) !important;
+                max-width: calc(100vw - 64px) !important;
+                min-height: 260px !important;
+                padding: 20px !important;
+                overflow: hidden !important;
+                position: relative !important;
+            }
+            
+            .category-title {
+                font-size: 16px !important;
+                margin-bottom: 16px !important;
+            }
+            
+            .category-corner {
+                width: 20px !important;
+                height: 20px !important;
+            }
+            
+            .category-tags {
+                bottom: 16px !important;
+                left: 16px !important;
+                position: absolute !important;
+                z-index: 2 !important;
+            }
+            
+            .category-tag {
+                padding: 6px 10px !important;
+                font-size: 10px !important;
+                border-radius: 16px !important;
+                background: white !important;
+            }
+            
+            .category-tag-more {
+                width: 26px !important;
+                height: 26px !important;
+                font-size: 9px !important;
+            }
+            
+            .category-img {
+                width: 150px !important;
+                height: 150px !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                position: absolute !important;
+                object-fit: contain !important;
+            }
+            
+            .categories-footer {
+                flex-direction: column !important;
+                align-items: flex-start !important;
+                padding: 0 16px !important;
+                margin-top: 24px !important;
+                gap: 16px !important;
+            }
+            
+            .categories-footer-text {
+                font-size: 18px !important;
+                line-height: 1.3 !important;
+            }
+            
+            .categories-footer-btn {
+                width: 100% !important;
+                justify-content: center !important;
+                padding: 14px 24px !important;
+                font-size: 14px !important;
+            }
+            
+            /* Services Section - Mobile */
+            .services-section {
+                padding: 40px 0 !important;
+            }
+            
+            .services-title {
+                font-size: 24px !important;
+                text-align: left !important;
+                padding: 0 16px !important;
+                margin-bottom: 24px !important;
+                line-height: 1.2 !important;
+            }
+            
+            .services-title br {
+                display: none !important;
+            }
+            
+            .services-section .row.g-4 {
+                gap: 12px !important;
+                padding: 0 16px !important;
+            }
+            
+            .services-section .col-lg-6 {
+                padding: 0 !important;
+            }
+            
+            .services-section .col-lg-6 > div {
+                height: auto !important;
+                min-height: 280px !important;
+                padding: 20px !important;
+                overflow: hidden !important;
+                position: relative !important;
+            }
+            
+            .services-section .col-lg-6 > div h3 {
+                font-size: 16px !important;
+                margin-bottom: 12px !important;
+            }
+            
+            .services-section .col-lg-6 > div > div[style*="margin-bottom: 24px"] {
+                margin-bottom: 12px !important;
+            }
+            
+            .services-section .col-lg-6 > div > div[style*="display: flex; align-items: start"] {
+                margin-bottom: 6px !important;
+            }
+            
+            .services-section .col-lg-6 > div > div[style*="display: flex; align-items: start"] div {
+                font-size: 12px !important;
+            }
+            
+            .services-section .col-lg-6 > div img {
+                width: 160px !important;
+                height: 160px !important;
+                right: 0 !important;
+                bottom: 0 !important;
+                position: absolute !important;
+                object-fit: contain !important;
+            }
+            
+            .services-section .col-lg-6 > div a[style*="position: absolute; bottom"] {
+                font-size: 12px !important;
+                padding: 10px 16px !important;
+                bottom: 16px !important;
+                left: 16px !important;
+            }
+            
+            /* Stats Section - Mobile */
+            .stats-section {
+                padding: 40px 0 !important;
+            }
+            
+            .d-lg-none.stats-mobile {
+                display: block !important;
+            }
+            
+            .d-none.d-lg-grid {
+                display: none !important;
+            }
+            
+            /* CTA Section - Mobile */
+            .cta-section .row {
+                flex-direction: column !important;
+            }
+            
+            .cta-left {
+                padding: 32px 16px !important;
+            }
+            
+            .cta-right {
+                padding: 24px 16px !important;
+            }
+            
+            .cta-title {
+                font-size: 20px !important;
+                margin-bottom: 16px !important;
+                line-height: 1.3 !important;
+            }
+            
+            .cta-title br {
+                display: none !important;
+            }
+            
+            .cta-list {
+                margin-bottom: 20px !important;
+            }
+            
+            .cta-list-item {
+                margin-bottom: 8px !important;
+            }
+            
+            .cta-list-item span {
+                font-size: 13px !important;
+            }
+            
+            .cta-list-item img {
+                width: 16px !important;
+                margin-right: 8px !important;
+            }
+            
+            .cta-btn {
+                width: 100% !important;
+                justify-content: center !important;
+                padding: 14px 24px !important;
+                font-size: 14px !important;
+            }
+            
+            .cta-image {
+                max-width: 100% !important;
+            }
+            
+            /* Trust Section - Mobile */
+            .trust-section {
+                padding: 40px 0 !important;
+            }
+            
+            .trust-section .container {
+                padding: 0 16px !important;
+            }
+            
+            .trust-title {
+                font-size: 24px !important;
+                margin-bottom: 24px !important;
+            }
+            
+            .trust-logos {
+                gap: 12px !important;
+            }
+            
+            .trust-logo-item {
+                flex: 0 0 calc(33.333% - 8px) !important;
+                max-width: calc(33.333% - 8px) !important;
+                padding: 8px !important;
+            }
+            
+            .trust-logo {
+                max-width: 60px !important;
+                height: auto !important;
+            }
+            
+            /* Contact Form Section - Mobile */
+            .consultation-block {
+                width: 100% !important;
+                height: auto !important;
+                padding: 40px 16px !important;
+            }
+            
+            .consultation-hero-title {
+                position: relative !important;
+                left: auto !important;
+                top: auto !important;
+                width: 100% !important;
+                height: auto !important;
+                font-size: 24px !important;
+                margin-bottom: 12px !important;
+            }
+            
+            .consultation-hero-subtitle {
+                position: relative !important;
+                left: auto !important;
+                top: auto !important;
+                width: 100% !important;
+                height: auto !important;
+                font-size: 14px !important;
+                margin-bottom: 24px !important;
+            }
+            
+            .consultation-form-container {
+                position: relative !important;
+                width: 100% !important;
+                height: auto !important;
+                right: auto !important;
+                top: auto !important;
+            }
+            
+            .consultation-form {
+                padding: 20px !important;
+            }
+            
+            .consultation-form .row.g-3 {
+                gap: 12px !important;
+            }
+            
+            .consultation-form .col-12.col-md-6 {
+                flex: 0 0 100% !important;
+                max-width: 100% !important;
+            }
+            
+            .form-input,
+            .form-select {
+                width: 100% !important;
+                height: 52px !important;
+                padding: 14px !important;
+                font-size: 14px !important;
+            }
+            
+            .form-textarea {
+                width: 100% !important;
+                height: 100px !important;
+            }
+            
+            .submit-btn {
+                width: 100% !important;
+                height: 52px !important;
+                font-size: 14px !important;
+            }
+            
+            .privacy-text {
+                position: relative !important;
+                left: auto !important;
+                top: auto !important;
+                width: 100% !important;
+                height: auto !important;
+                font-size: 11px !important;
+                margin-top: 12px !important;
+                text-align: center !important;
+            }
+            
+            .consultation-bg-vector {
+                display: none !important;
+            }
+            
+            /* FAQ Section - Mobile */
+            .faq-section {
+                padding: 40px 0 !important;
+            }
+            
+            .faq-section .container {
+                padding: 0 16px !important;
+            }
+            
+            .faq-section .row {
+                flex-direction: column !important;
+            }
+            
+            .faq-section .col-lg-6 {
+                width: 100% !important;
+                max-width: 100% !important;
+                flex: none !important;
+            }
+            
+            .faq-section .col-lg-6 h2 {
+                font-size: 24px !important;
+                margin-bottom: 24px !important;
+            }
+            
+            .accordion-button {
+                font-size: 14px !important;
+                padding: 16px 0 !important;
+            }
+            
+            .accordion-body {
+                font-size: 13px !important;
+                padding: 0 0 16px !important;
+            }
+            
+            /* Client Cases - Mobile */
+            .client-cases {
+                padding: 40px 0 !important;
+            }
+            
+            .client-cases .container {
+                padding: 0 16px !important;
+            }
+            
+            .client-cases__header {
+                margin-bottom: 24px !important;
+                padding-bottom: 16px !important;
+            }
+            
+            .client-cases__title {
+                font-size: 24px !important;
+            }
+            
+            .client-case-detail {
+                flex-direction: column !important;
+                gap: 20px !important;
+            }
+            
+            .client-case-detail__left {
+                max-width: 100% !important;
+                flex: none !important;
+            }
+            
+            .client-case-detail__right {
+                max-width: 100% !important;
+                flex: none !important;
+            }
+            
+            .client-case-detail__title {
+                font-size: 18px !important;
+                margin-bottom: 16px !important;
+            }
+            
+            .client-case-detail__logo {
+                width: 56px !important;
+                height: 56px !important;
+            }
+            
+            .client-case-detail__client-name {
+                font-size: 14px !important;
+            }
+            
+            .client-case-detail__client-description {
+                font-size: 12px !important;
+            }
+            
+            .client-case-detail__video-btn {
+                width: 100% !important;
+                height: auto !important;
+                padding: 14px 20px !important;
+                font-size: 13px !important;
+            }
+            
+            .client-case-detail__section {
+                padding: 16px !important;
+            }
+            
+            .client-case-detail__section-title {
+                font-size: 14px !important;
+            }
+            
+            .client-case-detail__list-item {
+                font-size: 12px !important;
+            }
+            
+            .client-case-detail__show-more-btn {
+                font-size: 12px !important;
+                padding: 10px !important;
+                width: auto !important;
+            }
+            
+            /* RoadMap Section - Mobile */
+            .roadmap-section {
+                padding: 40px 16px !important;
+            }
+            
+            .roadmap-title {
+                font-size: 24px !important;
+                margin-bottom: 24px !important;
+            }
+            
+            .roadmap-timeline {
+                flex-direction: column !important;
+                gap: 16px !important;
+                padding-bottom: 0 !important;
+                margin-bottom: 24px !important;
+            }
+            
+            .roadmap-timeline::before {
+                display: none !important;
+            }
+            
+            .roadmap-milestone {
+                display: flex !important;
+                align-items: flex-start !important;
+                gap: 12px !important;
+                text-align: left !important;
+            }
+            
+            .roadmap-dot {
+                width: 28px !important;
+                height: 28px !important;
+                min-width: 28px !important;
+                margin: 0 !important;
+                flex-shrink: 0;
+            }
+            
+            .roadmap-milestone.completed .roadmap-dot::after {
+                font-size: 14px !important;
+            }
+            
+            .roadmap-milestone-content {
+                flex: 1;
+            }
+            
+            .roadmap-year {
+                font-size: 12px !important;
+                margin-bottom: 0 !important;
+                display: inline !important;
+            }
+            
+            .roadmap-date {
+                font-size: 14px !important;
+                margin-bottom: 4px !important;
+                display: inline !important;
+            }
+            
+            .roadmap-description {
+                font-size: 11px !important;
+                max-width: none !important;
+                margin: 4px 0 0 0 !important;
+            }
+            
+            .roadmap-cards {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 12px !important;
+                margin-bottom: 24px !important;
+            }
+            
+            .roadmap-card {
+                padding: 16px 12px !important;
+                border-radius: 12px !important;
+            }
+            
+            .roadmap-card-icon {
+                width: 40px !important;
+                height: 40px !important;
+                margin-bottom: 8px !important;
+            }
+            
+            .roadmap-card-title {
+                font-size: 12px !important;
+            }
+            
+            .roadmap-details {
+                grid-template-columns: 1fr !important;
+                gap: 20px !important;
+            }
+            
+            .roadmap-detail-title {
+                font-size: 14px !important;
+                margin-bottom: 12px !important;
+            }
+            
+            .roadmap-detail-list li {
+                font-size: 12px !important;
+                margin-bottom: 8px !important;
+            }
+        }
+        
         @media (max-width: 768px) {
             .hero-corner-frame {
                 top: calc(58% - 180px);
@@ -658,13 +1814,22 @@
         @section('content')
     <!-- Hero Slider Section -->
     <section class="hero-slider-section">
+        <!-- Мобильный логотип UPPERLICENSE -->
+        <div class="hero-mobile-logo d-lg-none" style="padding: 16px; display: flex; align-items: center; gap: 8px;">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="20" height="20" fill="#279760"/>
+                <path d="M6 10L9 13L14 7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span style="font-size: 14px; font-weight: 600; color: #191E1D; font-family: 'Manrope', sans-serif;">UPPERLICENSE</span>
+        </div>
+        
         <h2 class="hero-top-title">Мгновенный старт для вашего<br>бизнеса в Казахстане</h2>
         
         <!-- Зеленая рамка в верхнем правом углу серого блока -->
         <div class="hero-corner-frame"></div>
         
-                    <div class="container">
-                        <div class="row align-items-center">
+        <div class="container">
+            <div class="row align-items-center">
                 <div class="col-lg-6">
                     <!-- Slide 1 -->
                     <div class="hero-slide active" data-slide="1">
@@ -672,6 +1837,7 @@
                             <h1 class="hero-slide-title">UPPERLICENSE: Идеальное решение для регистрации вашего бизнеса в РК</h1>
                             <p class="hero-slide-description">Полная автоматизация и удобство управления — откройте новые возможности для вашего бизнеса в Казахстане с нашей инновационной онлайн-платформой!</p>
                             <a href="#" class="hero-slide-button">Начать регистрацию</a>
+                            <img src="{{asset('current/img/image-slider-1-2.png')}}" alt="" class="hero-slide-image" />
                         </div>
                     </div>
 
@@ -681,6 +1847,7 @@
                             <h1 class="hero-slide-title">UPPERLICENSE: Ваш ключ к беспроблемному лицензированию</h1>
                             <p class="hero-slide-description">Надежное сопровождение вашего процесса лицензирования «под ключ», усиленное базой данных и индивидуально адаптированным личным кабинетом для вашего максимального комфорта и удобства</p>
                             <a href="#" class="hero-slide-button">Начать регистрацию</a>
+                            <img src="{{asset('current/img/image-slider-1-2.png')}}" alt="" class="hero-slide-image" />
                         </div>
                     </div>
 
@@ -690,6 +1857,7 @@
                             <h1 class="hero-slide-title">Получите вашу рабочую и бизнес-визу в Казахстане легко и надежно с UPPERLICENSE. Быстро, эффективно, без хлопот</h1>
                             <p class="hero-slide-description">Оперативное оформление виз С3 и С5 — максимальная скорость, минимальные сроки</p>
                             <a href="#" class="hero-slide-button">Начать регистрацию</a>
+                            <img src="{{asset('current/img/image-slider-1-2.png')}}" alt="" class="hero-slide-image" />
                         </div>
                     </div>
 
@@ -699,6 +1867,7 @@
                             <h1 class="hero-slide-title">Гарантируйте стабильный рост вашего бизнеса в эпоху перемен с экспертной поддержкой UPPERLICENSE</h1>
                             <p class="hero-slide-description">Высококлассное юридическое и бухгалтерское сопровождение от UPPERLICENSE — ваш надежный фундамент для стойкости и прогресса вашей компании</p>
                             <a href="#" class="hero-slide-button">Начать регистрацию</a>
+                            <img src="{{asset('current/img/image-slider-1-2.png')}}" alt="" class="hero-slide-image" />
                         </div>
                     </div>
 
@@ -721,8 +1890,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6">
-                    <img src="{{asset('current/img/image-slider-1-2.png')}}" alt="UPPERLICENSE" class="img-fluid">
+                <div class="col-lg-6 hero-image-col">
+                    <img src="{{asset('current/img/image-slider-1-2.png')}}" alt="UPPERLICENSE" class="img-fluid hero-main-image">
                 </div>
             </div>
         </div>
@@ -780,19 +1949,19 @@
                 </section>
 
     <!-- Categories Slider Section -->
-    <section style="padding: 80px 0; background: white; overflow: hidden;">
-                    <div class="container">
-            <h2 style="font-size: 52px; font-weight: 500; text-align: center; margin-bottom: 16px; font-family: 'Manrope', sans-serif;">
+    <section class="categories-section" style="padding: 80px 0; background: white; overflow: hidden;">
+        <div class="container">
+            <h2 class="categories-section-title" style="font-size: 52px; font-weight: 500; text-align: center; margin-bottom: 16px; font-family: 'Manrope', sans-serif;">
                 Уже выбрали вашу <span style="color: #279760;">сферу</span><br>деятельности?
             </h2>
-            <div style="text-align: center; margin-bottom: 60px;">
+            <div class="categories-nav-wrapper" style="text-align: center; margin-bottom: 60px;">
                 <div style="display: inline-flex; gap: 10px;">
-                    <div class="category-arrow-prev hero-arrow" id="cat-prev" style="cursor: pointer;">
+                    <div class="category-arrow-prev hero-arrow" id="cat-prev" style="cursor: pointer; border-color: #E5E7EB;">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M12.5 15L7.5 10L12.5 5" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
                     </div>
-                    <div class="category-arrow-next hero-arrow" id="cat-next" style="cursor: pointer;">
+                    <div class="category-arrow-next hero-arrow" id="cat-next" style="cursor: pointer; border-color: #E5E7EB;">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M7.5 5L12.5 10L7.5 15" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
@@ -804,89 +1973,97 @@
                 <div class="categories-slider" style="display: flex; gap: 24px; transition: transform 0.5s ease;">
                     <!-- Category 1 - Строительство -->
                     <div class="category-slide" style="min-width: calc(50% - 12px); background: #F9FAFB; border-radius: 0; padding: 32px; position: relative; min-height: 350px;">
-                        <!-- Зеленая рамка в правом верхнем углу -->
-                        <div style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
-                        
-                        <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Строительство</h3>
-                        <div style="position: absolute; bottom: 32px; left: 32px;">
+                        <div class="category-corner" style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
+                        <h3 class="category-title" style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Строительство</h3>
+                        <div class="category-tags" style="position: absolute; bottom: 32px; left: 32px;">
                             <div style="margin-bottom: 12px;">
-                                <div style="display: inline-block; background: white; border: 1px solid #D1D5DB; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Строительные работы</div>
+                                <span class="category-tag" style="display: inline-block; background: white; border: 1px solid #D1D5DB; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Строительные работы</span>
                             </div>
-                            <div style="display: flex; gap: 8px; align-items: center;">
-                                <div style="display: inline-block; background: white; border: 1px solid #D1D5DB; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Контроль СР</div>
-                                <div style="display: inline-flex; align-items: center; justify-content: center; background: #E5E7EB; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 14px; color: #1E7B4E; font-weight: 600;">+2</div>
+                            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                                <span class="category-tag" style="display: inline-block; background: white; border: 1px solid #D1D5DB; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Контроль СР</span>
+                                <span class="category-tag-more" style="display: inline-flex; align-items: center; justify-content: center; background: #E5E7EB; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 14px; color: #1E7B4E; font-weight: 600;">+2</span>
                             </div>
                         </div>
-                        <img src="{{asset('current/img/image-spheres-01-10@2x.png')}}" alt="Строительство" style="position: absolute; right: 15px; bottom: 0px; width: 350px; height: 350px; object-fit: contain;" />
+                        <img class="category-img" src="{{asset('current/img/image-spheres-01-10@2x.png')}}" alt="Строительство" style="position: absolute; right: 15px; bottom: 0px; width: 350px; height: 350px; object-fit: contain;" />
                     </div>
 
-                    <!-- Category 2 - Промышленность -->
+                    <!-- Category 2 - Импорт-экспорт -->
                     <div class="category-slide" style="min-width: calc(50% - 12px); background: #F9FAFB; border-radius: 0; padding: 32px; position: relative; min-height: 350px;">
-                        <!-- Зеленая рамка в правом верхнем углу -->
-                        <div style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
-                        
-                        <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Промышленность</h3>
-                        <div style="position: absolute; bottom: 32px; left: 32px;">
+                        <div class="category-corner" style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
+                        <h3 class="category-title" style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Импорт-экспорт</h3>
+                        <div class="category-tags" style="position: absolute; bottom: 32px; left: 32px;">
                             <div style="margin-bottom: 12px;">
-                                <div style="display: inline-block; background: white; border: 1px solid #D1D5DB; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Энергетика</div>
+                                <span class="category-tag" style="display: inline-block; background: white; border: 1px solid #D1D5DB; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Таможенные процедуры</span>
                             </div>
-                            <div style="display: flex; gap: 8px; align-items: center;">
-                                <div style="display: inline-block; background: white; border: 1px solid #D1D5DB; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Добыча полезных ископаемых</div>
-                                <div style="display: inline-flex; align-items: center; justify-content: center; background: #E5E7EB; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 14px; color: #1E7B4E; font-weight: 600;">+4</div>
+                            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                                <span class="category-tag" style="display: inline-block; background: white; border: 1px solid #D1D5DB; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Транспорт</span>
+                                <span class="category-tag-more" style="display: inline-flex; align-items: center; justify-content: center; background: #E5E7EB; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 14px; color: #1E7B4E; font-weight: 600;">+3</span>
                             </div>
                         </div>
-                        <img src="{{asset('current/img/Image-Spheres-02.png')}}" alt="Промышленность" style="position: absolute; right: 15px; bottom: 0px; width: 350px; height: 350px; object-fit: contain;" />
+                        <img class="category-img" src="{{asset('current/img/image-spheres-01-7@2x.png')}}" alt="Импорт-экспорт" style="position: absolute; right: 15px; bottom: 0px; width: 350px; height: 350px; object-fit: contain;" />
                     </div>
 
                     <!-- Category 3 - Медицина -->
                     <div class="category-slide" style="min-width: calc(50% - 12px); background: #F9FAFB; border-radius: 0; padding: 32px; position: relative; min-height: 350px;">
-                        <!-- Зеленая рамка в правом верхнем углу -->
-                        <div style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
-                        
-                        <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Медицина</h3>
-                        <div style="position: absolute; bottom: 32px; left: 32px;">
+                        <div class="category-corner" style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
+                        <h3 class="category-title" style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Медицина</h3>
+                        <div class="category-tags" style="position: absolute; bottom: 32px; left: 32px;">
                             <div style="margin-bottom: 12px;">
-                                <div style="display: inline-block; background: white; border: 1px solid #D1D5DB; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Медицинское оборудование</div>
+                                <span class="category-tag" style="display: inline-block; background: white; border: 1px solid #D1D5DB; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Медицинское оборудование</span>
                             </div>
-                            <div style="display: flex; gap: 8px; align-items: center;">
-                                <div style="display: inline-block; background: white; border: 1px solid #D1D5DB; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Фарм. индустрия</div>
-                                <div style="display: inline-flex; align-items: center; justify-content: center; background: #E5E7EB; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 14px; color: #1E7B4E; font-weight: 600;">+4</div>
+                            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                                <span class="category-tag" style="display: inline-block; background: white; border: 1px solid #D1D5DB; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Фарм. индустрия</span>
+                                <span class="category-tag-more" style="display: inline-flex; align-items: center; justify-content: center; background: #E5E7EB; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 14px; color: #1E7B4E; font-weight: 600;">+4</span>
                             </div>
                         </div>
-                        <img src="{{asset('current/img/image-spheres-01-6@2x.png')}}" alt="Медицина" style="position: absolute; right: 15px; bottom: 0px; width: 350px; height: 350px; object-fit: contain;" />
+                        <img class="category-img" src="{{asset('current/img/image-spheres-01-6@2x.png')}}" alt="Медицина" style="position: absolute; right: 15px; bottom: 0px; width: 350px; height: 350px; object-fit: contain;" />
                     </div>
 
-                    <!-- Category 4 - Импорт-экспорт -->
+                    <!-- Category 4 - Сельское хозяйство -->
                     <div class="category-slide" style="min-width: calc(50% - 12px); background: #F9FAFB; border-radius: 0; padding: 32px; position: relative; min-height: 350px;">
-                        <!-- Зеленая рамка в правом верхнем углу -->
-                        <div style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
-                        
-                        <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Импорт-экспорт</h3>
-                        <div style="position: absolute; bottom: 32px; left: 32px;">
+                        <div class="category-corner" style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
+                        <h3 class="category-title" style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Сельское хозяйство</h3>
+                        <div class="category-tags" style="position: absolute; bottom: 32px; left: 32px;">
                             <div style="margin-bottom: 12px;">
-                                <div style="display: inline-block; background: white; border: 1px solid #D1D5DB; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Таможенные процедуры</div>
+                                <span class="category-tag" style="display: inline-block; background: white; border: 1px solid #D1D5DB; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Животноводство</span>
                             </div>
-                            <div style="display: flex; gap: 8px; align-items: center;">
-                                <div style="display: inline-block; background: white; border: 1px solid #D1D5DB; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Транспорт</div>
-                                <div style="display: inline-flex; align-items: center; justify-content: center; background: #E5E7EB; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 14px; color: #1E7B4E; font-weight: 600;">+3</div>
+                            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                                <span class="category-tag" style="display: inline-block; background: white; border: 1px solid #D1D5DB; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Растениеводство</span>
+                                <span class="category-tag-more" style="display: inline-flex; align-items: center; justify-content: center; background: #E5E7EB; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 14px; color: #1E7B4E; font-weight: 600;">+2</span>
                             </div>
                         </div>
-                        <img src="{{asset('current/img/image-spheres-01-7@2x.png')}}" alt="Импорт-экспорт" style="position: absolute; right: 15px; bottom: 0px; width: 350px; height: 350px; object-fit: contain;" />
-                                        </div>
-                                    </div>
-                                </div>
-            
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 40px; max-width: 1320px; margin-left: auto; margin-right: auto;">
-                <p style="font-size: 28px; font-weight: 500; margin: 0; font-family: 'Manrope', sans-serif; text-align: left;">Делаем процесс лицензирования легким и доступным!</p>
-                <a href="#" style="display: inline-flex; align-items: center; background: #279760; color: white; padding: 16px 32px; border-radius: 60px; text-decoration: none; font-weight: 600; font-size: 16px; white-space: nowrap;">Оформить заявку</a>
-                        </div>
+                        <img class="category-img" src="{{asset('current/img/Image-Spheres-02.png')}}" alt="Сельское хозяйство" style="position: absolute; right: 15px; bottom: 0px; width: 350px; height: 350px; object-fit: contain;" />
                     </div>
-                </section>
+
+                    <!-- Category 5 - Культура -->
+                    <div class="category-slide" style="min-width: calc(50% - 12px); background: #F9FAFB; border-radius: 0; padding: 32px; position: relative; min-height: 350px;">
+                        <div class="category-corner" style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
+                        <h3 class="category-title" style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Культура</h3>
+                        <div class="category-tags" style="position: absolute; bottom: 32px; left: 32px;">
+                            <div style="margin-bottom: 12px;">
+                                <span class="category-tag" style="display: inline-block; background: white; border: 1px solid #D1D5DB; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Искусство</span>
+                            </div>
+                            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                                <span class="category-tag" style="display: inline-block; background: white; border: 1px solid #D1D5DB; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Развлечения</span>
+                                <span class="category-tag-more" style="display: inline-flex; align-items: center; justify-content: center; background: #E5E7EB; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 14px; color: #1E7B4E; font-weight: 600;">+3</span>
+                            </div>
+                        </div>
+                        <img class="category-img" src="{{asset('current/img/image-spheres-01-10@2x.png')}}" alt="Культура" style="position: absolute; right: 15px; bottom: 0px; width: 350px; height: 350px; object-fit: contain;" />
+                    </div>
+                </div>
+            </div>
+            
+            <div class="categories-footer" style="display: flex; justify-content: space-between; align-items: center; margin-top: 40px; max-width: 1320px; margin-left: auto; margin-right: auto; flex-wrap: wrap; gap: 20px;">
+                <p class="categories-footer-text" style="font-size: 28px; font-weight: 500; margin: 0; font-family: 'Manrope', sans-serif; text-align: left;">Делаем процесс лицензирования легким и доступным!</p>
+                <a href="#" class="categories-footer-btn" style="display: inline-flex; align-items: center; background: #279760; color: white; padding: 16px 32px; border-radius: 60px; text-decoration: none; font-weight: 600; font-size: 16px; white-space: nowrap;">Оформить заявку</a>
+            </div>
+        </div>
+    </section>
 
                 <!-- Services Section -->
-    <section style="padding: 80px 0; background: white;">
-                    <div class="container">
-            <h2 style="font-size: 52px; font-weight: 500; text-align: center; margin-bottom: 60px; font-family: 'Manrope', sans-serif;">
+    <section class="services-section" style="padding: 80px 0; background: white;">
+        <div class="container">
+            <h2 class="services-title" style="font-size: 52px; font-weight: 500; text-align: center; margin-bottom: 60px; font-family: 'Manrope', sans-serif;">
                 Предоставляем качественные<br>и комплексные <span style="color: #279760;">решения</span><br>для вашего бизнеса
             </h2>
             
@@ -1053,22 +2230,18 @@
                 </section>
 
     <!-- Stats Section -->
-    <section style="padding: 80px 0; background: white;" class="about-us">
+    <section class="stats-section" style="padding: 80px 0; background: white;">
         <div class="about-us__stats" style="background: white !important;">
-                    <div class="container">
-                <div class="about-us__stats__grid" style="background: white !important; display: grid; grid-template-columns: 670px 135px 135px 185px 150px 150px; grid-template-rows: 270px 65px; gap: 0; margin: 0 auto; padding-left: 120px; max-width: 1600px;">
-                    <!-- Заголовок О группе UPPERCASE -->
+            <div class="container">
+                <!-- Desktop Layout -->
+                <div class="about-us__stats__grid d-none d-lg-grid" style="background: white !important; display: grid; grid-template-columns: 670px 135px 135px 185px 150px 150px; grid-template-rows: 270px 65px; gap: 0; margin: 0 auto; padding-left: 120px; max-width: 1600px;">
                     <div style="grid-column: 1; grid-row: 1; width: 670px; height: 270px; background: white; padding: 40px; display: flex; flex-direction: column; justify-content: center; border: 1px solid #E8E8E8; border-left: none; border-top: none;">
                         <h2 style="font-size: 52px; font-weight: 500; margin: 0; font-family: 'Manrope', sans-serif; color: #191E1D;">О группе UPPERCASE</h2>
                     </div>
-                    
-                    <!-- Ряд 1 - правая часть: 3000+ занимает остальные колонки -->
                     <div class="about-us__stats__item" style="grid-column: 2 / 7; grid-row: 1; background: white !important; padding: 40px 30px 30px 30px !important; border-right: none !important; border-top: none !important;">
                         <div class="about-us__stats__number">3000+</div>
                         <span>Клиентов в области регистрации, лицензирования, сопровождения международных сделок и корпоративного права</span>
                     </div>
-                    
-                    <!-- Ряд 2 - 5 блоков -->
                     <div class="about-us__stats__item" style="grid-column: 1; grid-row: 2; background: white !important; padding: 20px 10px 15px 15px !important; border-bottom: none !important; border-left: none !important; border-top: none !important; border-right: none !important;">
                         <div class="about-us__stats__number" style="white-space: nowrap; font-size: 32px !important;">13+ лет</div>
                         <p style="margin: 0 !important; padding: 0 !important; font-size: 12px !important; line-height: 1.4 !important;">На рынке юридических услуг<br>и консалтинга</p>
@@ -1090,44 +2263,78 @@
                         <p style="margin: 0 !important; padding: 0 !important; font-size: 12px !important; line-height: 1.4 !important;">Опытных специалистов в<br>команде</p>
                     </div>
                 </div>
+                
+                <!-- Mobile Layout -->
+                <div class="stats-mobile d-lg-none" style="padding: 0 16px;">
+                    <h2 class="stats-mobile-title" style="font-size: 24px; font-weight: 500; margin-bottom: 24px; font-family: 'Manrope', sans-serif; color: #191E1D;">О группе UPPERCASE</h2>
+                    
+                    <div class="stats-mobile-item" style="padding: 20px 0; border-bottom: 1px solid #E5E7EB;">
+                        <div style="font-size: 36px; font-weight: 500; color: #279760; margin-bottom: 8px; font-family: 'Manrope', sans-serif;">3000+</div>
+                        <p style="font-size: 13px; color: #6B7280; margin: 0; line-height: 1.5;">Клиентов в области регистрации, лицензирования, сопровождения международных сделок и корпоративного права</p>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0;">
+                        <div class="stats-mobile-item" style="padding: 20px 16px 20px 0; border-bottom: 1px solid #E5E7EB; border-right: 1px solid #E5E7EB;">
+                            <div style="font-size: 28px; font-weight: 500; color: #279760; margin-bottom: 4px; font-family: 'Manrope', sans-serif;">13+ лет</div>
+                            <p style="font-size: 12px; color: #6B7280; margin: 0; line-height: 1.4;">На рынке юридических услуг и консалтинга</p>
+                        </div>
+                        <div class="stats-mobile-item" style="padding: 20px 0 20px 16px; border-bottom: 1px solid #E5E7EB;">
+                            <div style="font-size: 28px; font-weight: 500; color: #279760; margin-bottom: 4px; font-family: 'Manrope', sans-serif;">6</div>
+                            <p style="font-size: 12px; color: #6B7280; margin: 0; line-height: 1.4;">Филиалов в ОАЭ и РК</p>
+                        </div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0;">
+                        <div class="stats-mobile-item" style="padding: 20px 16px 20px 0; border-bottom: 1px solid #E5E7EB; border-right: 1px solid #E5E7EB;">
+                            <div style="font-size: 20px; font-weight: 500; color: #279760; margin-bottom: 4px; font-family: 'Manrope', sans-serif;">IT-решения</div>
+                            <p style="font-size: 12px; color: #6B7280; margin: 0; line-height: 1.4;">В области юридических услуг и консалтинга</p>
+                        </div>
+                        <div class="stats-mobile-item" style="padding: 20px 0 20px 16px; border-bottom: 1px solid #E5E7EB;">
+                            <div style="font-size: 28px; font-weight: 500; color: #279760; margin-bottom: 4px; font-family: 'Manrope', sans-serif;">500+</div>
+                            <p style="font-size: 12px; color: #6B7280; margin: 0; line-height: 1.4;">Успешно завершенных проектов</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stats-mobile-item" style="padding: 20px 0;">
+                        <div style="font-size: 28px; font-weight: 500; color: #279760; margin-bottom: 4px; font-family: 'Manrope', sans-serif;">300+</div>
+                        <p style="font-size: 12px; color: #6B7280; margin: 0; line-height: 1.4;">Опытных специалистов в команде</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- CTA Section -->
-    <section style="padding: 80px 0; background: white; position: relative; overflow: hidden;">
-        <div class="container" style="position: relative; z-index: 2;">
-            <div class="row align-items-center" style="position: relative;">
-                <!-- Чистый зеленый фон за текстом -->
-                <div style="position: absolute; top: 0; left: 0; width: 50%; height: 100%; background: #279760; z-index: 0;"></div>
-                
-                <!-- Темный фон за картинкой -->
-                <div style="position: absolute; top: 0; right: 0; width: 50%; height: 100%; background: rgba(100, 100, 100, 0.2); z-index: 0;"></div>
-                
-                <div class="col-lg-6" style="position: relative; z-index: 2; padding: 0px 40px; display: flex; flex-direction: column; justify-content: flex-start;">
-                    <h2 style="font-size: 32px; font-weight: 500; color: white; margin-bottom: 24px; margin-top: -40px; font-family: 'Manrope', sans-serif;">Пользователю портала<br>предоставляется простой и удобный<br>личный кабинет</h2>
+    <section class="cta-section" style="padding: 0; background: white; position: relative; overflow: hidden;">
+        <div class="container-fluid" style="padding: 0;">
+            <div class="row g-0 align-items-stretch">
+                <!-- Left Green Block -->
+                <div class="col-lg-6 cta-left" style="background: #279760; padding: 60px 40px; display: flex; flex-direction: column; justify-content: center;">
+                    <h2 class="cta-title" style="font-size: 32px; font-weight: 500; color: white; margin-bottom: 24px; font-family: 'Manrope', sans-serif; line-height: 1.3;">Пользователю портала<br>предоставляется простой и удобный<br>личный кабинет</h2>
                     
-                    <div style="margin-bottom: 32px;">
-                        <div style="display: flex; align-items: start; margin-bottom: 12px;">
+                    <div class="cta-list" style="margin-bottom: 32px;">
+                        <div class="cta-list-item" style="display: flex; align-items: start; margin-bottom: 12px;">
                             <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px; filter: brightness(0) invert(1);" />
-                            <div style="font-size: 16px; color: white;">Отслеживание статус заказанных услуг</div>
+                            <span style="font-size: 16px; color: white;">Отслеживание статус заказанных услуг</span>
                         </div>
-                        <div style="display: flex; align-items: start; margin-bottom: 12px;">
+                        <div class="cta-list-item" style="display: flex; align-items: start; margin-bottom: 12px;">
                             <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px; filter: brightness(0) invert(1);" />
-                            <div style="font-size: 16px; color: white;">Создание надежного архива ваших документов</div>
+                            <span style="font-size: 16px; color: white;">Создание надежного архива ваших документов</span>
                         </div>
-                        <div style="display: flex; align-items: start; margin-bottom: 12px;">
+                        <div class="cta-list-item" style="display: flex; align-items: start; margin-bottom: 12px;">
                             <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px; filter: brightness(0) invert(1);" />
-                            <div style="font-size: 16px; color: white;">Получение специализированных отраслевых услуг</div>
+                            <span style="font-size: 16px; color: white;">Получение специализированных отраслевых услуг</span>
                         </div>
                     </div>
                     
-                    <div style="display: flex; gap: 16px; flex-wrap: wrap;">
-                        <a href="#" style="display: inline-flex; align-items: center; background: white; color: #279760; padding: 16px 32px; border-radius: 60px; text-decoration: none; font-weight: 600; font-size: 16px;">Получить консультацию</a>
+                    <div>
+                        <a href="#" class="cta-btn" style="display: inline-flex; align-items: center; background: white; color: #279760; padding: 16px 32px; border-radius: 60px; text-decoration: none; font-weight: 600; font-size: 16px;">Получить консультацию</a>
                     </div>
                 </div>
-                <div class="col-lg-6" style="position: relative; z-index: 2; padding: 60px 40px;">
-                    <img src="{{asset('current/img/image-personalarea-2.png')}}" alt="CTA" class="img-fluid" />
+                
+                <!-- Right Gray Block with Image -->
+                <div class="col-lg-6 cta-right" style="background: #E5E7EB; padding: 60px 40px; display: flex; align-items: center; justify-content: center;">
+                    <img src="{{asset('current/img/image-personalarea-2.png')}}" alt="Личный кабинет" class="img-fluid cta-image" style="max-width: 100%; height: auto;" />
                 </div>
             </div>
         </div>
@@ -1249,27 +2456,27 @@
     </section>
 
     <!-- Trust Section -->
-    <section style="padding: 80px 0; background: #F9FAFB;">
+    <section class="trust-section" style="padding: 80px 0; background: #F9FAFB;">
         <div class="container">
-            <h2 style="font-size: 52px; font-weight: 500; text-align: left; margin-bottom: 60px; font-family: 'Manrope', sans-serif;">Нам доверяют</h2>
-            <div class="row g-4 align-items-center justify-content-center">
-                <div class="col-lg-2 col-md-3 col-4 text-center">
-                    <img src="{{asset('current/img/group-7@2x.png')}}" alt="Partner" style="max-width: 100%; height: auto; opacity: 0.7;" />
+            <h2 class="trust-title" style="font-size: 52px; font-weight: 500; text-align: left; margin-bottom: 60px; font-family: 'Manrope', sans-serif;">Нам доверяют</h2>
+            <div class="row g-4 align-items-center justify-content-start trust-logos">
+                <div class="col-lg-2 col-md-3 col-4 text-center trust-logo-item">
+                    <img src="{{asset('current/img/group-7@2x.png')}}" alt="Partner" class="trust-logo" style="max-width: 100%; height: auto; opacity: 0.7;" />
                 </div>
-                <div class="col-lg-2 col-md-3 col-4 text-center">
-                    <img src="{{asset('current/img/button-10.svg')}}" alt="Partner" style="max-width: 100%; height: auto; opacity: 0.7;" />
+                <div class="col-lg-2 col-md-3 col-4 text-center trust-logo-item">
+                    <img src="{{asset('current/img/button-10.svg')}}" alt="Partner" class="trust-logo" style="max-width: 100%; height: auto; opacity: 0.7;" />
                 </div>
-                <div class="col-lg-2 col-md-3 col-4 text-center">
-                    <img src="{{asset('current/img/button-11.png')}}" alt="Partner" style="max-width: 100%; height: auto; opacity: 0.7;" />
+                <div class="col-lg-2 col-md-3 col-4 text-center trust-logo-item">
+                    <img src="{{asset('current/img/button-11.png')}}" alt="Partner" class="trust-logo" style="max-width: 100%; height: auto; opacity: 0.7;" />
                 </div>
-                <div class="col-lg-2 col-md-3 col-4 text-center">
-                    <img src="{{asset('current/img/button-12.png')}}" alt="Partner" style="max-width: 100%; height: auto; opacity: 0.7;" />
+                <div class="col-lg-2 col-md-3 col-4 text-center trust-logo-item">
+                    <img src="{{asset('current/img/button-12.png')}}" alt="Partner" class="trust-logo" style="max-width: 100%; height: auto; opacity: 0.7;" />
                 </div>
-                <div class="col-lg-2 col-md-3 col-4 text-center">
-                    <img src="{{asset('current/img/button-13.png')}}" alt="Partner" style="max-width: 100%; height: auto; opacity: 0.7;" />
+                <div class="col-lg-2 col-md-3 col-4 text-center trust-logo-item">
+                    <img src="{{asset('current/img/button-13.png')}}" alt="Partner" class="trust-logo" style="max-width: 100%; height: auto; opacity: 0.7;" />
                 </div>
-                <div class="col-lg-2 col-md-3 col-4 text-center">
-                    <img src="{{asset('current/img/button-14.png')}}" alt="Partner" style="max-width: 100%; height: auto; opacity: 0.7;" />
+                <div class="col-lg-2 col-md-3 col-4 text-center trust-logo-item">
+                    <img src="{{asset('current/img/button-14.png')}}" alt="Partner" class="trust-logo" style="max-width: 100%; height: auto; opacity: 0.7;" />
                 </div>
             </div>
         </div>
@@ -1329,11 +2536,11 @@
     </section>
 
     <!-- FAQ Section -->
-    <section style="padding: 80px 0; background: #F9FAFB;">
+    <section class="faq-section" style="padding: 80px 0; background: #F9FAFB;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-6">
-                    <h2 style="font-size: 52px; font-weight: 500; text-align: left; margin-bottom: 60px; font-family: 'Manrope', sans-serif;">Ответы на вопросы</h2>
+                    <h2 class="faq-title" style="font-size: 52px; font-weight: 500; text-align: left; margin-bottom: 60px; font-family: 'Manrope', sans-serif;">Ответы на вопросы</h2>
                 </div>
                 <div class="col-lg-6">
                     <div class="accordion" id="faqAccordion">
@@ -1413,27 +2620,35 @@
             <div class="roadmap-timeline">
                 <div class="roadmap-milestone completed">
                     <div class="roadmap-dot"></div>
-                    <div class="roadmap-year">2023</div>
-                    <div class="roadmap-date">20 декабря</div>
+                    <div class="roadmap-milestone-content">
+                        <span class="roadmap-year">2023</span>
+                        <span class="roadmap-date">20 декабря</span>
+                    </div>
                 </div>
 
                 <div class="roadmap-milestone">
                     <div class="roadmap-dot"></div>
-                    <div class="roadmap-year">2024</div>
-                    <div class="roadmap-date">20 января</div>
-                    <p class="roadmap-description">Внедрение ИИ-решений для оптимизации бизнес-процессов и улучшения обслуживания клиентов</p>
+                    <div class="roadmap-milestone-content">
+                        <span class="roadmap-year">2024</span>
+                        <span class="roadmap-date">20 января</span>
+                        <p class="roadmap-description">Внедрение ИИ-решений для оптимизации бизнес-процессов и улучшения обслуживания клиентов</p>
+                    </div>
                 </div>
 
                 <div class="roadmap-milestone">
                     <div class="roadmap-dot"></div>
-                    <div class="roadmap-year">2024</div>
-                    <div class="roadmap-date">26 января</div>
+                    <div class="roadmap-milestone-content">
+                        <span class="roadmap-year">2024</span>
+                        <span class="roadmap-date">26 января</span>
+                    </div>
                 </div>
 
                 <div class="roadmap-milestone">
                     <div class="roadmap-dot"></div>
-                    <div class="roadmap-year">2024</div>
-                    <div class="roadmap-date">30 января</div>
+                    <div class="roadmap-milestone-content">
+                        <span class="roadmap-year">2024</span>
+                        <span class="roadmap-date">30 января</span>
+                    </div>
                 </div>
             </div>
 
@@ -1548,10 +2763,22 @@
 
                 var current = 0;
 
+                function isMobile() {
+                    return window.innerWidth < 768;
+                }
+
+                function getVisibleSlides() {
+                    return isMobile() ? 1 : 2;
+                }
+
                 function getStep() {
                     var width = slides[0].getBoundingClientRect().width;
-                    var gap = 24; // matches inline style gap
+                    var gap = isMobile() ? 12 : 24; // smaller gap on mobile
                     return width + gap;
+                }
+
+                function getMaxSlide() {
+                    return Math.max(0, slides.length - getVisibleSlides());
                 }
 
                 function update() {
@@ -1562,16 +2789,20 @@
                 var prevBtn = document.getElementById('cat-prev');
                 if (nextBtn) nextBtn.addEventListener('click', function(e) {
                     e.preventDefault();
-                    if (current < slides.length - 2) current++; else current = 0;
+                    if (current < getMaxSlide()) current++; else current = 0;
                     update();
                 });
                 if (prevBtn) prevBtn.addEventListener('click', function(e) {
                     e.preventDefault();
-                    if (current > 0) current--; else current = Math.max(0, slides.length - 2);
+                    if (current > 0) current--; else current = getMaxSlide();
                     update();
                 });
 
-                window.addEventListener('resize', update);
+                window.addEventListener('resize', function() {
+                    // Reset to first slide on resize to prevent overflow
+                    if (current > getMaxSlide()) current = getMaxSlide();
+                    update();
+                });
                 update();
             }
 
