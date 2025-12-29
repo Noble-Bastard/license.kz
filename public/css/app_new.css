@@ -986,6 +986,7 @@ f /* Statistics Section */
 
     .about-us__find {
         padding: 60px 15px 0px;
+        margin-left: 40px;
     }
 
     .about-us__find__header h2 {

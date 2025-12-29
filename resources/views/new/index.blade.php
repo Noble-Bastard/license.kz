@@ -628,17 +628,49 @@
            МОБИЛЬНАЯ АДАПТАЦИЯ 360px
         ============================================== */
         @media (max-width: 767px) {
-            /* Hero Section - Mobile */
+            /* Глобально запрещаем горизонтальный скролл */
+            html, body {
+                overflow-x: hidden !important;
+                max-width: 100vw !important;
+            }
+            
+            .container, .container-fluid {
+                max-width: 100% !important;
+                padding-left: 16px !important;
+                padding-right: 16px !important;
+                overflow-x: hidden !important;
+            }
+            
+            .row {
+                margin-left: 0 !important;
+                margin-right: 0 !important;
+            }
+            
+            [class*="col-"] {
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+            }
+            
+            /* Секции - предотвращение overflow */
+            section {
+                overflow-x: hidden !important;
+                max-width: 100vw !important;
+            }
+            
+            /* Для inline стилей с position absolute - ограничение */
+            [style*="position: absolute"] {
+                max-width: 100% !important;
+            }
+            /* ==========================================
+               HERO SECTION - согласно Figma
+            ========================================== */
             .hero-slider-section {
                 min-height: auto;
-                padding: 0 0 20px;
+                padding: 0;
                 background: white;
             }
             
-            .hero-slider-section::before {
-                display: none;
-            }
-            
+            .hero-slider-section::before,
             .hero-slider-section::after {
                 display: none;
             }
@@ -647,16 +679,18 @@
                 display: none;
             }
             
+            /* Заголовок над зеленым блоком */
             .hero-top-title {
                 position: relative !important;
                 top: auto !important;
                 left: auto !important;
-                font-size: 18px !important;
+                font-size: 16px !important;
                 padding: 0 16px !important;
-                margin-bottom: 12px !important;
+                margin-bottom: 8px !important;
                 white-space: normal !important;
                 line-height: 1.3 !important;
                 color: #191E1D !important;
+                font-weight: 500 !important;
             }
             
             .hero-top-title br {
@@ -676,77 +710,85 @@
                 margin-left: 0;
             }
             
-            /* Мобильный Hero - зеленый блок с контентом */
+            /* Зеленый блок с контентом - по Figma */
             .hero-slide-content {
-                max-width: 100%;
-                padding: 24px 16px;
-                margin: 0 16px 16px;
+                max-width: calc(100% - 32px);
+                padding: 20px 16px 140px 16px;
+                margin: 0 16px 12px;
                 background: #279760;
                 position: relative;
-                min-height: 400px;
+                min-height: 340px;
                 overflow: hidden;
             }
             
+            /* Зеленая рамка в правом верхнем углу */
             .hero-slide-content::before {
                 content: '';
                 position: absolute;
                 top: 0;
                 right: 0;
-                width: 20px;
-                height: 20px;
-                border-top: 2px solid rgba(255,255,255,0.3);
-                border-right: 2px solid rgba(255,255,255,0.3);
+                width: 24px;
+                height: 24px;
+                border-top: 2px solid rgba(255,255,255,0.4);
+                border-right: 2px solid rgba(255,255,255,0.4);
             }
             
             .hero-slide-title {
-                font-size: 16px;
-                line-height: 1.3;
-                margin-bottom: 12px;
+                font-size: 14px;
+                line-height: 1.4;
+                margin-bottom: 10px;
                 color: white;
+                font-weight: 500;
+                max-width: 70%;
             }
             
             .hero-slide-description {
-                font-size: 11px;
+                font-size: 10px;
                 line-height: 1.5;
-                margin-bottom: 16px;
-                color: rgba(255,255,255,0.9);
+                margin-bottom: 14px;
+                color: rgba(255,255,255,0.85);
+                max-width: 65%;
             }
             
             .hero-slide-button {
-                padding: 12px 20px;
-                font-size: 12px;
+                padding: 10px 18px;
+                font-size: 11px;
                 border-radius: 30px;
                 background: white;
                 color: #279760;
+                font-weight: 600;
+                display: inline-block;
             }
             
-            /* Скрываем отдельную колонку с картинкой на мобильных */
+            /* Скрываем отдельную колонку с картинкой */
             .hero-image-col {
                 display: none !important;
             }
             
             .hero-mobile-logo {
                 display: flex !important;
+                padding: 12px 16px !important;
             }
             
+            /* Контролы слайдера - по Figma */
             .hero-slider-controls {
                 position: relative;
                 right: auto;
                 bottom: auto;
                 justify-content: flex-start;
-                padding: 0 16px;
-                gap: 12px;
+                padding: 0 16px 16px;
+                gap: 10px;
                 margin-top: 0;
             }
             
             .hero-slider-pagination {
-                font-size: 14px;
+                font-size: 12px;
                 color: #6B7280;
             }
             
             .hero-arrow {
-                width: 36px;
-                height: 36px;
+                width: 32px;
+                height: 32px;
                 border-color: #E5E7EB;
                 background: white;
             }
@@ -755,33 +797,36 @@
                 stroke: #6B7280;
             }
             
-            /* Картинка внутри слайда - мобильная версия */
+            /* Картинка внутри слайда - справа внизу по Figma */
             .hero-slide-image {
                 display: block !important;
                 position: absolute;
-                right: -20px;
-                bottom: -20px;
-                width: 220px;
+                right: 0;
+                bottom: 0;
+                width: 180px;
                 height: auto;
                 object-fit: contain;
             }
             
-            /* Преимущества работы - Mobile */
+            /* ==========================================
+               ПРЕИМУЩЕСТВА - согласно Figma
+            ========================================== */
             .about-us__find {
-                padding: 40px 0;
+                padding: 32px 0;
             }
             
             .about-us__find__header {
                 padding: 0 16px;
-                margin-bottom: 24px !important;
+                margin-bottom: 20px !important;
             }
             
             .about-us__find__header h2 {
-                font-size: 24px !important;
+                font-size: 20px !important;
                 padding-left: 0 !important;
                 white-space: normal;
                 text-align: left !important;
                 line-height: 1.2 !important;
+                font-weight: 500 !important;
             }
             
             .about-us__find__cards-container {
@@ -791,12 +836,16 @@
             }
             
             .about-us__find__card {
-                padding: 20px 0 !important;
-                border-bottom: 1px solid #E5E7EB;
+                padding: 16px 0 !important;
+                border-top: 1px solid #E5E7EB !important;
+                border-bottom: none !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: flex-start !important;
             }
             
-            .about-us__find__card:last-child {
-                border-bottom: none;
+            .about-us__find__card:first-child {
+                border-top: none !important;
             }
             
             .about-us__find__card::before {
@@ -804,73 +853,95 @@
             }
             
             .about-us__find__card__image {
-                width: 48px !important;
-                height: 48px !important;
-                margin-bottom: 12px !important;
+                width: 40px !important;
+                height: 40px !important;
+                margin-bottom: 8px !important;
             }
             
             .about-us__find__card__number {
-                font-size: 12px !important;
-                margin-bottom: 8px !important;
+                font-size: 11px !important;
+                margin-bottom: 6px !important;
                 margin-left: 0 !important;
+                color: #999 !important;
             }
             
             .about-us__find__card__title {
-                font-size: 16px !important;
-                margin-bottom: 8px !important;
+                font-size: 14px !important;
+                margin-bottom: 6px !important;
+                font-weight: 500 !important;
             }
             
             .about-us__find__card__description {
-                font-size: 13px !important;
+                font-size: 12px !important;
+                line-height: 1.4 !important;
+                color: #6B7280 !important;
             }
             
-            /* Кнопка "Узнать как это работает" - Mobile */
+            /* Кнопка "Узнать как это работает" */
             .about-us__find .cta-btn-container {
                 padding: 0 16px;
-                margin-top: 24px;
+                margin-top: 20px;
             }
             
-            /* Stats Section (О группе UPPERCASE) - Mobile */
-            .stats-section-mobile {
-                padding: 40px 16px !important;
-            }
-            
-            .about-us__stats__grid {
+            .about-us__find .cta-btn-container a,
+            .about-us__find .cta-btn-container button {
+                width: 100% !important;
                 display: flex !important;
-                flex-direction: column !important;
-                gap: 0 !important;
-                padding-left: 0 !important;
+                justify-content: center !important;
             }
             
-            .about-us__stats__grid > div {
-                grid-column: auto !important;
-                grid-row: auto !important;
+            /* ==========================================
+               СТАТИСТИКА - согласно Figma
+            ========================================== */
+            .stats-section {
+                padding: 32px 0 !important;
+            }
+            
+            .stats-section .container {
+                padding: 0 16px !important;
+            }
+            
+            /* Скрываем десктоп версию */
+            .about-us__stats__grid.d-none.d-lg-grid {
+                display: none !important;
+            }
+            
+            /* Показываем мобильную версию */
+            .stats-mobile.d-lg-none {
+                display: block !important;
+            }
+            
+            .stats-mobile-title {
+                font-size: 20px !important;
+                margin-bottom: 16px !important;
+                font-weight: 500 !important;
+            }
+            
+            .stats-mobile-item {
+                padding: 14px 0 !important;
+            }
+            
+            .stats-mobile-item > div:first-child {
+                font-size: 28px !important;
+                margin-bottom: 4px !important;
+            }
+            
+            .stats-mobile-item p {
+                font-size: 11px !important;
+                line-height: 1.4 !important;
+            }
+            
+            /* Переопределение stats grid inline стилей */
+            .about-us__stats__grid[style] {
+                grid-template-columns: 1fr 1fr !important;
+                display: grid !important;
+                padding-left: 0 !important;
+                max-width: 100% !important;
+            }
+            
+            .about-us__stats__grid > div[style*="width"] {
                 width: 100% !important;
                 height: auto !important;
-                margin-left: 0 !important;
-                transform: none !important;
-                padding: 20px 0 !important;
-                border: none !important;
-                border-bottom: 1px solid #E5E7EB !important;
-            }
-            
-            .about-us__stats__grid > div:last-child {
-                border-bottom: none !important;
-            }
-            
-            .about-us__stats h2 {
-                font-size: 24px !important;
-                margin-bottom: 8px !important;
-            }
-            
-            .about-us__stats__number {
-                font-size: 32px !important;
-                color: #279760 !important;
-            }
-            
-            .about-us__stats__item p,
-            .about-us__stats__item span {
-                font-size: 13px !important;
             }
             
             /* CTA Section (Личный кабинет) - Mobile */
@@ -921,23 +992,26 @@
                 height: auto;
             }
             
-            /* Client Cases - Mobile */
+            /* ==========================================
+               КЕЙСЫ КЛИЕНТОВ - согласно Figma
+            ========================================== */
             .client-cases {
-                padding: 40px 0 !important;
+                padding: 32px 0 !important;
             }
             
             .client-cases__header {
                 padding: 0 16px;
-                margin-bottom: 24px !important;
+                margin-bottom: 20px !important;
             }
             
             .client-cases__title {
-                font-size: 24px !important;
+                font-size: 20px !important;
+                font-weight: 500 !important;
             }
             
             .client-case-detail {
                 flex-direction: column !important;
-                gap: 24px !important;
+                gap: 20px !important;
                 padding: 0 16px !important;
             }
             
@@ -948,66 +1022,72 @@
             }
             
             .client-case-detail__title {
-                font-size: 20px !important;
+                font-size: 16px !important;
+                font-weight: 500 !important;
             }
             
             .client-case-detail__logo {
-                width: 60px !important;
-                height: 60px !important;
+                width: 50px !important;
+                height: 50px !important;
             }
             
             .client-case-detail__client-name {
-                font-size: 16px !important;
+                font-size: 14px !important;
             }
             
             .client-case-detail__video-btn {
                 width: 100% !important;
                 justify-content: center !important;
-                font-size: 13px !important;
-                padding: 14px 20px !important;
+                font-size: 12px !important;
+                padding: 12px 16px !important;
             }
             
             .client-case-detail__section {
-                padding: 16px !important;
+                padding: 14px !important;
             }
             
             .client-case-detail__section-title {
-                font-size: 16px !important;
+                font-size: 14px !important;
             }
             
             .client-case-detail__list-item {
-                font-size: 13px !important;
+                font-size: 11px !important;
             }
             
-            /* Trust Section (Нам доверяют) - Mobile */
+            /* ==========================================
+               НАМ ДОВЕРЯЮТ - согласно Figma
+            ========================================== */
             .trust-section-mobile {
-                padding: 40px 16px !important;
+                padding: 32px 16px !important;
             }
             
             .trust-section-mobile h2 {
-                font-size: 24px !important;
+                font-size: 20px !important;
                 text-align: left !important;
-                margin-bottom: 24px !important;
+                margin-bottom: 20px !important;
+                font-weight: 500 !important;
             }
             
             .trust-section-mobile .row {
-                gap: 16px !important;
+                gap: 12px !important;
             }
             
             .trust-section-mobile .col-lg-2 {
-                flex: 0 0 calc(33.333% - 12px) !important;
-                max-width: calc(33.333% - 12px) !important;
+                flex: 0 0 calc(33.333% - 8px) !important;
+                max-width: calc(33.333% - 8px) !important;
             }
             
             .trust-section-mobile img {
                 max-width: 80px !important;
             }
             
-            /* Consultation Form - Mobile */
+            /* ==========================================
+               ФОРМА КОНТАКТОВ - согласно Figma
+            ========================================== */
             .consultation-block {
                 width: 100% !important;
                 height: auto !important;
-                padding: 40px 16px !important;
+                padding: 32px 16px !important;
             }
             
             .consultation-hero-title {
@@ -1016,8 +1096,9 @@
                 top: auto !important;
                 width: 100% !important;
                 height: auto !important;
-                font-size: 24px !important;
-                margin-bottom: 12px !important;
+                font-size: 20px !important;
+                margin-bottom: 10px !important;
+                font-weight: 500 !important;
             }
             
             .consultation-hero-subtitle {
@@ -1026,8 +1107,8 @@
                 top: auto !important;
                 width: 100% !important;
                 height: auto !important;
-                font-size: 14px !important;
-                margin-bottom: 24px !important;
+                font-size: 12px !important;
+                margin-bottom: 20px !important;
             }
             
             .consultation-form-container {
@@ -1039,26 +1120,26 @@
             }
             
             .consultation-form {
-                padding: 20px !important;
+                padding: 16px !important;
             }
             
             .form-input,
             .form-select {
                 width: 100% !important;
-                height: 56px !important;
-                padding: 16px !important;
-                font-size: 14px !important;
+                height: 48px !important;
+                padding: 12px !important;
+                font-size: 13px !important;
             }
             
             .form-textarea {
                 width: 100% !important;
-                height: 100px !important;
+                height: 80px !important;
             }
             
             .submit-btn {
                 width: 100% !important;
-                height: 52px !important;
-                font-size: 14px !important;
+                height: 46px !important;
+                font-size: 13px !important;
             }
             
             .privacy-text {
@@ -1067,8 +1148,8 @@
                 top: auto !important;
                 width: 100% !important;
                 height: auto !important;
-                font-size: 11px !important;
-                margin-top: 12px !important;
+                font-size: 10px !important;
+                margin-top: 10px !important;
                 text-align: center !important;
             }
             
@@ -1076,9 +1157,11 @@
                 display: none !important;
             }
             
-            /* FAQ Section - Mobile */
+            /* ==========================================
+               FAQ - согласно Figma
+            ========================================== */
             .faq-section-mobile {
-                padding: 40px 0 !important;
+                padding: 32px 0 !important;
             }
             
             .faq-section-mobile .row {
@@ -1091,8 +1174,9 @@
             }
             
             .faq-section-mobile h2 {
-                font-size: 24px !important;
-                margin-bottom: 24px !important;
+                font-size: 20px !important;
+                margin-bottom: 20px !important;
+                font-weight: 500 !important;
             }
             
             .accordion-item {
@@ -1100,30 +1184,33 @@
             }
             
             .accordion-button {
-                font-size: 14px !important;
-                padding: 16px 0 !important;
+                font-size: 13px !important;
+                padding: 14px 0 !important;
             }
             
             .accordion-body {
-                font-size: 13px !important;
-                padding: 0 0 16px !important;
+                font-size: 12px !important;
+                padding: 0 0 14px !important;
             }
             
-            /* RoadMap Section - Mobile */
+            /* ==========================================
+               ROADMAP - согласно Figma
+            ========================================== */
             .roadmap-section {
-                padding: 40px 16px !important;
+                padding: 32px 16px !important;
             }
             
             .roadmap-title {
-                font-size: 24px !important;
-                margin-bottom: 24px !important;
+                font-size: 20px !important;
+                margin-bottom: 20px !important;
+                font-weight: 500 !important;
             }
             
             .roadmap-timeline {
                 flex-direction: column !important;
-                gap: 24px !important;
+                gap: 16px !important;
                 padding-bottom: 0 !important;
-                margin-bottom: 32px !important;
+                margin-bottom: 24px !important;
             }
             
             .roadmap-timeline::before {
@@ -1133,13 +1220,13 @@
             .roadmap-milestone {
                 display: flex !important;
                 align-items: center !important;
-                gap: 16px !important;
+                gap: 12px !important;
                 text-align: left !important;
             }
             
             .roadmap-dot {
-                width: 32px !important;
-                height: 32px !important;
+                width: 28px !important;
+                height: 28px !important;
                 margin: 0 !important;
                 flex-shrink: 0;
             }
@@ -1218,83 +1305,95 @@
                 gap: 12px !important;
             }
             
-            /* Categories Section - Mobile */
+            /* ==========================================
+               КАТЕГОРИИ (СФЕРЫ) - согласно Figma
+            ========================================== */
             .categories-section {
-                padding: 40px 0 !important;
+                padding: 32px 0 !important;
             }
             
             .categories-section-title {
-                font-size: 24px !important;
+                font-size: 20px !important;
                 text-align: left !important;
                 padding: 0 16px !important;
-                margin-bottom: 12px !important;
+                margin-bottom: 8px !important;
                 line-height: 1.2 !important;
+                font-weight: 500 !important;
             }
             
-            .categories-section-title br {
-                display: none !important;
+            .categories-section-title span {
+                color: #279760 !important;
             }
             
             .categories-nav-wrapper {
                 text-align: left !important;
                 padding: 0 16px !important;
-                margin-bottom: 20px !important;
+                margin-bottom: 16px !important;
             }
             
             .categories-slider-wrapper {
                 padding: 0 !important;
-                margin: 0 16px !important;
+                margin: 0 !important;
                 overflow: hidden !important;
+                width: 100% !important;
             }
             
             .categories-slider {
                 gap: 12px !important;
+                padding: 0 16px !important;
             }
             
             .category-slide {
-                min-width: calc(100vw - 64px) !important;
-                max-width: calc(100vw - 64px) !important;
-                min-height: 260px !important;
-                padding: 20px !important;
+                min-width: calc(100vw - 48px) !important;
+                max-width: calc(100vw - 48px) !important;
+                min-height: 220px !important;
+                padding: 16px !important;
                 overflow: hidden !important;
                 position: relative !important;
+                background: #F9FAFB !important;
             }
             
             .category-title {
-                font-size: 16px !important;
-                margin-bottom: 16px !important;
+                font-size: 14px !important;
+                margin-bottom: 0 !important;
+                font-weight: 600 !important;
             }
             
             .category-corner {
-                width: 20px !important;
-                height: 20px !important;
+                width: 16px !important;
+                height: 16px !important;
             }
             
             .category-tags {
-                bottom: 16px !important;
-                left: 16px !important;
+                bottom: 14px !important;
+                left: 14px !important;
                 position: absolute !important;
                 z-index: 2 !important;
             }
             
             .category-tag {
-                padding: 6px 10px !important;
-                font-size: 10px !important;
-                border-radius: 16px !important;
+                padding: 5px 10px !important;
+                font-size: 9px !important;
+                border-radius: 12px !important;
                 background: white !important;
+                border: 1px solid #E5E7EB !important;
+                display: inline-block !important;
+                margin-bottom: 6px !important;
             }
             
             .category-tag-more {
-                width: 26px !important;
-                height: 26px !important;
+                width: 24px !important;
+                height: 24px !important;
                 font-size: 9px !important;
             }
             
-            .category-img {
-                width: 150px !important;
-                height: 150px !important;
-                right: 0 !important;
-                bottom: 0 !important;
+            .category-img,
+            .category-slide img,
+            .category-slide img[style] {
+                width: 130px !important;
+                height: 130px !important;
+                right: 0px !important;
+                bottom: 0px !important;
                 position: absolute !important;
                 object-fit: contain !important;
             }
@@ -1303,33 +1402,37 @@
                 flex-direction: column !important;
                 align-items: flex-start !important;
                 padding: 0 16px !important;
-                margin-top: 24px !important;
-                gap: 16px !important;
+                margin-top: 20px !important;
+                gap: 12px !important;
             }
             
             .categories-footer-text {
-                font-size: 18px !important;
+                font-size: 16px !important;
                 line-height: 1.3 !important;
+                font-weight: 500 !important;
             }
             
             .categories-footer-btn {
                 width: 100% !important;
                 justify-content: center !important;
-                padding: 14px 24px !important;
-                font-size: 14px !important;
+                padding: 12px 20px !important;
+                font-size: 13px !important;
             }
             
-            /* Services Section - Mobile */
+            /* ==========================================
+               УСЛУГИ - согласно Figma
+            ========================================== */
             .services-section {
-                padding: 40px 0 !important;
+                padding: 32px 0 !important;
             }
             
             .services-title {
-                font-size: 24px !important;
+                font-size: 20px !important;
                 text-align: left !important;
                 padding: 0 16px !important;
-                margin-bottom: 24px !important;
+                margin-bottom: 20px !important;
                 line-height: 1.2 !important;
+                font-weight: 500 !important;
             }
             
             .services-title br {
@@ -1339,51 +1442,66 @@
             .services-section .row.g-4 {
                 gap: 12px !important;
                 padding: 0 16px !important;
+                margin: 0 !important;
             }
             
             .services-section .col-lg-6 {
                 padding: 0 !important;
+                width: 100% !important;
+                flex: 0 0 100% !important;
+                max-width: 100% !important;
             }
             
             .services-section .col-lg-6 > div {
                 height: auto !important;
-                min-height: 280px !important;
-                padding: 20px !important;
+                min-height: 240px !important;
+                padding: 16px !important;
                 overflow: hidden !important;
                 position: relative !important;
             }
             
             .services-section .col-lg-6 > div h3 {
-                font-size: 16px !important;
-                margin-bottom: 12px !important;
+                font-size: 14px !important;
+                margin-bottom: 10px !important;
+                font-weight: 600 !important;
+                max-width: 60% !important;
             }
             
             .services-section .col-lg-6 > div > div[style*="margin-bottom: 24px"] {
-                margin-bottom: 12px !important;
+                margin-bottom: 10px !important;
             }
             
             .services-section .col-lg-6 > div > div[style*="display: flex; align-items: start"] {
-                margin-bottom: 6px !important;
+                margin-bottom: 4px !important;
             }
             
             .services-section .col-lg-6 > div > div[style*="display: flex; align-items: start"] div {
-                font-size: 12px !important;
+                font-size: 10px !important;
             }
             
-            .services-section .col-lg-6 > div img {
-                width: 160px !important;
-                height: 160px !important;
-                right: 0 !important;
-                bottom: 0 !important;
+            .services-section .col-lg-6 > div > div[style*="display: flex; align-items: start"] img {
+                width: 14px !important;
+                height: 14px !important;
+                margin-right: 6px !important;
+                position: static !important;
+            }
+            
+            .services-section .col-lg-6 > div > img:last-of-type,
+            .services-section .col-lg-6 > div img[style*="position: absolute"],
+            .services-section img[style*="width: 380px"] {
+                width: 140px !important;
+                height: 140px !important;
+                right: 0px !important;
+                bottom: 0px !important;
                 position: absolute !important;
                 object-fit: contain !important;
             }
             
             .services-section .col-lg-6 > div a[style*="position: absolute; bottom"] {
-                font-size: 12px !important;
+                font-size: 11px !important;
                 padding: 10px 16px !important;
-                bottom: 16px !important;
-                left: 16px !important;
+                bottom: 14px !important;
+                left: 14px !important;
             }
             
             /* Stats Section - Mobile */
@@ -1399,23 +1517,41 @@
                 display: none !important;
             }
             
-            /* CTA Section - Mobile */
+            /* ==========================================
+               CTA СЕКЦИЯ - согласно Figma
+            ========================================== */
+            .cta-section {
+                padding: 0 !important;
+            }
+            
+            .cta-section .container-fluid {
+                padding: 0 !important;
+            }
+            
             .cta-section .row {
                 flex-direction: column !important;
+                margin: 0 !important;
             }
             
             .cta-left {
-                padding: 32px 16px !important;
+                padding: 24px 16px !important;
+                width: 100% !important;
+                flex: none !important;
+                max-width: 100% !important;
             }
             
             .cta-right {
-                padding: 24px 16px !important;
+                padding: 20px 16px !important;
+                width: 100% !important;
+                flex: none !important;
+                max-width: 100% !important;
             }
             
             .cta-title {
-                font-size: 20px !important;
-                margin-bottom: 16px !important;
+                font-size: 16px !important;
+                margin-bottom: 12px !important;
                 line-height: 1.3 !important;
+                font-weight: 500 !important;
             }
             
             .cta-title br {
@@ -1423,31 +1559,32 @@
             }
             
             .cta-list {
-                margin-bottom: 20px !important;
+                margin-bottom: 16px !important;
             }
             
             .cta-list-item {
-                margin-bottom: 8px !important;
+                margin-bottom: 6px !important;
             }
             
             .cta-list-item span {
-                font-size: 13px !important;
+                font-size: 11px !important;
             }
             
             .cta-list-item img {
-                width: 16px !important;
+                width: 14px !important;
                 margin-right: 8px !important;
             }
             
             .cta-btn {
                 width: 100% !important;
                 justify-content: center !important;
-                padding: 14px 24px !important;
-                font-size: 14px !important;
+                padding: 12px 20px !important;
+                font-size: 12px !important;
             }
             
             .cta-image {
                 max-width: 100% !important;
+                height: auto !important;
             }
             
             /* Trust Section - Mobile */
@@ -1581,93 +1718,9 @@
             }
             
             .faq-section .col-lg-6 h2 {
-                font-size: 24px !important;
-                margin-bottom: 24px !important;
-            }
-            
-            .accordion-button {
-                font-size: 14px !important;
-                padding: 16px 0 !important;
-            }
-            
-            .accordion-body {
-                font-size: 13px !important;
-                padding: 0 0 16px !important;
-            }
-            
-            /* Client Cases - Mobile */
-            .client-cases {
-                padding: 40px 0 !important;
-            }
-            
-            .client-cases .container {
-                padding: 0 16px !important;
-            }
-            
-            .client-cases__header {
-                margin-bottom: 24px !important;
-                padding-bottom: 16px !important;
-            }
-            
-            .client-cases__title {
-                font-size: 24px !important;
-            }
-            
-            .client-case-detail {
-                flex-direction: column !important;
-                gap: 20px !important;
-            }
-            
-            .client-case-detail__left {
-                max-width: 100% !important;
-                flex: none !important;
-            }
-            
-            .client-case-detail__right {
-                max-width: 100% !important;
-                flex: none !important;
-            }
-            
-            .client-case-detail__title {
-                font-size: 18px !important;
-                margin-bottom: 16px !important;
-            }
-            
-            .client-case-detail__logo {
-                width: 56px !important;
-                height: 56px !important;
-            }
-            
-            .client-case-detail__client-name {
-                font-size: 14px !important;
-            }
-            
-            .client-case-detail__client-description {
-                font-size: 12px !important;
-            }
-            
-            .client-case-detail__video-btn {
-                width: 100% !important;
-                height: auto !important;
-                padding: 14px 20px !important;
-                font-size: 13px !important;
-            }
-            
-            .client-case-detail__section {
-                padding: 16px !important;
-            }
-            
-            .client-case-detail__section-title {
-                font-size: 14px !important;
-            }
-            
-            .client-case-detail__list-item {
-                font-size: 12px !important;
-            }
-            
-            .client-case-detail__show-more-btn {
-                font-size: 12px !important;
-                padding: 10px !important;
+                font-size: 20px !important;
+                margin-bottom: 20px !important;
+                font-weight: 500 !important;
                 width: auto !important;
             }
             
