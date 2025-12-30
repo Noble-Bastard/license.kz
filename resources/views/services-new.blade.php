@@ -233,7 +233,9 @@
                             : null;
                         @endphp
                         @if($categoryData && !empty($categoryData['groupedItems']))
-                          <div class="services-mobile-detail" data-mobile-detail="{{ $sectionIndex }}">
+                          <div class="services-mobile-detail" 
+                               data-mobile-detail="{{ $sectionIndex }}"
+                               data-section-name="{{ $section['name'] }}">
                             <div class="services-mobile-detail__header">
                               <button type="button" class="services-mobile-back-btn" data-mobile-back>
                                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -249,9 +251,52 @@
                                   $sectionNameLower = mb_strtolower($section['name']);
                                   $subsectionTitles = [];
                                   
-                                  // Для Лицензирования используем названия из customGroupOrders
+                                  // Сначала собираем все доступные названия из groupedItems
+                                  $availableTitles = [];
+                                  foreach($categoryData['groupedItems'] as $group) {
+                                    $groupTitle = $group['title'] ?? null;
+                                    if ($groupTitle) {
+                                      $availableTitles[mb_strtolower(trim($groupTitle))] = $groupTitle;
+                                    }
+                                  }
+                                  
+                                  // Для Лицензирования используем порядок из customGroupOrders, но берем реальные названия из groupedItems
                                   if (isset($customGroupOrders[$sectionNameLower])) {
-                                    $subsectionTitles = $customGroupOrders[$sectionNameLower];
+                                    foreach($customGroupOrders[$sectionNameLower] as $orderTitle) {
+                                      $orderTitleNormalized = mb_strtolower(trim($orderTitle));
+                                      // Ищем точное совпадение
+                                      if (isset($availableTitles[$orderTitleNormalized])) {
+                                        $subsectionTitles[] = $availableTitles[$orderTitleNormalized];
+                                      } else {
+                                        // Ищем частичное совпадение
+                                        $found = false;
+                                        foreach($availableTitles as $normalized => $original) {
+                                          if (strpos($normalized, $orderTitleNormalized) !== false || 
+                                              strpos($orderTitleNormalized, $normalized) !== false) {
+                                            $subsectionTitles[] = $original;
+                                            $found = true;
+                                            break;
+                                          }
+                                        }
+                                        // Если не нашли, добавляем название из customGroupOrders (может быть данных нет)
+                                        if (!$found) {
+                                          $subsectionTitles[] = $orderTitle;
+                                        }
+                                      }
+                                    }
+                                    // Добавляем остальные названия, которых нет в customGroupOrders
+                                    foreach($availableTitles as $normalized => $original) {
+                                      $found = false;
+                                      foreach($customGroupOrders[$sectionNameLower] as $orderTitle) {
+                                        if (mb_strtolower(trim($orderTitle)) === $normalized) {
+                                          $found = true;
+                                          break;
+                                        }
+                                      }
+                                      if (!$found && !in_array($original, $subsectionTitles)) {
+                                        $subsectionTitles[] = $original;
+                                      }
+                                    }
                                   } else {
                                     // Для других разделов используем названия из groupedItems
                                     foreach($categoryData['groupedItems'] as $group) {
@@ -262,8 +307,40 @@
                                     }
                                   }
                                 @endphp
-                                @foreach($subsectionTitles as $subsectionTitle)
-                                  <button type="button" class="services-mobile-subsection-link">
+                                @foreach($subsectionTitles as $subsectionIndex => $subsectionTitle)
+                                  @php
+                                    // Находим соответствующий groupedItem для этого заголовка
+                                    $subsectionData = null;
+                                    $subsectionTitleNormalized = mb_strtolower(trim($subsectionTitle));
+                                    
+                                    // Сначала пытаемся найти точное совпадение
+                                    foreach($categoryData['groupedItems'] as $group) {
+                                      $groupTitleNormalized = mb_strtolower(trim($group['title'] ?? ''));
+                                      if ($groupTitleNormalized === $subsectionTitleNormalized) {
+                                        $subsectionData = $group;
+                                        break;
+                                      }
+                                    }
+                                    
+                                    // Если не нашли точное совпадение, пытаемся найти частичное
+                                    if (!$subsectionData) {
+                                      foreach($categoryData['groupedItems'] as $group) {
+                                        $groupTitleNormalized = mb_strtolower(trim($group['title'] ?? ''));
+                                        // Проверяем частичное совпадение в любом направлении
+                                        if (strpos($groupTitleNormalized, $subsectionTitleNormalized) !== false || 
+                                            strpos($subsectionTitleNormalized, $groupTitleNormalized) !== false) {
+                                          $subsectionData = $group;
+                                          break;
+                                        }
+                                      }
+                                    }
+                                    
+                                    $subsectionId = "subsection-{$sectionIndex}-{$subsectionIndex}";
+                                  @endphp
+                                  <button type="button" 
+                                          class="services-mobile-subsection-link"
+                                          data-mobile-subsection-open="{{ $subsectionId }}"
+                                          data-subsection-title="{{ $subsectionTitle }}">
                                     <span>{{ $subsectionTitle }}</span>
                                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                       <path d="M6 12L10 8L6 4" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -271,6 +348,65 @@
                                   </button>
                                 @endforeach
                               </div>
+                              
+                              <!-- Детальные списки для каждого подраздела -->
+                              @foreach($subsectionTitles as $subsectionIndex => $subsectionTitle)
+                                @php
+                                  // Находим соответствующий groupedItem для этого заголовка
+                                  $subsectionData = null;
+                                  $subsectionTitleNormalized = mb_strtolower(trim($subsectionTitle));
+                                  
+                                  // Сначала пытаемся найти точное совпадение
+                                  foreach($categoryData['groupedItems'] as $group) {
+                                    $groupTitleNormalized = mb_strtolower(trim($group['title'] ?? ''));
+                                    if ($groupTitleNormalized === $subsectionTitleNormalized) {
+                                      $subsectionData = $group;
+                                      break;
+                                    }
+                                  }
+                                  
+                                  // Если не нашли точное совпадение, пытаемся найти частичное
+                                  if (!$subsectionData) {
+                                    foreach($categoryData['groupedItems'] as $group) {
+                                      $groupTitleNormalized = mb_strtolower(trim($group['title'] ?? ''));
+                                      // Проверяем частичное совпадение в любом направлении
+                                      if (strpos($groupTitleNormalized, $subsectionTitleNormalized) !== false || 
+                                          strpos($subsectionTitleNormalized, $groupTitleNormalized) !== false) {
+                                        $subsectionData = $group;
+                                        break;
+                                      }
+                                    }
+                                  }
+                                  
+                                  $subsectionId = "subsection-{$sectionIndex}-{$subsectionIndex}";
+                                @endphp
+                                <div class="services-mobile-subsection-detail" 
+                                     data-mobile-subsection-detail="{{ $subsectionId }}"
+                                     data-subsection-title="{{ $subsectionTitle }}">
+                                  <div class="services-mobile-subsection__list">
+                                    @if($subsectionData && !empty($subsectionData['items']))
+                                      @foreach($subsectionData['items'] as $item)
+                                        <a href="{{ route('new.services-group.info', ['serviceCategoryId' => $item['pretty_url']]) }}" 
+                                           class="services-mobile-detail__item">
+                                          <div class="services-mobile-detail__item-text">
+                                            <span class="services-mobile-detail__item-title">{{ $item['name'] }}</span>
+                                            @if(!empty($item['description']))
+                                              <span class="services-mobile-detail__item-description">{{ strip_tags($item['description']) }}</span>
+                                            @endif
+                                          </div>
+                                          <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M6 12L10 8L6 4" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                          </svg>
+                                        </a>
+                                      @endforeach
+                                    @else
+                                      <div class="services-mobile-detail__item" style="padding: 20px; text-align: center; color: #6F6F6F;">
+                                        {{ __('Нет доступных услуг') }}
+                                      </div>
+                                    @endif
+                                  </div>
+                                </div>
+                              @endforeach
                             </div>
                           </div>
                         @endif
@@ -764,23 +900,29 @@
     .services-mobile-subsection-detail__header {
       display: flex;
       align-items: center;
-      justify-content: space-between;
       gap: 12px;
-      padding-bottom: 12px;
+      padding: 12px 0 16px;
+      padding-left: 20px;
       border-bottom: 1px solid #E8E8E8;
+    }
+
+    .services-mobile-subsection-detail__header .services-mobile-back-btn span {
+      display: inline;
     }
 
     .services-mobile-subsection-detail__title {
       font-family: 'Manrope', sans-serif;
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 700;
       color: #191E1D;
+      flex: 1;
     }
 
     .services-mobile-subsection__list {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 0;
+      padding: 0;
     }
 
     .services-mobile-detail__item {
@@ -788,9 +930,16 @@
       align-items: flex-start;
       justify-content: space-between;
       gap: 12px;
-      padding: 12px 0;
+      padding: 12px 20px;
       text-decoration: none;
       border-bottom: 1px solid #F2F2F2;
+      color: #191E1D;
+    }
+
+    .services-mobile-detail__item:hover {
+      background-color: #F9F9F9;
+      text-decoration: none;
+      color: #191E1D;
     }
 
     .services-mobile-detail__item:last-child {
@@ -813,6 +962,11 @@
       font-size: 13px;
       line-height: 1.5;
       color: #5C5C5C;
+    }
+
+    .services-mobile-detail__item svg {
+      flex-shrink: 0;
+      margin-left: auto;
     }
 
     .services-mobile-subsection-more-btn {
@@ -1308,6 +1462,16 @@
         mobileDetailPanels.forEach(function(panel) {
           panel.classList.remove('is-visible');
         });
+        // Скрываем все детальные списки подразделов
+        var allSubsectionDetails = document.querySelectorAll('[data-mobile-subsection-detail]');
+        allSubsectionDetails.forEach(function(detail) {
+          detail.classList.remove('is-visible');
+        });
+        // Показываем все списки подразделов
+        var allSubsectionLists = document.querySelectorAll('.services-mobile-subsection-list');
+        allSubsectionLists.forEach(function(list) {
+          list.classList.remove('is-hidden');
+        });
       }
 
       function openMobileDetail(targetId) {
@@ -1326,9 +1490,27 @@
           if (panel.getAttribute('data-mobile-detail') === targetId) {
             panel.classList.add('is-visible');
             panel.scrollTop = 0;
+            // Показываем список подразделов для этой секции
+            var subsectionList = panel.querySelector('.services-mobile-subsection-list');
+            if (subsectionList) {
+              subsectionList.classList.remove('is-hidden');
+            }
+            // Устанавливаем заголовок секции
+            var sectionTitle = panel.querySelector('.services-mobile-detail__title');
+            if (sectionTitle) {
+              var sectionName = panel.getAttribute('data-section-name');
+              if (sectionName) {
+                sectionTitle.textContent = sectionName;
+              }
+            }
           } else {
             panel.classList.remove('is-visible');
           }
+        });
+        // Скрываем все детальные списки подразделов при открытии новой секции
+        var allSubsectionDetails = document.querySelectorAll('[data-mobile-subsection-detail]');
+        allSubsectionDetails.forEach(function(detail) {
+          detail.classList.remove('is-visible');
         });
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
@@ -1342,7 +1524,124 @@
         });
         mobileBackButtons.forEach(function(button) {
           button.addEventListener('click', function () {
-            showMobileSectionList();
+            // Проверяем, открыт ли детальный список подраздела
+            var sectionPanel = button.closest('[data-mobile-detail]');
+            if (sectionPanel) {
+              var visibleSubsectionDetail = sectionPanel.querySelector('[data-mobile-subsection-detail].is-visible');
+              if (visibleSubsectionDetail) {
+                // Если открыт детальный список подраздела, возвращаемся к списку подразделов
+                var sectionId = sectionPanel.getAttribute('data-mobile-detail');
+                showMobileSubsectionList(sectionId);
+              } else {
+                // Если не открыт, возвращаемся к списку секций
+                showMobileSectionList();
+              }
+            } else {
+              showMobileSectionList();
+            }
+          });
+        });
+      }
+
+      // Функции для обработки подразделов (заголовков типа "Безопасность")
+      function showMobileSubsectionList(sectionId) {
+        if (!isMobileView()) {
+          return;
+        }
+        // Находим панель секции
+        var sectionPanel = document.querySelector('[data-mobile-detail="' + sectionId + '"]');
+        if (!sectionPanel) {
+          return;
+        }
+        // Скрываем все детальные списки подразделов в этой секции
+        var allSubsectionDetails = sectionPanel.querySelectorAll('[data-mobile-subsection-detail]');
+        allSubsectionDetails.forEach(function(detail) {
+          detail.classList.remove('is-visible');
+        });
+        // Показываем список подразделов для этой секции
+        var subsectionList = sectionPanel.querySelector('.services-mobile-subsection-list');
+        if (subsectionList) {
+          subsectionList.classList.remove('is-hidden');
+        }
+        // Возвращаем заголовок секции в header
+        var sectionTitle = sectionPanel.querySelector('.services-mobile-detail__title');
+        if (sectionTitle) {
+          var sectionName = sectionPanel.getAttribute('data-section-name');
+          if (sectionName) {
+            sectionTitle.textContent = sectionName;
+          }
+        }
+      }
+
+      function openMobileSubsectionDetail(subsectionId, subsectionTitleFromButton) {
+        if (!isMobileView()) {
+          return;
+        }
+        // Находим детальный список подраздела
+        var subsectionDetail = document.querySelector('[data-mobile-subsection-detail="' + subsectionId + '"]');
+        if (!subsectionDetail) {
+          console.warn('Детальный список подраздела не найден:', subsectionId);
+          return;
+        }
+        // Находим родительскую секцию
+        var sectionPanel = subsectionDetail.closest('[data-mobile-detail]');
+        if (!sectionPanel) {
+          console.warn('Родительская секция не найдена для подраздела:', subsectionId);
+          return;
+        }
+        // Скрываем список подразделов только для этой секции
+        var subsectionList = sectionPanel.querySelector('.services-mobile-subsection-list');
+        if (subsectionList) {
+          subsectionList.classList.add('is-hidden');
+        }
+        // Скрываем все другие детальные списки подразделов в этой секции
+        var allSubsectionDetails = sectionPanel.querySelectorAll('[data-mobile-subsection-detail]');
+        allSubsectionDetails.forEach(function(detail) {
+          detail.classList.remove('is-visible');
+        });
+        // Обновляем заголовок в header на название подраздела
+        var sectionTitle = sectionPanel.querySelector('.services-mobile-detail__title');
+        if (sectionTitle) {
+          // Пытаемся получить название из детального списка, если не получается - используем из кнопки
+          var subsectionTitle = subsectionDetail.getAttribute('data-subsection-title') || subsectionTitleFromButton;
+          if (subsectionTitle) {
+            sectionTitle.textContent = subsectionTitle;
+          }
+        }
+        // Показываем детальный список выбранного подраздела
+        subsectionDetail.classList.add('is-visible');
+        subsectionDetail.scrollTop = 0;
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      function attachMobileSubsectionHandlers() {
+        // Используем делегирование событий для работы с динамически созданными элементами
+        document.addEventListener('click', function(e) {
+          var subsectionButton = e.target.closest('[data-mobile-subsection-open]');
+          if (subsectionButton) {
+            e.preventDefault();
+            e.stopPropagation();
+            var subsectionId = subsectionButton.getAttribute('data-mobile-subsection-open');
+            var subsectionTitle = subsectionButton.getAttribute('data-subsection-title');
+            console.log('Клик по подразделу:', subsectionId, subsectionTitle);
+            openMobileSubsectionDetail(subsectionId, subsectionTitle);
+          }
+        });
+
+        var subsectionBackButtons = document.querySelectorAll('[data-mobile-subsection-back]');
+
+        subsectionBackButtons.forEach(function(button) {
+          button.addEventListener('click', function () {
+            var subsectionDetail = this.closest('[data-mobile-subsection-detail]');
+            if (subsectionDetail) {
+              var subsectionId = subsectionDetail.getAttribute('data-mobile-subsection-detail');
+              // Находим родительскую секцию
+              var sectionPanel = subsectionDetail.closest('[data-mobile-detail]');
+              if (sectionPanel) {
+                var sectionId = sectionPanel.getAttribute('data-mobile-detail');
+                showMobileSubsectionList(sectionId);
+              }
+            }
           });
         });
       }
@@ -1423,6 +1722,7 @@
       attachCategoryHandlers();
       attachServiceLinkHandlers();
       attachMobileSectionHandlers();
+      attachMobileSubsectionHandlers();
 
       window.addEventListener('resize', function() {
         if (isMobileView()) {
