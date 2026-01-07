@@ -1889,7 +1889,6 @@
                         <div class="hero-slide-content">
                             <h1 class="hero-slide-title">UPPERLICENSE: Идеальное решение для регистрации вашего бизнеса в РК</h1>
                             <p class="hero-slide-description">Полная автоматизация и удобство управления — откройте новые возможности для вашего бизнеса в Казахстане с нашей инновационной онлайн-платформой!</p>
-                            <a href="#" class="hero-slide-button">Начать регистрацию</a>
                             <img src="{{asset('current/img/image-slider-1-2.png')}}" alt="" class="hero-slide-image" />
                         </div>
                     </div>
@@ -1899,7 +1898,6 @@
                         <div class="hero-slide-content">
                             <h1 class="hero-slide-title">UPPERLICENSE: Ваш ключ к беспроблемному лицензированию</h1>
                             <p class="hero-slide-description">Надежное сопровождение вашего процесса лицензирования «под ключ», усиленное базой данных и индивидуально адаптированным личным кабинетом для вашего максимального комфорта и удобства</p>
-                            <a href="#" class="hero-slide-button">Начать регистрацию</a>
                             <img src="{{asset('current/img/image-slider-1-2.png')}}" alt="" class="hero-slide-image" />
                         </div>
                     </div>
@@ -1909,7 +1907,6 @@
                         <div class="hero-slide-content">
                             <h1 class="hero-slide-title">Получите вашу рабочую и бизнес-визу в Казахстане легко и надежно с UPPERLICENSE. Быстро, эффективно, без хлопот</h1>
                             <p class="hero-slide-description">Оперативное оформление виз С3 и С5 — максимальная скорость, минимальные сроки</p>
-                            <a href="#" class="hero-slide-button">Начать регистрацию</a>
                             <img src="{{asset('current/img/image-slider-1-2.png')}}" alt="" class="hero-slide-image" />
                         </div>
                     </div>
@@ -1919,13 +1916,13 @@
                         <div class="hero-slide-content">
                             <h1 class="hero-slide-title">Гарантируйте стабильный рост вашего бизнеса в эпоху перемен с экспертной поддержкой UPPERLICENSE</h1>
                             <p class="hero-slide-description">Высококлассное юридическое и бухгалтерское сопровождение от UPPERLICENSE — ваш надежный фундамент для стойкости и прогресса вашей компании</p>
-                            <a href="#" class="hero-slide-button">Начать регистрацию</a>
                             <img src="{{asset('current/img/image-slider-1-2.png')}}" alt="" class="hero-slide-image" />
                         </div>
                     </div>
 
                     <!-- Slider Controls -->
                     <div class="hero-slider-controls">
+                        <a href="#" class="hero-slide-button">Начать регистрацию</a>
                         <div class="hero-slider-pagination">
                             <span class="current-slide">01</span> / <span class="total-slides">04</span>
                         </div>
@@ -1953,7 +1950,7 @@
     <!-- Industries Section -->
     <section class="about-us">
         <div class="about-us__find">
-            <div class="about-us__find__header">
+            <div class="about-us__find__header" style="margin-left: 15%">
                 <h2>Преимущества работы с UPPERLICENSE</h2>
             </div>
             <div class="about-us__find__cards-container">
@@ -2004,7 +2001,7 @@
     <!-- Categories Slider Section -->
     <section class="categories-section" style="padding: 80px 0; background: white; overflow: hidden;">
         <div class="container">
-            <h2 class="categories-section-title" style="font-size: 52px; font-weight: 500; text-align: center; margin-bottom: 16px; font-family: 'Manrope', sans-serif;">
+                <h2 class="categories-section-title" style="font-size: 52px; font-weight: 500; text-align: center; margin-bottom: 20px; font-family: 'Manrope', sans-serif; color: #191E1D; line-height: 1.2;">
                 Уже выбрали вашу <span style="color: #279760;">сферу</span><br>деятельности?
             </h2>
             <div class="categories-nav-wrapper" style="text-align: center; margin-bottom: 60px;">
@@ -2027,7 +2024,7 @@
                     <!-- Category 1 - Строительство -->
                     <div class="category-slide" style="min-width: calc(50% - 12px); background: #F9FAFB; border-radius: 0; padding: 32px; position: relative; min-height: 350px;">
                         <div class="category-corner" style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
-                        <h3 class="category-title" style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Строительство</h3>
+                        <h3 class="category-title" style="font-size: 26px; margin-bottom: 24px;">Строительство</h3>
                         <div class="category-tags" style="position: absolute; bottom: 32px; left: 32px;">
                             <div style="margin-bottom: 12px;">
                                 <span class="category-tag" style="display: inline-block; background: white; border: 1px solid #D1D5DB; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Строительные работы</span>
@@ -2043,7 +2040,7 @@
                     <!-- Category 2 - Импорт-экспорт -->
                     <div class="category-slide" style="min-width: calc(50% - 12px); background: #F9FAFB; border-radius: 0; padding: 32px; position: relative; min-height: 350px;">
                         <div class="category-corner" style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
-                        <h3 class="category-title" style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Импорт-экспорт</h3>
+                        <h3 class="category-title" style="font-size: 26px;  margin-bottom: 24px;">Импорт-экспорт</h3>
                         <div class="category-tags" style="position: absolute; bottom: 32px; left: 32px;">
                             <div style="margin-bottom: 12px;">
                                 <span class="category-tag" style="display: inline-block; background: white; border: 1px solid #D1D5DB; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Таможенные процедуры</span>
@@ -2116,14 +2113,14 @@
                 <!-- Services Section -->
     <section class="services-section" style="padding: 80px 0; background: white;">
         <div class="container">
-            <h2 class="services-title" style="font-size: 52px; font-weight: 500; text-align: center; margin-bottom: 60px; font-family: 'Manrope', sans-serif;">
+            <h2 class="services-title" style="font-size: 52px; font-weight: 500; text-align: center; margin-bottom: 60px; font-family: 'Manrope', sans-serif; color: #191E1D; line-height: 1.2;">
                 Предоставляем качественные<br>и комплексные <span style="color: #279760;">решения</span><br>для вашего бизнеса
             </h2>
             
                         <div class="row g-4">
                 <!-- Service 1 -->
                 <div class="col-lg-6">
-                    <div style="background: #E8F5F3; border-radius: 0; padding: 32px; position: relative; height: 520px;">
+                    <div style="background: #F1F7F6; border-radius: 0; padding: 32px; position: relative; height: 520px;">
                         <!-- Зеленая рамка -->
                         <div style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
                         
@@ -2149,7 +2146,7 @@
 
                 <!-- Service 2 -->
                 <div class="col-lg-6">
-                    <div style="background: #FFF9E6; border-radius: 0; padding: 32px; position: relative; height: 520px;">
+                    <div style="background: #DBF1D6; border-radius: 0; padding: 32px; position: relative; height: 520px;">
                         <div style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
                         <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Регистрация в СЭЗ и МФЦА</h3>
                         <div style="margin-bottom: 24px;">
@@ -2283,16 +2280,16 @@
                 </section>
 
     <!-- Stats Section -->
-    <section class="stats-section" style="padding: 80px 0; background: white;">
+    <section class="stats-section" style="background: white;">
         <div class="about-us__stats" style="background: white !important;">
             <div class="container">
                 <!-- Desktop Layout -->
                 <div class="about-us__stats__grid d-none d-lg-grid" style="background: white !important; display: grid; grid-template-columns: 670px 135px 135px 185px 150px 150px; grid-template-rows: 270px 65px; gap: 0; margin: 0 auto; padding-left: 120px; max-width: 1600px;">
-                    <div style="grid-column: 1; grid-row: 1; width: 670px; height: 270px; background: white; padding: 40px; display: flex; flex-direction: column; justify-content: center; border: 1px solid #E8E8E8; border-left: none; border-top: none;">
+                    <div style="grid-column: 1; grid-row: 1; width: 670px; height: 200px; background: white; padding: 40px; display: flex; flex-direction: column; justify-content: center; border: 1px solid #E8E8E8; border-left: none; border-top: none;">
                         <h2 style="font-size: 52px; font-weight: 500; margin: 0; font-family: 'Manrope', sans-serif; color: #191E1D;">О группе UPPERCASE</h2>
                     </div>
                     <div class="about-us__stats__item" style="grid-column: 2 / 7; grid-row: 1; background: white !important; padding: 40px 30px 30px 30px !important; border-right: none !important; border-top: none !important;">
-                        <div class="about-us__stats__number">3000+</div>
+                        <div class="about-us__stats__number" style="color:#279760;">3000+</div>
                         <span>Клиентов в области регистрации, лицензирования, сопровождения международных сделок и корпоративного права</span>
                     </div>
                     <div class="about-us__stats__item" style="grid-column: 1; grid-row: 2; background: white !important; padding: 20px 10px 15px 15px !important; border-bottom: none !important; border-left: none !important; border-top: none !important; border-right: none !important;">
@@ -2392,7 +2389,7 @@
             </div>
         </div>
     </section>
-    <section class="client-cases">
+    <section class="client-cases" style="margin-top: 90px;">
         <div class="container">
             <div class="client-cases__header">
                 <h2 class="client-cases__title">Кейсы наших клиентов</h2>
@@ -2511,7 +2508,7 @@
     <!-- Trust Section -->
     <section class="trust-section" style="padding: 80px 0; background: #F9FAFB;">
         <div class="container">
-            <h2 class="trust-title" style="font-size: 52px; font-weight: 500; text-align: left; margin-bottom: 60px; font-family: 'Manrope', sans-serif;">Нам доверяют</h2>
+            <h2 class="trust-title" style="font-size: 52px; font-weight: 500; text-align: left; margin-bottom: 60px; font-family: 'Manrope', sans-serif; color: #191E1D; line-height: 1.2;">Нам доверяют</h2>
             <div class="row g-4 align-items-center justify-content-start trust-logos">
                 <div class="col-lg-2 col-md-3 col-4 text-center trust-logo-item">
                     <img src="{{asset('current/img/group-7@2x.png')}}" alt="Partner" class="trust-logo" style="max-width: 100%; height: auto; opacity: 0.7;" />
@@ -2593,7 +2590,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-6">
-                    <h2 class="faq-title" style="font-size: 52px; font-weight: 500; text-align: left; margin-bottom: 60px; font-family: 'Manrope', sans-serif;">Ответы на вопросы</h2>
+                    <h2 class="faq-title" style="font-size: 52px; font-weight: 500; text-align: left; margin-bottom: 60px; font-family: 'Manrope', sans-serif; color: #191E1D; line-height: 1.2;">Ответы на вопросы</h2>
                 </div>
                 <div class="col-lg-6">
                     <div class="accordion" id="faqAccordion">
