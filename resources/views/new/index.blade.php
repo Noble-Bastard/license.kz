@@ -1889,6 +1889,7 @@
                         <div class="hero-slide-content">
                             <h1 class="hero-slide-title">UPPERLICENSE: Идеальное решение для регистрации вашего бизнеса в РК</h1>
                             <p class="hero-slide-description">Полная автоматизация и удобство управления — откройте новые возможности для вашего бизнеса в Казахстане с нашей инновационной онлайн-платформой!</p>
+                            <a href="#" class="hero-slide-button" style="position:absolute;">Начать регистрацию</a>
                             <img src="{{asset('current/img/image-slider-1-2.png')}}" alt="" class="hero-slide-image" />
                         </div>
                     </div>
@@ -1898,31 +1899,38 @@
                         <div class="hero-slide-content">
                             <h1 class="hero-slide-title">UPPERLICENSE: Ваш ключ к беспроблемному лицензированию</h1>
                             <p class="hero-slide-description">Надежное сопровождение вашего процесса лицензирования «под ключ», усиленное базой данных и индивидуально адаптированным личным кабинетом для вашего максимального комфорта и удобства</p>
+                                                     <a href="#" class="hero-slide-button" style="position:absolute;">Начать регистрацию</a>
+
                             <img src="{{asset('current/img/image-slider-1-2.png')}}" alt="" class="hero-slide-image" />
                         </div>
                     </div>
 
                     <!-- Slide 3 -->
                     <div class="hero-slide" data-slide="3">
+
                         <div class="hero-slide-content">
                             <h1 class="hero-slide-title">Получите вашу рабочую и бизнес-визу в Казахстане легко и надежно с UPPERLICENSE. Быстро, эффективно, без хлопот</h1>
                             <p class="hero-slide-description">Оперативное оформление виз С3 и С5 — максимальная скорость, минимальные сроки</p>
+                                                     <a href="#" class="hero-slide-button" style="position:absolute;">Начать регистрацию</a>
+
                             <img src="{{asset('current/img/image-slider-1-2.png')}}" alt="" class="hero-slide-image" />
                         </div>
                     </div>
 
                     <!-- Slide 4 -->
                     <div class="hero-slide" data-slide="4">
+
                         <div class="hero-slide-content">
                             <h1 class="hero-slide-title">Гарантируйте стабильный рост вашего бизнеса в эпоху перемен с экспертной поддержкой UPPERLICENSE</h1>
                             <p class="hero-slide-description">Высококлассное юридическое и бухгалтерское сопровождение от UPPERLICENSE — ваш надежный фундамент для стойкости и прогресса вашей компании</p>
+                                                     <a href="#" class="hero-slide-button" style="position:absolute;">Начать регистрацию</a>
+
                             <img src="{{asset('current/img/image-slider-1-2.png')}}" alt="" class="hero-slide-image" />
                         </div>
                     </div>
 
                     <!-- Slider Controls -->
                     <div class="hero-slider-controls">
-                        <a href="#" class="hero-slide-button">Начать регистрацию</a>
                         <div class="hero-slider-pagination">
                             <span class="current-slide">01</span> / <span class="total-slides">04</span>
                         </div>
