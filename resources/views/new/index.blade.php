@@ -1046,6 +1046,7 @@
                 color: #279760;
                 font-weight: 600;
                 display: inline-block;
+                bottom: 20px;
             }
             
             /* Скрываем отдельную колонку с картинкой */
@@ -1060,9 +1061,9 @@
             
             /* Контролы слайдера - по Figma */
             .hero-slider-controls {
-                position: relative;
+                position: absolute;
                 right: auto;
-                bottom: auto;
+                bottom: 50px;
                 justify-content: flex-start;
                 padding: 0 20px 16px;
                 gap: 10px;
@@ -2149,7 +2150,7 @@
 
         @media (max-width: 568px) {
             .hero-slide-title {
-                font-size: 20px;
+                font-size: 18px;
             }
         }
     </style>
