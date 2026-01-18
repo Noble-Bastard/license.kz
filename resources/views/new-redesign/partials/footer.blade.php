@@ -6,7 +6,7 @@
             <div class="footer-column footer-column--left">
                 <div class="footer-logo-section">
                     <a href="/" class="footer-logo">
-                        <img src="{{asset('/new/images/icons/Frame7.png')}}" alt="UPPERLICENSE logo"/>
+                        <img src="{{asset('/new/images/icons/logo.png')}}" alt="UPPERLICENSE logo"/>
                     </a>
                 </div>
                 <div class="footer-disclaimer-text">
@@ -127,7 +127,7 @@
 }
 
 .footer-logo img {
-    height: 80px;
+    height: 30px;
 }
 
 .footer-disclaimer-text p {

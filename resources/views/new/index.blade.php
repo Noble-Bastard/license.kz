@@ -182,6 +182,18 @@
         
         .accordion-button {
             box-shadow: none !important;
+            font-family: Manrope;
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 100%;
+        }
+
+        .accordion-body {
+            font-family: Manrope;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 150%;
+            color: #191E1D;
         }
         
         /* Industries Section */
@@ -719,6 +731,35 @@
         .services-section {
             max-width: unset!important;
             padding: 0!important;
+            margin-top: 80px!important;
+        }
+
+        .services-section__title {
+            font-family: Manrope;
+            font-weight: 500!important;
+            font-size: 28px!important;
+            line-height: 120%!important;
+        }
+
+        .services-section__link {
+            font-family: Manrope;
+            font-weight: 600!important;
+            font-size: 16px!important;
+            line-height: 100%!important;
+        }
+
+        .services-section__descr {
+            font-family: Manrope;
+            font-weight: 500!important;
+            font-size: 14px!important;
+            line-height: 150%!important;
+        }
+
+        .cta-list-item {
+            font-family: Manrope;
+            font-weight: 500;
+            font-size: 14px!important;
+            line-height: 150%;
         }
 
         .cta-left {
@@ -738,6 +779,10 @@
             position: absolute;
             bottom: 40px;
             padding: 24px;
+            font-family: Manrope;
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 100%;
         }
 
         .client-case-detail {
@@ -774,8 +819,9 @@
         .consultation-block__first {
             background-image: url('images/Vector_6908.png');
             background-repeat: no-repeat;
-            background-size: contain;
+            background-size: cover;
             background-position-y: bottom;
+            background-position-x: -2%;
         }
 
         .privacy-text {
@@ -799,6 +845,55 @@
             color: #6B7280 !important;
             opacity: 1 !important;
             visibility: visible;
+        }
+
+        .about-us__find__card__title {
+            font-family: Manrope;
+            font-weight: 500!important;
+            font-size: 20px!important;
+            line-height: 120%!important;
+        }
+
+        .about-us__find__card__description {
+            font-family: Manrope;
+            font-weight: 500!important;
+            font-size: 16px!important;
+            line-height: 150%!important;
+        }
+
+        .category-title {
+            font-family: Manrope;
+            font-weight: 500!important;
+            font-size: 28px!important;
+            line-height: 120%!important;
+        }
+
+        .category-tag {
+            font-family: Manrope;
+            font-weight: 500!important;
+            font-size: 14px!important;
+            line-height: 100%!important;
+        }
+
+        .categories-footer {
+            max-width: unset!important;
+            border-top: 1px solid #E8E8E8;
+            padding-top: 45px;
+        }
+
+        .categories-footer-text {
+            font-family: Manrope;
+            font-weight: 500!important;
+            font-size: 28px!important;
+            line-height: 120%!important;
+        }
+
+        .categories-footer-btn {
+            font-family: Manrope;
+            font-weight: 600!important;
+            font-size: 16px!important;
+            line-height: 100%!important;
+            text-align: right!important;
         }
 
         /* Специфичные стили для 1920x1080 - более точный диапазон */
@@ -896,13 +991,17 @@
             .hero-slider-section::after {
                 display: none;
             }
-            
+
+            #app {
+                padding-top: 20px!important;
+            }
+
             /* Заголовок над зеленым блоком */
             .hero-top-title {
                 position: relative !important;
                 top: auto !important;
                 left: auto !important;
-                font-size: 16px !important;
+                font-size: 32px !important;
                 padding: 0 16px !important;
                 margin-bottom: 8px !important;
                 white-space: normal !important;
@@ -918,19 +1017,21 @@
             .hero-slide {
                 padding-top: 0;
                 margin-left: 0;
+                padding-bottom: 10px;
             }
             
             .hero-slide-title {
                 font-size: 14px;
                 line-height: 1.4;
-                margin-bottom: 10px;
                 color: white;
                 font-weight: 500;
                 max-width: 70%;
+                margin-top: 15px;
+                padding-bottom: 10px;
             }
             
             .hero-slide-description {
-                font-size: 10px;
+                font-size: 14px;
                 line-height: 1.5;
                 margin-bottom: 14px;
                 color: rgba(255,255,255,0.85);
@@ -963,14 +1064,14 @@
                 right: auto;
                 bottom: auto;
                 justify-content: flex-start;
-                padding: 0 16px 16px;
+                padding: 0 20px 16px;
                 gap: 10px;
                 margin-top: 0;
             }
             
             .hero-slider-pagination {
                 font-size: 12px;
-                color: #6B7280;
+                color: #fff;
             }
             
             .hero-arrow {
@@ -999,7 +1100,8 @@
                ПРЕИМУЩЕСТВА - согласно Figma
             ========================================== */
             .about-us__find {
-                padding: 32px 0;
+                margin: 0!important;
+                padding-bottom: 20px!important;
             }
             
             .about-us__find__header {
@@ -1008,18 +1110,22 @@
             }
             
             .about-us__find__cards-container {
-                grid-template-columns: 1fr !important;
-                gap: 0 !important;
+                display: flex!important;
+                flex-direction: column!important;
                 padding: 0 16px !important;
+                margin-top: 20px!important;
+                gap: 0px!important;
             }
             
             .about-us__find__card {
-                padding: 16px 0 !important;
+                padding: 30px 0 !important;
                 border-top: 1px solid #E5E7EB !important;
                 border-bottom: none !important;
                 display: flex !important;
                 flex-direction: column !important;
                 align-items: flex-start !important;
+                margin: 0 auto!important;
+                max-width: 100%!important;
             }
             
             .about-us__find__card:first-child {
@@ -1090,7 +1196,7 @@
             }
             
             .stats-mobile-title {
-                font-size: 20px !important;
+                font-size: 32px !important;
                 margin-bottom: 16px !important;
                 font-weight: 500 !important;
             }
@@ -1175,6 +1281,7 @@
             ========================================== */
             .client-cases {
                 padding: 32px 0 !important;
+                margin-top: 100px!important;
             }
             
             .client-cases__header {
@@ -1183,7 +1290,7 @@
             }
             
             .client-cases__title {
-                font-size: 20px !important;
+                font-size: 32px !important;
                 font-weight: 500 !important;
             }
             
@@ -1229,7 +1336,7 @@
             }
             
             .client-case-detail__list-item {
-                font-size: 11px !important;
+                font-size: 14px !important;
             }
             
             /* ==========================================
@@ -1460,14 +1567,6 @@
                 padding: 40px 0 !important;
             }
             
-            .categories-section-title {
-                font-size: 24px !important;
-                text-align: left !important;
-                padding: 0 16px !important;
-                margin-bottom: 16px !important;
-                line-height: 1.2 !important;
-            }
-            
             .categories-nav-wrapper {
                 text-align: left !important;
                 padding: 0 16px !important;
@@ -1491,10 +1590,11 @@
             }
             
             .categories-section-title {
-                font-size: 20px !important;
-                text-align: left !important;
+                font-size: 32px !important;
+                text-align: center !important;
                 padding: 0 16px !important;
-                margin-bottom: 8px !important;
+                margin-top: 100%px!important;
+                margin-bottom: 40px !important;
                 line-height: 1.2 !important;
                 font-weight: 500 !important;
             }
@@ -1507,6 +1607,7 @@
                 text-align: left !important;
                 padding: 0 16px !important;
                 margin-bottom: 16px !important;
+                display: none;
             }
             
             .categories-slider-wrapper {
@@ -1585,9 +1686,10 @@
             }
             
             .categories-footer-text {
-                font-size: 16px !important;
+                font-size: 20px !important;
                 line-height: 1.3 !important;
                 font-weight: 500 !important;
+                text-align: center!important;
             }
             
             .categories-footer-btn {
@@ -1602,17 +1704,22 @@
             ========================================== */
             .services-section {
                 padding: 32px 0 !important;
+                margin-top: 0px!important;
             }
             
             .services-title {
-                font-size: 20px !important;
-                text-align: left !important;
+                font-size: 32px !important;
+                text-align: center !important;
                 padding: 0 16px !important;
                 margin-bottom: 20px !important;
                 line-height: 1.2 !important;
                 font-weight: 500 !important;
             }
             
+            .about-us__stats__wrap {
+                display: none;
+            }
+
             .services-title br {
                 display: none !important;
             }
@@ -1775,7 +1882,7 @@
             }
             
             .trust-title {
-                font-size: 24px !important;
+                font-size: 32px !important;
                 margin-bottom: 24px !important;
             }
             
@@ -1799,13 +1906,18 @@
                 width: 100% !important;
                 height: auto !important;
                 padding: 40px 16px !important;
+                margin-top: 0px!important;
+            }
+
+            .consultation-block__first {
+                background-image: none;
             }
             
             .consultation-hero-title {
                 position: relative !important;
                 width: 100% !important;
                 height: auto !important;
-                font-size: 24px !important;
+                font-size: 32px !important;
                 margin-bottom: 32px !important;
             }
             
@@ -1814,7 +1926,7 @@
                 width: 100% !important;
                 height: auto !important;
                 font-size: 14px !important;
-                margin-bottom: 24px !important;
+                margin-bottom: 0px !important;
             }
             
             .consultation-form-container {
@@ -1866,8 +1978,23 @@
                 font-size: 11px !important;
                 margin-top: 12px !important;
                 text-align: center !important;
+                margin-left: 0px!important;
+            }
+
+            .cta-title, .cta-btn, .cta-list {
+                margin-left: 0px;
+            }
+
+            .cta-btn {
+                position: relative;
+                margin-top: 35px;
+                bottom: unset;
             }
             
+            .roadmap-card-info {
+                display: none;
+            }
+
             .consultation-bg-vector {
                 display: none !important;
             }
@@ -1997,7 +2124,7 @@
             }
             
             .hero-slide-title {
-                font-size: 32px;
+                font-size: 24px;
             }
             
             .roadmap-title {
@@ -2019,20 +2146,18 @@
                 display: none;
             }
         }
+
+        @media (max-width: 568px) {
+            .hero-slide-title {
+                font-size: 20px;
+            }
+        }
     </style>
         @endpush
 
         @section('content')
     <!-- Hero Slider Section -->
     <section class="hero-slider-section">
-        <!-- Мобильный логотип UPPERLICENSE -->
-        <div class="hero-mobile-logo d-lg-none" style="padding: 16px; display: flex; align-items: center; gap: 8px;">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="20" height="20" fill="#279760"/>
-                <path d="M6 10L9 13L14 7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <span style="font-size: 14px; font-weight: 600; color: #191E1D; font-family: 'Manrope', sans-serif;">UPPERLICENSE</span>
-        </div>
         <div class="container">
             <div class="row">
                 <h2 class="hero-top-title">Мгновенный старт для вашего<br>бизнеса в Казахстане</h2>
@@ -2126,7 +2251,7 @@
                 <div class="about-us__find__cards-container">
                     <div class="about-us__find__card">
                         <div class="about-us__find__card__image">
-                            <img src="{{asset('images/aboutactual.png')}}" alt="Контроль и инновации">
+                            <img src="{{asset('images/about_us-1.png')}}" alt="Контроль и инновации">
                         </div>
                         <p class="about-us__find__card__number">01</p>
                         <div class="about-us__find__card__content">
@@ -2136,7 +2261,7 @@
                     </div>
                     <div class="about-us__find__card">
                         <div class="about-us__find__card__image">
-                            <img src="{{asset('images/aboutprof.png')}}" alt="Экспертность">
+                            <img src="{{asset('images/about_us-2.png')}}" alt="Экспертность">
                         </div>
                         <p class="about-us__find__card__number">02</p>
                         <div class="about-us__find__card__content">
@@ -2146,7 +2271,7 @@
                     </div>
                     <div class="about-us__find__card">
                         <div class="about-us__find__card__image">
-                            <img src="{{asset('images/aboutserv.png')}}" alt="Удобство и доступность">
+                            <img src="{{asset('images/about_us-3.png')}}" alt="Удобство и доступность">
                         </div>
                         <p class="about-us__find__card__number">03</p>
                         <div class="about-us__find__card__content">
@@ -2156,7 +2281,7 @@
                     </div>
                     <div class="about-us__find__card">
                         <div class="about-us__find__card__image">
-                            <img src="{{asset('images/aboutvideo.png')}}" alt="Устойчивость и развитие">
+                            <img src="{{asset('images/about_us-4.png')}}" alt="Устойчивость и развитие">
                         </div>
                         <p class="about-us__find__card__number">04</p>
                         <div class="about-us__find__card__content">
@@ -2298,22 +2423,22 @@
                         <!-- Зеленая рамка -->
                         <div style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
                         
-                        <h3 style="font-size: 28px; margin-bottom: 24px;">Регистрация компании</h3>
+                        <h3 class="services-section__title" style="font-size: 28px; margin-bottom: 24px;">Регистрация компании</h3>
                         <div style="margin-bottom: 24px;">
                             <div style="display: flex; align-items: start; margin-bottom: 12px;">
                                 <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px;" />
-                                <div style="font-size: 14px;">Подготовка учредительных документов</div>
+                                <div class="services-section__descr" style="font-size: 14px;">Подготовка учредительных документов</div>
                             </div>
                             <div style="display: flex; align-items: start; margin-bottom: 12px;">
                                 <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px;" />
-                                <div style="font-size: 14px;">Сдача документов в орган</div>
+                                <div class="services-section__descr" style="font-size: 14px;">Сдача документов в орган</div>
                             </div>
                             <div style="display: flex; align-items: start;">
                                 <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px;" />
-                                <div style="font-size: 14px;">Заполнение формы на регистрацию</div>
+                                <div class="services-section__descr" style="font-size: 14px;">Заполнение формы на регистрацию</div>
                             </div>
                         </div>
-                        <a href="#" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
+                        <a href="#" class="services-section__link" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
                         <img src="{{asset('current/img/image-services-01-2@2x.png')}}" alt="Service" style="position: absolute; right: 0px; bottom: 0px; width: 380px; opacity: 0.9;" />
                     </div>
                 </div>
@@ -2322,130 +2447,130 @@
                 <div class="col-lg-6">
                     <div style="background: #DBF1D6; border-radius: 0; padding: 32px; position: relative; height: 520px;">
                         <div style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
-                        <h3 style="font-size: 28px; margin-bottom: 24px;">Регистрация в СЭЗ и МФЦА</h3>
+                        <h3 class="services-section__title" style="font-size: 28px; margin-bottom: 24px;">Регистрация в СЭЗ и МФЦА</h3>
                         <div style="margin-bottom: 24px;">
                             <div style="display: flex; align-items: start;">
                                 <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px;" />
-                                <div style="font-size: 14px;">Регистрация в Astana Hub</div>
+                                <div class="services-section__descr" style="font-size: 14px;">Регистрация в Astana Hub</div>
                             </div>
                         </div>
-                        <a href="#" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
+                        <a class="services-section__link" href="#" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
                         <img src="{{asset('current/img/image-services-02-2@2x.png')}}" alt="Service" style="position: absolute; right: 0px; bottom: 0px; width: 380px; opacity: 0.9;" />
                     </div>
                 </div>
 
                 <!-- Service 3 -->
                 <div class="col-lg-6">
-                    <div style="background: #E8F5F3; border-radius: 0; padding: 32px; position: relative; height: 520px;">
+                    <div style="background: #F1F7F6; border-radius: 0; padding: 32px; position: relative; height: 520px;">
                         <div style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
-                        <h3 style="font-size: 28px; margin-bottom: 24px;">Открытие банковских счетов</h3>
+                        <h3 class="services-section__title" style="font-size: 28px; margin-bottom: 24px;">Открытие банковских счетов</h3>
                         <div style="margin-bottom: 24px;">
                             <div style="display: flex; align-items: start; margin-bottom: 12px;">
                                 <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px;" />
-                                <div style="font-size: 14px;">Сбор документов</div>
+                                <div class="services-section__descr" style="font-size: 14px;">Сбор документов</div>
                             </div>
                             <div style="display: flex; align-items: start;">
                                 <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px;" />
-                                <div style="font-size: 14px;">Подача заявки на открытие счета</div>
+                                <div class="services-section__descr" style="font-size: 14px;">Подача заявки на открытие счета</div>
                             </div>
                         </div>
-                        <a href="#" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
+                        <a href="#" class="services-section__link" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
                         <img src="{{asset('current/img/image-services-03-2@2x.png')}}" alt="Service" style="position: absolute; right: 0px; bottom: 0px; width: 380px; opacity: 0.9;" />
                     </div>
                 </div>
 
                 <!-- Service 4 -->
                 <div class="col-lg-6">
-                    <div style="background: #F3F4F6; border-radius: 0; padding: 32px; position: relative; height: 520px;">
+                    <div style="background: #EAECEE; border-radius: 0; padding: 32px; position: relative; height: 520px;">
                         <div style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
-                        <h3 style="font-size: 28px; margin-bottom: 24px;">Лицензирование</h3>
+                        <h3 class="services-section__title" style="font-size: 28px; margin-bottom: 24px;">Лицензирование</h3>
                         <div style="margin-bottom: 24px;">
                             <div style="display: flex; align-items: start;">
                                 <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px;" />
-                                <div style="font-size: 14px;">Получение лицензий для всех видов деятельности</div>
+                                <div class="services-section__descr" style="font-size: 14px;">Получение лицензий для всех видов деятельности</div>
                             </div>
                         </div>
-                        <a href="#" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
+                        <a href="#" class="services-section__link" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
                         <img src="{{asset('current/img/image-services-04-2@2x.png')}}" alt="Service" style="position: absolute; right: 0px; bottom: 0px; width: 380px; opacity: 0.9;" />
                     </div>
                 </div>
 
                 <!-- Service 5 -->
                 <div class="col-lg-6">
-                    <div style="background: #E8F5F3; border-radius: 0; padding: 32px; position: relative; height: 520px;">
+                    <div style="background: #F1F7F6; border-radius: 0; padding: 32px; position: relative; height: 520px;">
                         <div style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
-                        <h3 style="font-size: 28px; margin-bottom: 24px;">Получение визы С3 и С5</h3>
+                        <h3 class="services-section__title" style="font-size: 28px; margin-bottom: 24px;">Получение визы С3 и С5</h3>
                         <div style="margin-bottom: 24px;">
                             <div style="display: flex; align-items: start; margin-bottom: 12px;">
                                 <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px;" />
-                                <div style="font-size: 14px;">Сбор документов и оформление</div>
+                                <div class="services-section__descr" style="font-size: 14px;">Сбор документов и оформление</div>
                             </div>
                             <div style="display: flex; align-items: start;">
                                 <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px;" />
-                                <div style="font-size: 14px;">Оформление визы в консульстве РК</div>
+                                <div class="services-section__descr" style="font-size: 14px;">Оформление визы в консульстве РК</div>
                             </div>
                         </div>
-                        <a href="#" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
+                        <a href="#" class="services-section__link" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
                         <img src="{{asset('current/img/image-services-05-2@2x.png')}}" alt="Service" style="position: absolute; right: 0px; bottom: 0px; width: 380px; opacity: 0.9;" />
                     </div>
                 </div>
 
                 <!-- Service 6 -->
                 <div class="col-lg-6">
-                    <div style="background: #FFF9E6; border-radius: 0; padding: 32px; position: relative; height: 520px;">
+                    <div style="background: #F1EBD6; border-radius: 0; padding: 32px; position: relative; height: 520px;">
                         <div style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
-                        <h3 style="font-size: 28px; margin-bottom: 24px;">Отраслевой юрист</h3>
+                        <h3 class="services-section__title" style="font-size: 28px; margin-bottom: 24px;">Отраслевой юрист</h3>
                         <div style="margin-bottom: 24px;">
                             <div style="display: flex; align-items: start;">
                                 <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px;" />
-                                <div style="font-size: 14px;">Услуги юриста на аутсорсинге</div>
+                                <div class="services-section__descr" style="font-size: 14px;">Услуги юриста на аутсорсинге</div>
                             </div>
                                         </div>
-                        <a href="#" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
+                        <a href="#" class="services-section__link" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
                         <img src="{{asset('current/img/image-services-06-2@2x.png')}}" alt="Service" style="position: absolute; right: 0px; bottom: 0px; width: 380px; opacity: 0.9;" />
                                         </div>
                                     </div>
 
                 <!-- Service 7 -->
                 <div class="col-lg-6">
-                    <div style="background: #DBEAFE; border-radius: 0; padding: 32px; position: relative; height: 520px;">
+                    <div style="background: #E2E8F0; border-radius: 0; padding: 32px; position: relative; height: 520px;">
                         <div style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
-                        <h3 style="font-size: 28px; margin-bottom: 24px;">Бухгалтерский аутсорсинг</h3>
+                        <h3 class="services-section__title" style="font-size: 28px; margin-bottom: 24px;">Бухгалтерский аутсорсинг</h3>
                         <div style="margin-bottom: 24px;">
                             <div style="display: flex; align-items: start; margin-bottom: 12px;">
                                 <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px;" />
-                                <div style="font-size: 14px;">Подписание документов в банке</div>
+                                <div class="services-section__descr" style="font-size: 14px;">Подписание документов в банке</div>
                             </div>
                             <div style="display: flex; align-items: start;">
                                 <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px;" />
-                                <div style="font-size: 14px;">Сбор данных клиентов</div>
+                                <div class="services-section__descr" style="font-size: 14px;">Сбор данных клиентов</div>
                                 </div>
                         </div>
-                        <a href="#" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
+                        <a href="#" class="services-section__link" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
                         <img src="{{asset('current/img/image-services-07-2@2x.png')}}" alt="Service" style="position: absolute; right: 0px; bottom: 0px; width: 380px; opacity: 0.9;" />
                     </div>
                 </div>
 
                 <!-- Service 8 -->
                 <div class="col-lg-6">
-                    <div style="background: #F3F4F6; border-radius: 0; padding: 32px; position: relative; height: 520px;">
+                    <div style="background: #EAECEE; border-radius: 0; padding: 32px; position: relative; height: 520px;">
                         <div style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
-                        <h3 style="font-size: 28px; margin-bottom: 24px;">Дополнительные услуги</h3>
+                        <h3 class="services-section__title" style="font-size: 28px; margin-bottom: 24px;">Дополнительные услуги</h3>
                         <div style="margin-bottom: 24px;">
                             <div style="display: flex; align-items: start; margin-bottom: 12px;">
                                 <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px;" />
-                                <div style="font-size: 14px;">Получение ИИН, БИН</div>
+                                <div class="services-section__descr" style="font-size: 14px;">Получение ИИН, БИН</div>
                             </div>
                             <div style="display: flex; align-items: start; margin-bottom: 12px;">
                                 <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px;" />
-                                <div style="font-size: 14px;">Получение ЭЦП</div>
+                                <div class="services-section__descr" style="font-size: 14px;">Получение ЭЦП</div>
                             </div>
                             <div style="display: flex; align-items: start;">
                                 <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px;" />
-                                <div style="font-size: 14px;">Оформление РВП</div>
+                                <div class="services-section__descr" style="font-size: 14px;">Оформление РВП</div>
                             </div>
                         </div>
-                        <a href="#" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
+                        <a href="#" class="services-section__link" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
                         <img src="{{asset('current/img/image-services-08-2@2x.png')}}" alt="Service" style="position: absolute; right: 0px; bottom: 0px; width: 380px; opacity: 0.9;" />
                     </div>
                             </div>
@@ -2586,7 +2711,7 @@
                 </div>
                 
                 <!-- Right Gray Block with Image -->
-                <div class="col-lg-6 cta-right" style="background: #E5E7EB; padding: 60px 40px; display: flex; align-items: center; justify-content: center;">
+                <div class="col-lg-6 cta-right" style="background: #F8F8F8; padding: 60px 40px; display: flex; align-items: center; justify-content: center;">
                     <img src="{{asset('current/img/image-personalarea-2.png')}}" alt="Личный кабинет" class="img-fluid cta-image" style="max-width: 100%; height: auto;" />
                 </div>
             </div>

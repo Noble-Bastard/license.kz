@@ -10,6 +10,197 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 @endpush
 
+<style>
+
+    .about-us__stats, .about-us__cta {
+        margin: 0 auto;
+    }
+
+    .about-us__mob {
+        display: none;
+    }
+
+    .about-us__stats__grid {
+        display: grid;
+    }
+
+    @media screen and (max-width: 768px) {
+        .about-us__find {
+            margin-left: 0px!important;
+        }
+
+        .about-us__find__card {
+            padding: 30px 0 !important;
+            border-bottom: none !important;
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            margin: 0 auto!important;
+            max-width: 100%!important;
+        }
+
+        .service-card__image {
+            width: 160px !important;
+            height: 250px !important;
+            right: -20px !important;
+            bottom: 0 !important;
+        }
+
+        .service-card__button {
+            left: 10px!important;
+        }
+
+        .service-card__image img {
+            height: 135%!important;
+        }
+
+        .about-us__hero__image-container {
+            min-height: 520px!important;
+        }
+
+        .about-us__cta, .about-us__cta__wrapper {
+            width: 100%!important;
+        }
+
+        .about-us__cta__wrapper {
+            padding: 0px!important;
+            height: 400px!important;
+            overflow: unset!important;
+            background: none!important;
+        }
+
+        .about-us__hero {
+            padding-bottom: 0px!important;
+        }
+
+        .about-us__hero__title {
+            width: 100%!important;
+        }
+
+        .about-us__hero::before {
+            display: none!important;
+        }
+
+        .about-us__hero__buttons > a {
+            font-family: Manrope!important;
+            font-weight: 600!important;
+            font-size: 16px!important;
+            line-height: 100%!important;
+            letter-spacing: 0%!important;
+        }
+
+        .about-us__mission__content p {
+            font-family: Manrope;
+            font-weight: 500!important;
+            font-size: 16px!important;
+            line-height: 120%!important;
+            letter-spacing: -2%!important;
+            text-align: center!important;
+        }
+
+        .about-us__find__header h2 {
+            font-family: Manrope;
+            font-weight: 500!important;
+            font-size: 32px!important;
+            line-height: 120%!important;
+            letter-spacing: -2%!important;
+            text-align: center!important;
+        }
+
+        .about-us__find__card__title {
+            font-family: Manrope;
+            font-weight: 500!important;
+            font-size: 16px!important;
+            line-height: 120%!important;
+        }
+
+        .about-us__find__card__description {
+            font-family: Manrope;
+            font-weight: 500!important;
+            font-size: 14px!important;
+            line-height: 150%!important;
+        }
+
+        .about-us__cta__pattern {
+            display: none!important;
+        }
+
+        .about-us__cta {
+            padding: 20px 0px!important;
+            min-height: 600px!important;
+            margin-top: 80px!important;
+        }
+
+        .about-us__features__card {
+            width: 100%!important;
+        }
+
+        .about-us__cta__content h2 {
+            font-family: Manrope;
+            font-weight: 500!important;
+            font-size: 30px!important;
+            text-align: center!important;
+            line-height: 110%!important;
+        }
+
+        .about-us__stats__grid {
+            display: none!important;
+        }
+
+        .about-us__mob {
+            display: block;
+            padding: 0 15px;
+        }
+
+        .about-us__stats {
+            padding-top: 20px!important;
+            background: #fff!important;
+            width: 100%!important;
+            min-height: 950px;
+        }
+        
+        .about-us__mob__header {
+            background: #191E1D;
+            color: #fff;
+            font-family: Manrope;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 150%;
+            padding: 30px;
+        }
+
+        .about-us__mob__logo {
+            margin-bottom: 30px;
+        }
+
+        .about-us__mob__item {
+            width: 100%;
+            max-width: 100%;
+            border: 1px solid #E8E8E8;
+            padding: 40px 30px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .about-us__mob__item > span {
+            font-family: Manrope;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 150%;
+            vertical-align: bottom;
+        }
+
+        .about-us__mob__number {
+            font-family: Manrope;
+            font-weight: 500;
+            font-size: 32px;
+            line-height: 100%;
+            margin-bottom: 20px;
+        }
+    }
+</style>
+
 @section('content')
     <div class="about-us">
         <!-- Hero Section -->
@@ -336,6 +527,35 @@
                         </div>
                     </div>
 
+                </div>
+
+                <div class="about-us__mob">
+                    <div class="about-us__mob__header">
+                        <div class="about-us__mob__logo">
+                            <img src="{{ asset('images/image62.png') }}" alt="UPPERCASE">
+                        </div>
+                        <p>UPPERLICENSE создан и разработан<br> экспертами группы компаний UPPERCASE</p>
+                    </div>
+                    <div class="about-us__mob__item">
+                        <div class="about-us__mob__number">13+ лет</div>
+                        <span>На рынке юридических услуг и консалтинга</span>
+                    </div>
+                    <div class="about-us__mob__item">
+                        <div class="about-us__mob__number">6</div>
+                        <span>Филиалов в ОАЭ и РК</span>
+                    </div>
+                    <div class="about-us__mob__item">
+                        <div class="about-us__mob__number">500+</div>
+                        <span>Успешно завершенных проектов</span>
+                    </div>
+                    <div class="about-us__mob__item">
+                        <div class="about-us__mob__number">300+</div>
+                        <span>Опытных специалистов в команде</span>
+                    </div>
+                    <div class="about-us__mob__item wide">
+                        <div class="about-us__mob__number">3000+</div>
+                        <span>Клиентов в области регистрации, лицензирования, сопровождения международных сделок и корпоративного права</span>
+                    </div>
                 </div>
             </div>
         </div>
