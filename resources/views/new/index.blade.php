@@ -21,6 +21,7 @@
             color: #1E1E1E;
             font-family: 'Manrope', sans-serif;
             margin-bottom: 37px;
+            line-height: 110%;
         }
         
         .hero-corner-frame {
@@ -53,7 +54,7 @@
         .hero-slide-title {
             font-size: 24px;
             font-weight: 500;
-            line-height: 1.2;
+            line-height: 120%;
             color: white;
             padding-bottom: 20px;
             font-family: 'Manrope', sans-serif;
@@ -61,8 +62,9 @@
         
         .hero-slide-description {
             font-size: 16px;
-            line-height: 1.6;
-            color: white;
+            line-height: 150%;
+            color: #F6F7F8;
+            opacity: 0.7;
             font-family: 'Manrope', sans-serif;
         }
         
@@ -89,6 +91,7 @@
             font-weight: 600;
             font-size: clamp(0.875rem, 0.9vw + 0.25rem, 1rem);
             transition: all 0.3s;
+            line-height: 100%;
             font-family: 'Manrope', sans-serif;
         }
         
@@ -269,6 +272,7 @@
             color: #1E1E1E;
             font-family: 'Manrope', sans-serif;
             text-align: left;
+            line-height: 100%;
         }
         
         .roadmap-timeline {
@@ -340,6 +344,7 @@
             color: #1E1E1E;
             margin-bottom: 16px;
             font-family: 'Manrope', sans-serif;
+            line-height: 120%;
         }
         
         .roadmap-milestone.completed .roadmap-date {
@@ -572,6 +577,10 @@
 
         .about-us__find__header h2 {
             max-width: none!important;
+            font-family: Manrope;
+            font-weight: 500!important;
+            line-height: 100%!important;
+
         }
 
         .about-us__find__cards-container {
@@ -591,6 +600,7 @@
             border-radius: 60px;
             color: #FFFFFF;
             font-family: Manrope;
+            line-height: 100%;
             font-size: 16px;
         }
 
@@ -896,6 +906,15 @@
             text-align: right!important;
         }
 
+        .form-input, .form-select, .form-textarea {
+            width: 100%!important;
+        }
+
+        .consultation-form-container {
+            max-width: 762px!important;
+            width: 100%!important;
+        }
+
         /* Специфичные стили для 1920x1080 - более точный диапазон */
         @media (min-width: 1920px) and (max-width: 1921px) {
             .hero-slide .hero-slide-title {
@@ -943,6 +962,28 @@
                 font-size: 52px;
             }
         }
+
+        @media (max-width: 1600px) {
+            .client-case-detail__left,
+            .client-case-detail__right {
+                max-width: 50% !important;
+                flex: none !important;
+            }
+        }
+
+        @media (max-width: 1300px) {
+            .hero-slider-section {
+                margin: 0 20px!important;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .client-case-detail__left,
+            .client-case-detail__right {
+                max-width: 100% !important;
+                flex: none !important;
+            }
+        }
         
         @media (max-width: 768px) {
             /* Глобально запрещаем горизонтальный скролл */
@@ -985,6 +1026,7 @@
                 min-height: auto;
                 padding: 0;
                 background: white;
+                margin: 0!important;
             }
             
             .hero-slider-section::before,
@@ -2151,6 +2193,15 @@
         @media (max-width: 568px) {
             .hero-slide-title {
                 font-size: 18px;
+                max-width: 100%;
+            }
+
+            .hero-slide-description {
+                max-width: 100%;
+            }
+
+            .hero-slide-image {
+                width: 120px;
             }
         }
     </style>
@@ -2301,7 +2352,7 @@
     <!-- Categories Slider Section -->
     <section class="categories-section" style="padding: 80px 0; background: white; overflow: hidden;">
         <div class="container" style="position: relative;">
-                <h2 class="categories-section-title" style="font-size: 52px; font-weight: 500; text-align: center; margin-bottom: 60px; font-family: 'Manrope', sans-serif; color: #191E1D; line-height: 1.2;">
+                <h2 class="categories-section-title" style="font-size: 52px; font-weight: 500; text-align: center; margin-bottom: 60px; font-family: 'Manrope', sans-serif; color: #191E1D; line-height: 100%;">
                 Уже выбрали вашу <span style="color: #279760;">сферу</span><br>деятельности?
             </h2>
             <div class="categories-nav-wrapper" style="text-align: center; margin-bottom: 60px;">
@@ -2337,6 +2388,21 @@
                         <img class="category-img" src="{{asset('current/img/image-spheres-01-10@2x.png')}}" alt="Строительство" style="position: absolute; right: 15px; bottom: 0px; width: 350px; height: 350px; object-fit: contain;" />
                     </div>
 
+                    <div class="category-slide" style="min-width: calc(50% - 12px); background: #F9FAFB; border-radius: 0; padding: 32px; position: relative; min-height: 350px;">
+                        <div class="category-corner" style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
+                        <h3 class="category-title" style="font-size: 26px; margin-bottom: 24px;">Промышленность</h3>
+                        <div class="category-tags" style="position: absolute; bottom: 32px; left: 32px;">
+                            <div style="margin-bottom: 12px;">
+                                <span class="category-tag" style="display: inline-block; background: white; border: 1px solid #D1D5DB; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Энергетика</span>
+                            </div>
+                            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                                <span class="category-tag" style="display: inline-block; background: white; border: 1px solid #D1D5DB; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Добыча полезных ископаемых</span>
+                                <span class="category-tag-more" style="display: inline-flex; align-items: center; justify-content: center; background: #E5E7EB; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 14px; color: #1E7B4E; font-weight: 600;">+4</span>
+                            </div>
+                        </div>
+                        <img class="category-img" src="{{asset('current/img/Image-Spheres-02.png')}}" alt="Промышленность" style="position: absolute; right: 15px; bottom: 0px; width: 350px; height: 350px; object-fit: contain;" />
+                    </div>
+
                     <!-- Category 2 - Импорт-экспорт -->
                     <div class="category-slide" style="min-width: calc(50% - 12px); background: #F9FAFB; border-radius: 0; padding: 32px; position: relative; min-height: 350px;">
                         <div class="category-corner" style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
@@ -2350,7 +2416,7 @@
                                 <span class="category-tag-more" style="display: inline-flex; align-items: center; justify-content: center; background: #E5E7EB; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 14px; color: #1E7B4E; font-weight: 600;">+3</span>
                             </div>
                         </div>
-                        <img class="category-img" src="{{asset('current/img/image-spheres-01-7@2x.png')}}" alt="Импорт-экспорт" style="position: absolute; right: 15px; bottom: 0px; width: 350px; height: 350px; object-fit: contain;" />
+                        <img class="category-img" src="{{asset('current/img/image-spheres-01-6@2x.png')}}" alt="Импорт-экспорт" style="position: absolute; right: 15px; bottom: 0px; width: 350px; height: 350px; object-fit: contain;" />
                     </div>
 
                     <!-- Category 3 - Медицина -->
@@ -2366,7 +2432,7 @@
                                 <span class="category-tag-more" style="display: inline-flex; align-items: center; justify-content: center; background: #E5E7EB; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 14px; color: #1E7B4E; font-weight: 600;">+4</span>
                             </div>
                         </div>
-                        <img class="category-img" src="{{asset('current/img/image-spheres-01-6@2x.png')}}" alt="Медицина" style="position: absolute; right: 15px; bottom: 0px; width: 350px; height: 350px; object-fit: contain;" />
+                        <img class="category-img" src="{{asset('current/img/image-spheres-01-7@2x.png')}}" alt="Медицина" style="position: absolute; right: 15px; bottom: 0px; width: 350px; height: 350px; object-fit: contain;" />
                     </div>
 
                     <!-- Category 4 - Сельское хозяйство -->
@@ -2382,7 +2448,7 @@
                                 <span class="category-tag-more" style="display: inline-flex; align-items: center; justify-content: center; background: #E5E7EB; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 14px; color: #1E7B4E; font-weight: 600;">+2</span>
                             </div>
                         </div>
-                        <img class="category-img" src="{{asset('current/img/Image-Spheres-02.png')}}" alt="Сельское хозяйство" style="position: absolute; right: 15px; bottom: 0px; width: 350px; height: 350px; object-fit: contain;" />
+                        <img class="category-img" src="{{asset('current/img/image-spheres-01-8@2x.png')}}" alt="Сельское хозяйство" style="position: absolute; right: 15px; bottom: 0px; width: 350px; height: 350px; object-fit: contain;" />
                     </div>
 
                     <!-- Category 5 - Культура -->
@@ -2398,7 +2464,7 @@
                                 <span class="category-tag-more" style="display: inline-flex; align-items: center; justify-content: center; background: #E5E7EB; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 14px; color: #1E7B4E; font-weight: 600;">+3</span>
                             </div>
                         </div>
-                        <img class="category-img" src="{{asset('current/img/image-spheres-01-10@2x.png')}}" alt="Культура" style="position: absolute; right: 15px; bottom: 0px; width: 350px; height: 350px; object-fit: contain;" />
+                        <img class="category-img" src="{{asset('current/img/image-spheres-01-9@2x.png')}}" alt="Культура" style="position: absolute; right: 15px; bottom: 0px; width: 350px; height: 350px; object-fit: contain;" />
                     </div>
                 </div>
             </div>
@@ -2448,11 +2514,11 @@
                 <div class="col-lg-6">
                     <div style="background: #DBF1D6; border-radius: 0; padding: 32px; position: relative; height: 520px;">
                         <div style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
-                        <h3 class="services-section__title" style="font-size: 28px; margin-bottom: 24px;">Регистрация в СЭЗ и МФЦА</h3>
+                        <h3 class="services-section__title" style="font-size: 28px; margin-bottom: 24px;">Регистрация компаний в СЭЗ и МФЦА</h3>
                         <div style="margin-bottom: 24px;">
                             <div style="display: flex; align-items: start;">
                                 <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px;" />
-                                <div class="services-section__descr" style="font-size: 14px;">Регистрация в Astana Hub</div>
+                                <div class="services-section__descr" style="font-size: 14px;">Регистрация в качестве участника Astana Hub International Technology Park</div>
                             </div>
                         </div>
                         <a class="services-section__link" href="#" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
@@ -2916,7 +2982,7 @@
                                         <label class="form-label">Комментарий</label>
                                         <textarea class="form-textarea" placeholder="Оставьте свой комментарий" rows="4"></textarea>
                                     </div>
-                                    <div class="col-12 d-flex align-items-center flex-wrap gap-2">
+                                    <div class="col-12 d-flex align-items-center gap-2">
                                         <button type="submit" class="submit-btn">Получить консультацию</button>
                                         <p class="privacy-text mb-0">Нажимая на кнопку, я соглашаюсь на обработку персональных данных</p>
                                     </div>

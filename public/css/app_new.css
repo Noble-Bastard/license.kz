@@ -2526,6 +2526,12 @@ f /* Statistics Section */
     z-index: 1000;
 }
 
+@media (min-width: 1440px) {
+    .header-redesigned {
+        max-width: 100%;
+    }
+}
+
 .header-redesigned__logo-section {
     display: flex;
     flex-direction: row;
@@ -2542,6 +2548,9 @@ f /* Statistics Section */
 }
 
 .header-redesigned__logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 211px;
     height: 69px;
     flex: none;
@@ -2551,8 +2560,6 @@ f /* Statistics Section */
 }
 
 .header-redesigned__logo img {
-    width: 100%;
-    height: 100%;
     -o-object-fit: contain;
     object-fit: contain;
 }
@@ -2669,6 +2676,7 @@ f /* Statistics Section */
 
 .header-redesigned__nav-link:hover {
     background: rgba(25, 30, 29, 0.05);
+    text-decoration: none;
 }
 
 .header-redesigned__nav-link:hover span {
