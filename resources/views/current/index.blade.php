@@ -12,6 +12,10 @@
     <link rel="stylesheet" type="text/css" href="{{asset('/current/css/globals.css')}}" />
     <link rel="stylesheet" type="text/css" href="{{asset('/current/css/bootstrap.css')}}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="{{asset('/current/css/normalize.css')}}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <link rel="stylesheet" href="{{asset('/current/css/style.css')}}">
     <style>
         /* Hero Slider Styles */
         .hero-slider {
@@ -486,476 +490,868 @@
             </div>
         </header>
 
-        <!-- Hero Slider -->
-        <div class="hero-slider">
-            <h2 class="hero-top-title">Мгновенный старт для вашего<br>бизнеса в Казахстане</h2>
-            
-            <!-- Декоративный чекмарк на фоне -->
-            <div class="hero-background-checkmark">
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M20 6L9 17L4 12" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </div>
-            
-            <!-- Slide 1 -->
-            <div class="hero-slide active" data-slide="1">
-                <div class="hero-slide-content">
-                    <h1 class="hero-slide-title">UPPERLICENSE: Идеальное решение для регистрации вашего бизнеса в РК</h1>
-                    <p class="hero-slide-description">Полная автоматизация и удобство управления — откройте новые возможности для вашего бизнеса в Казахстане с нашей инновационной онлайн-платформой!</p>
-                    <a href="#" class="hero-slide-button">Начать регистрацию</a>
-                </div>
-                <img class="hero-slide-image" src="{{asset('current/img/image-slider-1-2.png')}}" alt="Slide 1" />
-            </div>
-
-            <!-- Slide 2 -->
-            <div class="hero-slide" data-slide="2">
-                <div class="hero-slide-content">
-                    <h1 class="hero-slide-title">UPPERLICENSE: Ваш ключ к беспроблемному лицензированию</h1>
-                    <p class="hero-slide-description">Надежное сопровождение вашего процесса лицензирования «под ключ», усиленное базой данных и индивидуально адаптированным личным кабинетом для вашего максимального комфорта и удобства</p>
-                    <a href="#" class="hero-slide-button">Начать регистрацию</a>
-                </div>
-                <img class="hero-slide-image" src="{{asset('current/img/image-slider-1-2.png')}}" alt="Slide 2" />
-            </div>
-
-            <!-- Slide 3 -->
-            <div class="hero-slide" data-slide="3">
-                <div class="hero-slide-content">
-                    <h1 class="hero-slide-title">Получите вашу рабочую и бизнес-визу в Казахстане легко и надежно с UPPERLICENSE. Быстро, эффективно, без хлопот</h1>
-                    <p class="hero-slide-description">Оперативное оформление виз С3 и С5 — максимальная скорость, минимальные сроки</p>
-                    <a href="#" class="hero-slide-button">Начать регистрацию</a>
-                </div>
-                <img class="hero-slide-image" src="{{asset('current/img/image-slider-1-2.png')}}" alt="Slide 3" />
-            </div>
-
-            <!-- Slide 4 -->
-            <div class="hero-slide" data-slide="4">
-                <div class="hero-slide-content">
-                    <h1 class="hero-slide-title">Гарантируйте стабильный рост вашего бизнеса в эпоху перемен с экспертной поддержкой UPPERLICENSE</h1>
-                    <p class="hero-slide-description">Высококлассное юридическое и бухгалтерское сопровождение от UPPERLICENSE — ваш надежный фундамент для стойкости и прогресса вашей компании</p>
-                    <a href="#" class="hero-slide-button">Начать регистрацию</a>
-                </div>
-                <img class="hero-slide-image" src="{{asset('current/img/image-slider-1-2.png')}}" alt="Slide 4" />
-            </div>
-
-            <!-- Slider Controls -->
-            <div class="hero-slider-controls">
-                <div class="hero-slider-pagination">
-                    <span class="current-slide">01</span> / <span class="total-slides">04</span>
-                </div>
-                <div class="hero-slider-arrows">
-                    <div class="hero-arrow prev-arrow">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12.5 15L7.5 10L12.5 5" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
+        <!-- First Section - Hero Slider -->
+        <div class="first">
+            <div class="container">
+                <div class="row">
+                    <div class="first__title">
+                        Мгновенный старт для вашего бизнеса в Казахстане
                     </div>
-                    <div class="hero-arrow next-arrow">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M7.5 5L12.5 10L7.5 15" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Industries Section -->
-        <div class="industries-section">
-            <div class="industries-grid">
-                <!-- Медицина -->
-                <div class="industry-card">
-                    <img class="industry-image" src="{{asset('current/img/image-spheres-01-6@2x.png')}}" alt="Медицина" />
-                    <div class="industry-content">
-                        <h3 class="industry-title">Медицина</h3>
-                        <div class="industry-services">
-                            <div class="industry-service">Медицинское оборудование</div>
-                            <div class="industry-service">Фарм. индустрия</div>
-                        </div>
-                        <div class="industry-more">+4</div>
-                    </div>
-                </div>
-
-                <!-- Импорт-экспорт -->
-                <div class="industry-card">
-                    <img class="industry-image" src="{{asset('current/img/image-spheres-01-7@2x.png')}}" alt="Импорт-экспорт" />
-                    <div class="industry-content">
-                        <h3 class="industry-title">Импорт-экспорт</h3>
-                        <div class="industry-services">
-                            <div class="industry-service">Таможенные процендуры</div>
-                            <div class="industry-service">Траспорт</div>
-                        </div>
-                        <div class="industry-more">+3</div>
-                    </div>
-                </div>
-
-                <!-- Культура -->
-                <div class="industry-card">
-                    <img class="industry-image" src="{{asset('current/img/image-spheres-01-8@2x.png')}}" alt="Культура" />
-                    <div class="industry-content">
-                        <h3 class="industry-title">Культура</h3>
-                        <div class="industry-services">
-                            <div class="industry-service">Кинематограф</div>
-                            <div class="industry-service">Искусство</div>
-                        </div>
-                        <div class="industry-more">+4</div>
-                    </div>
-                </div>
-
-                <!-- Сельское хозяйство -->
-                <div class="industry-card">
-                    <img class="industry-image" src="{{asset('current/img/image-spheres-01-9@2x.png')}}" alt="Сельское хозяйство" />
-                    <div class="industry-content">
-                        <h3 class="industry-title">Сельское хозяйство</h3>
-                        <div class="industry-services">
-                            <div class="industry-service">Выращивание растений</div>
-                            <div class="industry-service">С-х услуги</div>
-                        </div>
-                        <div class="industry-more">+4</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Advantages Section -->
-        <div class="advantages-section" style="padding: 80px 0; background: white;">
-            <div style="max-width: 1280px; margin: 0 auto; padding: 0 80px;">
-                <h2 style="font-size: 52px; font-weight: 500; text-align: center; margin-bottom: 60px;">Преимущества работы с UPPERLICENSE</h2>
-                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;">
-                    <!-- Advantage 1 -->
-                    <div style="background: #F9FAFB; border-radius: 16px; padding: 24px; text-align: center;">
-                        <div style="width: 80px; height: 80px; background: #E8F5F3; border-radius: 12px; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center;">
-                            <img src="{{asset('current/img/image-18@2x.png')}}" alt="Инновации" style="width: 60px;" />
-                        </div>
-                        <div style="font-size: 16px; color: #6B7280; margin-bottom: 8px;">01</div>
-                        <h4 style="font-size: 20px; font-weight: 600; margin-bottom: 12px;">Контроль и инновации</h4>
-                        <p style="font-size: 16px; color: #6B7280; line-height: 1.5;">Уникальная онлайн-панель управления для вашего бизнеса</p>
-                    </div>
-
-                    <!-- Advantage 2 -->
-                    <div style="background: #F9FAFB; border-radius: 16px; padding: 24px; text-align: center;">
-                        <div style="width: 80px; height: 80px; background: #E8F5F3; border-radius: 12px; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center;">
-                            <img src="{{asset('current/img/image-19.png')}}" alt="Экспертность" style="width: 60px;" />
-                        </div>
-                        <div style="font-size: 16px; color: #6B7280; margin-bottom: 8px;">02</div>
-                        <h4 style="font-size: 20px; font-weight: 600; margin-bottom: 12px;">Экспертность</h4>
-                        <p style="font-size: 16px; color: #6B7280; line-height: 1.5;">Полный спектр квалифицированной поддержки для вашего бизнеса</p>
-                    </div>
-
-                    <!-- Advantage 3 -->
-                    <div style="background: #F9FAFB; border-radius: 16px; padding: 24px; text-align: center;">
-                        <div style="width: 80px; height: 80px; background: #E8F5F3; border-radius: 12px; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center;">
-                            <img src="{{asset('current/img/image-20.png')}}" alt="Удобство" style="width: 60px;" />
-                        </div>
-                        <div style="font-size: 16px; color: #6B7280; margin-bottom: 8px;">03</div>
-                        <h4 style="font-size: 20px; font-weight: 600; margin-bottom: 12px;">Удобство и доступность</h4>
-                        <p style="font-size: 16px; color: #6B7280; line-height: 1.5;">Персональный онлайн-кабинет и актуальная база данных</p>
-                    </div>
-
-                    <!-- Advantage 4 -->
-                    <div style="background: #F9FAFB; border-radius: 16px; padding: 24px; text-align: center;">
-                        <div style="width: 80px; height: 80px; background: #E8F5F3; border-radius: 12px; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center;">
-                            <img src="{{asset('current/img/image-21.png')}}" alt="Развитие" style="width: 60px;" />
-                        </div>
-                        <div style="font-size: 16px; color: #6B7280; margin-bottom: 8px;">04</div>
-                        <h4 style="font-size: 20px; font-weight: 600; margin-bottom: 12px;">Устойчивость и развитие</h4>
-                        <p style="font-size: 16px; color: #6B7280; line-height: 1.5;">Фундамент для долгосрочного партнерства, поддержка вашего бизнеса на каждом этапе</p>
-                    </div>
-                </div>
-                <div style="text-align: center; margin-top: 40px;">
-                    <a href="#" style="display: inline-flex; align-items: center; background: #2DD4BF; color: white; padding: 16px 32px; border-radius: 60px; text-decoration: none; font-weight: 600; font-size: 16px;">Узнать всё о платформе</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Services Section -->
-        <div style="padding: 80px 0; background: #F9FAFB;">
-            <div style="max-width: 1280px; margin: 0 auto; padding: 0 80px;">
-                <h2 style="font-size: 52px; font-weight: 500; text-align: center; margin-bottom: 60px;">
-                    Предоставляем качественные и комплексные <span style="color: #2DD4BF;">решения</span> для вашего бизнеса
-                </h2>
-                
-                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;">
-                    <!-- Service 1 -->
-                    <div style="background: #FFF9E6; border-radius: 20px; padding: 32px; position: relative; overflow: hidden;">
-                        <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Регистрация компании</h3>
-                        <div style="margin-bottom: 24px;">
-                            <div style="display: flex; align-items: start; margin-bottom: 12px;">
-                                <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px; margin-top: 2px;" />
-                                <div>Подготовка учредительных документов филиала/представительств</div>
+                    <div class="first__slider__wrap">
+                        <div class="swiper first__slider">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <div class="first__slider__block">
+                                        <div class="first__slider__block__green">
+                                            <div class="first__slider__block__title">UPPERLICENSE: Идеальное решение для регистрации вашего бизнеса в РК</div>
+                                            <div class="first__slider__block__descr">Полная автоматизация и удобство управления — откройте новые возможности для вашего бизнеса в Казахстане с нашей инновационной онлайн-платформой!</div>
+                                            <a href="#" class="first__slider__block__link">Начать регистрацию</a>
+                                            <div class="first__slider__items__wrap">
+                                                <div class="first__slider__counter">
+                                                    <span class="current">01</span> / <span class="total">04</span>
+                                                </div>
+                                                <div class="first__slider__arrows">
+                                                    <div class="prev"><img src="{{asset('current/img/icon-left-arrow.svg')}}" alt=""></div>
+                                                    <div class="next"><img src="{{asset('current/img/icon-right-arrow.svg')}}" alt=""></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="first__slider__block__bg">
+                                            <img src="{{asset('current/img/image-slider-1.png')}}" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="first__slider__block">
+                                        <div class="first__slider__block__green">
+                                            <div class="first__slider__block__title">Гарантируйте стабильный рост вашего бизнеса в эпоху перемен с экспертной поддержкой UPPERLICENSE</div>
+                                            <div class="first__slider__block__descr">Высококлассное юридическое и бухгалтерское сопровождение от UPPERLICENSE — ваш надежный фундамент для стойкости и прогресса вашей компании</div>
+                                            <a href="#" class="first__slider__block__link">Начать регистрацию</a>
+                                            <div class="first__slider__items__wrap">
+                                                <div class="first__slider__counter">
+                                                    <span class="current">02</span> / <span class="total">04</span>
+                                                </div>
+                                                <div class="first__slider__arrows">
+                                                    <div class="prev"><img src="{{asset('current/img/icon-left-arrow.svg')}}" alt=""></div>
+                                                    <div class="next"><img src="{{asset('current/img/icon-right-arrow.svg')}}" alt=""></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="first__slider__block__bg">
+                                            <img src="{{asset('current/img/image-slider-2.png')}}" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="first__slider__block">
+                                        <div class="first__slider__block__green">
+                                            <div class="first__slider__block__title">Получите вашу рабочую и бизнес-визу в Казахстане легко и надежно с UPPERLICENSE. Быстро, эффективно, без хлопот</div>
+                                            <div class="first__slider__block__descr">Оперативное оформление виз С3 и С5 — максимальная скорость, минимальные сроки</div>
+                                            <a href="#" class="first__slider__block__link">Начать регистрацию</a>
+                                            <div class="first__slider__items__wrap">
+                                                <div class="first__slider__counter">
+                                                    <span class="current">03</span> / <span class="total">04</span>
+                                                </div>
+                                                <div class="first__slider__arrows">
+                                                    <div class="prev"><img src="{{asset('current/img/icon-left-arrow.svg')}}" alt=""></div>
+                                                    <div class="next"><img src="{{asset('current/img/icon-right-arrow.svg')}}" alt=""></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="first__slider__block__bg">
+                                            <img src="{{asset('current/img/image-slider-3.png')}}" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="swiper-slide">
+                                    <div class="first__slider__block">
+                                        <div class="first__slider__block__green">
+                                            <div class="first__slider__block__title">UPPERLICENSE: Ваш ключ к беспроблемному лицензированию</div>
+                                            <div class="first__slider__block__descr">Надежное сопровождение вашего процесса лицензирования «под ключ», усиленное базой данных и индивидуально адаптированным личным кабинетом для вашего максимального комфорта и удобства</div>
+                                            <a href="#" class="first__slider__block__link">Начать регистрацию</a>
+                                            <div class="first__slider__items__wrap">
+                                                <div class="first__slider__counter">
+                                                    <span class="current">04</span> / <span class="total">04</span>
+                                                </div>
+                                                <div class="first__slider__arrows">
+                                                    <div class="prev"><img src="{{asset('current/img/icon-left-arrow.svg')}}" alt=""></div>
+                                                    <div class="next"><img src="{{asset('current/img/icon-right-arrow.svg')}}" alt=""></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="first__slider__block__bg">
+                                            <img src="{{asset('current/img/image-slider-4.png')}}" alt="">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div style="display: flex; align-items: start; margin-bottom: 12px;">
-                                <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px; margin-top: 2px;" />
-                                <div>Сдача документов в регистрирующий орган</div>
-                            </div>
-                            <div style="display: flex; align-items: start;">
-                                <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px; margin-top: 2px;" />
-                                <div>Заполнение формы на регистрацию</div>
-                            </div>
-                        </div>
-                        <a href="#" style="display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
-                        <img src="{{asset('current/img/image-services-01-2@2x.png')}}" alt="Service" style="position: absolute; right: 24px; bottom: 24px; width: 150px;" />
-                    </div>
-
-                    <!-- Service 2 -->
-                    <div style="background: #E8F5F3; border-radius: 20px; padding: 32px; position: relative; overflow: hidden;">
-                        <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Регистрация компаний в СЭЗ и МФЦА</h3>
-                        <div style="margin-bottom: 24px;">
-                            <div style="display: flex; align-items: start;">
-                                <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px; margin-top: 2px;" />
-                                <div>Регистрация в качестве участника Astana Hub International Technology Park</div>
-                            </div>
-                        </div>
-                        <a href="#" style="display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
-                        <img src="{{asset('current/img/image-services-02-2@2x.png')}}" alt="Service" style="position: absolute; right: 24px; bottom: 24px; width: 150px;" />
-                    </div>
-
-                    <!-- Service 3 -->
-                    <div style="background: #FFF9E6; border-radius: 20px; padding: 32px; position: relative; overflow: hidden;">
-                        <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Открытие банковских счетов</h3>
-                        <div style="margin-bottom: 24px;">
-                            <div style="display: flex; align-items: start; margin-bottom: 12px;">
-                                <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px; margin-top: 2px;" />
-                                <div>Сбор документов</div>
-                            </div>
-                            <div style="display: flex; align-items: start;">
-                                <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px; margin-top: 2px;" />
-                                <div>Подача заявки на открытие счета</div>
-                            </div>
-                        </div>
-                        <a href="#" style="display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
-                        <img src="{{asset('current/img/image-services-03-2@2x.png')}}" alt="Service" style="position: absolute; right: 24px; bottom: 24px; width: 150px;" />
-                    </div>
-
-                    <!-- Service 4 -->
-                    <div style="background: #F3F4F6; border-radius: 20px; padding: 32px; position: relative; overflow: hidden;">
-                        <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Лицензирование</h3>
-                        <div style="margin-bottom: 24px;">
-                            <div style="display: flex; align-items: start;">
-                                <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px; margin-top: 2px;" />
-                                <div>Получение лицензий и разрешительных документов для всех видов деятельности</div>
-                            </div>
-                        </div>
-                        <a href="#" style="display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
-                        <img src="{{asset('current/img/image-services-04-2@2x.png')}}" alt="Service" style="position: absolute; right: 24px; bottom: 24px; width: 150px;" />
-                    </div>
-
-                    <!-- Service 5 -->
-                    <div style="background: #FFF9E6; border-radius: 20px; padding: 32px; position: relative; overflow: hidden;">
-                        <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Получение визы С3 и С5</h3>
-                        <div style="margin-bottom: 24px;">
-                            <div style="display: flex; align-items: start; margin-bottom: 12px;">
-                                <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px; margin-top: 2px;" />
-                                <div>Сбор документов и оформление приглашения</div>
-                            </div>
-                            <div style="display: flex; align-items: start;">
-                                <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px; margin-top: 2px;" />
-                                <div>Оформление визы в консульстве РК</div>
-                            </div>
-                        </div>
-                        <a href="#" style="display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
-                        <img src="{{asset('current/img/image-services-05-2@2x.png')}}" alt="Service" style="position: absolute; right: 24px; bottom: 24px; width: 150px;" />
-                    </div>
-
-                    <!-- Service 6 -->
-                    <div style="background: #FEF3C7; border-radius: 20px; padding: 32px; position: relative; overflow: hidden;">
-                        <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Предоставление отраслевого юриста</h3>
-                        <div style="margin-bottom: 24px;">
-                            <div style="display: flex; align-items: start;">
-                                <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px; margin-top: 2px;" />
-                                <div>Услуги юриста на аутсорсинге для вашего бизнеса</div>
-                            </div>
-                        </div>
-                        <a href="#" style="display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
-                        <img src="{{asset('current/img/image-services-06-2@2x.png')}}" alt="Service" style="position: absolute; right: 24px; bottom: 24px; width: 150px;" />
-                    </div>
-
-                    <!-- Service 7 -->
-                    <div style="background: #DBEAFE; border-radius: 20px; padding: 32px; position: relative; overflow: hidden;">
-                        <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Бухгалтерский аутсорсинг</h3>
-                        <div style="margin-bottom: 24px;">
-                            <div style="display: flex; align-items: start; margin-bottom: 12px;">
-                                <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px; margin-top: 2px;" />
-                                <div>Подписание документов в банке (работа с менеджером банка)</div>
-                            </div>
-                            <div style="display: flex; align-items: start;">
-                                <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px; margin-top: 2px;" />
-                                <div>Сбор данных клиентов</div>
-                            </div>
-                        </div>
-                        <a href="#" style="display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
-                        <img src="{{asset('current/img/image-services-07-2@2x.png')}}" alt="Service" style="position: absolute; right: 24px; bottom: 24px; width: 150px;" />
-                    </div>
-
-                    <!-- Service 8 -->
-                    <div style="background: #F3F4F6; border-radius: 20px; padding: 32px; position: relative; overflow: hidden;">
-                        <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Дополнительные услуги</h3>
-                        <div style="margin-bottom: 24px;">
-                            <div style="display: flex; align-items: start; margin-bottom: 12px;">
-                                <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px; margin-top: 2px;" />
-                                <div>Получение ИИН, БИН</div>
-                            </div>
-                            <div style="display: flex; align-items: start; margin-bottom: 12px;">
-                                <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px; margin-top: 2px;" />
-                                <div>Получение ЭЦП</div>
-                            </div>
-                            <div style="display: flex; align-items: start;">
-                                <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px; margin-top: 2px;" />
-                                <div>Оформление РВП</div>
-                            </div>
-                        </div>
-                        <a href="#" style="display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
-                        <img src="{{asset('current/img/image-services-08-2@2x.png')}}" alt="Service" style="position: absolute; right: 24px; bottom: 24px; width: 150px;" />
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Stats Section -->
-        <div style="padding: 80px 0; background: white;">
-            <div style="max-width: 1280px; margin: 0 auto; padding: 0 80px;">
-                <h2 style="font-size: 52px; font-weight: 500; text-align: center; margin-bottom: 60px;">О группе UPPERCASE</h2>
-                <div style="display: grid; grid-template-columns: 300px 1fr; gap: 24px; align-items: start;">
-                    <!-- Left Card -->
-                    <div style="background: #1E1E1E; border-radius: 20px; padding: 40px; color: white;">
-                        <img src="{{asset('current/img/logo-1.svg')}}" alt="UPPERCASE" style="width: 120px; margin-bottom: 24px;" />
-                        <p style="font-size: 16px; line-height: 1.6;">UPPERLICENSE создан и разработан экспертами группы компаний UPPERCASE</p>
-                    </div>
-
-                    <!-- Right Grid -->
-                    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;">
-                        <div style="background: #F9FAFB; border-radius: 16px; padding: 32px;">
-                            <div style="font-size: 48px; font-weight: 700; color: #2DD4BF; margin-bottom: 12px;">13+ лет</div>
-                            <div style="font-size: 16px; color: #6B7280;">На рынке юридических услуг и консалтинга</div>
-                        </div>
-                        <div style="background: #F9FAFB; border-radius: 16px; padding: 32px;">
-                            <div style="font-size: 48px; font-weight: 700; color: #2DD4BF; margin-bottom: 12px;">6</div>
-                            <div style="font-size: 16px; color: #6B7280;">Филиалов в ОАЭ и РК</div>
-                        </div>
-                        <div style="background: #F9FAFB; border-radius: 16px; padding: 32px;">
-                            <div style="font-size: 48px; font-weight: 700; color: #2DD4BF; margin-bottom: 12px;">500+</div>
-                            <div style="font-size: 16px; color: #6B7280;">Успешно завершенных проектов</div>
-                        </div>
-                        <div style="background: #F9FAFB; border-radius: 16px; padding: 32px;">
-                            <div style="font-size: 48px; font-weight: 700; color: #2DD4BF; margin-bottom: 12px;">300+</div>
-                            <div style="font-size: 16px; color: #6B7280;">Опытных специалистов в команде</div>
-                        </div>
-                        <div style="background: #F9FAFB; border-radius: 16px; padding: 32px; grid-column: span 2;">
-                            <div style="font-size: 48px; font-weight: 700; color: #2DD4BF; margin-bottom: 12px;">3000+</div>
-                            <div style="font-size: 16px; color: #6B7280;">Клиентов в области регистрации, лицензирования, сопровождения международных сделок и корпоративного права</div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- CTA Section -->
-        <div style="padding: 80px 0; background: #2DD4BF; position: relative; overflow: hidden;">
-            <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; opacity: 0.1;">
-                <div style="width: 100%; height: 100%; background: repeating-linear-gradient(45deg, transparent, transparent 10px, white 10px, white 12px);"></div>
-            </div>
-            <div style="max-width: 1280px; margin: 0 auto; padding: 0 80px; position: relative; z-index: 2; text-align: center;">
-                <h2 style="font-size: 52px; font-weight: 500; color: white; margin-bottom: 24px;">Присоединяйтесь к UPPERLICENSE!</h2>
-                <p style="font-size: 20px; color: white; margin-bottom: 40px; opacity: 0.9;">Мы делаем процесс получения лицензий и разрешений в Казахстане максимально простым и удобным.</p>
-                <div style="display: flex; gap: 16px; justify-content: center;">
-                    <a href="#" style="display: inline-flex; align-items: center; background: #1E1E1E; color: white; padding: 16px 32px; border-radius: 60px; text-decoration: none; font-weight: 600; font-size: 16px;">Стать клиентом</a>
-                    <a href="#" style="display: inline-flex; align-items: center; background: white; color: #1E1E1E; padding: 16px 32px; border-radius: 60px; text-decoration: none; font-weight: 600; font-size: 16px;">Стать партнёром</a>
+        <!-- Second Section - Advantages -->
+        <div class="second">
+            <div class="container">
+                <div class="row">
+                    <div class="second__title">Преимущества работы с UPPERLICENSE</div>
+                    <div class="second__wrap">
+                        <div class="col-md-6 col-12 col-sm-12 col-xs-12 col-xl-3 col-lg-3">
+                            <div class="second__block">
+                                <div class="second__block__img">
+                                    <img src="{{asset('current/img/Image-Features-01.png')}}" alt="">
+                                </div>
+                                <div class="second__block__wrap">
+                                    <div class="second__block__number">01</div>
+                                    <div class="second__block__title">Контроль и инновации</div>
+                                    <div class="second__block__descr">Уникальная онлайн-панель управления для вашего бизнеса</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12 col-sm-12 col-xs-12 col-xl-3 col-lg-3">
+                            <div class="second__block">
+                                <div class="second__block__img">
+                                    <img src="{{asset('current/img/Image-Features-02.png')}}" alt="">
+                                </div>
+                                <div class="second__block__wrap">
+                                    <div class="second__block__number">02</div>
+                                    <div class="second__block__title">Экспертность</div>
+                                    <div class="second__block__descr">Полный спектр квалифицированной поддержки для вашего бизнеса</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12 col-sm-12 col-xs-12 col-xl-3 col-lg-3">
+                            <div class="second__block">
+                                <div class="second__block__img">
+                                    <img src="{{asset('current/img/Image-Features-03.png')}}" alt="">
+                                </div>
+                                <div class="second__block__wrap">
+                                    <div class="second__block__number">03</div>
+                                    <div class="second__block__title">Удобство и доступность</div>
+                                    <div class="second__block__descr">Персональный онлайн-кабинет и актуальная база данных</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-12 col-sm-12 col-xs-12 col-xl-3 col-lg-3">
+                            <div class="second__block">
+                                <div class="second__block__img">
+                                    <img src="{{asset('current/img/Image-Features-04.png')}}" alt="">
+                                </div>
+                                <div class="second__block__wrap">
+                                    <div class="second__block__number">04</div>
+                                    <div class="second__block__title">Устойчивость и развитие</div>
+                                    <div class="second__block__descr">Фундамент для долгосрочного партнерства, поддержка вашего бизнеса на каждом этапе</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" class="second__button">Узнать всё о платформе</a>
                 </div>
             </div>
         </div>
 
-        <!-- RoadMap Section -->
-        <div class="roadmap-section">
-            <h2 class="roadmap-title">UPPERLICENSE RoadMap</h2>
-            <div class="roadmap-container">
-                <div class="roadmap-timeline">
-                    <!-- Milestone 1 -->
-                    <div class="roadmap-milestone completed">
-                        <div class="roadmap-dot"></div>
-                        <div class="roadmap-year">2023</div>
-                        <div class="roadmap-date">20 декабря</div>
+        <!-- Third Section - Industries -->
+        <div class="third">
+            <div class="container">
+                <div class="row">
+                    <div class="third__title__wrap">
+                        <div class="third__title">Уже выбрали вашу <span class="green">сферу</span> деятельности?</div>
+                        <div class="third__arrow">
+                            <div class="third__arrow__prev">
+                                <img src="{{asset('current/img/ic-arrow-prev-black.svg')}}" alt="">
+                            </div>
+                            <div class="third__arrow__next">
+                                <img src="{{asset('current/img/ic-arrow-next-black.svg')}}" alt="">
+                            </div>
+                        </div>
                     </div>
-
-                    <!-- Milestone 2 -->
-                    <div class="roadmap-milestone">
-                        <div class="roadmap-dot"></div>
-                        <div class="roadmap-year">2024</div>
-                        <div class="roadmap-date">20 января</div>
-                        <p class="roadmap-description">Внедрение ИИ-решений для оптимизации бизнес-процессов и улучшения обслуживания клиентов</p>
+                    <div class="third__wrap swiper">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide third__slider__item">
+                                <div class="third__slider__item__title">
+                                    Строительство
+                                </div>
+                                <div class="third__slider__item__link__wrapper">
+                                    <a href="#" class="third__slider__item__link">Строительные работы</a>
+                                    <a href="#" class="third__slider__item__link">Контроль СР</a>
+                                    <div class="third__slider__item__link__green">+2</div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide third__slider__item">
+                                <div class="third__slider__item__title">
+                                    Промышленность
+                                </div>
+                                <div class="third__slider__item__link__wrapper">
+                                    <a href="#" class="third__slider__item__link">Энергетика</a>
+                                    <a href="#" class="third__slider__item__link">Добыча полезных ископаемых</a>
+                                    <div class="third__slider__item__link__green">+4</div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide third__slider__item">
+                                <div class="third__slider__item__title">
+                                    Импорт-экспорт
+                                </div>
+                                <div class="third__slider__item__link__wrapper">
+                                    <a href="#" class="third__slider__item__link">Таможенные процендуры</a>
+                                    <a href="#" class="third__slider__item__link">Траспорт</a>
+                                    <div class="third__slider__item__link__green">+3</div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide third__slider__item">
+                                <div class="third__slider__item__title">
+                                    Медицина
+                                </div>
+                                <div class="third__slider__item__link__wrapper">
+                                    <a href="#" class="third__slider__item__link">Медицинское оборудование</a>
+                                    <a href="#" class="third__slider__item__link">Фарм. индустрия</a>
+                                    <div class="third__slider__item__link__green">+4</div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide third__slider__item">
+                                <div class="third__slider__item__title">
+                                    Сельское хозяйство
+                                </div>
+                                <div class="third__slider__item__link__wrapper">
+                                    <a href="#" class="third__slider__item__link">Выращивание растений</a>
+                                    <a href="#" class="third__slider__item__link">С-х услуги</a>
+                                    <div class="third__slider__item__link__green">+4</div>
+                                </div>
+                            </div>
+                            <div class="swiper-slide third__slider__item">
+                                <div class="third__slider__item__title">
+                                    Культура
+                                </div>
+                                <div class="third__slider__item__link__wrapper">
+                                    <a href="#" class="third__slider__item__link">Кинематограф</a>
+                                    <a href="#" class="third__slider__item__link">Искусство</a>
+                                    <div class="third__slider__item__link__green">+4</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
-                    <!-- Milestone 3 -->
-                    <div class="roadmap-milestone">
-                        <div class="roadmap-dot"></div>
-                        <div class="roadmap-year">2024</div>
-                        <div class="roadmap-date">26 января</div>
-                    </div>
-
-                    <!-- Milestone 4 -->
-                    <div class="roadmap-milestone">
-                        <div class="roadmap-dot"></div>
-                        <div class="roadmap-year">2024</div>
-                        <div class="roadmap-date">30 января</div>
-                    </div>
-                </div>
-
-                <!-- RoadMap Cards -->
-                <div class="roadmap-cards">
-                    <div class="roadmap-card">
-                        <img class="roadmap-card-icon" src="{{asset('current/img/icon1.png')}}" alt="Запуск MVP" />
-                        <h4 class="roadmap-card-title">Запуск MVP</h4>
-                    </div>
-
-                    <div class="roadmap-card">
-                        <img class="roadmap-card-icon" src="{{asset('current/img/icon2.png')}}" alt="Расширение перечня услуг" />
-                        <h4 class="roadmap-card-title">Расширение перечня услуг</h4>
-                    </div>
-
-                    <div class="roadmap-card">
-                        <img class="roadmap-card-icon" src="{{asset('current/img/icon3.png')}}" alt="Упрощенная оплата" />
-                        <h4 class="roadmap-card-title">Упрощенная оплата</h4>
-                    </div>
-
-                    <div class="roadmap-card">
-                        <img class="roadmap-card-icon" src="{{asset('current/img/icon4.png')}}" alt="Реферальная система" />
-                        <h4 class="roadmap-card-title">Реферальная система</h4>
-                    </div>
-                </div>
-
-                <!-- RoadMap Details -->
-                <div class="roadmap-details">
-                    <div class="roadmap-detail">
-                        <h4 class="roadmap-detail-title">Запуск MVP</h4>
-                        <ul class="roadmap-detail-list">
-                            <li>Исследование и анализ рынка</li>
-                            <li>Разработка новых продуктов или услуг</li>
-                        </ul>
-                    </div>
-
-                    <div class="roadmap-detail">
-                        <h4 class="roadmap-detail-title">Расширение перечня услуг</h4>
-                        <ul class="roadmap-detail-list">
-                            <li>Исследование и анализ рынка</li>
-                            <li>Разработка новых продуктов или услуг</li>
-                        </ul>
-                    </div>
-
-                    <div class="roadmap-detail">
-                        <h4 class="roadmap-detail-title">Упрощенная оплата</h4>
-                        <ul class="roadmap-detail-list">
-                            <li>Интеграция с платежными системами</li>
-                            <li>Разработка удобного интерфейса для безопасных онлайн-платежей</li>
-                            <li>Обеспечение безопасности данных клиентов</li>
-                        </ul>
-                    </div>
-
-                    <div class="roadmap-detail">
-                        <h4 class="roadmap-detail-title">Реферальная система</h4>
-                        <ul class="roadmap-detail-list">
-                            <li>Программа лояльности для клиентов</li>
-                            <li>Механизмы отслеживания рефералов и начисления бонусов за привлечение клиентов</li>
-                        </ul>
+                    <div class="third__footer">
+                        <div class="third__footer__title">Делаем процесс лицензирования легким и доступным!</div>
+                        <a href="#" class="third__button">Оформить заявку</a>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Fourth Section - Services -->
+        <div class="fourth">
+            <div class="container">
+                <div class="row fourth__wrap">
+                    <div class="fourth__title">Предоставляем качественные и комплексные <span class="green">решения</span> для вашего бизнеса</div>
+                    <div class="col-12 col-sm-6 col-xl-6 col-lg-6 col-xs-12 fourth__block__items">
+                        <div class="fourth__block__items__text">
+                            <div class="fourth__block__items__text__title">Регистрация компании</div>
+                            <ul class="fourth__block__items__text__list">
+                                <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Подготовка учредительных документов филиала/представительств</li>
+                                <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Сдача документов в регистрирующий орган</li>
+                                <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Заполнение формы на регистрацию</li>
+                            </ul>
+                        </div>
+                        <a href="#" class="fourth__block__items__btn">
+                            Оформить заявку
+                        </a>
+                    </div>
+
+                    <div class="col-12 col-sm-6 col-xl-6 col-lg-6 col-xs-12 fourth__block__items">
+                        <div class="fourth__block__items__text">
+                            <div class="fourth__block__items__text__title">Регистрация компаний в СЭЗ и МФЦА</div>
+                            <ul class="fourth__block__items__text__list">
+                                <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Регистрация в качестве участника Astana Hub International Technology Park</li>
+                            </ul>
+                        </div>
+                        <a href="#" class="fourth__block__items__btn">
+                            Оформить заявку
+                        </a>
+                    </div>
+                    <div class="col-12 col-sm-6 col-xl-6 col-lg-6 col-xs-12 fourth__block__items">
+                        <div class="fourth__block__items__text">
+                            <div class="fourth__block__items__text__title">Открытие банковских счетов</div>
+                            <ul class="fourth__block__items__text__list">
+                                <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Сбор документов</li>
+                                <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Подавка заявки на открытие счета</li>
+                            </ul>
+                        </div>
+                        <a href="#" class="fourth__block__items__btn">
+                            Оформить заявку
+                        </a>
+                    </div>
+                    <div class="col-12 col-sm-6 col-xl-6 col-lg-6 col-xs-12 fourth__block__items">
+                        <div class="fourth__block__items__text">
+                            <div class="fourth__block__items__text__title">Лицензирование</div>
+                            <ul class="fourth__block__items__text__list">
+                                <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Получение лицензий и разрешительных документов для всех видов деятельности</li>
+                            </ul>
+                        </div>
+                        <a href="#" class="fourth__block__items__btn">
+                            Оформить заявку
+                        </a>
+                    </div>
+                    <div class="col-12 col-sm-6 col-xl-6 col-lg-6 col-xs-12 fourth__block__items">
+                        <div class="fourth__block__items__text">
+                            <div class="fourth__block__items__text__title">Получение визы С3 и С5</div>
+                            <ul class="fourth__block__items__text__list">
+                                <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Сбор документов и оформление приглашения</li>
+                                <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Оформление визы в консульстве РК</li>
+                            </ul>
+                        </div>
+                        <a href="#" class="fourth__block__items__btn">
+                            Оформить заявку
+                        </a>
+                    </div>
+                    <div class="col-12 col-sm-6 col-xl-6 col-lg-6 col-xs-12 fourth__block__items">
+                        <div class="fourth__block__items__text">
+                            <div class="fourth__block__items__text__title">Предоставление отраслевого юриста</div>
+                            <ul class="fourth__block__items__text__list">
+                                <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Услуги юриста на аутсорсинге для вашего бизнеса</li>
+                            </ul>
+                        </div>
+                        <a href="#" class="fourth__block__items__btn">
+                            Оформить заявку
+                        </a>
+                    </div>
+                    <div class="col-12 col-sm-6 col-xl-6 col-lg-6 col-xs-12 fourth__block__items">
+                        <div class="fourth__block__items__text">
+                            <div class="fourth__block__items__text__title">Бухгалтерский аутсорсинг</div>
+                            <ul class="fourth__block__items__text__list">
+                                <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Подписание документов в банке (работа с менеджером банка)</li>
+                                <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Сбор данных клиентов</li>
+                            </ul>
+                        </div>
+                        <a href="#" class="fourth__block__items__btn">
+                            Оформить заявку
+                        </a>
+                    </div>
+                    <div class="col-12 col-sm-6 col-xl-6 col-lg-6 col-xs-12 fourth__block__items">
+                        <div class="fourth__block__items__text">
+                            <div class="fourth__block__items__text__title">Дополнительные услуги</div>
+                            <ul class="fourth__block__items__text__list">
+                                <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Получение ИИН, БИН</li>
+                                <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Получение ЭЦП</li>
+                                <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Оформление РВП</li>
+                            </ul>
+                        </div>
+                        <a href="#" class="fourth__block__items__btn">
+                            Оформить заявку
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fifth Section - Stats -->
+        <div class="fifth">
+            <div class="container">
+                <div class="row">
+                    <div class="about-us__stats__wrap">
+                        <table class="stats-table">
+                            <tr>
+                                <td colspan="5" class="top-cell">
+                                    <div class="top-inner">
+                                        <div class="top-inner__title__left">О группе UPPERCASE</div>
+                                        <div class="top-inner__title__right">
+                                            <div class="top-inner__title__right__green">
+                                                3000+
+                                            </div>
+                                            <div class="top-inner__title__right__descr">
+                                                Клиентов в области регистрации, лицензирования, сопровождения международных сделок и корпоративного права
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="bottom-inner">
+                                    <div class="bottom-inner__title">
+                                        13+ лет
+                                    </div>
+                                    <div class="bottom-inner__descr">
+                                        На рынке юридических услуг и консалтинга
+                                    </div>
+                                </td>
+                                <td class="bottom-inner">
+                                    <div class="bottom-inner__title">
+                                        6
+                                    </div>    
+                                    <div class="bottom-inner__descr">
+                                        Филиалов в ОАЭ и РК
+                                    </div>
+                                </td>
+                                <td class="bottom-inner">
+                                    <div class="bottom-inner__title">
+                                        IT-решения
+                                    </div>    
+                                    <div class="bottom-inner__descr">
+                                        В области юридических услуг и консалтинга
+                                    </div>
+                                </td>
+                                <td class="bottom-inner">
+                                    <div class="bottom-inner__title">
+                                        500+
+                                    </div>    
+                                    <div class="bottom-inner__descr">
+                                        Успешно завершенных проектов
+                                    </div>
+                                </td>
+                                <td class="bottom-inner">
+                                    <div class="bottom-inner__title">
+                                        300+
+                                    </div>    
+                                    <div class="bottom-inner__descr">
+                                        Опытных специалистов в команде
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="fifth__list">
+                            <div class="fifth__list__title">О группе UPPERCASE</div>
+                            <div class="fifth__list__block">
+                                <div class="fifth__list__block__title green">3000+</div>
+                                <div class="fifth__list__block__descr">
+                                    Клиентов в области регистрации, лицензирования, сопровождения международных сделок и корпоративного права
+                                </div>
+                            </div>
+                            <div class="fifth__list__block__wrap__first">
+                                <div class="fifth__list__block">
+                                    <div class="fifth__list__block__title">13+ лет</div>
+                                    <div class="fifth__list__block__descr">
+                                        На рынке юридических услуг и консалтинга
+                                    </div>
+                                </div>
+                                <div class="fifth__list__block">
+                                    <div class="fifth__list__block__title">6</div>
+                                    <div class="fifth__list__block__descr">
+                                        Филиалов в ОАЭ и РК
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="fifth__list__block__wrap__second">
+                                <div class="fifth__list__block">
+                                    <div class="fifth__list__block__title">IT-решения</div>
+                                    <div class="fifth__list__block__descr">
+                                        В области юридических услуг и консалтинга
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="fifth__list__block__wrap__third">
+                                <div class="fifth__list__block">
+                                    <div class="fifth__list__block__title">500+</div>
+                                    <div class="fifth__list__block__descr">
+                                        Успешно завершенных проектов
+                                    </div>
+                                </div>
+                                <div class="fifth__list__block">
+                                    <div class="fifth__list__block__title">300+</div>
+                                    <div class="fifth__list__block__descr">
+                                        Опытных специалистов в команде
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sixth Section - Personal Area -->
+        <div class="sixth">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-xl-6 col-lg-6 col-xs-12 sixth__block__wrap">
+                        <div class="sixth__block">
+                            <div class="sixth__block__text">
+                                <div class="sixth__block__title">Пользователю портала предоставляется простой и удобный личный кабинет</div>
+                                <ul class="sixth__block__list">
+                                    <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Отслеживание статус заказанных услуг</li>
+                                    <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Создание надежного архива ваших документов </li>
+                                    <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Получение специализированных отраслевых услуг</li>
+                                </ul>
+                            </div>
+                            <a href="#" class="sixth__block__btn">Получить консультацию</a>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-xl-6 col-lg-6 col-xs-12 sixth__block__wrap">
+                        <div class="sixth__block__gray"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seventh Section - Cases -->
+        <div class="seventh">
+            <div class="container">
+                <div class="row">
+                    <div class="seventh__title__wrap">
+                        <div class="seventh__title">Кейсы наших клиентов</div>
+                        <div class="seventh__arrow">
+                            <div class="seventh__arrow__prev">
+                                <img src="{{asset('current/img/ic-arrow-prev-black.svg')}}" alt="">
+                            </div>
+                            <div class="seventh__arrow__next">
+                                <img src="{{asset('current/img/ic-arrow-next-black.svg')}}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-xl-5 col-lg-5 col-xs-12">
+                        <div class="seventh__block">
+                            <div class="seventh__block__title">Розничная торговля путём заказа товаров по почте</div>
+                            <div class="seventh__block__content">
+                                <div class="seventh__block__content__img">
+                                    <img src="{{asset('current/img/technicol.png')}}" alt="">
+                                </div>
+                                <div class="seventh__block__content__block">
+                                    <div class="seventh__block__content__block__title">Технониколь</div>
+                                    <div class="seventh__block__content__block__descr">Производитель строительных материалов и систем</div>
+                                </div>
+                            </div>
+                            <a href="#" class="seventh__block__btn">
+                                Смотреть видео-отзыв
+                                <img src="{{asset('current/img/play.png')}}" alt="">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-xl-7 col-lg-7 col-xs-12">
+                        <div class="seventh__list">
+                            <div class="seventh__list__gray">
+                                <div class="seventh__list__gray__title">Входные параметры</div>
+                                <ul class="seventh__list__gray__list">
+                                    <li>
+                                        <img src="{{asset('current/img/ic-chek.svg')}}" alt="">
+                                        <div>В короткие сроки (7 рабочих дней) получить лицензию на проведение строительно-монтажных работ 1 категории.</div>
+                                    </li>
+                                    <li>
+                                        <img src="{{asset('current/img/ic-chek.svg')}}" alt="">
+                                        <div>Получить консультирование отраслевого юриста по квалификационным требованиям и нормативно-правовым актам в сфере строительства.</div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="seventh__list__gray">
+                                <div class="seventh__list__gray__title">Решение</div>
+                                <ul class="seventh__list__gray__list">
+                                    <li>
+                                        <img src="{{asset('current/img/ic-chek.svg')}}" alt="">
+                                        <div>Получение консультации отраслевого юриста. Консультация опытного юриста по вопросам квалификационных требований и нормативно-правовых актов в сфере строительства.</div>
+                                    </li>
+                                    <li>
+                                        <img src="{{asset('current/img/ic-chek.svg')}}" alt="">
+                                        <div>Советы и рекомендации по подготовке документов и прохождению процедуры лицензирования.</div>
+                                    </li>
+                                    <li>
+                                        <img src="{{asset('current/img/ic-chek.svg')}}" alt="">
+                                        <div>Подготовка необходимого пакета документов</div>
+                                    </li>
+                                </ul>
+                                <a class="seventh__list__gray__btn" href="#">Показать полностью</a>
+                            </div>
+                            <div class="seventh__list__green">
+                                <div class="seventh__list__green__title">Результат</div>
+                                <ul class="seventh__list__green__list">
+                                    <li>
+                                        <img src="{{asset('current/img/ic-chek.svg')}}" alt="">
+                                        <div>
+                                            В результате успешной реализации этого кейса, компания смогла получить лицензию на проведение строительно-монтажных работ 1 категории в короткие сроки, а также получила консультацию отраслевого юриста, что позволило ей эффективно соблюсти все требования и нормативы в сфере строительства
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Eighteth Section - Trust -->
+        <div class="eighteth">
+            <div class="container">
+                <div class="row">
+                    <div class="eighteth__title__wrap">
+                        <div class="eighteth__title">Нам доверяют</div>
+                        <div class="eighteth__arrow">
+                            <div class="eighteth__arrow__prev">
+                                <img src="{{asset('current/img/ic-arrow-prev-black.svg')}}" alt="">
+                            </div>
+                            <div class="eighteth__arrow__next">
+                                <img src="{{asset('current/img/ic-arrow-next-black.svg')}}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="eighteth__wrap swiper">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide eighteth__slider__item">
+                                <img src="{{asset('current/img/image 48.png')}}" alt="">
+                            </div>
+                            <div class="swiper-slide eighteth__slider__item">
+                                <img src="{{asset('current/img/image 49.png')}}" alt="">
+                            </div>
+                            <div class="swiper-slide eighteth__slider__item">
+                                <img src="{{asset('current/img/image 50.png')}}" alt="">
+                            </div>
+                            <div class="swiper-slide eighteth__slider__item">
+                                <img src="{{asset('current/img/image 53.png')}}" alt="">
+                            </div>
+                            <div class="swiper-slide eighteth__slider__item">
+                                <img src="{{asset('current/img/image 48.png')}}" alt="">
+                            </div>
+                            <div class="swiper-slide eighteth__slider__item">
+                                <img src="{{asset('current/img/image 49.png')}}" alt="">
+                            </div>
+                            <div class="swiper-slide eighteth__slider__item">
+                                <img src="{{asset('current/img/image 50.png')}}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nineth Section - Contact -->
+        <div class="nineth">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-xl-5 col-lg-5 col-xs-12">
+                        <div class="nineth__title">Свяжитесь с нами</div>
+                        <div class="nineth__descr">Предоставимтбыстрое и эффективное открытие и ведение бизнеса в Казахстане</div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-xl-7 col-lg-7 col-xs-12">
+                        <div class="nineth__form">
+                            <div class="nineth__form__input">
+                                <label for="name">
+                                    Представьтесь пожалуйста
+                                </label>
+                                <input id="name" placeholder="Ф.И.О" type="text" />
+                            </div>
+                            <div class="nineth__form__input">
+                                <label class="form-label">Услуга</label>
+                                <select class="form-select">
+                                    <option value="">Выберите услугу</option>
+                                    <option value="licensing">Лицензирование</option>
+                                    <option value="registration">Регистрация компании</option>
+                                    <option value="legal">Юридическое сопровождение</option>
+                                    <option value="accounting">Бухгалтерия</option>
+                                </select>
+                            </div>
+                            <div class="nineth__form__input">
+                                <label for="email">
+                                    Электронная почта
+                                </label>
+                                <input id="email" placeholder="example@gmail.com" type="text" />
+                            </div>
+                            <div class="nineth__form__input">
+                                <label for="phone">
+                                    Телефон
+                                </label>
+                                <input id="phone" type="text" />
+                            </div>
+                            <div class="nineth__form__textarea">
+                                <label for="comment">
+                                    Комментарий
+                                </label>
+                                <textarea id="comment"></textarea>
+                            </div>
+                            <div class="nineth__form__footer">
+                                <a class="nineth__form__footer__btn" href="#">Получить консультацию</a>
+                                <div class="ninth__form__warn">Нажимая на кнопку, я соглашаюсь на обработку персональных данных </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ten Section - FAQ -->
+        <div class="ten">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-xl-5 col-lg-5 col-xs-12">
+                        <div class="ten__title">Ответы на вопросы</div>
+                    </div>
+                    <div class="col-12 col-sm-12 col-xl-7 col-lg-7 col-xs-12">
+                        <div class="ten__accordion">
+                            <div class="ten__accordion-item">
+                              <button class="ten__accordion-header">
+                                Каковы сроки регистрации бизнеса в Казахстане?
+                                <span class="icon">+</span>
+                              </button>
+                              <div class="ten__accordion-content">
+                                <p>Предоставим  быстрое и эффективное открытие и ведение бизнеса в Казахстане. В остальных случаях расчетный счет можно открыть за один день. Сразу после подачи заявки вы получите реквизиты и сможете выставлять счета на оплату. После встречи с представителем банка появится возможность принимать деньги и совершать исходящие платежи.</p>
+                              </div>
+                            </div>
+                          
+                            <div class="ten__accordion-item">
+                              <button class="ten__accordion-header">
+                                Какие основные требования для регистрации компании в Казахстане?
+                                <span class="icon">+</span>
+                              </button>
+                              <div class="ten__accordion-content">
+                                <p>Предоставим  быстрое и эффективное открытие и ведение бизнеса в Казахстане. В остальных случаях расчетный счет можно открыть за один день. Сразу после подачи заявки вы получите реквизиты и сможете выставлять счета на оплату. После встречи с представителем банка появится возможность принимать деньги и совершать исходящие платежи.</p>
+                              </div>
+                            </div>
+
+                            <div class="ten__accordion-item">
+                                <button class="ten__accordion-header">
+                                    Какие документы понадобятся для регистрации юридического лица в Казахстане?
+                                  <span class="icon">+</span>
+                                </button>
+                                <div class="ten__accordion-content">
+                                  <p>Предоставим  быстрое и эффективное открытие и ведение бизнеса в Казахстане. В остальных случаях расчетный счет можно открыть за один день. Сразу после подачи заявки вы получите реквизиты и сможете выставлять счета на оплату. После встречи с представителем банка появится возможность принимать деньги и совершать исходящие платежи.</p>
+                                </div>
+                            </div>
+
+                            <div class="ten__accordion-item">
+                                <button class="ten__accordion-header">
+                                    Можно ли в казахстанском банке открыть счет для ИП удаленно?
+                                  <span class="icon">+</span>
+                                </button>
+                                <div class="ten__accordion-content">
+                                  <p>Предоставим  быстрое и эффективное открытие и ведение бизнеса в Казахстане. В остальных случаях расчетный счет можно открыть за один день. Сразу после подачи заявки вы получите реквизиты и сможете выставлять счета на оплату. После встречи с представителем банка появится возможность принимать деньги и совершать исходящие платежи.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="ten__accordion-item">
+                                <button class="ten__accordion-header">
+                                    Какие налоги потребуется платить в Казахстане?
+                                  <span class="icon">+</span>
+                                </button>
+                                <div class="ten__accordion-content">
+                                  <p>Предоставим  быстрое и эффективное открытие и ведение бизнеса в Казахстане. В остальных случаях расчетный счет можно открыть за один день. Сразу после подачи заявки вы получите реквизиты и сможете выставлять счета на оплату. После встречи с представителем банка появится возможность принимать деньги и совершать исходящие платежи.</p>
+                                </div>
+                            </div>
+
+                            <div class="ten__accordion-item">
+                                <button class="ten__accordion-header">
+                                    Как долго обычно занимает процесс получения разрешений в стране?
+                                  <span class="icon">+</span>
+                                </button>
+                                <div class="ten__accordion-content">
+                                  <p>Предоставим  быстрое и эффективное открытие и ведение бизнеса в Казахстане. В остальных случаях расчетный счет можно открыть за один день. Сразу после подачи заявки вы получите реквизиты и сможете выставлять счета на оплату. После встречи с представителем банка появится возможность принимать деньги и совершать исходящие платежи.</p>
+                                </div>
+                            </div>
+
+                            <div class="ten__accordion-item">
+                                <button class="ten__accordion-header">
+                                    Какие отрасли и виды деятельности подлежат обязательной лицензированию в Казахстане?
+                                  <span class="icon">+</span>
+                                </button>
+                                <div class="ten__accordion-content">
+                                  <p>Предоставим  быстрое и эффективное открытие и ведение бизнеса в Казахстане. В остальных случаях расчетный счет можно открыть за один день. Сразу после подачи заявки вы получите реквизиты и сможете выставлять счета на оплату. После встречи с представителем банка появится возможность принимать деньги и совершать исходящие платежи.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Eleven Section - RoadMap -->
+        <div class="eleven">
+            <div class="container">
+                <div class="row">
+                    <div class="eleven__title__wrap">
+                        <div class="eleven__title">UPPERLICENSE RoadMap</div>
+                        <div class="eleven__arrow">
+                            <div class="eleven__arrow__prev">
+                                <img src="{{asset('current/img/ic-arrow-prev-black.svg')}}" alt="">
+                            </div>
+                            <div class="eleven__arrow__next">
+                                <img src="{{asset('current/img/ic-arrow-next-black.svg')}}" alt="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="roadmap">
+                        <div class="roadmap-timeline">
+                            <div class="roadmap-milestone completed">
+                                <div class="roadmap-milestone-content">
+                                    <span class="roadmap-year">2023</span>
+                                    <span class="roadmap-date">20 декабря</span>
+                                </div>
+                                <div class="roadmap-dot"></div>
+                            </div>
+        
+                            <div class="roadmap-milestone">
+                                <div class="roadmap-milestone-content">
+                                    <span class="roadmap-year">2024</span>
+                                    <span class="roadmap-date">20 января</span>
+                                </div>
+                                <div class="roadmap-dot"></div>
+                            </div>
+        
+                            <div class="roadmap-milestone">
+                                <div class="roadmap-milestone-content">
+                                    <span class="roadmap-year">2024</span>
+                                    <span class="roadmap-date">26 января</span>
+                                </div>
+                                <div class="roadmap-dot"></div>
+                            </div>
+                            <div class="roadmap-milestone">
+                                <div class="roadmap-milestone-content">
+                                    <span class="roadmap-year">2024</span>
+                                    <span class="roadmap-date">30 января</span>
+                                </div>
+                                <div class="roadmap-dot"></div> 
+                            </div>
+                        </div>
+        
+                        <div class="roadmap-cards">
+                            <div class="roadmap-card">
+                                <img class="roadmap-card-icon" src="{{asset('current/img/roadmap_1.png')}}" alt="Запуск MVP" />
+                                <h4 class="roadmap-card-title">Запуск MVP</h4>
+                                <div class="tooltip-container">
+                                    <img class="roadmap-card-info" src="{{asset('current/img/info_circle.png')}}" alt="">
+                                    <div class="tooltip-text tooltip-text__1">
+                                        <ul>
+                                            <li>Исследование и анализ рынка</li>
+                                            <li>Разработка новых продуктов или услуг</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+        
+                            <div class="roadmap-card">
+                                <img class="roadmap-card-icon" src="{{asset('current/img/roadmap_2.png')}}" alt="Расширение перечня услуг" />
+                                <h4 class="roadmap-card-title">Расширение перечня услуг</h4>
+                                <img class="roadmap-card-info" src="{{asset('current/img/info_circle.png')}}" alt="">
+                                <div class="tooltip-text tooltip-text__2">
+                                    <ul>
+                                        <li>Исследование и анализ рынка</li>
+                                        <li>Разработка новых продуктов или услуг</li>
+                                    </ul>
+                                </div>
+                            </div>
+        
+                            <div class="roadmap-card">
+                                <img class="roadmap-card-icon" src="{{asset('current/img/roadmap_3.png')}}" alt="Упрощенная оплата" />
+                                <h4 class="roadmap-card-title">Упрощенная оплата</h4>
+                                <img class="roadmap-card-info" src="{{asset('current/img/info_circle.png')}}" alt="">
+                                <div class="tooltip-text tooltip-text__3">
+                                    <ul>
+                                        <li>Интеграция с платежными системами</li>
+                                        <li>Разработка удобного интерфейса для безопасных онлайн-платежей</li>
+                                        <li>Обеспечение безопасности данных клиентов</li>
+                                    </ul>
+                                </div>
+                            </div>
+        
+                            <div class="roadmap-card">
+                                <img class="roadmap-card-icon" src="{{asset('current/img/roadmap_4.png')}}" alt="Реферальная система" />
+                                <h4 class="roadmap-card-title">Реферальная система</h4>
+                                <img class="roadmap-card-info" src="{{asset('current/img/info_circle.png')}}" alt="">
+                                <div class="tooltip-text tooltip-text__4">
+                                    <ul>
+                                        <li>Программа лояльности для клиентов</li>
+                                        <li>Механизмы отслеживания рефералов и начисления бонусов за привлечение клиентов</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
         <!-- Footer -->
         <footer style="background: #1E1E1E; color: white; padding: 60px 0 30px;">
@@ -997,56 +1393,11 @@
 </div>
 
 <!-- Modals and Scripts -->
-<script src="{{asset('/current/js/bootstrap.min.js')}}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="{{asset('/current/js/main.js')}}"></script>
 <script>
-    // Hero Slider
-    let currentSlide = 1;
-    const totalSlides = 4;
-    let slideInterval;
-
-    function showSlide(n) {
-        const slides = document.querySelectorAll('.hero-slide');
-        if (n > totalSlides) currentSlide = 1;
-        if (n < 1) currentSlide = totalSlides;
-        
-        slides.forEach(slide => slide.classList.remove('active'));
-        slides[currentSlide - 1].classList.add('active');
-        
-        document.querySelector('.current-slide').textContent = String(currentSlide).padStart(2, '0');
-    }
-
-    function nextSlide() {
-        currentSlide++;
-        showSlide(currentSlide);
-    }
-
-    function prevSlide() {
-        currentSlide--;
-        showSlide(currentSlide);
-    }
-
-    // Auto-play
-    function startSlideShow() {
-        slideInterval = setInterval(nextSlide, 5000);
-    }
-
-    function stopSlideShow() {
-        clearInterval(slideInterval);
-    }
-
-    // Event Listeners
-    document.querySelector('.next-arrow').addEventListener('click', () => {
-        stopSlideShow();
-        nextSlide();
-        startSlideShow();
-    });
-
-    document.querySelector('.prev-arrow').addEventListener('click', () => {
-        stopSlideShow();
-        prevSlide();
-        startSlideShow();
-    });
-
     // Services Dropdown
     function toggleServicesDropdown() {
         const dropdown = document.getElementById('servicesDropdown');
@@ -1062,9 +1413,6 @@
             dropdown.style.display = 'none';
         }
     });
-
-    // Start slideshow
-    startSlideShow();
 </script>
 
 </body>
