@@ -2,7 +2,7 @@
     <!-- Logo Section - Frame 7 -->
     <div class="header-redesigned__logo-section">
         <a href="{{ route('new-index') }}" class="header-redesigned__logo">
-            <img src="{{ asset('/new/images/icons/Frame7.png') }}" alt="Logo" >
+            <img src="{{ asset('/new/images/icons/header-logo.png') }}" alt="Logo" >
         </a>
     </div>
 

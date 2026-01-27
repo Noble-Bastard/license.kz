@@ -15,210 +15,30 @@
             <link href="{{asset('css/about-new-styles.css')}}" rel="stylesheet" type="text/css">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* Hero Slider Styles */
-        .hero-slider-section {
-            position: relative;
-            min-height: clamp(600px, 38vw, 720px);
-            overflow: hidden;
-            background: white;
-            padding: clamp(60px, 6vw, 100px) 0;
-        }
-        
         .hero-top-title {
-            position: absolute;
-            top: -10px;
-            left: 3%;
-            font-size: clamp(2.5rem, 3vw + 1rem, 3.25rem);
+            font-size: 52px;
             font-weight: 500;
             color: #1E1E1E;
             font-family: 'Manrope', sans-serif;
-            z-index: 5;
-        }
-        
-        /* Огромный зеленый фон за текстом */
-        .hero-slider-section::before {
-            content: '';
-            position: absolute;
-            left: 3%;
-            top: 58%;
-            transform: translateY(-50%);
-            width: clamp(600px, 48vw, 950px);
-            height: clamp(480px, 33vw, 620px);
-            background: #279760;
-            border-radius: 0;
-            z-index: 0;
-        }
-        
-        /* Сероватый фон за изображением */
-        .hero-slider-section::after {
-            content: '';
-            position: absolute;
-            right: 3%;
-            top: 58%;
-            transform: translateY(-50%);
-            width: clamp(600px, 48vw, 950px);
-            height: clamp(480px, 33vw, 620px);
-            background: #E5E7EB;
-            border-radius: 0;
-            z-index: 0;
+            margin-bottom: 37px;
+            line-height: 110%;
         }
         
         .hero-corner-frame {
             position: absolute;
-            right: 3%;
-            top: calc(58% - 245px);
-            width: clamp(40px, 3.25vw, 70px);
-            height: clamp(40px, 3.25vw, 60px);
+            right: 0%;
+            top: 0;
+            width: 20px;
+            height: 20px;
             border: 2px solid #279760;
             border-left: none;
             border-bottom: none;
             z-index: 2;
         }
         
-        /* Адаптивы для разных разрешений */
-        @media (min-width: 768px) and (max-width: 1023px) {
-            .hero-corner-frame {
-                top: calc(58% - 200px);
-            }
-            
-            .hero-slide[data-slide="1"] .hero-slide-content,
-            .hero-slide[data-slide="2"] .hero-slide-content,
-            .hero-slide[data-slide="3"] .hero-slide-content,
-            .hero-slide[data-slide="4"] .hero-slide-content {
-                margin-top: clamp(60px, 6vw, 100px);
-                margin-left: clamp(-15px, -1vw, -25px);
-            }
-        }
-        
-        @media (min-width: 1024px) and (max-width: 1439px) {
-            .hero-corner-frame {
-                top: calc(58% - 220px);
-            }
-            
-            .hero-slide[data-slide="1"] .hero-slide-content,
-            .hero-slide[data-slide="2"] .hero-slide-content,
-            .hero-slide[data-slide="3"] .hero-slide-content,
-            .hero-slide[data-slide="4"] .hero-slide-content {
-                margin-top: clamp(70px, 7vw, 120px);
-                margin-left: clamp(-18px, -1.2vw, -28px);
-            }
-        }
-        
-        @media (min-width: 1440px) and (max-width: 1919px) {
-            .hero-corner-frame {
-                top: calc(58% - 245px);
-            }
-            
-            .hero-slide[data-slide="1"] .hero-slide-content,
-            .hero-slide[data-slide="2"] .hero-slide-content,
-            .hero-slide[data-slide="3"] .hero-slide-content,
-            .hero-slide[data-slide="4"] .hero-slide-content {
-                margin-top: clamp(80px, 8vw, 140px);
-                margin-left: clamp(-20px, -1.5vw, -30px);
-            }
-        }
-        
-        /* Специфичные стили для 1920x1080 - более точный диапазон */
-        @media (min-width: 1920px) and (max-width: 1921px) {
-            .hero-corner-frame {
-                top: calc(58% - 310px);
-            }
-            
-            .hero-slide[data-slide="1"] .hero-slide-content,
-            .hero-slide[data-slide="2"] .hero-slide-content,
-            .hero-slide[data-slide="3"] .hero-slide-content,
-            .hero-slide[data-slide="4"] .hero-slide-content {
-                margin-top: 80px;
-                margin-left: -35px;
-            }
-            
-            .hero-slide .hero-slide-title {
-                font-size: 2.75rem !important;
-            }
-            
-            .hero-slide .hero-slide-description {
-                font-size: 1.125rem !important;
-            }
-            
-            .hero-slider-controls {
-                right: 8%;
-            }
-            
-            .hero-slider-section .col-lg-6:last-child img {
-                margin-top: 20px;
-            }
-        }
-        
-        /* Для разрешений от 1921px до 2559px */
-        @media (min-width: 1921px) and (max-width: 2559px) {
-            .hero-corner-frame {
-                top: calc(58% - 270px);
-            }
-            
-            .hero-slide[data-slide="1"] .hero-slide-content,
-            .hero-slide[data-slide="2"] .hero-slide-content,
-            .hero-slide[data-slide="3"] .hero-slide-content,
-            .hero-slide[data-slide="4"] .hero-slide-content {
-                margin-top: 130px;
-                margin-left: -25px;
-            }
-        }
-        
-        /* Исправление для больших экранов 2560px */
-        @media (min-width: 2560px) {
-            .hero-slider-section::before {
-                width: 950px;
-                height: 620px;
-            }
-            
-            .hero-slider-section::after {
-                width: 950px;
-                height: 620px;
-            }
-            
-            .hero-corner-frame {
-                top: calc(58% - 295px);
-                width: 80px;
-                height: 70px;
-            }
-            
-            .hero-slide[data-slide="1"] .hero-slide-content,
-            .hero-slide[data-slide="2"] .hero-slide-content,
-            .hero-slide[data-slide="3"] .hero-slide-content,
-            .hero-slide[data-slide="4"] .hero-slide-content {
-                margin-top: 140px;
-                margin-left: -30px;
-            }
-            
-            .hero-top-title {
-                font-size: 52px;
-            }
-            
-            .hero-slide-content {
-                max-width: 650px;
-            }
-            
-            .hero-slide-title {
-                font-size: 40px;
-            }
-            
-            .hero-slide-description {
-                font-size: 16px;
-            }
-            
-            .about-us__find__header h2 {
-                padding-left: 200px !important;
-            }
-            
-            .roadmap-title {
-                font-size: 52px;
-            }
-        }
-        
         .hero-slide {
             display: none;
-            padding-top: 100px;
-            margin-left: -20px;
+            padding: 30px 20px;
         }
         
         .hero-slide.active {
@@ -231,35 +51,20 @@
             to { opacity: 1; }
         }
         
-        .hero-slide-content {
-            max-width: clamp(500px, 34vw, 650px);
-            position: relative;
-            z-index: 2;
-            margin-bottom: clamp(80px, 6.5vw, 120px);
-        }
-        
-        .hero-slide[data-slide="1"] .hero-slide-content,
-        .hero-slide[data-slide="2"] .hero-slide-content,
-        .hero-slide[data-slide="3"] .hero-slide-content,
-        .hero-slide[data-slide="4"] .hero-slide-content {
-            margin-top: clamp(80px, 8vw, 140px);
-            margin-left: clamp(-20px, -1.5vw, -30px);
-        }
-        
         .hero-slide-title {
-            font-size: clamp(2rem, 2.1vw + 0.5rem, 2.5rem);
+            font-size: 24px;
             font-weight: 500;
-            line-height: 1.2;
+            line-height: 120%;
             color: white;
-            margin-bottom: clamp(18px, 1.5vw, 24px);
+            padding-bottom: 20px;
             font-family: 'Manrope', sans-serif;
         }
         
         .hero-slide-description {
-            font-size: clamp(0.875rem, 0.9vw + 0.25rem, 1rem);
-            line-height: 1.6;
-            color: white;
-            margin-bottom: clamp(24px, 2vw, 32px);
+            font-size: 16px;
+            line-height: 150%;
+            color: #F6F7F8;
+            opacity: 0.7;
             font-family: 'Manrope', sans-serif;
         }
         
@@ -274,6 +79,8 @@
         }
         
         .hero-slide-button {
+            position: absolute;
+            bottom: 40px;
             display: inline-flex;
             align-items: center;
             background: white;
@@ -284,6 +91,7 @@
             font-weight: 600;
             font-size: clamp(0.875rem, 0.9vw + 0.25rem, 1rem);
             transition: all 0.3s;
+            line-height: 100%;
             font-family: 'Manrope', sans-serif;
         }
         
@@ -302,13 +110,6 @@
             right: 5%;
             bottom: 40px;
             z-index: 10;
-        }
-        
-        .hero-slide-content {
-            max-width: 650px;
-            position: relative;
-            z-index: 2;
-            margin-bottom: 120px;
         }
         
         .hero-slider-pagination {
@@ -349,12 +150,6 @@
         }
         
         /* About-us Section */
-        .about-us__find__header h2 {
-            white-space: nowrap;
-            text-align: left !important;
-            margin: 0 !important;
-            padding-left: clamp(120px, 10.5vw, 200px) !important;
-        }
         
         /* Consultation Block - убираем верхнюю линию */
         .consultation-block::before {
@@ -390,6 +185,18 @@
         
         .accordion-button {
             box-shadow: none !important;
+            font-family: Manrope;
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 100%;
+        }
+
+        .accordion-body {
+            font-family: Manrope;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 150%;
+            color: #191E1D;
         }
         
         /* Industries Section */
@@ -464,6 +271,8 @@
             margin-bottom: clamp(40px, 3.8vw, 60px);
             color: #1E1E1E;
             font-family: 'Manrope', sans-serif;
+            text-align: left;
+            line-height: 100%;
         }
         
         .roadmap-timeline {
@@ -471,17 +280,23 @@
             justify-content: space-between;
             position: relative;
             padding-bottom: 40px;
-            margin-bottom: 60px;
+            margin-bottom: 0px;
         }
         
         .roadmap-timeline::before {
             content: '';
             position: absolute;
-            top: 20px;
+            bottom: 38px;
             left: 0;
             right: 0;
             height: 2px;
-            background: linear-gradient(to right, #279760 25%, #E5E7EB 25%, #E5E7EB 100%);
+            background:
+                linear-gradient(to right, #279760 0 25%, transparent 25% 100%),
+                repeating-linear-gradient(
+                    to right,
+                    #E5E7EB 0 6px,
+                    transparent 6px 12px
+                );
         }
         
         .roadmap-milestone {
@@ -491,17 +306,17 @@
         }
         
         .roadmap-dot {
-            width: 40px;
-            height: 40px;
+            width: 20px;
+            height: 20px;
             border-radius: 50%;
-            background: white;
+            background: #E5E7EB;
             border: 2px solid #E5E7EB;
-            margin: 0 auto 16px;
             position: relative;
-            z-index: 2;
             display: flex;
             align-items: center;
             justify-content: center;
+            top: 10px;
+            left: -2px;
         }
         
         .roadmap-milestone.completed .roadmap-dot {
@@ -512,7 +327,7 @@
         .roadmap-milestone.completed .roadmap-dot::after {
             content: '✓';
             color: white;
-            font-size: 20px;
+            font-size: 12px;
             font-weight: bold;
         }
         
@@ -524,11 +339,12 @@
         }
         
         .roadmap-date {
-            font-size: 20px;
+            font-size: 28px;
             font-weight: 600;
             color: #1E1E1E;
             margin-bottom: 16px;
             font-family: 'Manrope', sans-serif;
+            line-height: 120%;
         }
         
         .roadmap-milestone.completed .roadmap-date {
@@ -552,11 +368,110 @@
         }
         
         .roadmap-card {
+            display: flex;
+            align-items: center;
             background: #F9FAFB;
-            border-radius: 16px;
             padding: 32px 24px;
-            text-align: center;
             transition: transform 0.3s;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .roadmap-card:hover {
+            background: #F1F7F6;
+        }
+
+        .roadmap-card:hover > .roadmap-card-info {
+            filter: invert(36%) sepia(67%) saturate(430%) hue-rotate(95deg) brightness(90%) contrast(90%);
+        } 
+
+        .roadmap-milestone-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+        }
+
+        .roadmap-card-info {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+        }
+
+        .tooltip-text ul {
+            list-style-type: disc;
+            margin-left: 20px;
+            padding: 10px;
+        }
+
+        .tooltip-text ul li {
+            font-family: Manrope;
+            font-weight: 500;
+            font-style: Medium;
+            font-size: 16px;
+            line-height: 150%;
+            letter-spacing: 0%;
+        }
+
+        .tooltip-text {
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 10;
+            visibility: hidden;
+            width: 340px; /* Ширина тултипа */
+            background-color: #fff; /* Зеленый фон */
+            box-shadow: 0px 20px 50px 0px #0000001A;
+            position: absolute;
+            color: #191E1D;
+            padding: 8px;
+            border-radius: 6px;
+        }
+
+        /* Сам тултип */
+        .tooltip-text__1, .tooltip-text__2  {
+            top: -75%;
+            left: 90%;
+        }
+
+        .tooltip-text__3 {
+            top: -125%;
+            left: 90%;
+        }
+
+        .tooltip-text__4 {
+            top: -110%;
+            left: 5%;
+        }
+
+        .tooltip-text__4::after {
+            right: 9px;
+            left: 0;
+            content: "";
+            position: absolute;
+            top: 100%; /* Стрелка внизу тултипа */
+            left: unset!important;
+            transform: translateX(-50%);
+            border-width: 5px;
+            border-style: solid;
+            border-color: #fff transparent transparent transparent;
+        } 
+
+        /* Стрелка тултипа */
+        .tooltip-text::after {
+            content: "";
+            position: absolute;
+            top: 100%; /* Стрелка внизу тултипа */
+            left: 15px;
+            transform: translateX(-50%);
+            border-width: 5px;
+            border-style: solid;
+            border-color: #fff transparent transparent transparent;
+        }
+
+        /* Показать тултип при hover */
+        .roadmap-card:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
         }
         
         .roadmap-card:hover {
@@ -566,7 +481,7 @@
         .roadmap-card-icon {
             width: 80px;
             height: 80px;
-            margin: 0 auto 16px;
+            margin-right: 30px;
             object-fit: contain;
         }
         
@@ -623,11 +538,454 @@
         .hero-slide-image {
             display: none;
         }
+
+        .main__block__slider {
+            height: 414px;
+            box-sizing: border-box;
+        }
+
+        .main__block__slider__first {
+            background: #279760;
+            width: 100%;
+            height: 100%;
+            background-image: url('current/img/lines.svg');
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .main__block__slider__second {
+            background: #E5E7EB;
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .main__block__slider__second__img {
+            max-height: 470px;
+            max-width: 470px;
+            width: 100%;
+            position: absolute;
+            top: -56px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .about-us__find {
+            padding-top: 100px!important;
+            padding-bottom: 60px!important;
+        }
+
+        .about-us__find__header h2 {
+            max-width: none!important;
+            font-family: Manrope;
+            font-weight: 500!important;
+            line-height: 100%!important;
+
+        }
+
+        .about-us__find__cards-container {
+            margin-top: 60px!important;
+            padding: 0px!important;
+        }
+
+        .about-us__find__btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
         
-        /* ==============================================
-           МОБИЛЬНАЯ АДАПТАЦИЯ 360px
-        ============================================== */
-        @media (max-width: 767px) {
+        .about-us__find__btn__link {
+            background-color: #279760;
+            padding: 24px;
+            border-radius: 60px;
+            color: #FFFFFF;
+            font-family: Manrope;
+            line-height: 100%;
+            font-size: 16px;
+        }
+
+        .about-us__find__btn__link:hover {
+            text-decoration: none;
+            color: #FFFFFF;
+        }
+
+        .categories-section {
+            position: relative;
+        }
+
+        .categories-nav-wrapper {
+            position: absolute;
+            right: 10px;
+            top: 70px;
+        }
+
+        .trust-section-nav-wrapper {
+            position: absolute;
+            right: 15px;
+            top: 20px;
+        }
+
+        .category-arrow-prev {
+            overflow: visible!important;
+        }
+        
+        .categories-nav-wrapper .hero-arrow svg path, .trust-section-nav-wrapper .hero-arrow svg path {
+            stroke: #191E1D;
+        }
+
+        .stats-table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 160px;
+            margin-bottom: 160px;
+        }
+
+        /* верхний ряд */
+        .top-cell {
+            padding: 0!important;
+        }
+
+        .top-inner {
+            display: flex;
+        }
+
+        .top-inner > div {
+            flex: 1; /* 50% / 50% */
+            padding: 20px;
+        }
+
+        /* линия между верхними блоками */
+        .top-inner > div + div {
+            border-left: 1px solid #ccc;
+        }
+
+        .stats-table td {
+            padding: 20px;
+        }
+
+        /* линии между ячейками */
+        .stats-table td + td {
+            border-left: 1px solid #ccc;
+        }
+
+        .stats-table tr + tr td {
+            border-top: 1px solid #ccc;
+        }
+
+        .top-inner__title__left {
+            color: #191E1D;
+            font-family: Manrope;
+            font-weight: 500;
+            font-style: Medium;
+            font-size: 52px;
+            line-height: 100%;
+            letter-spacing: -2%;
+        }
+
+        .top-inner__title__right, .top-inner__title__left {
+            display: flex;
+            align-items: center;
+        }
+
+        .top-inner__title__right, .top-inner__title__left {
+            padding-bottom: 38px!important;
+        }
+        
+        .top-inner__title__right__green {
+            color: #279760;
+            font-family: Manrope;
+            font-weight: 500;
+            font-style: Medium;
+            font-size: 67px;
+            line-height: 100%;
+            letter-spacing: -2%;
+        }
+
+        .top-inner__title__right__descr {
+            font-family: Manrope;
+            font-weight: 500;
+            font-style: Medium;
+            font-size: 16px;
+            line-height: 150%;
+            letter-spacing: 0%;
+            color: #999999;
+            margin-left: 20px;
+        }
+
+        .bottom-inner__title {
+            font-family: Manrope;
+            font-weight: 500;
+            font-style: Medium;
+            font-size: 36px;
+            line-height: 100%;
+            letter-spacing: -2%;
+            color: #191E1D;
+            margin-bottom: 30px;
+        }
+
+        .bottom-inner__descr {
+            font-family: Manrope;
+            font-weight: 500;
+            font-style: Medium;
+            font-size: 16px;
+            line-height: 150%;
+            letter-spacing: 0%;
+            color: #999999;
+        }
+
+        .about-us__stats__wrap {
+            display: flex;
+            margin: 0 auto;
+        }
+
+        .services-section {
+            max-width: unset!important;
+            padding: 0!important;
+            margin-top: 80px!important;
+        }
+
+        .services-section__title {
+            font-family: Manrope;
+            font-weight: 500!important;
+            font-size: 28px!important;
+            line-height: 120%!important;
+        }
+
+        .services-section__link {
+            font-family: Manrope;
+            font-weight: 600!important;
+            font-size: 16px!important;
+            line-height: 100%!important;
+        }
+
+        .services-section__descr {
+            font-family: Manrope;
+            font-weight: 500!important;
+            font-size: 14px!important;
+            line-height: 150%!important;
+        }
+
+        .cta-list-item {
+            font-family: Manrope;
+            font-weight: 500;
+            font-size: 14px!important;
+            line-height: 150%;
+        }
+
+        .cta-left {
+            background-image: url('current/img/lines.svg');
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position-y: bottom;
+            background-color: #279760; 
+            padding: 30px; 
+        }
+
+        .cta-title, .cta-btn, .cta-list {
+            margin-left: 30px;
+        }
+
+        .cta-btn {
+            position: absolute;
+            bottom: 40px;
+            padding: 24px;
+            font-family: Manrope;
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 100%;
+        }
+
+        .client-case-detail {
+            display: flex;
+            justify-content: space-between!important;
+        }
+        
+        .client-case-detail__checkmark {
+            width: 12px!important;
+        }
+
+        .consultation-hero-subtitle, .consultation-hero-title {
+            top: 0!important;
+            height: auto!important;
+            left: 0!important;
+            position: relative!important;
+        }
+
+        .consultation-block {
+            width: unset!important;
+            margin-top: 160px!important;
+        }
+
+        .consultation-form-container {
+            position: relative!important;
+            top: 0!important;
+            left: 0!important;
+        }
+
+        .consultation-hero-title {
+            margin-bottom: 32px;
+        }
+
+        .consultation-block__first {
+            background-image: url('images/Vector_6908.png');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position-y: bottom;
+            background-position-x: -2%;
+        }
+
+        .privacy-text {
+            position: unset!important;
+            margin-left: 20px!important;
+            max-width: 400px!important;
+            width: 100%!important;
+        }
+
+        .trust-logo-item {
+            border: 1px solid #E8E8E8;
+            max-width: 204px;
+            width: 100%;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .accordion-body {
+            color: #6B7280 !important;
+            opacity: 1 !important;
+            visibility: visible;
+        }
+
+        .about-us__find__card__title {
+            font-family: Manrope;
+            font-weight: 500!important;
+            font-size: 20px!important;
+            line-height: 120%!important;
+        }
+
+        .about-us__find__card__description {
+            font-family: Manrope;
+            font-weight: 500!important;
+            font-size: 16px!important;
+            line-height: 150%!important;
+        }
+
+        .category-title {
+            font-family: Manrope;
+            font-weight: 500!important;
+            font-size: 28px!important;
+            line-height: 120%!important;
+        }
+
+        .category-tag {
+            font-family: Manrope;
+            font-weight: 500!important;
+            font-size: 14px!important;
+            line-height: 100%!important;
+        }
+
+        .categories-footer {
+            max-width: unset!important;
+            border-top: 1px solid #E8E8E8;
+            padding-top: 45px;
+        }
+
+        .categories-footer-text {
+            font-family: Manrope;
+            font-weight: 500!important;
+            font-size: 28px!important;
+            line-height: 120%!important;
+        }
+
+        .categories-footer-btn {
+            font-family: Manrope;
+            font-weight: 600!important;
+            font-size: 16px!important;
+            line-height: 100%!important;
+            text-align: right!important;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%!important;
+        }
+
+        .consultation-form-container {
+            max-width: 762px!important;
+            width: 100%!important;
+        }
+
+        /* Специфичные стили для 1920x1080 - более точный диапазон */
+        @media (min-width: 1920px) and (max-width: 1921px) {
+            .hero-slide .hero-slide-title {
+                font-size: 2.75rem !important;
+            }
+            
+            .hero-slide .hero-slide-description {
+                font-size: 1.125rem !important;
+            }
+            
+            .hero-slider-controls {
+                right: 8%;
+            }
+            
+            .hero-slider-section .col-lg-6:last-child img {
+                margin-top: 20px;
+            }
+        }
+        
+        /* Исправление для больших экранов 2560px */
+        @media (min-width: 2560px) {
+            .hero-slider-section::before {
+                width: 950px;
+                height: 620px;
+            }
+            
+            .hero-slider-section::after {
+                width: 950px;
+                height: 620px;
+            }
+            
+            .hero-top-title {
+                font-size: 52px;
+            }
+            
+            .hero-slide-title {
+                font-size: 40px;
+            }
+            
+            .hero-slide-description {
+                font-size: 16px;
+            }
+            
+            .roadmap-title {
+                font-size: 52px;
+            }
+        }
+
+        @media (max-width: 1600px) {
+            .client-case-detail__left,
+            .client-case-detail__right {
+                max-width: 50% !important;
+                flex: none !important;
+            }
+        }
+
+        @media (max-width: 1300px) {
+            .hero-slider-section {
+                margin: 0 20px!important;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .client-case-detail__left,
+            .client-case-detail__right {
+                max-width: 100% !important;
+                flex: none !important;
+            }
+        }
+        
+        @media (max-width: 768px) {
             /* Глобально запрещаем горизонтальный скролл */
             html, body {
                 overflow-x: hidden !important;
@@ -668,23 +1026,24 @@
                 min-height: auto;
                 padding: 0;
                 background: white;
+                margin: 0!important;
             }
             
             .hero-slider-section::before,
             .hero-slider-section::after {
                 display: none;
             }
-            
-            .hero-corner-frame {
-                display: none;
+
+            #app {
+                padding-top: 20px!important;
             }
-            
+
             /* Заголовок над зеленым блоком */
             .hero-top-title {
                 position: relative !important;
                 top: auto !important;
                 left: auto !important;
-                font-size: 16px !important;
+                font-size: 32px !important;
                 padding: 0 16px !important;
                 margin-bottom: 8px !important;
                 white-space: normal !important;
@@ -700,50 +1059,21 @@
             .hero-slide {
                 padding-top: 0;
                 margin-left: 0;
-            }
-            
-            .hero-slide[data-slide="1"] .hero-slide-content,
-            .hero-slide[data-slide="2"] .hero-slide-content,
-            .hero-slide[data-slide="3"] .hero-slide-content,
-            .hero-slide[data-slide="4"] .hero-slide-content {
-                margin-top: 0;
-                margin-left: 0;
-            }
-            
-            /* Зеленый блок с контентом - по Figma */
-            .hero-slide-content {
-                max-width: calc(100% - 32px);
-                padding: 20px 16px 140px 16px;
-                margin: 0 16px 12px;
-                background: #279760;
-                position: relative;
-                min-height: 340px;
-                overflow: hidden;
-            }
-            
-            /* Зеленая рамка в правом верхнем углу */
-            .hero-slide-content::before {
-                content: '';
-                position: absolute;
-                top: 0;
-                right: 0;
-                width: 24px;
-                height: 24px;
-                border-top: 2px solid rgba(255,255,255,0.4);
-                border-right: 2px solid rgba(255,255,255,0.4);
+                padding-bottom: 10px;
             }
             
             .hero-slide-title {
                 font-size: 14px;
                 line-height: 1.4;
-                margin-bottom: 10px;
                 color: white;
                 font-weight: 500;
                 max-width: 70%;
+                margin-top: 15px;
+                padding-bottom: 10px;
             }
             
             .hero-slide-description {
-                font-size: 10px;
+                font-size: 14px;
                 line-height: 1.5;
                 margin-bottom: 14px;
                 color: rgba(255,255,255,0.85);
@@ -758,6 +1088,7 @@
                 color: #279760;
                 font-weight: 600;
                 display: inline-block;
+                bottom: 20px;
             }
             
             /* Скрываем отдельную колонку с картинкой */
@@ -772,18 +1103,18 @@
             
             /* Контролы слайдера - по Figma */
             .hero-slider-controls {
-                position: relative;
+                position: absolute;
                 right: auto;
-                bottom: auto;
+                bottom: 50px;
                 justify-content: flex-start;
-                padding: 0 16px 16px;
+                padding: 0 20px 16px;
                 gap: 10px;
                 margin-top: 0;
             }
             
             .hero-slider-pagination {
                 font-size: 12px;
-                color: #6B7280;
+                color: #fff;
             }
             
             .hero-arrow {
@@ -812,7 +1143,8 @@
                ПРЕИМУЩЕСТВА - согласно Figma
             ========================================== */
             .about-us__find {
-                padding: 32px 0;
+                margin: 0!important;
+                padding-bottom: 20px!important;
             }
             
             .about-us__find__header {
@@ -820,28 +1152,23 @@
                 margin-bottom: 20px !important;
             }
             
-            .about-us__find__header h2 {
-                font-size: 20px !important;
-                padding-left: 0 !important;
-                white-space: normal;
-                text-align: left !important;
-                line-height: 1.2 !important;
-                font-weight: 500 !important;
-            }
-            
             .about-us__find__cards-container {
-                grid-template-columns: 1fr !important;
-                gap: 0 !important;
+                display: flex!important;
+                flex-direction: column!important;
                 padding: 0 16px !important;
+                margin-top: 20px!important;
+                gap: 0px!important;
             }
             
             .about-us__find__card {
-                padding: 16px 0 !important;
+                padding: 30px 0 !important;
                 border-top: 1px solid #E5E7EB !important;
                 border-bottom: none !important;
                 display: flex !important;
                 flex-direction: column !important;
                 align-items: flex-start !important;
+                margin: 0 auto!important;
+                max-width: 100%!important;
             }
             
             .about-us__find__card:first-child {
@@ -912,7 +1239,7 @@
             }
             
             .stats-mobile-title {
-                font-size: 20px !important;
+                font-size: 32px !important;
                 margin-bottom: 16px !important;
                 font-weight: 500 !important;
             }
@@ -997,6 +1324,7 @@
             ========================================== */
             .client-cases {
                 padding: 32px 0 !important;
+                margin-top: 100px!important;
             }
             
             .client-cases__header {
@@ -1005,7 +1333,7 @@
             }
             
             .client-cases__title {
-                font-size: 20px !important;
+                font-size: 32px !important;
                 font-weight: 500 !important;
             }
             
@@ -1051,7 +1379,7 @@
             }
             
             .client-case-detail__list-item {
-                font-size: 11px !important;
+                font-size: 14px !important;
             }
             
             /* ==========================================
@@ -1282,14 +1610,6 @@
                 padding: 40px 0 !important;
             }
             
-            .categories-section-title {
-                font-size: 24px !important;
-                text-align: left !important;
-                padding: 0 16px !important;
-                margin-bottom: 16px !important;
-                line-height: 1.2 !important;
-            }
-            
             .categories-nav-wrapper {
                 text-align: left !important;
                 padding: 0 16px !important;
@@ -1313,10 +1633,11 @@
             }
             
             .categories-section-title {
-                font-size: 20px !important;
-                text-align: left !important;
+                font-size: 32px !important;
+                text-align: center !important;
                 padding: 0 16px !important;
-                margin-bottom: 8px !important;
+                margin-top: 100%px!important;
+                margin-bottom: 40px !important;
                 line-height: 1.2 !important;
                 font-weight: 500 !important;
             }
@@ -1329,6 +1650,7 @@
                 text-align: left !important;
                 padding: 0 16px !important;
                 margin-bottom: 16px !important;
+                display: none;
             }
             
             .categories-slider-wrapper {
@@ -1407,9 +1729,10 @@
             }
             
             .categories-footer-text {
-                font-size: 16px !important;
+                font-size: 20px !important;
                 line-height: 1.3 !important;
                 font-weight: 500 !important;
+                text-align: center!important;
             }
             
             .categories-footer-btn {
@@ -1424,17 +1747,22 @@
             ========================================== */
             .services-section {
                 padding: 32px 0 !important;
+                margin-top: 0px!important;
             }
             
             .services-title {
-                font-size: 20px !important;
-                text-align: left !important;
+                font-size: 32px !important;
+                text-align: center !important;
                 padding: 0 16px !important;
                 margin-bottom: 20px !important;
                 line-height: 1.2 !important;
                 font-weight: 500 !important;
             }
             
+            .about-us__stats__wrap {
+                display: none;
+            }
+
             .services-title br {
                 display: none !important;
             }
@@ -1597,7 +1925,7 @@
             }
             
             .trust-title {
-                font-size: 24px !important;
+                font-size: 32px !important;
                 margin-bottom: 24px !important;
             }
             
@@ -1621,26 +1949,27 @@
                 width: 100% !important;
                 height: auto !important;
                 padding: 40px 16px !important;
+                margin-top: 0px!important;
+            }
+
+            .consultation-block__first {
+                background-image: none;
             }
             
             .consultation-hero-title {
                 position: relative !important;
-                left: auto !important;
-                top: auto !important;
                 width: 100% !important;
                 height: auto !important;
-                font-size: 24px !important;
-                margin-bottom: 12px !important;
+                font-size: 32px !important;
+                margin-bottom: 32px !important;
             }
             
             .consultation-hero-subtitle {
                 position: relative !important;
-                left: auto !important;
-                top: auto !important;
                 width: 100% !important;
                 height: auto !important;
                 font-size: 14px !important;
-                margin-bottom: 24px !important;
+                margin-bottom: 0px !important;
             }
             
             .consultation-form-container {
@@ -1692,8 +2021,23 @@
                 font-size: 11px !important;
                 margin-top: 12px !important;
                 text-align: center !important;
+                margin-left: 0px!important;
+            }
+
+            .cta-title, .cta-btn, .cta-list {
+                margin-left: 0px;
+            }
+
+            .cta-btn {
+                position: relative;
+                margin-top: 35px;
+                bottom: unset;
             }
             
+            .roadmap-card-info {
+                display: none;
+            }
+
             .consultation-bg-vector {
                 display: none !important;
             }
@@ -1821,25 +2165,9 @@
                 font-size: 12px !important;
                 margin-bottom: 8px !important;
             }
-        }
-        
-        @media (max-width: 768px) {
-            .hero-corner-frame {
-                top: calc(58% - 180px);
-                width: 30px;
-                height: 30px;
-            }
-            
-            .hero-slide[data-slide="1"] .hero-slide-content,
-            .hero-slide[data-slide="2"] .hero-slide-content,
-            .hero-slide[data-slide="3"] .hero-slide-content,
-            .hero-slide[data-slide="4"] .hero-slide-content {
-                margin-top: 50px;
-                margin-left: 0;
-            }
             
             .hero-slide-title {
-                font-size: 32px;
+                font-size: 24px;
             }
             
             .roadmap-title {
@@ -1861,35 +2189,44 @@
                 display: none;
             }
         }
+
+        @media (max-width: 568px) {
+            .hero-slide-title {
+                font-size: 18px;
+                max-width: 100%;
+            }
+
+            .hero-slide-description {
+                max-width: 100%;
+            }
+
+            .hero-slide-image {
+                width: 120px;
+            }
+        }
     </style>
         @endpush
 
         @section('content')
     <!-- Hero Slider Section -->
     <section class="hero-slider-section">
-        <!-- Мобильный логотип UPPERLICENSE -->
-        <div class="hero-mobile-logo d-lg-none" style="padding: 16px; display: flex; align-items: center; gap: 8px;">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect width="20" height="20" fill="#279760"/>
-                <path d="M6 10L9 13L14 7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <span style="font-size: 14px; font-weight: 600; color: #191E1D; font-family: 'Manrope', sans-serif;">UPPERLICENSE</span>
+        <div class="container">
+            <div class="row">
+                <h2 class="hero-top-title">Мгновенный старт для вашего<br>бизнеса в Казахстане</h2>
+            </div>
         </div>
         
-        <h2 class="hero-top-title">Мгновенный старт для вашего<br>бизнеса в Казахстане</h2>
-        
         <!-- Зеленая рамка в верхнем правом углу серого блока -->
-        <div class="hero-corner-frame"></div>
         
         <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6">
+            <div class="row align-items-center main__block__slider">
+                <div class="col-lg-6 main__block__slider__first">
                     <!-- Slide 1 -->
                     <div class="hero-slide active" data-slide="1">
                         <div class="hero-slide-content">
                             <h1 class="hero-slide-title">UPPERLICENSE: Идеальное решение для регистрации вашего бизнеса в РК</h1>
                             <p class="hero-slide-description">Полная автоматизация и удобство управления — откройте новые возможности для вашего бизнеса в Казахстане с нашей инновационной онлайн-платформой!</p>
-                            <a href="#" class="hero-slide-button" style="position:absolute;">Начать регистрацию</a>
+                            <a href="#" class="hero-slide-button">Начать регистрацию</a>
                             <img src="{{asset('current/img/image-slider-1-2.png')}}" alt="" class="hero-slide-image" />
                         </div>
                     </div>
@@ -1899,7 +2236,7 @@
                         <div class="hero-slide-content">
                             <h1 class="hero-slide-title">UPPERLICENSE: Ваш ключ к беспроблемному лицензированию</h1>
                             <p class="hero-slide-description">Надежное сопровождение вашего процесса лицензирования «под ключ», усиленное базой данных и индивидуально адаптированным личным кабинетом для вашего максимального комфорта и удобства</p>
-                                                     <a href="#" class="hero-slide-button" style="position:absolute;">Начать регистрацию</a>
+                                                     <a href="#" class="hero-slide-button">Начать регистрацию</a>
 
                             <img src="{{asset('current/img/image-slider-1-2.png')}}" alt="" class="hero-slide-image" />
                         </div>
@@ -1911,7 +2248,7 @@
                         <div class="hero-slide-content">
                             <h1 class="hero-slide-title">Получите вашу рабочую и бизнес-визу в Казахстане легко и надежно с UPPERLICENSE. Быстро, эффективно, без хлопот</h1>
                             <p class="hero-slide-description">Оперативное оформление виз С3 и С5 — максимальная скорость, минимальные сроки</p>
-                                                     <a href="#" class="hero-slide-button" style="position:absolute;">Начать регистрацию</a>
+                                                     <a href="#" class="hero-slide-button">Начать регистрацию</a>
 
                             <img src="{{asset('current/img/image-slider-1-2.png')}}" alt="" class="hero-slide-image" />
                         </div>
@@ -1923,7 +2260,7 @@
                         <div class="hero-slide-content">
                             <h1 class="hero-slide-title">Гарантируйте стабильный рост вашего бизнеса в эпоху перемен с экспертной поддержкой UPPERLICENSE</h1>
                             <p class="hero-slide-description">Высококлассное юридическое и бухгалтерское сопровождение от UPPERLICENSE — ваш надежный фундамент для стойкости и прогресса вашей компании</p>
-                                                     <a href="#" class="hero-slide-button" style="position:absolute;">Начать регистрацию</a>
+                                                     <a href="#" class="hero-slide-button">Начать регистрацию</a>
 
                             <img src="{{asset('current/img/image-slider-1-2.png')}}" alt="" class="hero-slide-image" />
                         </div>
@@ -1948,8 +2285,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 hero-image-col">
-                    <img src="{{asset('current/img/image-slider-1-2.png')}}" alt="UPPERLICENSE" class="img-fluid hero-main-image">
+                <div class="col-lg-6 hero-image-col main__block__slider__second">
+                    <div class="hero-corner-frame"></div>
+                    <img src="{{asset('current/img/image-slider-1-2.png')}}" alt="UPPERLICENSE" class="main__block__slider__second__img">
                 </div>
             </div>
         </div>
@@ -1958,58 +2296,63 @@
     <!-- Industries Section -->
     <section class="about-us">
         <div class="about-us__find">
-            <div class="about-us__find__header" style="margin-left: 15%">
-                <h2>Преимущества работы с UPPERLICENSE</h2>
-            </div>
-            <div class="about-us__find__cards-container">
-                <div class="about-us__find__card">
-                    <div class="about-us__find__card__image">
-                        <img src="{{asset('images/aboutactual.png')}}" alt="Контроль и инновации">
-                    </div>
-                    <p class="about-us__find__card__number">01</p>
-                    <div class="about-us__find__card__content">
-                        <h3 class="about-us__find__card__title">Контроль и инновации</h3>
-                        <p class="about-us__find__card__description">Уникальная онлайн-панель управления для вашего бизнеса</p>
-                    </div>
+            <div class="container">
+                <div class="about-us__find__header">
+                    <h2>Преимущества работы с UPPERLICENSE</h2>
                 </div>
-                <div class="about-us__find__card">
-                    <div class="about-us__find__card__image">
-                        <img src="{{asset('images/aboutprof.png')}}" alt="Экспертность">
-                    </div>
-                    <p class="about-us__find__card__number">02</p>
-                    <div class="about-us__find__card__content">
-                        <h3 class="about-us__find__card__title">Экспертность </h3>
-                        <p class="about-us__find__card__description">Полный спектр квалифицированной поддержки для вашего бизнеса</p>
-                    </div>
-                </div>
-                <div class="about-us__find__card">
-                    <div class="about-us__find__card__image">
-                        <img src="{{asset('images/aboutserv.png')}}" alt="Удобство и доступность">
-                    </div>
-                    <p class="about-us__find__card__number">03</p>
-                    <div class="about-us__find__card__content">
-                        <h3 class="about-us__find__card__title">Удобство и доступность</h3>
-                        <p class="about-us__find__card__description">Персональный онлайн-кабинет и актуальная база данных</p>
-                    </div>
-                </div>
-                <div class="about-us__find__card">
-                    <div class="about-us__find__card__image">
-                        <img src="{{asset('images/aboutvideo.png')}}" alt="Устойчивость и развитие">
-                    </div>
-                    <p class="about-us__find__card__number">04</p>
-                    <div class="about-us__find__card__content">
-                        <h3 class="about-us__find__card__title">Устойчивость и развитие</h3>
-                        <p class="about-us__find__card__description">Фундамент для долгосрочного партнерства, поддержка вашего бизнеса на каждом этапе</p>
-                    </div>
-                            </div>
+                <div class="about-us__find__cards-container">
+                    <div class="about-us__find__card">
+                        <div class="about-us__find__card__image">
+                            <img src="{{asset('images/about_us-1.png')}}" alt="Контроль и инновации">
+                        </div>
+                        <p class="about-us__find__card__number">01</p>
+                        <div class="about-us__find__card__content">
+                            <h3 class="about-us__find__card__title">Контроль и инновации</h3>
+                            <p class="about-us__find__card__description">Уникальная онлайн-панель управления для вашего бизнеса</p>
                         </div>
                     </div>
-                </section>
+                    <div class="about-us__find__card">
+                        <div class="about-us__find__card__image">
+                            <img src="{{asset('images/about_us-2.png')}}" alt="Экспертность">
+                        </div>
+                        <p class="about-us__find__card__number">02</p>
+                        <div class="about-us__find__card__content">
+                            <h3 class="about-us__find__card__title">Экспертность </h3>
+                            <p class="about-us__find__card__description">Полный спектр квалифицированной поддержки для вашего бизнеса</p>
+                        </div>
+                    </div>
+                    <div class="about-us__find__card">
+                        <div class="about-us__find__card__image">
+                            <img src="{{asset('images/about_us-3.png')}}" alt="Удобство и доступность">
+                        </div>
+                        <p class="about-us__find__card__number">03</p>
+                        <div class="about-us__find__card__content">
+                            <h3 class="about-us__find__card__title">Удобство и доступность</h3>
+                            <p class="about-us__find__card__description">Персональный онлайн-кабинет и актуальная база данных</p>
+                        </div>
+                    </div>
+                    <div class="about-us__find__card">
+                        <div class="about-us__find__card__image">
+                            <img src="{{asset('images/about_us-4.png')}}" alt="Устойчивость и развитие">
+                        </div>
+                        <p class="about-us__find__card__number">04</p>
+                        <div class="about-us__find__card__content">
+                            <h3 class="about-us__find__card__title">Устойчивость и развитие</h3>
+                            <p class="about-us__find__card__description">Фундамент для долгосрочного партнерства, поддержка вашего бизнеса на каждом этапе</p>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="about-us__find__btn">
+                <a href="#" class="about-us__find__btn__link">Узнать всё о платформе</a>
+            </div>
+    </section>
 
     <!-- Categories Slider Section -->
     <section class="categories-section" style="padding: 80px 0; background: white; overflow: hidden;">
-        <div class="container">
-                <h2 class="categories-section-title" style="font-size: 52px; font-weight: 500; text-align: center; margin-bottom: 20px; font-family: 'Manrope', sans-serif; color: #191E1D; line-height: 1.2;">
+        <div class="container" style="position: relative;">
+                <h2 class="categories-section-title" style="font-size: 52px; font-weight: 500; text-align: center; margin-bottom: 60px; font-family: 'Manrope', sans-serif; color: #191E1D; line-height: 100%;">
                 Уже выбрали вашу <span style="color: #279760;">сферу</span><br>деятельности?
             </h2>
             <div class="categories-nav-wrapper" style="text-align: center; margin-bottom: 60px;">
@@ -2045,6 +2388,21 @@
                         <img class="category-img" src="{{asset('current/img/image-spheres-01-10@2x.png')}}" alt="Строительство" style="position: absolute; right: 15px; bottom: 0px; width: 350px; height: 350px; object-fit: contain;" />
                     </div>
 
+                    <div class="category-slide" style="min-width: calc(50% - 12px); background: #F9FAFB; border-radius: 0; padding: 32px; position: relative; min-height: 350px;">
+                        <div class="category-corner" style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
+                        <h3 class="category-title" style="font-size: 26px; margin-bottom: 24px;">Промышленность</h3>
+                        <div class="category-tags" style="position: absolute; bottom: 32px; left: 32px;">
+                            <div style="margin-bottom: 12px;">
+                                <span class="category-tag" style="display: inline-block; background: white; border: 1px solid #D1D5DB; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Энергетика</span>
+                            </div>
+                            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                                <span class="category-tag" style="display: inline-block; background: white; border: 1px solid #D1D5DB; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Добыча полезных ископаемых</span>
+                                <span class="category-tag-more" style="display: inline-flex; align-items: center; justify-content: center; background: #E5E7EB; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 14px; color: #1E7B4E; font-weight: 600;">+4</span>
+                            </div>
+                        </div>
+                        <img class="category-img" src="{{asset('current/img/Image-Spheres-02.png')}}" alt="Промышленность" style="position: absolute; right: 15px; bottom: 0px; width: 350px; height: 350px; object-fit: contain;" />
+                    </div>
+
                     <!-- Category 2 - Импорт-экспорт -->
                     <div class="category-slide" style="min-width: calc(50% - 12px); background: #F9FAFB; border-radius: 0; padding: 32px; position: relative; min-height: 350px;">
                         <div class="category-corner" style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
@@ -2058,13 +2416,13 @@
                                 <span class="category-tag-more" style="display: inline-flex; align-items: center; justify-content: center; background: #E5E7EB; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 14px; color: #1E7B4E; font-weight: 600;">+3</span>
                             </div>
                         </div>
-                        <img class="category-img" src="{{asset('current/img/image-spheres-01-7@2x.png')}}" alt="Импорт-экспорт" style="position: absolute; right: 15px; bottom: 0px; width: 350px; height: 350px; object-fit: contain;" />
+                        <img class="category-img" src="{{asset('current/img/image-spheres-01-6@2x.png')}}" alt="Импорт-экспорт" style="position: absolute; right: 15px; bottom: 0px; width: 350px; height: 350px; object-fit: contain;" />
                     </div>
 
                     <!-- Category 3 - Медицина -->
                     <div class="category-slide" style="min-width: calc(50% - 12px); background: #F9FAFB; border-radius: 0; padding: 32px; position: relative; min-height: 350px;">
                         <div class="category-corner" style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
-                        <h3 class="category-title" style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Медицина</h3>
+                        <h3 class="category-title" style="font-size: 28px; margin-bottom: 24px;">Медицина</h3>
                         <div class="category-tags" style="position: absolute; bottom: 32px; left: 32px;">
                             <div style="margin-bottom: 12px;">
                                 <span class="category-tag" style="display: inline-block; background: white; border: 1px solid #D1D5DB; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Медицинское оборудование</span>
@@ -2074,13 +2432,13 @@
                                 <span class="category-tag-more" style="display: inline-flex; align-items: center; justify-content: center; background: #E5E7EB; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 14px; color: #1E7B4E; font-weight: 600;">+4</span>
                             </div>
                         </div>
-                        <img class="category-img" src="{{asset('current/img/image-spheres-01-6@2x.png')}}" alt="Медицина" style="position: absolute; right: 15px; bottom: 0px; width: 350px; height: 350px; object-fit: contain;" />
+                        <img class="category-img" src="{{asset('current/img/image-spheres-01-7@2x.png')}}" alt="Медицина" style="position: absolute; right: 15px; bottom: 0px; width: 350px; height: 350px; object-fit: contain;" />
                     </div>
 
                     <!-- Category 4 - Сельское хозяйство -->
                     <div class="category-slide" style="min-width: calc(50% - 12px); background: #F9FAFB; border-radius: 0; padding: 32px; position: relative; min-height: 350px;">
                         <div class="category-corner" style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
-                        <h3 class="category-title" style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Сельское хозяйство</h3>
+                        <h3 class="category-title" style="font-size: 28px; margin-bottom: 24px;">Сельское хозяйство</h3>
                         <div class="category-tags" style="position: absolute; bottom: 32px; left: 32px;">
                             <div style="margin-bottom: 12px;">
                                 <span class="category-tag" style="display: inline-block; background: white; border: 1px solid #D1D5DB; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Животноводство</span>
@@ -2090,13 +2448,13 @@
                                 <span class="category-tag-more" style="display: inline-flex; align-items: center; justify-content: center; background: #E5E7EB; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 14px; color: #1E7B4E; font-weight: 600;">+2</span>
                             </div>
                         </div>
-                        <img class="category-img" src="{{asset('current/img/Image-Spheres-02.png')}}" alt="Сельское хозяйство" style="position: absolute; right: 15px; bottom: 0px; width: 350px; height: 350px; object-fit: contain;" />
+                        <img class="category-img" src="{{asset('current/img/image-spheres-01-8@2x.png')}}" alt="Сельское хозяйство" style="position: absolute; right: 15px; bottom: 0px; width: 350px; height: 350px; object-fit: contain;" />
                     </div>
 
                     <!-- Category 5 - Культура -->
                     <div class="category-slide" style="min-width: calc(50% - 12px); background: #F9FAFB; border-radius: 0; padding: 32px; position: relative; min-height: 350px;">
                         <div class="category-corner" style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
-                        <h3 class="category-title" style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Культура</h3>
+                        <h3 class="category-title" style="font-size: 28px; margin-bottom: 24px;">Культура</h3>
                         <div class="category-tags" style="position: absolute; bottom: 32px; left: 32px;">
                             <div style="margin-bottom: 12px;">
                                 <span class="category-tag" style="display: inline-block; background: white; border: 1px solid #D1D5DB; border-radius: 20px; padding: 8px 16px; font-size: 14px;">Искусство</span>
@@ -2106,7 +2464,7 @@
                                 <span class="category-tag-more" style="display: inline-flex; align-items: center; justify-content: center; background: #E5E7EB; border: none; border-radius: 50%; width: 40px; height: 40px; font-size: 14px; color: #1E7B4E; font-weight: 600;">+3</span>
                             </div>
                         </div>
-                        <img class="category-img" src="{{asset('current/img/image-spheres-01-10@2x.png')}}" alt="Культура" style="position: absolute; right: 15px; bottom: 0px; width: 350px; height: 350px; object-fit: contain;" />
+                        <img class="category-img" src="{{asset('current/img/image-spheres-01-9@2x.png')}}" alt="Культура" style="position: absolute; right: 15px; bottom: 0px; width: 350px; height: 350px; object-fit: contain;" />
                     </div>
                 </div>
             </div>
@@ -2119,7 +2477,7 @@
     </section>
 
                 <!-- Services Section -->
-    <section class="services-section" style="padding: 80px 0; background: white;">
+    <section class="services-section">
         <div class="container">
             <h2 class="services-title" style="font-size: 52px; font-weight: 500; text-align: center; margin-bottom: 60px; font-family: 'Manrope', sans-serif; color: #191E1D; line-height: 1.2;">
                 Предоставляем качественные<br>и комплексные <span style="color: #279760;">решения</span><br>для вашего бизнеса
@@ -2132,22 +2490,22 @@
                         <!-- Зеленая рамка -->
                         <div style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
                         
-                        <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Регистрация компании</h3>
+                        <h3 class="services-section__title" style="font-size: 28px; margin-bottom: 24px;">Регистрация компании</h3>
                         <div style="margin-bottom: 24px;">
                             <div style="display: flex; align-items: start; margin-bottom: 12px;">
                                 <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px;" />
-                                <div style="font-size: 14px;">Подготовка учредительных документов</div>
+                                <div class="services-section__descr" style="font-size: 14px;">Подготовка учредительных документов</div>
                             </div>
                             <div style="display: flex; align-items: start; margin-bottom: 12px;">
                                 <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px;" />
-                                <div style="font-size: 14px;">Сдача документов в орган</div>
+                                <div class="services-section__descr" style="font-size: 14px;">Сдача документов в орган</div>
                             </div>
                             <div style="display: flex; align-items: start;">
                                 <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px;" />
-                                <div style="font-size: 14px;">Заполнение формы на регистрацию</div>
+                                <div class="services-section__descr" style="font-size: 14px;">Заполнение формы на регистрацию</div>
                             </div>
                         </div>
-                        <a href="#" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
+                        <a href="#" class="services-section__link" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
                         <img src="{{asset('current/img/image-services-01-2@2x.png')}}" alt="Service" style="position: absolute; right: 0px; bottom: 0px; width: 380px; opacity: 0.9;" />
                     </div>
                 </div>
@@ -2156,130 +2514,130 @@
                 <div class="col-lg-6">
                     <div style="background: #DBF1D6; border-radius: 0; padding: 32px; position: relative; height: 520px;">
                         <div style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
-                        <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Регистрация в СЭЗ и МФЦА</h3>
+                        <h3 class="services-section__title" style="font-size: 28px; margin-bottom: 24px;">Регистрация компаний в СЭЗ и МФЦА</h3>
                         <div style="margin-bottom: 24px;">
                             <div style="display: flex; align-items: start;">
                                 <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px;" />
-                                <div style="font-size: 14px;">Регистрация в Astana Hub</div>
+                                <div class="services-section__descr" style="font-size: 14px;">Регистрация в качестве участника Astana Hub International Technology Park</div>
                             </div>
                         </div>
-                        <a href="#" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
+                        <a class="services-section__link" href="#" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
                         <img src="{{asset('current/img/image-services-02-2@2x.png')}}" alt="Service" style="position: absolute; right: 0px; bottom: 0px; width: 380px; opacity: 0.9;" />
                     </div>
                 </div>
 
                 <!-- Service 3 -->
                 <div class="col-lg-6">
-                    <div style="background: #E8F5F3; border-radius: 0; padding: 32px; position: relative; height: 520px;">
+                    <div style="background: #F1F7F6; border-radius: 0; padding: 32px; position: relative; height: 520px;">
                         <div style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
-                        <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Открытие банковских счетов</h3>
+                        <h3 class="services-section__title" style="font-size: 28px; margin-bottom: 24px;">Открытие банковских счетов</h3>
                         <div style="margin-bottom: 24px;">
                             <div style="display: flex; align-items: start; margin-bottom: 12px;">
                                 <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px;" />
-                                <div style="font-size: 14px;">Сбор документов</div>
+                                <div class="services-section__descr" style="font-size: 14px;">Сбор документов</div>
                             </div>
                             <div style="display: flex; align-items: start;">
                                 <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px;" />
-                                <div style="font-size: 14px;">Подача заявки на открытие счета</div>
+                                <div class="services-section__descr" style="font-size: 14px;">Подача заявки на открытие счета</div>
                             </div>
                         </div>
-                        <a href="#" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
+                        <a href="#" class="services-section__link" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
                         <img src="{{asset('current/img/image-services-03-2@2x.png')}}" alt="Service" style="position: absolute; right: 0px; bottom: 0px; width: 380px; opacity: 0.9;" />
                     </div>
                 </div>
 
                 <!-- Service 4 -->
                 <div class="col-lg-6">
-                    <div style="background: #F3F4F6; border-radius: 0; padding: 32px; position: relative; height: 520px;">
+                    <div style="background: #EAECEE; border-radius: 0; padding: 32px; position: relative; height: 520px;">
                         <div style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
-                        <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Лицензирование</h3>
+                        <h3 class="services-section__title" style="font-size: 28px; margin-bottom: 24px;">Лицензирование</h3>
                         <div style="margin-bottom: 24px;">
                             <div style="display: flex; align-items: start;">
                                 <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px;" />
-                                <div style="font-size: 14px;">Получение лицензий для всех видов деятельности</div>
+                                <div class="services-section__descr" style="font-size: 14px;">Получение лицензий для всех видов деятельности</div>
                             </div>
                         </div>
-                        <a href="#" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
+                        <a href="#" class="services-section__link" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
                         <img src="{{asset('current/img/image-services-04-2@2x.png')}}" alt="Service" style="position: absolute; right: 0px; bottom: 0px; width: 380px; opacity: 0.9;" />
                     </div>
                 </div>
 
                 <!-- Service 5 -->
                 <div class="col-lg-6">
-                    <div style="background: #E8F5F3; border-radius: 0; padding: 32px; position: relative; height: 520px;">
+                    <div style="background: #F1F7F6; border-radius: 0; padding: 32px; position: relative; height: 520px;">
                         <div style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
-                        <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Получение визы С3 и С5</h3>
+                        <h3 class="services-section__title" style="font-size: 28px; margin-bottom: 24px;">Получение визы С3 и С5</h3>
                         <div style="margin-bottom: 24px;">
                             <div style="display: flex; align-items: start; margin-bottom: 12px;">
                                 <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px;" />
-                                <div style="font-size: 14px;">Сбор документов и оформление</div>
+                                <div class="services-section__descr" style="font-size: 14px;">Сбор документов и оформление</div>
                             </div>
                             <div style="display: flex; align-items: start;">
                                 <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px;" />
-                                <div style="font-size: 14px;">Оформление визы в консульстве РК</div>
+                                <div class="services-section__descr" style="font-size: 14px;">Оформление визы в консульстве РК</div>
                             </div>
                         </div>
-                        <a href="#" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
+                        <a href="#" class="services-section__link" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
                         <img src="{{asset('current/img/image-services-05-2@2x.png')}}" alt="Service" style="position: absolute; right: 0px; bottom: 0px; width: 380px; opacity: 0.9;" />
                     </div>
                 </div>
 
                 <!-- Service 6 -->
                 <div class="col-lg-6">
-                    <div style="background: #FFF9E6; border-radius: 0; padding: 32px; position: relative; height: 520px;">
+                    <div style="background: #F1EBD6; border-radius: 0; padding: 32px; position: relative; height: 520px;">
                         <div style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
-                        <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Отраслевой юрист</h3>
+                        <h3 class="services-section__title" style="font-size: 28px; margin-bottom: 24px;">Отраслевой юрист</h3>
                         <div style="margin-bottom: 24px;">
                             <div style="display: flex; align-items: start;">
                                 <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px;" />
-                                <div style="font-size: 14px;">Услуги юриста на аутсорсинге</div>
+                                <div class="services-section__descr" style="font-size: 14px;">Услуги юриста на аутсорсинге</div>
                             </div>
                                         </div>
-                        <a href="#" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
+                        <a href="#" class="services-section__link" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
                         <img src="{{asset('current/img/image-services-06-2@2x.png')}}" alt="Service" style="position: absolute; right: 0px; bottom: 0px; width: 380px; opacity: 0.9;" />
                                         </div>
                                     </div>
 
                 <!-- Service 7 -->
                 <div class="col-lg-6">
-                    <div style="background: #DBEAFE; border-radius: 0; padding: 32px; position: relative; height: 520px;">
+                    <div style="background: #E2E8F0; border-radius: 0; padding: 32px; position: relative; height: 520px;">
                         <div style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
-                        <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Бухгалтерский аутсорсинг</h3>
+                        <h3 class="services-section__title" style="font-size: 28px; margin-bottom: 24px;">Бухгалтерский аутсорсинг</h3>
                         <div style="margin-bottom: 24px;">
                             <div style="display: flex; align-items: start; margin-bottom: 12px;">
                                 <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px;" />
-                                <div style="font-size: 14px;">Подписание документов в банке</div>
+                                <div class="services-section__descr" style="font-size: 14px;">Подписание документов в банке</div>
                             </div>
                             <div style="display: flex; align-items: start;">
                                 <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px;" />
-                                <div style="font-size: 14px;">Сбор данных клиентов</div>
+                                <div class="services-section__descr" style="font-size: 14px;">Сбор данных клиентов</div>
                                 </div>
                         </div>
-                        <a href="#" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
+                        <a href="#" class="services-section__link" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
                         <img src="{{asset('current/img/image-services-07-2@2x.png')}}" alt="Service" style="position: absolute; right: 0px; bottom: 0px; width: 380px; opacity: 0.9;" />
                     </div>
                 </div>
 
                 <!-- Service 8 -->
                 <div class="col-lg-6">
-                    <div style="background: #F3F4F6; border-radius: 0; padding: 32px; position: relative; height: 520px;">
+                    <div style="background: #EAECEE; border-radius: 0; padding: 32px; position: relative; height: 520px;">
                         <div style="position: absolute; top: 0; right: 0; width: 30px; height: 30px; border-top: 2px solid #279760; border-right: 2px solid #279760;"></div>
-                        <h3 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;">Дополнительные услуги</h3>
+                        <h3 class="services-section__title" style="font-size: 28px; margin-bottom: 24px;">Дополнительные услуги</h3>
                         <div style="margin-bottom: 24px;">
                             <div style="display: flex; align-items: start; margin-bottom: 12px;">
                                 <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px;" />
-                                <div style="font-size: 14px;">Получение ИИН, БИН</div>
+                                <div class="services-section__descr" style="font-size: 14px;">Получение ИИН, БИН</div>
                             </div>
                             <div style="display: flex; align-items: start; margin-bottom: 12px;">
                                 <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px;" />
-                                <div style="font-size: 14px;">Получение ЭЦП</div>
+                                <div class="services-section__descr" style="font-size: 14px;">Получение ЭЦП</div>
                             </div>
                             <div style="display: flex; align-items: start;">
                                 <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px;" />
-                                <div style="font-size: 14px;">Оформление РВП</div>
+                                <div class="services-section__descr" style="font-size: 14px;">Оформление РВП</div>
                             </div>
                         </div>
-                        <a href="#" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
+                        <a href="#" class="services-section__link" style="position: absolute; bottom: 32px; left: 32px; display: inline-block; background: white; color: #1E1E1E; padding: 12px 24px; border-radius: 60px; text-decoration: none; font-weight: 600;">Оформить заявку</a>
                         <img src="{{asset('current/img/image-services-08-2@2x.png')}}" alt="Service" style="position: absolute; right: 0px; bottom: 0px; width: 380px; opacity: 0.9;" />
                     </div>
                             </div>
@@ -2288,75 +2646,104 @@
                 </section>
 
     <!-- Stats Section -->
-    <section class="stats-section" style="background: white;">
-        <div class="about-us__stats" style="background: white !important;">
-            <div class="container">
-                <!-- Desktop Layout -->
-                <div class="about-us__stats__grid d-none d-lg-grid" style="background: white !important; display: grid; grid-template-columns: 670px 135px 135px 185px 150px 150px; grid-template-rows: 270px 65px; gap: 0; margin: 0 auto; padding-left: 120px; max-width: 1600px;">
-                    <div style="grid-column: 1; grid-row: 1; width: 670px; height: 200px; background: white; padding: 40px; display: flex; flex-direction: column; justify-content: center; border: 1px solid #E8E8E8; border-left: none; border-top: none;">
-                        <h2 style="font-size: 52px; font-weight: 500; margin: 0; font-family: 'Manrope', sans-serif; color: #191E1D;">О группе UPPERCASE</h2>
+    <section class="stats-section">
+        <div class="container">
+            <!-- Desktop Layout -->
+            <div class="about-us__stats__wrap">
+                <table class="stats-table">
+                    <tr>
+                        <td colspan="5" class="top-cell">
+                            <div class="top-inner">
+                                <div class="top-inner__title__left">О группе UPPERCASE</div>
+                                <div class="top-inner__title__right">
+                                    <div class="top-inner__title__right__green">
+                                        3000+
+                                    </div>
+                                    <div class="top-inner__title__right__descr">
+                                        Клиентов в области регистрации, лицензирования, сопровождения международных сделок и корпоративного права
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="bottom-inner">
+                            <div class="bottom-inner__title">
+                                13+ лет
+                            </div>
+                            <div class="bottom-inner__descr">
+                                На рынке юридических услуг и консалтинга
+                            </div>
+                        </td>
+                        <td class="bottom-inner">
+                            <div class="bottom-inner__title">
+                                6
+                            </div>    
+                            <div class="bottom-inner__descr">
+                                Филиалов в ОАЭ и РК
+                            </div>
+                        </td>
+                        <td class="bottom-inner">
+                            <div class="bottom-inner__title">
+                                IT-решения
+                            </div>    
+                            <div class="bottom-inner__descr">
+                                В области юридических услуг и консалтинга
+                            </div>
+                        </td>
+                        <td class="bottom-inner">
+                            <div class="bottom-inner__title">
+                                500+
+                            </div>    
+                            <div class="bottom-inner__descr">
+                                Успешно завершенных проектов
+                            </div>
+                        </td>
+                        <td class="bottom-inner">
+                            <div class="bottom-inner__title">
+                                300+
+                            </div>    
+                            <div class="bottom-inner__descr">
+                                Опытных специалистов в команде
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                </div>
+            <!-- Mobile Layout -->
+            <div class="stats-mobile d-lg-none" style="padding: 0 16px;">
+                <h2 class="stats-mobile-title" style="font-size: 24px; font-weight: 500; margin-bottom: 24px; font-family: 'Manrope', sans-serif; color: #191E1D;">О группе UPPERCASE</h2>
+                
+                <div class="stats-mobile-item" style="padding: 20px 0; border-bottom: 1px solid #E5E7EB;">
+                    <div style="font-size: 36px; font-weight: 500; color: #279760; margin-bottom: 8px; font-family: 'Manrope', sans-serif;">3000+</div>
+                    <p style="font-size: 13px; color: #6B7280; margin: 0; line-height: 1.5;">Клиентов в области регистрации, лицензирования, сопровождения международных сделок и корпоративного права</p>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0;">
+                    <div class="stats-mobile-item" style="padding: 20px 16px 20px 0; border-bottom: 1px solid #E5E7EB; border-right: 1px solid #E5E7EB;">
+                        <div style="font-size: 28px; font-weight: 500; color: #279760; margin-bottom: 4px; font-family: 'Manrope', sans-serif;">13+ лет</div>
+                        <p style="font-size: 12px; color: #6B7280; margin: 0; line-height: 1.4;">На рынке юридических услуг и консалтинга</p>
                     </div>
-                    <div class="about-us__stats__item" style="grid-column: 2 / 7; grid-row: 1; background: white !important; padding: 40px 30px 30px 30px !important; border-right: none !important; border-top: none !important;">
-                        <div class="about-us__stats__number" style="color:#279760;">3000+</div>
-                        <span>Клиентов в области регистрации, лицензирования, сопровождения международных сделок и корпоративного права</span>
-                    </div>
-                    <div class="about-us__stats__item" style="grid-column: 1; grid-row: 2; background: white !important; padding: 20px 10px 15px 15px !important; border-bottom: none !important; border-left: none !important; border-top: none !important; border-right: none !important;">
-                        <div class="about-us__stats__number" style="white-space: nowrap; font-size: 32px !important;">13+ лет</div>
-                        <p style="margin: 0 !important; padding: 0 !important; font-size: 12px !important; line-height: 1.4 !important;">На рынке юридических услуг<br>и консалтинга</p>
-                    </div>
-                    <div class="about-us__stats__item" style="grid-column: 2; grid-row: 2; background: white !important; padding: 20px 35px 15px 40px !important; margin-left: -200px !important; border-bottom: none !important; border-top: none !important; border-left: 1px solid #E8E8E8 !important; transform: translateX(-200px);">
-                        <div class="about-us__stats__number" style="font-size: 32px !important;">6</div>
-                        <p style="margin: 0 !important; padding: 0 !important; white-space: nowrap; font-size: 12px !important; line-height: 1.4 !important;">Филиалов в ОАЭ и РК</p>
-                    </div>
-                    <div class="about-us__stats__item" style="grid-column: 3; grid-row: 2; background: white !important; padding: 20px 35px 15px 40px !important; margin-left: -140px !important; border-bottom: none !important; border-top: none !important; border-left: 1px solid #E8E8E8 !important; transform: translateX(-140px);">
-                        <div class="about-us__stats__number" style="white-space: nowrap; font-size: 32px !important;">IT-решения</div>
-                        <p style="margin: 0 !important; padding: 0 !important; font-size: 12px !important; line-height: 1.4 !important;">В области юридических услуг и консалтинга</p>
-                    </div>
-                    <div class="about-us__stats__item" style="grid-column: 4; grid-row: 2; background: white !important; padding: 20px 35px 15px 40px !important; margin-left: -40px !important; border-bottom: none !important; border-top: 1px solid #E8E8E8 !important; border-left: 1px solid #E8E8E8 !important; transform: translateX(-40px);">
-                        <div class="about-us__stats__number" style="font-size: 32px !important;">500+</div>
-                        <p style="margin: 0 !important; padding: 0 !important; font-size: 12px !important; line-height: 1.4 !important;">Успешно завершенных<br>проектов</p>
-                    </div>
-                    <div class="about-us__stats__item" style="grid-column: 5; grid-row: 2; background: white !important; padding: 20px 100px 15px 100px !important; margin-left: -20px !important; border-bottom: none !important; border-top: 1px solid #E8E8E8 !important; border-left: 1px solid #E8E8E8 !important; border-right: none !important; transform: translateX(-20px);">
-                        <div class="about-us__stats__number" style="font-size: 32px !important;">300+</div>
-                        <p style="margin: 0 !important; padding: 0 !important; font-size: 12px !important; line-height: 1.4 !important;">Опытных специалистов в<br>команде</p>
+                    <div class="stats-mobile-item" style="padding: 20px 0 20px 16px; border-bottom: 1px solid #E5E7EB;">
+                        <div style="font-size: 28px; font-weight: 500; color: #279760; margin-bottom: 4px; font-family: 'Manrope', sans-serif;">6</div>
+                        <p style="font-size: 12px; color: #6B7280; margin: 0; line-height: 1.4;">Филиалов в ОАЭ и РК</p>
                     </div>
                 </div>
                 
-                <!-- Mobile Layout -->
-                <div class="stats-mobile d-lg-none" style="padding: 0 16px;">
-                    <h2 class="stats-mobile-title" style="font-size: 24px; font-weight: 500; margin-bottom: 24px; font-family: 'Manrope', sans-serif; color: #191E1D;">О группе UPPERCASE</h2>
-                    
-                    <div class="stats-mobile-item" style="padding: 20px 0; border-bottom: 1px solid #E5E7EB;">
-                        <div style="font-size: 36px; font-weight: 500; color: #279760; margin-bottom: 8px; font-family: 'Manrope', sans-serif;">3000+</div>
-                        <p style="font-size: 13px; color: #6B7280; margin: 0; line-height: 1.5;">Клиентов в области регистрации, лицензирования, сопровождения международных сделок и корпоративного права</p>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0;">
+                    <div class="stats-mobile-item" style="padding: 20px 16px 20px 0; border-bottom: 1px solid #E5E7EB; border-right: 1px solid #E5E7EB;">
+                        <div style="font-size: 20px; font-weight: 500; color: #279760; margin-bottom: 4px; font-family: 'Manrope', sans-serif;">IT-решения</div>
+                        <p style="font-size: 12px; color: #6B7280; margin: 0; line-height: 1.4;">В области юридических услуг и консалтинга</p>
                     </div>
-                    
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0;">
-                        <div class="stats-mobile-item" style="padding: 20px 16px 20px 0; border-bottom: 1px solid #E5E7EB; border-right: 1px solid #E5E7EB;">
-                            <div style="font-size: 28px; font-weight: 500; color: #279760; margin-bottom: 4px; font-family: 'Manrope', sans-serif;">13+ лет</div>
-                            <p style="font-size: 12px; color: #6B7280; margin: 0; line-height: 1.4;">На рынке юридических услуг и консалтинга</p>
-                        </div>
-                        <div class="stats-mobile-item" style="padding: 20px 0 20px 16px; border-bottom: 1px solid #E5E7EB;">
-                            <div style="font-size: 28px; font-weight: 500; color: #279760; margin-bottom: 4px; font-family: 'Manrope', sans-serif;">6</div>
-                            <p style="font-size: 12px; color: #6B7280; margin: 0; line-height: 1.4;">Филиалов в ОАЭ и РК</p>
-                        </div>
+                    <div class="stats-mobile-item" style="padding: 20px 0 20px 16px; border-bottom: 1px solid #E5E7EB;">
+                        <div style="font-size: 28px; font-weight: 500; color: #279760; margin-bottom: 4px; font-family: 'Manrope', sans-serif;">500+</div>
+                        <p style="font-size: 12px; color: #6B7280; margin: 0; line-height: 1.4;">Успешно завершенных проектов</p>
                     </div>
-                    
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0;">
-                        <div class="stats-mobile-item" style="padding: 20px 16px 20px 0; border-bottom: 1px solid #E5E7EB; border-right: 1px solid #E5E7EB;">
-                            <div style="font-size: 20px; font-weight: 500; color: #279760; margin-bottom: 4px; font-family: 'Manrope', sans-serif;">IT-решения</div>
-                            <p style="font-size: 12px; color: #6B7280; margin: 0; line-height: 1.4;">В области юридических услуг и консалтинга</p>
-                        </div>
-                        <div class="stats-mobile-item" style="padding: 20px 0 20px 16px; border-bottom: 1px solid #E5E7EB;">
-                            <div style="font-size: 28px; font-weight: 500; color: #279760; margin-bottom: 4px; font-family: 'Manrope', sans-serif;">500+</div>
-                            <p style="font-size: 12px; color: #6B7280; margin: 0; line-height: 1.4;">Успешно завершенных проектов</p>
-                        </div>
-                    </div>
-                    
-                    <div class="stats-mobile-item" style="padding: 20px 0;">
-                        <div style="font-size: 28px; font-weight: 500; color: #279760; margin-bottom: 4px; font-family: 'Manrope', sans-serif;">300+</div>
-                        <p style="font-size: 12px; color: #6B7280; margin: 0; line-height: 1.4;">Опытных специалистов в команде</p>
-                    </div>
+                </div>
+                
+                <div class="stats-mobile-item" style="padding: 20px 0;">
+                    <div style="font-size: 28px; font-weight: 500; color: #279760; margin-bottom: 4px; font-family: 'Manrope', sans-serif;">300+</div>
+                    <p style="font-size: 12px; color: #6B7280; margin: 0; line-height: 1.4;">Опытных специалистов в команде</p>
                 </div>
             </div>
         </div>
@@ -2364,10 +2751,10 @@
 
     <!-- CTA Section -->
     <section class="cta-section" style="padding: 0; background: white; position: relative; overflow: hidden;">
-        <div class="container-fluid" style="padding: 0;">
+        <div class="container" style="padding: 0;">
             <div class="row g-0 align-items-stretch">
                 <!-- Left Green Block -->
-                <div class="col-lg-6 cta-left" style="background: #279760; padding: 60px 40px; display: flex; flex-direction: column; justify-content: center;">
+                <div class="col-lg-6 cta-left">
                     <h2 class="cta-title" style="font-size: 32px; font-weight: 500; color: white; margin-bottom: 24px; font-family: 'Manrope', sans-serif; line-height: 1.3;">Пользователю портала<br>предоставляется простой и удобный<br>личный кабинет</h2>
                     
                     <div class="cta-list" style="margin-bottom: 32px;">
@@ -2386,18 +2773,18 @@
                     </div>
                     
                     <div>
-                        <a href="#" class="cta-btn" style="display: inline-flex; align-items: center; background: white; color: #279760; padding: 16px 32px; border-radius: 60px; text-decoration: none; font-weight: 600; font-size: 16px;">Получить консультацию</a>
+                        <a href="#" class="cta-btn" style="display: inline-flex; align-items: center; background: white; color: #279760; border-radius: 60px; text-decoration: none; font-weight: 600; font-size: 16px;">Получить консультацию</a>
                     </div>
                 </div>
                 
                 <!-- Right Gray Block with Image -->
-                <div class="col-lg-6 cta-right" style="background: #E5E7EB; padding: 60px 40px; display: flex; align-items: center; justify-content: center;">
+                <div class="col-lg-6 cta-right" style="background: #F8F8F8; padding: 60px 40px; display: flex; align-items: center; justify-content: center;">
                     <img src="{{asset('current/img/image-personalarea-2.png')}}" alt="Личный кабинет" class="img-fluid cta-image" style="max-width: 100%; height: auto;" />
                 </div>
             </div>
         </div>
     </section>
-    <section class="client-cases" style="margin-top: 90px;">
+    <section class="client-cases" style="margin-top: 160px;">
         <div class="container">
             <div class="client-cases__header">
                 <h2 class="client-cases__title">Кейсы наших клиентов</h2>
@@ -2514,27 +2901,43 @@
     </section>
 
     <!-- Trust Section -->
-    <section class="trust-section" style="padding: 80px 0; background: #F9FAFB;">
-        <div class="container">
+    <section class="trust-section" style="padding: 80px 0;">
+        <div class="container" style="position: relative;">
+            <div class="trust-section-nav-wrapper" style="text-align: center; margin-bottom: 60px;">
+                <div style="display: inline-flex; gap: 10px;">
+                    <div class="category-arrow-prev hero-arrow" id="trust-prev" style="cursor: pointer; border-color: #E5E7EB;">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12.5 15L7.5 10L12.5 5" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div class="category-arrow-next hero-arrow" id="trust-next" style="cursor: pointer; border-color: #E5E7EB;">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7.5 5L12.5 10L7.5 15" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
             <h2 class="trust-title" style="font-size: 52px; font-weight: 500; text-align: left; margin-bottom: 60px; font-family: 'Manrope', sans-serif; color: #191E1D; line-height: 1.2;">Нам доверяют</h2>
-            <div class="row g-4 align-items-center justify-content-start trust-logos">
-                <div class="col-lg-2 col-md-3 col-4 text-center trust-logo-item">
-                    <img src="{{asset('current/img/group-7@2x.png')}}" alt="Partner" class="trust-logo" style="max-width: 100%; height: auto; opacity: 0.7;" />
-                </div>
-                <div class="col-lg-2 col-md-3 col-4 text-center trust-logo-item">
-                    <img src="{{asset('current/img/button-10.svg')}}" alt="Partner" class="trust-logo" style="max-width: 100%; height: auto; opacity: 0.7;" />
-                </div>
-                <div class="col-lg-2 col-md-3 col-4 text-center trust-logo-item">
-                    <img src="{{asset('current/img/button-11.png')}}" alt="Partner" class="trust-logo" style="max-width: 100%; height: auto; opacity: 0.7;" />
-                </div>
-                <div class="col-lg-2 col-md-3 col-4 text-center trust-logo-item">
-                    <img src="{{asset('current/img/button-12.png')}}" alt="Partner" class="trust-logo" style="max-width: 100%; height: auto; opacity: 0.7;" />
-                </div>
-                <div class="col-lg-2 col-md-3 col-4 text-center trust-logo-item">
-                    <img src="{{asset('current/img/button-13.png')}}" alt="Partner" class="trust-logo" style="max-width: 100%; height: auto; opacity: 0.7;" />
-                </div>
-                <div class="col-lg-2 col-md-3 col-4 text-center trust-logo-item">
-                    <img src="{{asset('current/img/button-14.png')}}" alt="Partner" class="trust-logo" style="max-width: 100%; height: auto; opacity: 0.7;" />
+            <div class="trust-slider-wrapper" style="position: relative; overflow: hidden;">
+                <div class="trust-logos" style="display: flex; transform 0.5s; transform: translateX(0px);">
+                    <div class="col-lg-2 col-md-3 col-4 text-center trust-logo-item" style="margin-right: 20px;">
+                        <img src="{{asset('current/img/group-7@2x.png')}}" alt="Partner" class="trust-logo" style="max-width: 100%; height: auto; opacity: 0.7;" />
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-4 text-center trust-logo-item" style="margin-right: 20px;">
+                        <img src="{{asset('current/img/button-10.svg')}}" alt="Partner" class="trust-logo" style="max-width: 100%; height: auto; opacity: 0.7;" />
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-4 text-center trust-logo-item" style="margin-right: 20px;">
+                        <img src="{{asset('current/img/button-11.png')}}" alt="Partner" class="trust-logo" style="max-width: 100%; height: auto; opacity: 0.7;" />
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-4 text-center trust-logo-item" style="margin-right: 20px;">
+                        <img src="{{asset('current/img/button-12.png')}}" alt="Partner" class="trust-logo" style="max-width: 100%; height: auto; opacity: 0.7;" />
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-4 text-center trust-logo-item" style="margin-right: 20px;">
+                        <img src="{{asset('current/img/button-13.png')}}" alt="Partner" class="trust-logo" style="max-width: 100%; height: auto; opacity: 0.7;" />
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-4 text-center trust-logo-item" style="margin-right: 20px;">
+                        <img src="{{asset('current/img/button-14.png')}}" alt="Partner" class="trust-logo" style="max-width: 100%; height: auto; opacity: 0.7;" />
+                    </div>
                 </div>
             </div>
         </div>
@@ -2543,12 +2946,12 @@
     <!-- Contact Form Section -->
     <section class="consultation-block">
         <div class="container">
-            <div class="row align-items-stretch">
-                <div class="col-lg-7 d-flex flex-column justify-content-center mb-4 mb-lg-0">
+            <div class="row">
+                <div class="col-lg-6 mb-4 mb-lg-0 consultation-block__first">
                     <h2 class="consultation-hero-title">Свяжитесь с нами</h2>
                     <p class="consultation-hero-subtitle">Предоставим быстрое и эффективное открытие и ведение бизнеса в Казахстане</p>
                             </div>
-                <div class="col-lg-5">
+                <div class="col-lg-6">
                     <div class="consultation-form-container">
                         <div class="consultation-form">
                             <form class="consultation-form-content" action="#" method="post">
@@ -2579,22 +2982,22 @@
                                         <label class="form-label">Комментарий</label>
                                         <textarea class="form-textarea" placeholder="Оставьте свой комментарий" rows="4"></textarea>
                                     </div>
-                                    <div class="col-12 d-flex align-items-center flex-wrap gap-2">
+                                    <div class="col-12 d-flex align-items-center gap-2">
                                         <button type="submit" class="submit-btn">Получить консультацию</button>
                                         <p class="privacy-text mb-0">Нажимая на кнопку, я соглашаюсь на обработку персональных данных</p>
                                     </div>
                                 </div>
                                 </form>
                         </div>
+                        <div class="hero-corner-frame"></div>
                     </div>
                                     </div>
                                 </div>
                             </div>
-        <img src="{{asset('images/Vector_6908.png')}}" alt="" class="consultation-bg-vector">
     </section>
 
     <!-- FAQ Section -->
-    <section class="faq-section" style="padding: 80px 0; background: #F9FAFB;">
+    <section class="faq-section" style="padding: 80px 0;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-6">
@@ -2677,93 +3080,87 @@
 
             <div class="roadmap-timeline">
                 <div class="roadmap-milestone completed">
-                    <div class="roadmap-dot"></div>
                     <div class="roadmap-milestone-content">
                         <span class="roadmap-year">2023</span>
                         <span class="roadmap-date">20 декабря</span>
                     </div>
+                    <div class="roadmap-dot"></div>
                 </div>
 
                 <div class="roadmap-milestone">
-                    <div class="roadmap-dot"></div>
                     <div class="roadmap-milestone-content">
                         <span class="roadmap-year">2024</span>
                         <span class="roadmap-date">20 января</span>
-                        <p class="roadmap-description">Внедрение ИИ-решений для оптимизации бизнес-процессов и улучшения обслуживания клиентов</p>
                     </div>
+                    <div class="roadmap-dot"></div>
                 </div>
 
                 <div class="roadmap-milestone">
-                    <div class="roadmap-dot"></div>
                     <div class="roadmap-milestone-content">
                         <span class="roadmap-year">2024</span>
                         <span class="roadmap-date">26 января</span>
                     </div>
-                </div>
-
-                <div class="roadmap-milestone">
                     <div class="roadmap-dot"></div>
+                </div>
+                <div class="roadmap-milestone">
                     <div class="roadmap-milestone-content">
                         <span class="roadmap-year">2024</span>
                         <span class="roadmap-date">30 января</span>
                     </div>
+                    <div class="roadmap-dot"></div> 
                 </div>
             </div>
 
             <div class="roadmap-cards">
                 <div class="roadmap-card">
-                    <img class="roadmap-card-icon" src="{{asset('current/img/icon1.png')}}" alt="Запуск MVP" />
+                    <img class="roadmap-card-icon" src="{{asset('current/img/roadmap_1.png')}}" alt="Запуск MVP" />
                     <h4 class="roadmap-card-title">Запуск MVP</h4>
+                    <div class="tooltip-container">
+                        <img class="roadmap-card-info" src="{{asset('current/img/coolicon.svg')}}" alt="">
+                        <div class="tooltip-text tooltip-text__1">
+                            <ul>
+                                <li>Исследование и анализ рынка</li>
+                                <li>Разработка новых продуктов или услуг</li>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="roadmap-card">
-                    <img class="roadmap-card-icon" src="{{asset('current/img/icon2.png')}}" alt="Расширение перечня услуг" />
+                    <img class="roadmap-card-icon" src="{{asset('current/img/roadmap_2.png')}}" alt="Расширение перечня услуг" />
                     <h4 class="roadmap-card-title">Расширение перечня услуг</h4>
+                    <img class="roadmap-card-info" src="{{asset('current/img/coolicon.svg')}}" alt="">
+                    <div class="tooltip-text tooltip-text__2">
+                        <ul>
+                            <li>Исследование и анализ рынка</li>
+                            <li>Разработка новых продуктов или услуг</li>
+                        </ul>
+                    </div>
                 </div>
 
                 <div class="roadmap-card">
-                    <img class="roadmap-card-icon" src="{{asset('current/img/icon3.png')}}" alt="Упрощенная оплата" />
+                    <img class="roadmap-card-icon" src="{{asset('current/img/roadmap_3.png')}}" alt="Упрощенная оплата" />
                     <h4 class="roadmap-card-title">Упрощенная оплата</h4>
+                    <img class="roadmap-card-info" src="{{asset('current/img/coolicon.svg')}}" alt="">
+                    <div class="tooltip-text tooltip-text__3">
+                        <ul>
+                            <li>Интеграция с платежными системами</li>
+                            <li>Разработка удобного интерфейса для безопасных онлайн-платежей</li>
+                            <li>Обеспечение безопасности данных клиентов</li>
+                        </ul>
+                    </div>
                 </div>
 
                 <div class="roadmap-card">
-                    <img class="roadmap-card-icon" src="{{asset('current/img/icon4.png')}}" alt="Реферальная система" />
+                    <img class="roadmap-card-icon" src="{{asset('current/img/roadmap_4.png')}}" alt="Реферальная система" />
                     <h4 class="roadmap-card-title">Реферальная система</h4>
-                </div>
-            </div>
-
-            <div class="roadmap-details">
-                <div>
-                    <h4 class="roadmap-detail-title">Запуск MVP</h4>
-                    <ul class="roadmap-detail-list">
-                        <li>Исследование и анализ рынка</li>
-                        <li>Разработка новых продуктов или услуг</li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="roadmap-detail-title">Расширение перечня услуг</h4>
-                    <ul class="roadmap-detail-list">
-                        <li>Исследование и анализ рынка</li>
-                        <li>Разработка новых продуктов или услуг</li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="roadmap-detail-title">Упрощенная оплата</h4>
-                    <ul class="roadmap-detail-list">
-                        <li>Интеграция с платежными системами</li>
-                        <li>Разработка удобного интерфейса для безопасных онлайн-платежей</li>
-                        <li>Обеспечение безопасности данных клиентов</li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="roadmap-detail-title">Реферальная система</h4>
-                    <ul class="roadmap-detail-list">
-                        <li>Программа лояльности для клиентов</li>
-                        <li>Механизмы отслеживания рефералов и начисления бонусов за привлечение клиентов</li>
-                    </ul>
+                    <img class="roadmap-card-info" src="{{asset('current/img/coolicon.svg')}}" alt="">
+                    <div class="tooltip-text tooltip-text__4">
+                        <ul>
+                            <li>Программа лояльности для клиентов</li>
+                            <li>Механизмы отслеживания рефералов и начисления бонусов за привлечение клиентов</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -2864,6 +3261,56 @@
                 update();
             }
 
+            function initTrust() {
+                var track = document.querySelector('.trust-logos');
+                var slides = document.querySelectorAll('.trust-logo-item');
+                if (!track || !slides || slides.length === 0) return;
+
+                var current = 0;
+
+                function isMobile() {
+                    return window.innerWidth < 768;
+                }
+
+                function getVisibleSlides() {
+                    return isMobile() ? 1 : 2;
+                }
+
+                function getStep() {
+                    var width = slides[0].getBoundingClientRect().width;
+                    var gap = isMobile() ? 12 : 24; // smaller gap on mobile
+                    return width + gap;
+                }
+
+                function getMaxSlide() {
+                    return Math.max(0, slides.length - getVisibleSlides());
+                }
+
+                function update() {
+                    track.style.transform = 'translateX(-' + (current * getStep()) + 'px)';
+                }
+
+                var nextBtn = document.getElementById('trust-next');
+                var prevBtn = document.getElementById('trust-prev');
+                if (nextBtn) nextBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (current < getMaxSlide()) current++; else current = 0;
+                    update();
+                });
+                if (prevBtn) prevBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (current > 0) current--; else current = getMaxSlide();
+                    update();
+                });
+
+                window.addEventListener('resize', function() {
+                    // Reset to first slide on resize to prevent overflow
+                    if (current > getMaxSlide()) current = getMaxSlide();
+                    update();
+                });
+                update();
+            }
+
             function ready(fn) {
                 if (document.readyState === 'loading') {
                     document.addEventListener('DOMContentLoaded', fn);
@@ -2875,6 +3322,7 @@
             ready(function() {
                 initHero();
                 initCategories();
+                initTrust();
             });
         })();
             </script>
