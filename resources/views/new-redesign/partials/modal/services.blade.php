@@ -83,11 +83,12 @@ window.openServicesModal = function() {
             return false;
         }
         
-        // Get current locale from URL
+        // Get current locale - use default_locale from Laravel, fallback to 'ru'
+        var locale = window.default_locale || 'ru';
         var pathParts = window.location.pathname.split('/').filter(function(part) {
             return part.length > 0;
         });
-        var locale = 'en';
+        // Override with URL locale if present and valid
         if (pathParts.length > 0 && ['en', 'ru', 'kz'].includes(pathParts[0])) {
             locale = pathParts[0];
         }
@@ -307,7 +308,7 @@ window.closeServicesModal = function() {
             var pathParts = window.location.pathname.split('/').filter(function(part) {
                 return part.length > 0;
             });
-            var locale = 'en';
+            var locale = window.default_locale || 'ru';
             if (pathParts.length > 0 && ['en', 'ru', 'kz'].includes(pathParts[0])) {
                 locale = pathParts[0];
             }
@@ -459,7 +460,7 @@ document.addEventListener('click', function(e) {
             var pathParts = window.location.pathname.split('/').filter(function(part) {
                 return part.length > 0;
             });
-            var locale = 'en';
+            var locale = window.default_locale || 'ru';
             if (pathParts.length > 0 && ['en', 'ru', 'kz'].includes(pathParts[0])) {
                 locale = pathParts[0];
             }

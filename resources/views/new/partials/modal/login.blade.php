@@ -320,6 +320,121 @@
     #loginModal input::placeholder {
         color: rgba(111, 111, 111, 0.6);
     }
+    
+    /* Additional styles for modal elements */
+    #loginModal .bg-white {
+        background-color: #FFFFFF !important;
+    }
+    
+    #loginModal .rounded-lg {
+        border-radius: 0.5rem !important;
+    }
+    
+    #loginModal .border {
+        border-width: 1px !important;
+    }
+    
+    #loginModal .shadow-xl {
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+    }
+    
+    #loginModal .relative {
+        position: relative !important;
+    }
+    
+    #loginModal .block {
+        display: block !important;
+    }
+    
+    #loginModal .text-sm {
+        font-size: 0.875rem !important;
+    }
+    
+    #loginModal .font-medium {
+        font-weight: 500 !important;
+    }
+    
+    #loginModal .mb-2 {
+        margin-bottom: 0.5rem !important;
+    }
+    
+    #loginModal .w-full {
+        width: 100% !important;
+    }
+    
+    #loginModal .px-4 {
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+    }
+    
+    #loginModal .py-3 {
+        padding-top: 0.75rem !important;
+        padding-bottom: 0.75rem !important;
+    }
+    
+    #loginModal .rounded-lg {
+        border-radius: 0.5rem !important;
+    }
+    
+    #loginModal .focus\:ring-2:focus {
+        box-shadow: 0 0 0 2px rgba(39, 151, 96, 0.5) !important;
+    }
+    
+    #loginModal .focus\:border-transparent:focus {
+        border-color: transparent !important;
+    }
+    
+    #loginModal .transition-all {
+        transition-property: all !important;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+        transition-duration: 150ms !important;
+    }
+    
+    #loginModal .duration-200 {
+        transition-duration: 200ms !important;
+    }
+    
+    #loginModal .inline-flex {
+        display: inline-flex !important;
+    }
+    
+    #loginModal .items-center {
+        align-items: center !important;
+    }
+    
+    #loginModal .justify-center {
+        justify-content: center !important;
+    }
+    
+    #loginModal .text-white {
+        color: #FFFFFF !important;
+    }
+    
+    #loginModal .font-medium {
+        font-weight: 500 !important;
+    }
+    
+    #loginModal .disabled\:opacity-50:disabled {
+        opacity: 0.5 !important;
+    }
+    
+    #loginModal .disabled\:cursor-not-allowed:disabled {
+        cursor: not-allowed !important;
+    }
+    
+    #loginModal .transition-colors {
+        transition-property: color, background-color, border-color !important;
+        transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+        transition-duration: 150ms !important;
+    }
+    
+    #loginModal .flex {
+        display: flex !important;
+    }
+    
+    #loginModal .mr-2 {
+        margin-right: 0.5rem !important;
+    }
 </style>
 
 <script>
