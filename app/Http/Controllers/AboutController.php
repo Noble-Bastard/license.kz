@@ -53,7 +53,7 @@ class AboutController extends Controller
 
     public function indexRedesign()
     {
-        return view('about-new');
+        return view('redesign.about');
     }
 
     public function showEmployee($emplyeeId)

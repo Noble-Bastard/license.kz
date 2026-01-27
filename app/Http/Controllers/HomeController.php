@@ -60,36 +60,12 @@ class HomeController extends Controller
      */
     public function indexNew()
     {
-        $countryId = 1; //KZ
-
-        $newsList = NewsDal::getTopActualNews(4);
-        $categoryList = ServiceCategoryDal::getServiceCategoryWithRootCatalog(
-            false,
-            false,
-            $countryId
-        );
-        $partnerList =  (new ExternalPartnerDal())->getList(true);
-        $reviewList = $this->reviewRepository->all();
-
-        $topCategoryList = ServiceCategoryDal::getServiceCategoryWithRootCatalog(
-            false,
-            false,
-            $countryId,
-            true,
-            true
-        );
-
-        return view('new.index')
-            ->with('categoryList', $categoryList)
-            ->with('topCategoryList', $topCategoryList)
-            ->with('newsList', $newsList)
-            ->with('reviewList', $reviewList)
-            ->with('partnerList', $partnerList);
+        return view('redesign.index');
     }
 
     public function newHome()
     {
-		return view('current.index');
+		return view('redesign.index');
     }
   
     public function servicesNew()
