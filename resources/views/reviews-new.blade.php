@@ -9,18 +9,112 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 @endpush
 
+<style>
+    #app {
+        padding-top: 0!important;
+    }
+
+    .page-header {
+        max-width: unset!important;
+    }
+
+    .client-case-detail__right {
+        margin-left: auto!important;
+        max-width: unset!important;
+        flex: unset!important;
+    }
+
+    .client-case-detail__right {}
+
+    .client-cases > .container {
+        padding: 0!important;
+    }
+
+    .contact-section {
+        max-width: unset!important;
+    }
+
+    .contact-section::before {
+        display: none!important;
+    }
+
+    .contact-section {
+        position: relative!important;
+        width: 100%!important;
+        height: 510px!important;
+        margin: 0 auto;
+        background: #FFFFFF;
+        overflow: hidden;
+        background-image: url('/assets/img/contacts-line.png')!important;
+        background-repeat: no-repeat!important;
+        background-position-y: bottom!important;
+        background-size: contain!important;
+        margin-bottom: 100px!important;
+        margin-top: 100px!important;
+    }
+
+    .contact-section__container {
+        padding: 0px!important;
+    }
+
+    .breadscrumb__list {
+        list-style-type: none;
+        margin: 0;
+        margin-top: 20px;
+        margin-bottom: 60px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .breadscrumb__list li a {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        margin-left: 5px;
+        color: #999999;
+    }
+
+    .breadscrumb__list li:last-child a {
+        color: #191E1D;
+    }
+
+    .breadscrumb__list img {
+        margin-right: 5px;
+    }
+
+    .elipsis {
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: #D9D9D9;
+        margin-right: 5px;
+    }
+
+    .active {
+        display: flex;
+        align-items: center;
+        color: #495057;
+    }
+
+    .active .elipsis {
+        margin-left: 5px;
+    }
+</style>
+
 @section('content')
     <main class="reviews-page">
-        <!-- Breadcrumb Navigation -->
-        <nav class="breadcrumb" aria-label="Хлебные крошки">
-            <div class="container">
-                <div class="breadcrumb__content">
-                    <a href="/" class="breadcrumb__link">Главная</a>
-                    <span class="breadcrumb__separator">/</span>
-                    <span class="breadcrumb__current">Отзывы</span>
-                </div>
-            </div>
-        </nav>
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ul class="breadscrumb__list">
+                    <li><a href="{{route('new-index')}}"><img src="{{asset('assets/img/ic-home.svg')}}" alt=""> Главная</a></li>
+                    <li class="active" aria-current="page">
+                        <div class="elipsis"></div>
+                        Отзывы
+                    </li>
+                </ol>
+            </nav>
+        </div>
 
         <!-- Page Header -->
         <header class="page-header">

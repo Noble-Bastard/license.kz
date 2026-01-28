@@ -7,11 +7,16 @@
 @section('content')
     <div class="faq-page">
         <div class="container">
-            <nav aria-label="breadcrumb" class="breadcrumb-nav">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{route('new-index')}}">Главная</a></li>
-                    <li class="breadcrumb-item"><a href="{{route('news.list')}}">Блог</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">FAQ</li>
+            <nav aria-label="breadcrumb">
+                <ul class="breadscrumb__list">
+                    <li><a href="{{route('new-index')}}"><img src="{{asset('assets/img/ic-home.svg')}}" alt=""> Главная</a></li>
+                    <li><a href="{{route('news.list')}}">
+                    <div class="elipsis"></div>
+                        Блог</a></li>
+                    <li class="active" aria-current="page">
+                        <div class="elipsis"></div>
+                        FAQ
+                    </li>
                 </ol>
             </nav>
         </div>
@@ -82,11 +87,11 @@
     <section class="consultation-block">
         <div class="container">
             <div class="row align-items-stretch">
-                <div class="col-lg-7 d-flex flex-column justify-content-center mb-4 mb-lg-0">
-                    <h2 class="consultation-hero-title">У вас есть запрос? Давайте обсудим!</h2>
+                <div class="col-lg-5 d-flex flex-column mb-4 mb-lg-0">
+                    <h2 class="consultation-hero-title">У вас есть запрос?<br> Давайте обсудим!</h2>
                     <p class="consultation-hero-subtitle">Предоставим быстрое и эффективное открытие и ведение бизнеса в Казахстане</p>
                 </div>
-                <div class="col-lg-5">
+                <div class="col-lg-7">
                     <div class="consultation-form-container">
                         <div class="consultation-form">
                             <form class="consultation-form-content" action="#" method="post">
@@ -128,7 +133,6 @@
                 </div>
             </div>
         </div>
-        <img src="{{asset('images/Vector_6908.png')}}" alt="" class="consultation-bg-vector">
     </section>
 
     <!-- Custom Modal Overlay -->
