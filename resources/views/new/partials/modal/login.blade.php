@@ -7,24 +7,26 @@
         <!-- Login Form -->
         <div class="bg-white rounded-lg border shadow-xl relative" style="border-color: #E8E8E8;">
             <!-- Close Button - Top right corner of modal -->
-            <button onclick="closeLoginModal()" style="position: absolute; top: 5px; right: -55px; z-index: 1000000; width: 40px; height: 40px; border-radius: 50%; background-color: #FFFFFF; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.15); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
-                <i class="fas fa-times" style="color: #191E1D; font-size: 12px; font-weight: 300;"></i>
+            <button onclick="closeLoginModal()" style="position: absolute; top: 15px; right: 15px; z-index: 1000000; width: 40px; height: 40px; border-radius: 50%; background-color: #FFFFFF; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.15); transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: block;">
+                    <path d="M12 4L4 12M4 4L12 12" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
             </button>
             
             <!-- Tabs -->
-            <div style="display: flex; padding: 1.5rem 1.5rem 0 1.5rem; gap: 2rem;">
+            <div style="display: flex; padding: 1.5rem 1.5rem 0 1.5rem; gap: 2rem; border-bottom: 1px solid #E8E8E8;">
                 <button type="button" 
                         id="loginTab" 
                         onclick="switchTab('login')"
                         class="transition-colors"
-                        style="color: #191E1D; font-size: 1.5rem; font-weight: 400; padding-bottom: 1rem; text-align: left;">
+                        style="color: #191E1D; font-size: 1.5rem; font-weight: 400; padding-bottom: 1rem; text-align: left; border: none; background: none; cursor: pointer; border-bottom: 2px solid #191E1D; margin-bottom: -1px;">
                     Вход
                 </button>
                 <button type="button" 
                         id="registerTab" 
                         onclick="switchTab('register')"
                         class="transition-colors"
-                        style="color: #6F6F6F; font-size: 1.5rem; font-weight: 400; padding-bottom: 1rem; text-align: left;">
+                        style="color: #6F6F6F; font-size: 1.5rem; font-weight: 400; padding-bottom: 1rem; text-align: left; border: none; background: none; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px;">
             Регистрация
                 </button>
         </div>
@@ -79,12 +81,12 @@
                         <button type="submit" 
                                 id="loginSubmitBtn"
                                 class="inline-flex items-center justify-center py-3 text-white font-medium transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                                style="background-color: #279760; border-radius: 50px; padding-left: 3rem; padding-right: 3rem;" onmouseover="this.style.backgroundColor='#1e7a5e'" onmouseout="this.style.backgroundColor='#279760'">
+                                style="background-color: #279760; border-radius: 50px; padding-left: 3rem; padding-right: 3rem; position: relative;" onmouseover="this.style.backgroundColor='#1e7a5e'" onmouseout="this.style.backgroundColor='#279760'">
                             <span id="loginBtnText">Войти</span>
-                            <span id="loginBtnLoading" style="display: none;" class="flex items-center">
-                                <i class="fas fa-spinner fa-spin mr-2"></i>
+                            <span id="loginBtnLoading" style="display: none;">
+                                <i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i>
                                 Загрузка...
-                                  </span>
+                            </span>
                         </button>
                         @if (Route::has('password.request'))
                         <a href="javascript:void(0)" onclick="if(typeof window.openForgotPasswordModal === 'function') { window.openForgotPasswordModal(); } else { window.location.href='{{ route('password.request') }}'; } return false;" class="text-sm transition-colors" style="color: #191E1D; cursor: pointer;" onmouseover="this.style.color='#000'" onmouseout="this.style.color='#191E1D'">
@@ -216,17 +218,60 @@
         
         #loginModal button[onclick*="closeLoginModal"] {
             position: absolute !important;
-            top: 10px !important;
-            right: 10px !important;
-            width: 36px !important;
-            height: 36px !important;
+            top: 15px !important;
+            right: 15px !important;
+            width: 40px !important;
+            height: 40px !important;
             z-index: 10 !important;
+            background-color: #FFFFFF !important;
+            border: none !important;
+            border-radius: 50% !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
+        }
+        
+        #loginModal button[onclick*="closeLoginModal"] svg {
+            width: 16px !important;
+            height: 16px !important;
         }
         
         #loginModal button[type="button"][id="loginTab"],
         #loginModal button[type="button"][id="registerTab"] {
             font-size: 1.25rem !important;
             padding: 1rem 1rem 0.75rem 1rem !important;
+            border-bottom: 2px solid transparent !important;
+            margin-bottom: -1px !important;
+        }
+        
+        #loginModal button[type="button"][id="loginTab"].active,
+        #loginModal button[type="button"][id="registerTab"].active {
+            border-bottom: 2px solid #191E1D !important;
+        }
+        
+        /* Ensure button text and loading don't overlap */
+        #loginModal #loginSubmitBtn {
+            position: relative;
+        }
+        
+        #loginModal #loginSubmitBtn #loginBtnText {
+            display: inline-block !important;
+        }
+        
+        #loginModal #loginSubmitBtn #loginBtnLoading {
+            display: none !important;
+        }
+        
+        #loginModal #loginSubmitBtn.loading #loginBtnText {
+            display: none !important;
+        }
+        
+        #loginModal #loginSubmitBtn.loading #loginBtnLoading {
+            display: inline-flex !important;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        #loginModal #loginSubmitBtn.loading #loginBtnLoading i {
+            display: inline-block;
         }
         
         /* Status buttons (legalTab, individualTab) - keep desktop style, just scale down */
@@ -496,9 +541,21 @@ document.addEventListener('DOMContentLoaded', function() {
             
             if (submitBtn && btnText && btnLoading) {
                 submitBtn.disabled = true;
-                btnText.style.display = 'none';
-                btnLoading.style.display = 'flex';
+                submitBtn.classList.add('loading');
+                // Убираем inline стили, чтобы работали CSS классы
+                btnText.style.display = '';
+                btnLoading.style.display = '';
             }
+            
+            // Reset button state if form submission fails (after 5 seconds timeout)
+            setTimeout(function() {
+                if (submitBtn && submitBtn.disabled) {
+                    submitBtn.disabled = false;
+                    submitBtn.classList.remove('loading');
+                    btnText.style.display = '';
+                    btnLoading.style.display = '';
+                }
+            }, 5000);
         });
     }
     
@@ -551,7 +608,9 @@ function switchTab(tab) {
     if (tab === 'login') {
         // Activate login tab
         loginTab.style.color = '#191E1D';
+        loginTab.style.borderBottom = '2px solid #191E1D';
         registerTab.style.color = '#6F6F6F';
+        registerTab.style.borderBottom = '2px solid transparent';
         
         // Show login form
         loginFormContainer.style.display = 'block';
@@ -567,7 +626,9 @@ function switchTab(tab) {
     } else {
         // Activate register tab
         registerTab.style.color = '#191E1D';
+        registerTab.style.borderBottom = '2px solid #191E1D';
         loginTab.style.color = '#6F6F6F';
+        loginTab.style.borderBottom = '2px solid transparent';
         
         // Show register form
         registerFormContainer.style.display = 'block';
