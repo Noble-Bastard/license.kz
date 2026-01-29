@@ -1,4 +1,5 @@
-<div class="header">
+<!-- Desktop Header -->
+<div class="header d-none d-md-block">
     <div class="container">
         <div class="row">
             <div class="col-9">
@@ -35,6 +36,122 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<!-- Mobile Header -->
+<div class="header-mobile d-md-none">
+    <div class="header-mobile__container">
+        <div class="header-mobile__logo">
+            <a href="{{ route('new-index') }}">
+                <img src="{{asset('assets/img/logo.svg')}}" alt="UPPERLICENSE">
+            </a>
+        </div>
+        <div class="header-mobile__actions">
+            <a href="tel:+77471350000" class="header-mobile__phone">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122L9.98 10.98s-.787.205-1.994-1.002C6.782 8.774 6.987 7.987 6.987 7.987l.549-1.805a.678.678 0 0 0-.122-.58L5.62 3.295a.678.678 0 0 0-.58-.122z" fill="#191E1D"/>
+                </svg>
+            </a>
+            <button class="header-mobile__menu-btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu" aria-controls="mobileMenu">
+                <svg width="16" height="16" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.33 2.92H11.67" stroke="#279760" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M2.33 7H11.67" stroke="#279760" stroke-width="1.5" stroke-linecap="round"/>
+                    <path d="M2.33 11.08H11.67" stroke="#279760" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Mobile Menu Offcanvas -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="mobileMenu" aria-labelledby="mobileMenuLabel">
+    <div class="offcanvas-header">
+        <div class="offcanvas-header__left">
+            <a href="{{ route('new-index') }}" class="offcanvas-header__logo">
+                <img src="{{asset('assets/img/logo.svg')}}" alt="UPPERLICENSE">
+            </a>
+        </div>
+        <div class="offcanvas-header__right">
+            <a href="tel:+77471350000" class="offcanvas-header__phone">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122L9.98 10.98s-.787.205-1.994-1.002C6.782 8.774 6.987 7.987 6.987 7.987l.549-1.805a.678.678 0 0 0-.122-.58L5.62 3.295a.678.678 0 0 0-.58-.122z" fill="#191E1D"/>
+                </svg>
+            </a>
+            <button type="button" class="offcanvas-header__close" data-bs-dismiss="offcanvas" aria-label="Close">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M1 1L15 15M15 1L1 15" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+    <div class="offcanvas-body">
+        <!-- Contact Info -->
+        <div class="mobile-menu__contact">
+            <div class="mobile-menu__phone">7 (747) 135-00-00</div>
+            <a href="#" class="mobile-menu__callback" data-bs-toggle="modal" data-bs-target="#consultModal" data-bs-dismiss="offcanvas">Заказать звонок</a>
+        </div>
+        
+        <!-- Login Button -->
+        <div class="mobile-menu__login">
+            <button class="mobile-menu__login-btn" onclick="openLoginModal(); return false;" data-bs-dismiss="offcanvas">
+                <span>Войти</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 12L10 8L6 4" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Navigation Links -->
+        <nav class="mobile-menu__nav">
+            <a href="javascript:void(0)" class="mobile-menu__nav-link" onclick="
+                var offcanvas = bootstrap.Offcanvas.getInstance(document.getElementById('mobileMenu'));
+                if (offcanvas) {
+                    offcanvas.hide();
+                    setTimeout(function() {
+                        toggleServicesModal();
+                    }, 300);
+                } else {
+                    toggleServicesModal();
+                }
+                return false;
+            ">
+                <span>Услуги</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 12L10 8L6 4" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+            <a href="{{ route('about') }}" class="mobile-menu__nav-link">
+                <span>О компании</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 12L10 8L6 4" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+            <a href="{{ route('news.list') }}" class="mobile-menu__nav-link">
+                <span>Блог</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 12L10 8L6 4" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+            <a href="{{ route('new-reviews') }}" class="mobile-menu__nav-link">
+                <span>Отзывы</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 12L10 8L6 4" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+            <a href="{{ route('faq') }}" class="mobile-menu__nav-link">
+                <span>Faq</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 12L10 8L6 4" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+            <a href="{{ route('partners') }}" class="mobile-menu__nav-link">
+                <span>Партнёрам</span>
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M6 12L10 8L6 4" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </a>
+        </nav>
     </div>
 </div>
 
@@ -111,6 +228,39 @@
 
     $(document).ready(function () {
         $('input[name="phone"]').inputmask("+7 (999) 999-99-99");
+
+        // Обработчик для закрытия offcanvas при клике на навигационные ссылки
+        var pendingNavigation = null;
+        
+        $(document).on('click', '.mobile-menu__nav-link', function(e) {
+            var href = $(this).attr('href');
+            // Проверяем, что это не ссылка "Услуги" (она обрабатывается отдельно)
+            if (href && href !== 'javascript:void(0)' && !href.startsWith('#')) {
+                e.preventDefault(); // Предотвращаем немедленный переход
+                pendingNavigation = href;
+                
+                var offcanvasEl = document.getElementById('mobileMenu');
+                var offcanvas = bootstrap.Offcanvas.getInstance(offcanvasEl);
+                if (offcanvas) {
+                    // Закрываем offcanvas
+                    offcanvas.hide();
+                } else {
+                    // Если offcanvas уже закрыт, переходим сразу
+                    window.location.href = href;
+                }
+            }
+        });
+        
+        // Переход после закрытия offcanvas
+        var offcanvasEl = document.getElementById('mobileMenu');
+        if (offcanvasEl) {
+            offcanvasEl.addEventListener('hidden.bs.offcanvas', function () {
+                if (pendingNavigation) {
+                    window.location.href = pendingNavigation;
+                    pendingNavigation = null;
+                }
+            });
+        }
 
         $('.callMe').submit(function () {
             $('.modals__success_btn', this).attr('disabled', true);
