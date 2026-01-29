@@ -253,12 +253,12 @@
                     <div class="fourth__block__items__text">
                         <div class="fourth__block__items__text__title">Регистрация компании</div>
                         <ul class="fourth__block__items__text__list">
-                            <li><img src="{{asset('assets/img/ic-chek.svg')}}" alt="">Подготовка учредительных документов филиала/представительств</li>
+                            <li><img src="{{asset('assets/img/ic-chek.svg')}}" alt="">Подготовка учредительных дdwadwadокументов филиала/представительств</li>
                             <li><img src="{{asset('assets/img/ic-chek.svg')}}" alt="">Сдача документов в регистрирующий орган</li>
                             <li><img src="{{asset('assets/img/ic-chek.svg')}}" alt="">Заполнение формы на регистрацию</li>
                         </ul>
                     </div>
-                    <a href="#" class="fourth__block__items__btn">
+                    <a href="/extra_services/company" class="fourth__block__items__btn">
                         Оформить заявку
                     </a>
                 </div>
@@ -281,7 +281,7 @@
                             <li><img src="{{asset('assets/img/ic-chek.svg')}}" alt="">Подавка заявки на открытие счета</li>
                         </ul>
                     </div>
-                    <a href="#" class="fourth__block__items__btn">
+                    <a href="/extra_services/open_bank_account" class="fourth__block__items__btn">
                         Оформить заявку
                     </a>
                 </div>
@@ -304,7 +304,7 @@
                             <li><img src="{{asset('assets/img/ic-chek.svg')}}" alt="">Оформление визы в консульстве РК</li>
                         </ul>
                     </div>
-                    <a href="#" class="fourth__block__items__btn">
+                    <a href="/extra_services/visa_c3" class="fourth__block__items__btn">
                         Оформить заявку
                     </a>
                 </div>
@@ -340,7 +340,7 @@
                             <li><img src="{{asset('assets/img/ic-chek.svg')}}" alt="">Оформление РВП</li>
                         </ul>
                     </div>
-                    <a href="#" class="fourth__block__items__btn">
+                    <a href="/extra_services/iin" class="fourth__block__items__btn">
                         Оформить заявку
                     </a>
                 </div>

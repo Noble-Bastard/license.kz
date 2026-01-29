@@ -747,7 +747,7 @@
                         <div class="fourth__block__items__text">
                             <div class="fourth__block__items__text__title">Регистрация компании</div>
                             <ul class="fourth__block__items__text__list">
-                                <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Подготовка учредительных документов филиала/представительств</li>
+                                <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Подготовка учредительных документов филиала/предddставительств</li>
                                 <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Сдача документов в регистрирующий орган</li>
                                 <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Заполнение формы на регистрацию</li>
                             </ul>

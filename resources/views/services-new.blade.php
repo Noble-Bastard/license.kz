@@ -2,16 +2,84 @@
 @section('content')
 
   @php
+    // Маппинг услуг на extra_services URL
+    $extraServicesMapping = [
+      'company' => '/extra_services/company',
+      'iin' => '/extra_services/iin',
+      'bin' => '/extra_services/bin',
+      'open_bank_account' => '/extra_services/open_bank_account',
+      'ecp' => '/extra_services/ecp',
+      'llp_change_documents' => '/extra_services/llp_change_documents',
+      'llp_reregistration' => '/extra_services/llp_reregistration',
+      'visa_c3' => '/extra_services/visa_c3',
+      'visa_c5' => '/extra_services/visa_c5',
+      'branch_registration' => '/extra_services/branch_registration',
+    ];
+    
+    // Функция для получения URL услуги
+    function getServiceUrl($item, $extraServicesMapping) {
+      // Получаем pretty_url (может быть массивом или объектом)
+      $prettyUrl = is_array($item) ? ($item['pretty_url'] ?? null) : ($item->pretty_url ?? null);
+      $itemName = is_array($item) ? ($item['name'] ?? '') : ($item->name ?? '');
+      
+      // Проверяем pretty_url
+      if ($prettyUrl && isset($extraServicesMapping[$prettyUrl])) {
+        return $extraServicesMapping[$prettyUrl];
+      }
+      
+      // Проверяем название услуги (частичное совпадение)
+      $itemNameLower = mb_strtolower($itemName);
+      $keyWords = [
+        'company' => ['регистрация компании', 'регистрация компани'],
+        'iin' => ['иин', 'индивидуальный идентификационный номер'],
+        'bin' => ['бин', 'бизнес-идентификационный номер'],
+        'open_bank_account' => ['открытие банковского счета', 'открытие счета', 'банковский счет'],
+        'ecp' => ['эцп', 'электронная цифровая подпись', 'электронно-цифровая подпись'],
+        'llp_change_documents' => ['изменение документов тоо', 'изменение документов', 'изменение тоо'],
+        'llp_reregistration' => ['перерегистрация тоо', 'перерегистрация'],
+        'visa_c3' => ['виза с3', 'виза с 3', 'c3'],
+        'visa_c5' => ['виза с5', 'виза с 5', 'c5'],
+        'branch_registration' => ['регистрация филиала', 'филиал'],
+      ];
+      
+      foreach ($extraServicesMapping as $key => $url) {
+        if (isset($keyWords[$key])) {
+          foreach ($keyWords[$key] as $keyword) {
+            if (strpos($itemNameLower, $keyword) !== false) {
+              return $url;
+            }
+          }
+        }
+      }
+      
+      // Если не найдено, используем стандартный маршрут
+      if ($prettyUrl) {
+        return route('new.services-group.info', ['serviceCategoryId' => $prettyUrl]);
+      }
+      return '#';
+    }
+    
     // Определяем маппинг разделов меню к категориям из БД
+    // URL для extra_services:
+    // /extra_services/company - Регистрация компании
+    // /extra_services/iin - ИИН
+    // /extra_services/bin - БИН
+    // /extra_services/open_bank_account - Открытие банковского счета
+    // /extra_services/ecp - ЭЦП
+    // /extra_services/llp_change_documents - Изменение документов ТОО
+    // /extra_services/llp_reregistration - Перерегистрация ТОО
+    // /extra_services/visa_c3 - Виза С3
+    // /extra_services/visa_c5 - Виза С5
+    // /extra_services/branch_registration - Регистрация филиала
     $sectionConfigs = [
-      'Лицензирование' => ['icon' => '/new/images/icons/uslugilicense.png', 'keywords' => ['лицензи']],
-      'Регистрация компании' => ['icon' => '/new/images/icons/03b375c18b171e19614532b0cdee72ca6e55971b.png', 'keywords' => ['регистрац', 'компани']],
-      'Юридическое сопровождение' => ['icon' => '/new/images/icons/uslugilaw.png', 'keywords' => ['юридическ']],
-      'Бухгалтерский аутсорсинг' => ['icon' => '/new/images/icons/uslugibuh.png', 'keywords' => ['бухгалтер', 'аутсорс']],
-      'Получение визы С3 и С5' => ['icon' => '/new/images/icons/uslugivisa.png', 'keywords' => ['виза']],
-      'Дополнительные услуги' => ['icon' => '/new/images/icons/uslugiplus.png', 'keywords' => []],
-      'Регистрация компании в СЭЗ и МФЦА' => ['icon' => '/new/images/icons/5dc86ec46fe074b98a02e0993dc9458c53e8509e.png', 'keywords' => ['сэз', 'мфца']],
-      'Открытие банковских счетов' => ['icon' => '/new/images/icons/uslugibank.png', 'keywords' => ['банковск', 'счет']]
+      'Лицензирование' => ['icon' => '/new/images/icons/uslugicompany.png', 'keywords' => ['лицензи'], 'url' => null],
+      'Регистрация компании' => ['icon' => '/new/images/icons/03b375c18b171e19614532b0cdee72ca6e55971b.png', 'keywords' => ['регистрац', 'компани'], 'url' => '/extra_services/company'],
+      'Юридическое сопровождение' => ['icon' => '/new/images/icons/uslugilaw.png', 'keywords' => ['юридическ'], 'url' => null],
+      'Бухгалтерский аутсорсинг' => ['icon' => '/new/images/icons/uslugibuh.png', 'keywords' => ['бухгалтер', 'аутсорс'], 'url' => null],
+      'Получение визы С3 и С5' => ['icon' => '/new/images/icons/uslugivisa.png', 'keywords' => ['виза'], 'url' => null],
+      'Дополнительные услуги' => ['icon' => '/new/images/icons/uslugiplus.png', 'keywords' => [], 'url' => null],
+      'Регистрация компании в СЭЗ и МФЦА' => ['icon' => '/new/images/icons/5dc86ec46fe074b98a02e0993dc9458c53e8509e.png', 'keywords' => ['сэз', 'мфца'], 'url' => null],
+      'Открытие банковских счетов' => ['icon' => '/new/images/icons/uslugibank.png', 'keywords' => ['банковск', 'счет'], 'url' => '/extra_services/open_bank_account']
     ];
     
     // Находим категорию для каждого раздела
@@ -69,7 +137,8 @@
       $sections[] = [
         'name' => $sectionName,
         'icon' => $config['icon'],
-        'categoryId' => $categoryId
+        'categoryId' => $categoryId,
+        'url' => $config['url'] ?? null
       ];
     }
     
@@ -181,7 +250,7 @@
             <ul class="services-sidebar-list">
               @foreach($sections as $index => $section)
                 <li>
-                  <a href="#" 
+                  <a href="{{ $section['url'] ?? '#' }}" 
                      class="services-sidebar-item {{ ($index === 0 && $activeCategoryId) ? 'active' : '' }}"
                      data-category-id="{{ $index === 0 ? $section['categoryId'] : null }}">
                     <img src="{{ asset($section['icon']) }}" alt="{{ $section['name'] }}" class="services-sidebar-icon" onerror="this.style.display='none'">
@@ -212,7 +281,17 @@
                               ? $categoryDataMap[$section['categoryId']]
                               : null;
                           @endphp
-                          @if($categoryData && !empty($categoryData['groupedItems']))
+                          @if($section['url'])
+                            <a href="{{ $section['url'] }}" class="services-mobile-section-link">
+                              <span class="services-mobile-section-link__icon">
+                                <img src="{{ asset($section['icon']) }}" alt="{{ $section['name'] }}" onerror="this.style.visibility='hidden'">
+                              </span>
+                              <span class="services-mobile-section-link__label">{{ $section['name'] }}</span>
+                              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6 12L10 8L6 4" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                              </svg>
+                            </a>
+                          @elseif($categoryData && !empty($categoryData['groupedItems']))
                             <button class="services-mobile-section-link" type="button" data-mobile-open="{{ $sectionIndex }}">
                               <span class="services-mobile-section-link__icon">
                                 <img src="{{ asset($section['icon']) }}" alt="{{ $section['name'] }}" onerror="this.style.visibility='hidden'">
@@ -386,7 +465,7 @@
                                   <div class="services-mobile-subsection__list">
                                     @if($subsectionData && !empty($subsectionData['items']))
                                       @foreach($subsectionData['items'] as $item)
-                                        <a href="{{ route('new.services-group.info', ['serviceCategoryId' => $item['pretty_url']]) }}" 
+                                        <a href="{{ getServiceUrl($item, $extraServicesMapping) }}" 
                                            class="services-mobile-detail__item">
                                           <div class="services-mobile-detail__item-text">
                                             <span class="services-mobile-detail__item-title">{{ $item['name'] }}</span>
@@ -437,7 +516,7 @@
                                   $itemId = "service-desc-{$categoryIndex}-primary-{$itemIndex}";
                                 @endphp
                                 <div class="service-item" data-service-item>
-                                  <a href="{{route('new.services-group.info', ['serviceCategoryId'=>$catalogItem->pretty_url])}}"
+                                  <a href="{{ getServiceUrl($catalogItem, $extraServicesMapping) }}"
                                      class="service-item-link"
                                      data-service-toggle="{{ $itemId }}"
                                      data-service-has-description="{{ $hasDescription ? 'true' : 'false' }}">
@@ -446,7 +525,7 @@
                                   @if($hasDescription)
                                     <div class="service-item-description" id="{{ $itemId }}">
                                       {!! $descriptionHtml !!}
-                                      <a href="{{route('new.services-group.info', ['serviceCategoryId'=>$catalogItem->pretty_url])}}" class="service-item-description__link">
+                                      <a href="{{ getServiceUrl($catalogItem, $extraServicesMapping) }}" class="service-item-description__link">
                                         {{ __('Подробнее') }}
                                       </a>
                                     </div>
@@ -462,7 +541,7 @@
                                       $itemId = "service-desc-{$categoryIndex}-hidden-{$hiddenIndex}";
                                     @endphp
                                     <div class="service-item" data-service-item>
-                                      <a href="{{route('new.services-group.info', ['serviceCategoryId'=>$catalogItem->pretty_url])}}"
+                                      <a href="{{ getServiceUrl($catalogItem, $extraServicesMapping) }}"
                                          class="service-item-link"
                                          data-service-toggle="{{ $itemId }}"
                                          data-service-has-description="{{ $hasDescription ? 'true' : 'false' }}">
@@ -471,7 +550,7 @@
                                       @if($hasDescription)
                                         <div class="service-item-description" id="{{ $itemId }}">
                                           {!! $descriptionHtml !!}
-                                          <a href="{{route('new.services-group.info', ['serviceCategoryId'=>$catalogItem->pretty_url])}}" class="service-item-description__link">
+                                          <a href="{{ getServiceUrl($catalogItem, $extraServicesMapping) }}" class="service-item-description__link">
                                             {{ __('Подробнее') }}
                                           </a>
                                         </div>
@@ -1763,7 +1842,13 @@
       });
       
       // Отключаем переключение между разделами - только Лицензирование активно
+      // Но разрешаем переход, если у ссылки есть реальный URL (не #)
       $('.services-sidebar-item').on('click', function(e) {
+        var href = $(this).attr('href');
+        // Если это реальная ссылка (не #), разрешаем переход
+        if (href && href !== '#' && href !== '') {
+          return true; // Разрешаем стандартное поведение ссылки
+        }
         e.preventDefault();
         // Ничего не делаем - только Лицензирование остается активным
         return false;
