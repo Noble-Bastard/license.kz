@@ -79,7 +79,9 @@
       'Получение визы С3 и С5' => ['icon' => '/new/images/icons/uslugivisa.png', 'keywords' => ['виза'], 'url' => null],
       'Дополнительные услуги' => ['icon' => '/new/images/icons/uslugiplus.png', 'keywords' => [], 'url' => null],
       'Регистрация компании в СЭЗ и МФЦА' => ['icon' => '/new/images/icons/5dc86ec46fe074b98a02e0993dc9458c53e8509e.png', 'keywords' => ['сэз', 'мфца'], 'url' => null],
-      'Открытие банковских счетов' => ['icon' => '/new/images/icons/uslugibank.png', 'keywords' => ['банковск', 'счет'], 'url' => '/extra_services/open_bank_account']
+      'Открытие банковских счетов' => ['icon' => '/new/images/icons/uslugibank.png', 'keywords' => ['банковск', 'счет'], 'url' => '/extra_services/open_bank_account'],
+       'Строительство' => ['icon' => '/new/images/icons/uslugilaw.png', 'keywords' => ['строи'], 'url' => '/construction']
+
     ];
     
     // Находим категорию для каждого раздела
