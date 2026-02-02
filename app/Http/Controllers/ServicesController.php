@@ -131,7 +131,16 @@ class ServicesController extends Controller
 
             $service = CatalogDal::getFirstServiceByCatalogNode($currentNode->id);
 
-            $currentNode->service = ServiceDal::getServiceInfo($service->id, true);
+            if ($service && $service->id) {
+                $currentNode->service = ServiceDal::getServiceInfo($service->id, true);
+            } else {
+                // Если услуга не найдена, создаем пустой объект с базовыми значениями
+                $currentNode->service = (object)[
+                    'base_cost' => 0,
+                    'total_execution_work_day_cnt' => 0,
+                    'executive_agency' => ''
+                ];
+            }
 
             return view('new.partials.page.services')
                 ->with('currentNode', $currentNode);

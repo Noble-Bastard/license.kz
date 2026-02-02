@@ -52,9 +52,15 @@
         }
       }
       
-      // Если не найдено, используем стандартный маршрут
+      // Специальная обработка для "Строительство"
+      $itemNameLower = mb_strtolower($itemName);
+      if (strpos($itemNameLower, 'строительство') !== false || strpos($itemNameLower, 'строи') !== false) {
+        return '/construction';
+      }
+      
+      // Если не найдено, используем стандартный маршрут для категорий каталога
       if ($prettyUrl) {
-        return route('new.services-group.info', ['serviceCategoryId' => $prettyUrl]);
+        return '/service-group/' . $prettyUrl;
       }
       return '#';
     }
@@ -79,8 +85,7 @@
       'Получение визы С3 и С5' => ['icon' => '/new/images/icons/uslugivisa.png', 'keywords' => ['виза'], 'url' => null],
       'Дополнительные услуги' => ['icon' => '/new/images/icons/uslugiplus.png', 'keywords' => [], 'url' => null],
       'Регистрация компании в СЭЗ и МФЦА' => ['icon' => '/new/images/icons/5dc86ec46fe074b98a02e0993dc9458c53e8509e.png', 'keywords' => ['сэз', 'мфца'], 'url' => null],
-      'Открытие банковских счетов' => ['icon' => '/new/images/icons/uslugibank.png', 'keywords' => ['банковск', 'счет'], 'url' => '/extra_services/open_bank_account'],
-       'Строительство' => ['icon' => '/new/images/icons/uslugilaw.png', 'keywords' => ['строи'], 'url' => '/construction']
+      'Открытие банковских счетов' => ['icon' => '/new/images/icons/uslugibank.png', 'keywords' => ['банковск', 'счет'], 'url' => '/extra_services/open_bank_account']
 
     ];
     
@@ -155,7 +160,8 @@
         'Земельные отношения',
         'Экспорт товаров',
         'Импорт товаров',
-        'Культура'
+        'Культура',
+        'Строительство'
       ]
     ];
     
@@ -173,6 +179,7 @@
           if ($childNodes->count() > 0) {
             $groupedItems[] = [
               'title' => $catalogItem->name,
+              'pretty_url' => $catalogItem->pretty_url,
               'items' => $childNodes->map(function($childNode) {
                 return [
                   'name' => $childNode->name,
@@ -184,6 +191,7 @@
           } else {
             $groupedItems[] = [
               'title' => null,
+              'pretty_url' => $catalogItem->pretty_url,
               'items' => collect([$catalogItem])->map(function($node) {
                 return [
                   'name' => $node->name,
@@ -417,16 +425,44 @@
                                     }
                                     
                                     $subsectionId = "subsection-{$sectionIndex}-{$subsectionIndex}";
+                                    // Получаем pretty_url для заголовка группы
+                                    $subsectionPrettyUrl = null;
+                                    foreach($categoryData['groupedItems'] as $group) {
+                                      $groupTitleNormalized = mb_strtolower(trim($group['title'] ?? ''));
+                                      if ($groupTitleNormalized === $subsectionTitleNormalized) {
+                                        $subsectionPrettyUrl = $group['pretty_url'] ?? null;
+                                        break;
+                                      }
+                                    }
+                                    // Если не нашли, ищем частичное совпадение
+                                    if (!$subsectionPrettyUrl) {
+                                      foreach($categoryData['groupedItems'] as $group) {
+                                        $groupTitleNormalized = mb_strtolower(trim($group['title'] ?? ''));
+                                        if (strpos($groupTitleNormalized, $subsectionTitleNormalized) !== false || 
+                                            strpos($subsectionTitleNormalized, $groupTitleNormalized) !== false) {
+                                          $subsectionPrettyUrl = $group['pretty_url'] ?? null;
+                                          break;
+                                        }
+                                      }
+                                    }
+                                    
+                                    // Специальная обработка для "Строительство"
+                                    $subsectionTitleLower = mb_strtolower(trim($subsectionTitle));
+                                    if (strpos($subsectionTitleLower, 'строительство') !== false || strpos($subsectionTitleLower, 'строи') !== false) {
+                                      $subsectionUrl = '/construction';
+                                    } else {
+                                      $subsectionUrl = $subsectionPrettyUrl ? '/service-group/' . $subsectionPrettyUrl : '#';
+                                    }
                                   @endphp
-                                  <button type="button" 
-                                          class="services-mobile-subsection-link"
-                                          data-mobile-subsection-open="{{ $subsectionId }}"
-                                          data-subsection-title="{{ $subsectionTitle }}">
+                                  <a href="{{ $subsectionUrl }}" 
+                                     class="services-mobile-subsection-link"
+                                     data-subsection-title="{{ $subsectionTitle }}"
+                                     @if($subsectionUrl !== '#') onclick="window.location.href = '{{ $subsectionUrl }}'; return false;" @endif>
                                     <span>{{ $subsectionTitle }}</span>
                                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                                       <path d="M6 12L10 8L6 4" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                     </svg>
-                                  </button>
+                                  </a>
                                 @endforeach
                               </div>
                               
