@@ -188,7 +188,7 @@
             max-width: 100% !important;
             width: 100% !important;
             margin: 0 !important;
-            max-height: 50vh !important;
+            max-height: 65vh !important;
             display: flex !important;
             flex-direction: column !important;
         }
@@ -201,7 +201,7 @@
         #loginModal .bg-white {
             border-radius: 8px 8px 0 0 !important;
             margin: 0 !important;
-            max-height: 50vh !important;
+            max-height: 65vh !important;
             min-height: auto !important;
             height: auto !important;
             display: flex;
