@@ -907,6 +907,44 @@
 
                     .construction-page {
                         background-color: #fff;
+                        width: 100%;
+                        overflow-x: hidden;
+                    }
+                    
+                    .construction-page .container {
+                        max-width: 100%;
+                        padding-left: 20px;
+                        padding-right: 20px;
+                    }
+                    
+                    @media (max-width: 768px) {
+                        .construction-page .container {
+                            padding-left: 15px;
+                            padding-right: 15px;
+                        }
+                        
+                        .construction-page h1 {
+                            font-size: 24px;
+                        }
+                        
+                        .construction-page p {
+                            font-size: 14px;
+                        }
+                    }
+                    
+                    @media (max-width: 480px) {
+                        .construction-page .container {
+                            padding-left: 10px;
+                            padding-right: 10px;
+                        }
+                        
+                        .construction-page h1 {
+                            font-size: 20px;
+                        }
+                        
+                        .construction-page p {
+                            font-size: 13px;
+                        }
                     }
 
                     .step-section {
@@ -1045,21 +1083,40 @@
 
                     .image-container {
                         margin: 2rem auto;
-                        max-width: 800px;
+                        max-width: 100%;
+                        width: 100%;
+                        padding: 0 20px;
                     }
 
                     .construction-main-image {
                         width: 100%;
+                        max-width: 800px;
                         height: auto;
                         border-radius: 0px;
                         box-shadow: none;
                         transition: transform 0.3s ease;
                         background: transparent;
                         mix-blend-mode: multiply;
+                        display: block;
+                        margin: 0 auto;
                     }
 
                     .construction-main-image:hover {
                         transform: scale(1.02);
+                    }
+                    
+                    @media (max-width: 768px) {
+                        .image-container {
+                            padding: 0 15px;
+                        }
+                        
+                        .construction-main-image {
+                            max-width: 100%;
+                        }
+                        
+                        .construction-main-image:hover {
+                            transform: none;
+                        }
                     }
 
                     .step-title {
@@ -1528,13 +1585,17 @@
                         display: flex;
                         justify-content: space-between;
                         gap: 20px;
-                        width: 1368px;
+                        max-width: 1368px;
+                        width: 100%;
                         margin: 0 auto;
+                        padding: 0 20px;
                     }
 
                     .pricing-card {
-                        width: 650px;
-                        height: 372px;
+                        width: 100%;
+                        max-width: 650px;
+                        height: auto;
+                        min-height: 372px;
                         padding: 30px;
                         display: flex;
                         flex-direction: column;
@@ -1651,7 +1712,7 @@
                         display: flex;
                         justify-content: center;
                         background: #fff;
-                        padding: 120px 6px 0;
+                        padding: 120px 20px 0;
                     }
 
                     .instructions-container {
@@ -1667,7 +1728,8 @@
                         display: flex;
                         flex-direction: column;
                         gap: 40px;
-                        width: 518px;
+                        width: 100%;
+                        max-width: 518px;
                     }
 
                     .instructions-title {
@@ -1685,7 +1747,8 @@
                         justify-content: center;
                         gap: 10px;
                         padding: 24px;
-                        width: 240px;
+                        width: auto;
+                        max-width: 240px;
                         height: 68px;
                         border: 1px solid #E8E8E8;
                         border-radius: 60px;
@@ -1699,7 +1762,8 @@
 
                     /* Right column */
                     .instructions-right {
-                        width: 762px;
+                        width: 100%;
+                        max-width: 762px;
                     }
 
                     /* Accordion */
@@ -1769,9 +1833,10 @@
                         display: flex;
                         flex-direction: column;
                         align-items: flex-start;
-                        padding: 120px 6px 0;
+                        padding: 120px 20px 0;
                         gap: 40px;
                         max-width: 1440px;
+                        width: 100%;
                         margin: 0 auto;
                     }
 
@@ -1782,15 +1847,17 @@
                         line-height: 120%;
                         color: #191E1D;
                         margin: 0;
-                        max-width: 1320px;
+                        max-width: 100%;
                     }
 
                     .construction-table {
                         display: flex;
                         flex-direction: column;
-                        width: 1320px;
+                        width: 100%;
+                        max-width: 1320px;
                         border: 1px solid #E8E8E8;
                         background: #fff;
+                        overflow-x: auto;
                     }
 
                     .table-head {
@@ -2850,6 +2917,147 @@
                         }
                     }
 
+                    /* Responsive для pricing-section */
+                    @media (max-width: 1400px) {
+                        .pricing-section {
+                            max-width: 100%;
+                            padding: 0 30px;
+                        }
+                    }
+                    
+                    @media (max-width: 992px) {
+                        .pricing-section {
+                            flex-direction: column;
+                            align-items: center;
+                            padding: 0 20px;
+                        }
+                        
+                        .pricing-card {
+                            width: 100%;
+                            max-width: 100%;
+                        }
+                    }
+                    
+                    @media (max-width: 768px) {
+                        .pricing-card {
+                            padding: 20px;
+                            min-height: auto;
+                        }
+                        
+                        .pricing-header h2 {
+                            font-size: 24px;
+                        }
+                        
+                        .pricing-item .value {
+                            font-size: 32px;
+                        }
+                        
+                        .pricing-actions {
+                            flex-direction: column;
+                            gap: 12px;
+                            margin-top: 20px;
+                        }
+                        
+                        .btn {
+                            width: 100%;
+                        }
+                    }
+
+                    /* Responsive для construction-section (таблица) */
+                    @media (max-width: 992px) {
+                        .construction-section {
+                            padding: 80px 20px 0;
+                            gap: 30px;
+                        }
+                        
+                        .construction-title {
+                            font-size: 32px;
+                        }
+                    }
+                    
+                    @media (max-width: 768px) {
+                        .construction-section {
+                            padding: 60px 15px 0;
+                            gap: 20px;
+                        }
+                        
+                        .construction-title {
+                            font-size: 24px;
+                            line-height: 120%;
+                        }
+                        
+                        .construction-description {
+                            font-size: 14px;
+                        }
+                        
+                        .construction-table {
+                            overflow-x: auto;
+                            -webkit-overflow-scrolling: touch;
+                        }
+                        
+                        .table-row {
+                            flex-direction: column;
+                            gap: 10px;
+                            padding: 15px;
+                        }
+                        
+                        .table-row .col {
+                            width: 100% !important;
+                        }
+                        
+                        .table-row .col:nth-child(1),
+                        .table-row .col:nth-child(2),
+                        .table-row .col:nth-child(3) {
+                            width: 100% !important;
+                        }
+                    }
+
+                    /* Responsive для instructions-section */
+                    @media (max-width: 992px) {
+                        .instructions-section {
+                            padding: 80px 20px 0;
+                        }
+                        
+                        .instructions-container {
+                            flex-direction: column;
+                            gap: 30px;
+                        }
+                        
+                        .instructions-left,
+                        .instructions-right {
+                            width: 100%;
+                            max-width: 100%;
+                        }
+                        
+                        .instructions-title {
+                            font-size: 32px;
+                        }
+                    }
+                    
+                    @media (max-width: 768px) {
+                        .instructions-section {
+                            padding: 60px 15px 0;
+                        }
+                        
+                        .instructions-title {
+                            font-size: 24px;
+                            line-height: 120%;
+                        }
+                        
+                        .download-btn {
+                            width: 100%;
+                            max-width: 100%;
+                        }
+                        
+                        .accordion-header {
+                            padding: 20px 0;
+                        }
+                        
+                        .accordion-header .step-text {
+                            font-size: 14px;
+                        }
+                    }
+
                     @media (max-width: 480px) {
                         .container {
                             padding-left: 15px;
@@ -2857,11 +3065,15 @@
                         }
 
                         .construction-title {
-                            font-size: 24px;
+                            font-size: 20px;
+                        }
+                        
+                        .instructions-title {
+                            font-size: 20px;
                         }
 
                         .step-title {
-                            font-size: 18px;
+                            font-size: 16px;
                         }
 
                         .document-option {
@@ -2878,6 +3090,24 @@
 
                         .pricing-card .card-body {
                             padding: 15px;
+                        }
+                        
+                        .pricing-header h2 {
+                            font-size: 20px;
+                        }
+                        
+                        .pricing-item .value {
+                            font-size: 24px;
+                        }
+                        
+                        .download-btn {
+                            padding: 16px;
+                            height: auto;
+                            font-size: 14px;
+                        }
+                        
+                        .accordion-header .step-text {
+                            font-size: 13px;
                         }
 
                         .section-title {
