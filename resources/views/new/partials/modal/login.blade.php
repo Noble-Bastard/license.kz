@@ -1,4 +1,4 @@
-<!-- Login Modal -->
+<!-- Login Modal v2.1 - Updated Mobile Layout -->
 <div id="loginModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 999999; width: 100vw; height: 100vh; overflow: auto; background: rgba(0,0,0,0.4); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);" onclick="if(event.target === this) closeLoginModal();">
     <!-- Modal Content Container - Centered -->
     <div style="display: flex; align-items: center; justify-content: center; min-height: 100%; padding: 20px;">
@@ -146,6 +146,7 @@
   </div>
 
 <style>
+    /* Login Modal Styles v2.1 - {{ date('Y-m-d H:i:s') }} */
     /* Override global CSS that hides registration forms */
     #registerFormContainer form.new_modal_login_main_tab_pane_register {
         display: flex !important;
