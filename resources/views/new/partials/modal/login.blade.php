@@ -189,36 +189,38 @@
             max-width: 100% !important;
             width: 100% !important;
             margin: 0 !important;
-            max-height: 80vh !important;
+            height: 85vh !important;
+            max-height: 85vh !important;
             display: flex !important;
             flex-direction: column !important;
         }
         
         /* Registration form takes more space */
         #loginModal > div > div.register-mode {
-            max-height: 85vh !important;
+            height: 90vh !important;
+            max-height: 90vh !important;
         }
         
         /* Reduce gap between fields on mobile */
         #loginModal #loginFormContainer > form > div {
-            gap: 0.75rem !important;
+            gap: 0.5rem !important;
         }
         
         #loginModal #loginFormContainer > form > div > div {
-            gap: 0.5rem !important;
+            gap: 0.375rem !important;
         }
         
         #loginModal .bg-white {
             border-radius: 8px 8px 0 0 !important;
             margin: 0 !important;
-            max-height: 80vh !important;
-            min-height: auto !important;
-            height: auto !important;
-            display: flex;
-            flex-direction: column;
+            height: 100% !important;
+            max-height: 100% !important;
+            min-height: 0 !important;
+            display: flex !important;
+            flex-direction: column !important;
             overflow-y: auto !important;
             overflow-x: hidden !important;
-            -webkit-overflow-scrolling: touch;
+            -webkit-overflow-scrolling: touch !important;
         }
         
         /* Registration form container visible - increase height */

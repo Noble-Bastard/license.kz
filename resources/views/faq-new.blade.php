@@ -1,7 +1,7 @@
 @extends('new-redesign.layouts.app')
 
 @section('css')
-<link href="{{asset('css/faq-redesign.css')}}" rel="stylesheet">
+<link href="{{asset('css/faq-redesign.css')}}?v={{ time() }}" rel="stylesheet">
 @endsection
 
 @section('content')
