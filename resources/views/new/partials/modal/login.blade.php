@@ -188,20 +188,29 @@
             max-width: 100% !important;
             width: 100% !important;
             margin: 0 !important;
-            max-height: 65vh !important;
+            max-height: 80vh !important;
             display: flex !important;
             flex-direction: column !important;
         }
         
         /* Registration form takes more space */
         #loginModal > div > div.register-mode {
-            max-height: 70vh !important;
+            max-height: 85vh !important;
+        }
+        
+        /* Reduce gap between fields on mobile */
+        #loginModal #loginFormContainer > form > div {
+            gap: 0.75rem !important;
+        }
+        
+        #loginModal #loginFormContainer > form > div > div {
+            gap: 0.5rem !important;
         }
         
         #loginModal .bg-white {
             border-radius: 8px 8px 0 0 !important;
             margin: 0 !important;
-            max-height: 65vh !important;
+            max-height: 80vh !important;
             min-height: auto !important;
             height: auto !important;
             display: flex;
@@ -218,10 +227,10 @@
         
         #loginModal button[onclick*="closeLoginModal"] {
             position: absolute !important;
-            top: 15px !important;
-            right: 15px !important;
-            width: 40px !important;
-            height: 40px !important;
+            top: 10px !important;
+            right: 10px !important;
+            width: 36px !important;
+            height: 36px !important;
             z-index: 10 !important;
             background-color: #FFFFFF !important;
             border: none !important;
@@ -236,10 +245,14 @@
         
         #loginModal button[type="button"][id="loginTab"],
         #loginModal button[type="button"][id="registerTab"] {
-            font-size: 1.25rem !important;
-            padding: 1rem 1rem 0.75rem 1rem !important;
+            font-size: 1.125rem !important;
+            padding: 0.75rem 0.5rem 0.5rem 0.5rem !important;
             border-bottom: 2px solid transparent !important;
             margin-bottom: -1px !important;
+        }
+        
+        #loginModal > div > div > div > div[style*="padding: 1.5rem 1.5rem 0 1.5rem"] {
+            padding: 1rem 1rem 0 1rem !important;
         }
         
         #loginModal button[type="button"][id="loginTab"].active,
@@ -284,24 +297,44 @@
         
         #loginModal > div > div > div > div[id*="FormContainer"],
         #loginModal > div > div > div > div > div[style*="padding: 1.5rem"] {
+            padding: 0.75rem !important;
+        }
+        
+        #loginModal #loginFormContainer,
+        #loginModal #registerFormContainer {
             padding: 1rem !important;
         }
         
         #loginModal button[type="submit"] {
             width: 100% !important;
-            padding-left: 1.5rem !important;
-            padding-right: 1.5rem !important;
+            padding: 0.75rem 1.5rem !important;
+        }
+        
+        #loginModal input[type="email"],
+        #loginModal input[type="password"] {
+            padding: 0.75rem 1rem !important;
+        }
+        
+        #loginModal label {
+            margin-bottom: 0.375rem !important;
+            font-size: 0.875rem !important;
         }
         
         #loginModal > div > div > div > div > div > div[style*="display: flex"][style*="justify-content: space-between"] {
             flex-direction: column !important;
-            gap: 1rem !important;
+            gap: 0.75rem !important;
             align-items: flex-start !important;
         }
         
         #loginModal > div > div > div > div > div > div[style*="display: flex"][style*="justify-content: space-between"] > a {
             text-align: left !important;
             width: 100% !important;
+            font-size: 0.875rem !important;
+        }
+        
+        /* Уменьшаем отступ сверху у модального окна */
+        #loginModal > div {
+            padding: 0 !important;
         }
     }
     
