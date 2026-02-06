@@ -1,4 +1,4 @@
-<!-- Login Modal v2.1 - Updated Mobile Layout -->
+<!-- Login Modal v2.2 - Fixed Input Fields Interaction -->
 <div id="loginModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 999999; width: 100vw; height: 100vh; overflow: auto; background: rgba(0,0,0,0.4); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);" onclick="if(event.target === this) closeLoginModal();">
     <!-- Modal Content Container - Centered -->
     <div style="display: flex; align-items: center; justify-content: center; min-height: 100%; padding: 20px;">
@@ -146,7 +146,7 @@
   </div>
 
 <style>
-    /* Login Modal Styles v2.1 - {{ date('Y-m-d H:i:s') }} */
+    /* Login Modal Styles v2.2 - Fixed Input Interaction - {{ date('Y-m-d H:i:s') }} */
     /* Override global CSS that hides registration forms */
     #registerFormContainer form.new_modal_login_main_tab_pane_register {
         display: flex !important;
@@ -193,6 +193,19 @@
             max-height: 85vh !important;
             display: flex !important;
             flex-direction: column !important;
+            position: relative !important;
+            z-index: 10 !important;
+        }
+        
+        #loginModal #loginFormContainer,
+        #loginModal #registerFormContainer {
+            position: relative !important;
+            z-index: 11 !important;
+        }
+        
+        #loginModal form {
+            position: relative !important;
+            z-index: 12 !important;
         }
         
         /* Registration form takes more space */
@@ -221,6 +234,18 @@
             overflow-y: auto !important;
             overflow-x: hidden !important;
             -webkit-overflow-scrolling: touch !important;
+            position: relative !important;
+            z-index: 10 !important;
+        }
+        
+        #loginModal input[type="email"],
+        #loginModal input[type="password"],
+        #loginModal input[type="text"],
+        #loginModal input[type="checkbox"] {
+            pointer-events: auto !important;
+            touch-action: auto !important;
+            -webkit-user-select: text !important;
+            user-select: text !important;
         }
         
         /* Registration form container visible - increase height */
@@ -234,11 +259,13 @@
             right: 10px !important;
             width: 36px !important;
             height: 36px !important;
-            z-index: 10 !important;
+            z-index: 1000 !important;
             background-color: #FFFFFF !important;
             border: none !important;
             border-radius: 50% !important;
             box-shadow: 0 2px 8px rgba(0,0,0,0.15) !important;
+            pointer-events: auto !important;
+            cursor: pointer !important;
         }
         
         #loginModal button[onclick*="closeLoginModal"] svg {
@@ -252,10 +279,16 @@
             padding: 0.75rem 0.5rem 0.5rem 0.5rem !important;
             border-bottom: 2px solid transparent !important;
             margin-bottom: -1px !important;
+            pointer-events: auto !important;
+            cursor: pointer !important;
+            position: relative !important;
+            z-index: 13 !important;
         }
         
         #loginModal > div > div > div > div[style*="padding: 1.5rem 1.5rem 0 1.5rem"] {
             padding: 1rem 1rem 0 1rem !important;
+            position: relative !important;
+            z-index: 11 !important;
         }
         
         #loginModal button[type="button"][id="loginTab"].active,
@@ -311,16 +344,31 @@
         #loginModal button[type="submit"] {
             width: 100% !important;
             padding: 0.75rem 1.5rem !important;
+            pointer-events: auto !important;
+            cursor: pointer !important;
+            position: relative !important;
+            z-index: 13 !important;
         }
         
         #loginModal input[type="email"],
         #loginModal input[type="password"] {
             padding: 0.75rem 1rem !important;
+            position: relative !important;
+            z-index: 12 !important;
         }
         
         #loginModal label {
             margin-bottom: 0.375rem !important;
             font-size: 0.875rem !important;
+            position: relative !important;
+            z-index: 11 !important;
+        }
+        
+        #loginModal a {
+            pointer-events: auto !important;
+            cursor: pointer !important;
+            position: relative !important;
+            z-index: 13 !important;
         }
         
         #loginModal > div > div > div > div > div > div[style*="display: flex"][style*="justify-content: space-between"] {
