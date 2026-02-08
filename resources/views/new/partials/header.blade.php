@@ -122,8 +122,46 @@
                     <span class="login-text">{{ \Illuminate\Support\Str::limit(Auth::user()->name, 12) }}</span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                    <li><a class="dropdown-item" href="#">{{ __('Профиль') }}</a></li>
-                    <li><a class="dropdown-item" href="#">{{ __('Настройки') }}</a></li>
+                    @php
+                        $locale = app()->getLocale();
+                        $userProfile = \App\Data\Core\Dal\ProfileDal::getByUserId(Auth::id());
+                        $roleId = $userProfile ? $userProfile->role_id : null;
+                        
+                        // Определяем ссылку на профиль в зависимости от роли
+                        $profileUrl = '#';
+                        switch($roleId) {
+                            case \App\Data\Helper\RoleList::Administrator:
+                                $profileUrl = "/{$locale}/admin/users";
+                                break;
+                            case \App\Data\Helper\RoleList::SaleManager:
+                                $profileUrl = "/{$locale}/salemanager/services";
+                                break;
+                            case \App\Data\Helper\RoleList::Curator:
+                                $profileUrl = "/{$locale}/curator/reviewList";
+                                break;
+                            case \App\Data\Helper\RoleList::Manager:
+                                $profileUrl = "/{$locale}/manager/servicesList";
+                                break;
+                            case \App\Data\Helper\RoleList::Executor:
+                                $profileUrl = "/{$locale}/executor/projects";
+                                break;
+                            case \App\Data\Helper\RoleList::Client:
+                                $profileUrl = "/{$locale}/profile/services";
+                                break;
+                            case \App\Data\Helper\RoleList::Agent:
+                                $profileUrl = "/{$locale}/agent/client";
+                                break;
+                            case \App\Data\Helper\RoleList::Head:
+                                $profileUrl = "/{$locale}/report/";
+                                break;
+                            case \App\Data\Helper\RoleList::Accountant:
+                                $profileUrl = "/{$locale}/accountant/services";
+                                break;
+                            default:
+                                $profileUrl = "/{$locale}/profile/services";
+                        }
+                    @endphp
+                    <li><a class="dropdown-item" href="{{ $profileUrl }}">{{ __('Личный кабинет') }}</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li>
                         <form method="POST" action="{{ route('logout') }}">
@@ -222,7 +260,46 @@
         <!-- Login/Profile -->
         @auth
             <div class="d-grid gap-2">
-                <a href="#" class="btn btn-outline-secondary">{{ __('Профиль') }}</a>
+                @php
+                    $locale = app()->getLocale();
+                    $userProfile = \App\Data\Core\Dal\ProfileDal::getByUserId(Auth::id());
+                    $roleId = $userProfile ? $userProfile->role_id : null;
+                    
+                    // Определяем ссылку на профиль в зависимости от роли
+                    $profileUrl = '#';
+                    switch($roleId) {
+                        case \App\Data\Helper\RoleList::Administrator:
+                            $profileUrl = "/{$locale}/admin/users";
+                            break;
+                        case \App\Data\Helper\RoleList::SaleManager:
+                            $profileUrl = "/{$locale}/salemanager/services";
+                            break;
+                        case \App\Data\Helper\RoleList::Curator:
+                            $profileUrl = "/{$locale}/curator/reviewList";
+                            break;
+                        case \App\Data\Helper\RoleList::Manager:
+                            $profileUrl = "/{$locale}/manager/servicesList";
+                            break;
+                        case \App\Data\Helper\RoleList::Executor:
+                            $profileUrl = "/{$locale}/executor/projects";
+                            break;
+                        case \App\Data\Helper\RoleList::Client:
+                            $profileUrl = "/{$locale}/profile/services";
+                            break;
+                        case \App\Data\Helper\RoleList::Agent:
+                            $profileUrl = "/{$locale}/agent/client";
+                            break;
+                        case \App\Data\Helper\RoleList::Head:
+                            $profileUrl = "/{$locale}/report/";
+                            break;
+                        case \App\Data\Helper\RoleList::Accountant:
+                            $profileUrl = "/{$locale}/accountant/services";
+                            break;
+                        default:
+                            $profileUrl = "/{$locale}/profile/services";
+                    }
+                @endphp
+                <a href="{{ $profileUrl }}" class="btn btn-outline-secondary">{{ __('Личный кабинет') }}</a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="btn btn-outline-danger w-100">{{ __('Выйти') }}</button>

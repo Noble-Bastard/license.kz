@@ -51,6 +51,39 @@
         window.Laravel = {"csrfToken": "{!!csrf_token()!!}"};
         window.default_locale = "{{ \Illuminate\Support\Facades\App::getLocale() }}";
         window.fallback_locale = "{{ config('app.fallback_locale') }}";
+        
+        // Define login modal functions immediately - must be available before page loads
+        window.openLoginModal = function() {
+            try {
+                var modal = document.getElementById('loginModal');
+                if (modal) {
+                    modal.style.display = 'block';
+                    document.body.classList.add('modal-open');
+                    document.body.style.overflow = 'hidden';
+                }
+            } catch (e) {
+                console.error('Error opening login modal:', e);
+            }
+            return false;
+        };
+        
+        window.closeLoginModal = function() {
+            try {
+                var modal = document.getElementById('loginModal');
+                if (modal) {
+                    modal.style.animation = 'fadeOut 0.3s ease-out';
+                    setTimeout(function() {
+                        modal.style.display = 'none';
+                        modal.style.animation = '';
+                        document.body.classList.remove('modal-open');
+                        document.body.style.overflow = '';
+                    }, 300);
+                }
+            } catch (e) {
+                console.error('Error closing login modal:', e);
+            }
+            return false;
+        };
     </script>
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':

@@ -1,3 +1,70 @@
+<style>
+.header__right__login {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    gap: 6px;
+    min-width: 93px;
+    width: auto;
+    max-width: 140px;
+    height: 46px;
+    border: 1px solid #E8E8E8;
+    border-radius: 60px;
+    background: transparent;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 100%;
+    color: #191E1D;
+    cursor: pointer;
+}
+
+.header__right__login .login-text,
+.header__right__login span {
+    height: 14px;
+    font-family: 'Manrope', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 100%;
+    color: #191E1D;
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+    white-space: nowrap;
+    max-width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.header__right__login:hover {
+    background: rgba(25, 30, 29, 0.05);
+    border-color: #191E1D;
+}
+
+.header__right__login.dropdown-toggle::after {
+    display: none;
+}
+
+@media (max-width: 1199.98px) {
+    .header__right__login {
+        max-width: 120px;
+    }
+    
+    .header__right__login .login-text,
+    .header__right__login span {
+        max-width: 60px;
+        font-size: 13px;
+    }
+}
+</style>
+
 <!-- Desktop Header -->
 <div class="header d-none d-md-block">
     <div class="container">
@@ -29,10 +96,75 @@
                         <div class="header__right__tel__number">7 (747) 135-00-00</div>
                         <a href="#" class="header__right__tel__link" data-bs-toggle="modal" data-bs-target="#consultModal">Заказать звонок</a>
                     </div>
-                    <div class="header__right__login" onclick="openLoginModal(); return false;" style="cursor: pointer;">
-                        <img src="{{asset('assets/img/login.svg')}}" alt="">
-                        <span>Войти</span>
-                    </div>
+                    @auth
+                        <div class="dropdown">
+                            <button class="header__right__login dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M7 7C8.933 7 10.5 5.433 10.5 3.5C10.5 1.567 8.933 0 7 0C5.067 0 3.5 1.567 3.5 3.5C3.5 5.433 5.067 7 7 7Z" stroke="#191E1D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M13.125 14C13.125 11.186 10.439 8.5 7 8.5C3.561 8.5 0.875 11.186 0.875 14" stroke="#191E1D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <span class="login-text">{{ \Illuminate\Support\Str::limit(Auth::user()->name, 12) }}</span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                                @php
+                                    $locale = app()->getLocale();
+                                    $userProfile = \App\Data\Core\Dal\ProfileDal::getByUserId(Auth::id());
+                                    $roleId = $userProfile ? $userProfile->role_id : null;
+                                    
+                                    // Определяем ссылку на профиль в зависимости от роли
+                                    $profileUrl = '#';
+                                    switch($roleId) {
+                                        case \App\Data\Helper\RoleList::Administrator:
+                                            $profileUrl = "/{$locale}/admin/users";
+                                            break;
+                                        case \App\Data\Helper\RoleList::SaleManager:
+                                            $profileUrl = "/{$locale}/salemanager/services";
+                                            break;
+                                        case \App\Data\Helper\RoleList::Curator:
+                                            $profileUrl = "/{$locale}/curator/reviewList";
+                                            break;
+                                        case \App\Data\Helper\RoleList::Manager:
+                                            $profileUrl = "/{$locale}/manager/servicesList";
+                                            break;
+                                        case \App\Data\Helper\RoleList::Executor:
+                                            $profileUrl = "/{$locale}/executor/projects";
+                                            break;
+                                        case \App\Data\Helper\RoleList::Client:
+                                            $profileUrl = "/{$locale}/profile/services";
+                                            break;
+                                        case \App\Data\Helper\RoleList::Agent:
+                                            $profileUrl = "/{$locale}/agent/client";
+                                            break;
+                                        case \App\Data\Helper\RoleList::Head:
+                                            $profileUrl = "/{$locale}/report/";
+                                            break;
+                                        case \App\Data\Helper\RoleList::Accountant:
+                                            $profileUrl = "/{$locale}/accountant/services";
+                                            break;
+                                        default:
+                                            $profileUrl = "/{$locale}/profile/services";
+                                    }
+                                @endphp
+                                <li><a class="dropdown-item" href="{{ $profileUrl }}">{{ __('Личный кабинет') }}</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <button type="submit" class="dropdown-item">{{ __('Выйти') }}</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    @else
+                        <a href="javascript:void(0)" onclick="openLoginModal(); return false;" class="header__right__login">
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M5.25 12.25H2.625C2.42609 12.25 2.23532 12.171 2.09467 12.0303C1.95402 11.8897 1.875 11.6989 1.875 11.5V2.5C1.875 2.30109 1.95402 2.11032 2.09467 1.96967C2.23532 1.82902 2.42609 1.75 2.625 1.75H5.25" stroke="#191E1D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M9.1875 9.625L12.125 7L9.1875 4.375" stroke="#191E1D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M12.125 7H5.25" stroke="#191E1D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span class="login-text">Войти</span>
+                        </a>
+                    @endauth
                 </div>
             </div>
         </div>
@@ -94,12 +226,78 @@
         
         <!-- Login Button -->
         <div class="mobile-menu__login">
-            <button class="mobile-menu__login-btn" onclick="openLoginModal(); return false;" data-bs-dismiss="offcanvas">
-                <span>Войти</span>
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M6 12L10 8L6 4" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-            </button>
+            @auth
+                <div class="dropdown">
+                    <button class="mobile-menu__login-btn dropdown-toggle" type="button" id="mobileUserDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="width: 100%; display: flex; justify-content: space-between; align-items: center; box-sizing: border-box; padding: 16px; gap: 6px; border: 1px solid #E8E8E8; border-radius: 60px; background: transparent; font-weight: 500; font-size: 14px; line-height: 100%; color: #191E1D;">
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M7 7C8.933 7 10.5 5.433 10.5 3.5C10.5 1.567 8.933 0 7 0C5.067 0 3.5 1.567 3.5 3.5C3.5 5.433 5.067 7 7 7Z" stroke="#191E1D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M13.125 14C13.125 11.186 10.439 8.5 7 8.5C3.561 8.5 0.875 11.186 0.875 14" stroke="#191E1D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span>{{ \Illuminate\Support\Str::limit(Auth::user()->name, 12) }}</span>
+                        </div>
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 12L10 8L6 4" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="mobileUserDropdown">
+                        @php
+                            $locale = app()->getLocale();
+                            $userProfile = \App\Data\Core\Dal\ProfileDal::getByUserId(Auth::id());
+                            $roleId = $userProfile ? $userProfile->role_id : null;
+                            
+                            // Определяем ссылку на профиль в зависимости от роли
+                            $profileUrl = '#';
+                            switch($roleId) {
+                                case \App\Data\Helper\RoleList::Administrator:
+                                    $profileUrl = "/{$locale}/admin/users";
+                                    break;
+                                case \App\Data\Helper\RoleList::SaleManager:
+                                    $profileUrl = "/{$locale}/salemanager/services";
+                                    break;
+                                case \App\Data\Helper\RoleList::Curator:
+                                    $profileUrl = "/{$locale}/curator/reviewList";
+                                    break;
+                                case \App\Data\Helper\RoleList::Manager:
+                                    $profileUrl = "/{$locale}/manager/servicesList";
+                                    break;
+                                case \App\Data\Helper\RoleList::Executor:
+                                    $profileUrl = "/{$locale}/executor/projects";
+                                    break;
+                                case \App\Data\Helper\RoleList::Client:
+                                    $profileUrl = "/{$locale}/profile/services";
+                                    break;
+                                case \App\Data\Helper\RoleList::Agent:
+                                    $profileUrl = "/{$locale}/agent/client";
+                                    break;
+                                case \App\Data\Helper\RoleList::Head:
+                                    $profileUrl = "/{$locale}/report/";
+                                    break;
+                                case \App\Data\Helper\RoleList::Accountant:
+                                    $profileUrl = "/{$locale}/accountant/services";
+                                    break;
+                                default:
+                                    $profileUrl = "/{$locale}/profile/services";
+                            }
+                        @endphp
+                        <li><a class="dropdown-item" href="{{ $profileUrl }}">{{ __('Личный кабинет') }}</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="dropdown-item">{{ __('Выйти') }}</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            @else
+                <button class="mobile-menu__login-btn" onclick="openLoginModal(); return false;" data-bs-dismiss="offcanvas">
+                    <span>Войти</span>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6 12L10 8L6 4" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            @endauth
         </div>
 
         <!-- Navigation Links -->
@@ -172,6 +370,8 @@
     $registerError = $registerError ?? (isset($errors) && $errors->has('register') ? $errors->getBag('register') : collect());
 @endphp
 @include('new.partials.modal.login', ['loginError' => $loginError, 'registerError' => $registerError])
+@include('new.partials.modal.reset_password')
+@include('new.partials.modal.forgot_password')
 
 <!-- Callback Modal -->
 <div class="modal fade" id="consultModal" tabindex="-1" aria-labelledby="consultModalLabel" aria-hidden="true">

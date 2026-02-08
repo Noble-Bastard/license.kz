@@ -58,11 +58,49 @@
                         <path d="M7 7C8.933 7 10.5 5.433 10.5 3.5C10.5 1.567 8.933 0 7 0C5.067 0 3.5 1.567 3.5 3.5C3.5 5.433 5.067 7 7 7Z" stroke="#191E1D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M13.125 14C13.125 11.186 10.439 8.5 7 8.5C3.561 8.5 0.875 11.186 0.875 14" stroke="#191E1D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
-                    <span class="login-text">{{ Auth::user()->name }}</span>
+                    <span class="login-text">{{ \Illuminate\Support\Str::limit(Auth::user()->name, 12) }}</span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                    <li><a class="dropdown-item" href="#">{{ __('Профиль') }}</a></li>
-                    <li><a class="dropdown-item" href="#">{{ __('Настройки') }}</a></li>
+                    @php
+                        $locale = app()->getLocale();
+                        $userProfile = \App\Data\Core\Dal\ProfileDal::getByUserId(Auth::id());
+                        $roleId = $userProfile ? $userProfile->role_id : null;
+                        
+                        // Определяем ссылку на профиль в зависимости от роли
+                        $profileUrl = '#';
+                        switch($roleId) {
+                            case \App\Data\Helper\RoleList::Administrator:
+                                $profileUrl = "/{$locale}/admin/users";
+                                break;
+                            case \App\Data\Helper\RoleList::SaleManager:
+                                $profileUrl = "/{$locale}/salemanager/services";
+                                break;
+                            case \App\Data\Helper\RoleList::Curator:
+                                $profileUrl = "/{$locale}/curator/reviewList";
+                                break;
+                            case \App\Data\Helper\RoleList::Manager:
+                                $profileUrl = "/{$locale}/manager/servicesList";
+                                break;
+                            case \App\Data\Helper\RoleList::Executor:
+                                $profileUrl = "/{$locale}/executor/projects";
+                                break;
+                            case \App\Data\Helper\RoleList::Client:
+                                $profileUrl = "/{$locale}/profile/services";
+                                break;
+                            case \App\Data\Helper\RoleList::Agent:
+                                $profileUrl = "/{$locale}/agent/client";
+                                break;
+                            case \App\Data\Helper\RoleList::Head:
+                                $profileUrl = "/{$locale}/report/";
+                                break;
+                            case \App\Data\Helper\RoleList::Accountant:
+                                $profileUrl = "/{$locale}/accountant/services";
+                                break;
+                            default:
+                                $profileUrl = "/{$locale}/profile/services";
+                        }
+                    @endphp
+                    <li><a class="dropdown-item" href="{{ $profileUrl }}">{{ __('Личный кабинет') }}</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li>
                         <form method="POST" action="{{ route('logout') }}">
@@ -148,11 +186,49 @@
                             <path d="M7 7C8.933 7 10.5 5.433 10.5 3.5C10.5 1.567 8.933 0 7 0C5.067 0 3.5 1.567 3.5 3.5C3.5 5.433 5.067 7 7 7Z" stroke="#191E1D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
                             <path d="M13.125 14C13.125 11.186 10.439 8.5 7 8.5C3.561 8.5 0.875 11.186 0.875 14" stroke="#191E1D" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
-                        <span class="login-text">{{ Auth::user()->name }}</span>
+                        <span class="login-text">{{ \Illuminate\Support\Str::limit(Auth::user()->name, 12) }}</span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="mobileUserDropdown">
-                        <li><a class="dropdown-item" href="#">{{ __('Профиль') }}</a></li>
-                        <li><a class="dropdown-item" href="#">{{ __('Настройки') }}</a></li>
+                        @php
+                            $locale = app()->getLocale();
+                            $userProfile = \App\Data\Core\Dal\ProfileDal::getByUserId(Auth::id());
+                            $roleId = $userProfile ? $userProfile->role_id : null;
+                            
+                            // Определяем ссылку на профиль в зависимости от роли
+                            $profileUrl = '#';
+                            switch($roleId) {
+                                case \App\Data\Helper\RoleList::Administrator:
+                                    $profileUrl = "/{$locale}/admin/users";
+                                    break;
+                                case \App\Data\Helper\RoleList::SaleManager:
+                                    $profileUrl = "/{$locale}/salemanager/services";
+                                    break;
+                                case \App\Data\Helper\RoleList::Curator:
+                                    $profileUrl = "/{$locale}/curator/reviewList";
+                                    break;
+                                case \App\Data\Helper\RoleList::Manager:
+                                    $profileUrl = "/{$locale}/manager/servicesList";
+                                    break;
+                                case \App\Data\Helper\RoleList::Executor:
+                                    $profileUrl = "/{$locale}/executor/projects";
+                                    break;
+                                case \App\Data\Helper\RoleList::Client:
+                                    $profileUrl = "/{$locale}/profile/services";
+                                    break;
+                                case \App\Data\Helper\RoleList::Agent:
+                                    $profileUrl = "/{$locale}/agent/client";
+                                    break;
+                                case \App\Data\Helper\RoleList::Head:
+                                    $profileUrl = "/{$locale}/report/";
+                                    break;
+                                case \App\Data\Helper\RoleList::Accountant:
+                                    $profileUrl = "/{$locale}/accountant/services";
+                                    break;
+                                default:
+                                    $profileUrl = "/{$locale}/profile/services";
+                            }
+                        @endphp
+                        <li><a class="dropdown-item" href="{{ $profileUrl }}">{{ __('Личный кабинет') }}</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li>
                             <form method="POST" action="{{ route('logout') }}">

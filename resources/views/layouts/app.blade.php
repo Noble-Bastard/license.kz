@@ -63,6 +63,10 @@
     @include('layouts.header')
 
     @yield('breadcrumb')
+    
+    @if(Auth::check() && !Auth::user()->isUserInRole(\App\Data\Helper\RoleList::Client) && !request()->routeIs('new-index') && !request()->routeIs('new-home'))
+        @include('components.breadcrumbs-cabinet')
+    @endif
 
     @yield('content')
 

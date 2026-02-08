@@ -157,6 +157,9 @@
         <!-- Divider -->
         <div class="w-full h-px bg-gray-300"></div>
 
+        <!-- Breadcrumbs -->
+        @include('components.breadcrumbs-cabinet')
+
         <!-- Profile Modal -->
         @include('Client.partials.profile-modal')
 
