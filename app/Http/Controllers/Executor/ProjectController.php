@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Executor;
 
 use App\Data\Core\Dal\ProfileDal;
 use App\Data\Helper\ProjectStatus;
-use App\Data\Helper\ServiceStatusList;
 use App\Data\Project\Dal\ProjectDal;
 use App\Data\Task\Model\ExecutorHourlyRate;
 use App\Data\ServiceJournal\Dal\ServiceJournalDal;
@@ -15,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
 {
-    public function projectList($service_status_id = null)
+    public function projectList($service_status_id = 1)
     {
         $profile = ProfileDal::getByUserId(Auth::id());
         $executorHourlyRateList = ExecutorHourlyRate::get();
@@ -51,67 +50,5 @@ class ProjectController extends Controller
             ->with('taskList', $taskList);
     }
 
-    /**
-     * Show service modal for executor
-     */
-    public function serviceModal($serviceJournalId)
-    {
-        $serviceJournal = ServiceJournalDal::getExt($serviceJournalId);
-        $serviceJournal->load('serviceStatus', 'service', 'clientDocuments.document', 'projectStatus');
-        $serviceJournalStepList = ServiceJournalDal::getServiceJournalStepList($serviceJournalId);
 
-        // Загружаем отношения для шагов
-        $serviceJournalStepList->load('serviceStep');
-        
-        // Get documents for the service
-        $documents = $serviceJournal->clientDocuments;
-        
-        // Get comments and documents for each step
-        $comments = collect();
-        foreach ($serviceJournalStepList as $step) {
-            // Get step comments - пока без привязки к шагу, так как нет колонки service_journal_step_id
-            $stepComments = collect(); // Пока пустая коллекция
-            $step->comments = $stepComments;
-            
-            // Get step documents - пока без привязки к шагу, так как нет колонки service_journal_step_id
-            $stepDocuments = collect(); // Пока пустая коллекция
-            $step->documents = $stepDocuments;
-        }
-        
-        // Get general messages for the service
-        $messages = \App\Data\ServiceJournal\Model\ServiceJournalMessageExt::with(['message', 'createdBy.profile'])
-            ->where('service_journal_id', $serviceJournalId)
-            ->orderBy('create_date', 'asc')
-            ->get();
-        
-        return view('Executor.project.modal')
-            ->with('serviceJournal', $serviceJournal)
-            ->with('serviceJournalStepList', $serviceJournalStepList)
-            ->with('documents', $documents)
-            ->with('comments', $comments)
-            ->with('messages', $messages);
-    }
-
-    /**
-     * Send service to check (for Executor)
-     */
-    public function sendToCheck($serviceJournalId)
-    {
-        $serviceJournal = ServiceJournalDal::getExt($serviceJournalId);
-
-        if ($serviceJournal->service_status_id == ServiceStatusList::DataCollection) {
-            ServiceJournalDal::setServiceJournalStatus($serviceJournalId, ServiceStatusList::Check);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'Задача отправлена на проверку',
-                'new_status' => 'Check'
-            ]);
-        }
-
-        return response()->json([
-            'success' => false,
-            'message' => 'Задачу можно отправить на проверку только в статусе "Сбор данных"'
-        ], 400);
-    }
 }

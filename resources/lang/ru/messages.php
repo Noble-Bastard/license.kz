@@ -23,8 +23,6 @@ return [
             'country_name' => 'Страна',
             'file' => 'Файл',
             'document_template_type_name' => 'Тип шаблона',
-            'search_placeholder' => 'Поиск по названию документа',
-            'new_document' => 'Новый документ',
         ],
         'standartContractTemplate' => [
             'id' => '№',

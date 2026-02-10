@@ -36,48 +36,6 @@ class ServicesController extends Controller
         return self::serviceList($service_status_id);
     }
 
-    public function serviceDetail($serviceJournalId)
-    {
-        $serviceJournal = ServiceJournalDal::getExt($serviceJournalId);
-        $serviceJournal->load('serviceStatus', 'manager', 'client', 'service', 'clientDocuments.document');
-        
-        // Get service steps with documents and comments
-        $serviceJournalStepList = ServiceJournalDal::getServiceJournalStepList($serviceJournalId);
-        
-        // Add documents and comments to each step
-        foreach ($serviceJournalStepList as $step) {
-            // Get step documents - пока без привязки к шагу, так как нет колонки service_journal_step_id
-            $stepDocuments = collect(); // Пока пустая коллекция
-            $step->documents = $stepDocuments;
-            
-            // Get step comments - пока без привязки к шагу, так как нет колонки service_journal_step_id
-            $stepComments = collect(); // Пока пустая коллекция
-            $step->comments = $stepComments;
-        }
-        
-        // Get general documents for the service
-        $documents = $serviceJournal->clientDocuments;
-        
-        // Get general messages for the service
-        $messages = \App\Data\ServiceJournal\Model\ServiceJournalMessage::with(['message', 'createdBy'])
-            ->where('service_journal_id', $serviceJournalId)
-            ->orderBy('create_date', 'asc')
-            ->get();
-        
-        // Get executor information
-        $executor = null;
-        if ($serviceJournal->manager_id) {
-            $executor = \App\Data\Core\Dal\ProfileDal::get($serviceJournal->manager_id);
-        }
-        
-        return view('SaleManager.service.detail')
-            ->with('serviceJournal', $serviceJournal)
-            ->with('serviceJournalStepList', $serviceJournalStepList)
-            ->with('documents', $documents)
-            ->with('messages', $messages)
-            ->with('executor', $executor);
-    }
-
 
     public function setManager()
     {
@@ -142,18 +100,5 @@ class ServicesController extends Controller
     {
         ServiceJournalDal::startExecution($serviceJournal);
         return redirect(URL::previous());
-    }
-
-    /**
-     * Return Sale Manager service details modal content (Figma-styled partial).
-     */
-    public function serviceJournalModal($servicesJournalId)
-    {
-        $serviceJournal = ServiceJournalDal::getExt($servicesJournalId);
-        $serviceJournalStepList = ServiceJournalDal::getServiceJournalStepList($servicesJournalId);
-
-        return view('SaleManager.service._details_modal')
-            ->with('serviceJournal', $serviceJournal)
-            ->with('serviceJournalStepList', $serviceJournalStepList);
     }
 }

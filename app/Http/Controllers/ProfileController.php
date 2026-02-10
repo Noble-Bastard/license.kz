@@ -21,7 +21,6 @@ use App\Data\Document\Model\Document;
 use App\Data\Service\Model\Country;
 use App\Data\Helper\Assistant;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Log;
 
 class ProfileController extends Controller
 {
@@ -55,28 +54,15 @@ class ProfileController extends Controller
 
     public function serviceList()
     {
-        $service_status_type = Input::has('service_status_type') ? (int)Input::get('service_status_type') : ServiceStatusTypeList::Opened;
-
-        // Обрабатываем значение -1 как "все услуги"
-        if ($service_status_type == -1) {
-            $service_status_type = null;
-        }
-
+        $service_status_type = Input::has('service_status_type') ? Input::get('service_status_type') : ServiceStatusTypeList::Opened;
         $messageReadHist = ServiceJournalMessageDal::getClientReadHist();
         $messageCnt = $messageReadHist->where('message_client_read_by', null)->count();
         $serviceJournalList = ServiceJournalDal::getServiceJournalListByCurrentUserAndStatusType($service_status_type, false);
 
-        // Загружаем документы и шаги для каждой услуги
-        foreach($serviceJournalList as $serviceJournal) {
-            $serviceJournal->load('clientDocuments.document');
-            $serviceJournal->clientDocuments = $serviceJournal->clientDocuments;
-            $serviceJournal->serviceJournalStepList = ServiceJournalDal::getServiceJournalStepList($serviceJournal->id);
-        }
-
         return view('Client.serviceList')
             ->with('messageCnt', $messageCnt)
             ->with('serviceJournalList', $serviceJournalList)
-            ->with('serviceStatusType', $service_status_type ?? -1)
+            ->with('serviceStatusType', $service_status_type)
         ;
     }
 
@@ -120,54 +106,22 @@ class ProfileController extends Controller
 
     public function bookkeeping()
     {
-        $service_status_type = Input::has('service_status_type') ? (int)Input::get('service_status_type') : ServiceStatusTypeList::Opened;
+        $service_status_type = Input::has('service_status_type') ? Input::get('service_status_type') : ServiceStatusTypeList::Opened;
+        $serviceJournalList = ServiceJournalDal::getServiceJournalListByCurrentUserAndStatusType($service_status_type, false);
 
-        // Обрабатываем значение -1 как "все услуги"
-        if ($service_status_type == -1) {
-            $service_status_type = null;
-        }
-
-        $serviceJournalList = ServiceJournalDal::getServiceJournalListByCurrentUserAndStatusType($service_status_type, true);
-
-        // Загружаем документы для каждой услуги
-        foreach($serviceJournalList as $serviceJournal) {
-            $serviceJournal->load('clientDocuments.document');
-            $serviceJournal->clientDocuments = $serviceJournal->clientDocuments;
-        }
-
-        return view('Client.accounting')
+        return view('Client.bookkeeping')
             ->with('serviceJournalList', $serviceJournalList)
-            ->with('serviceStatusType', $service_status_type ?? -1)
-        ;
+            ->with('serviceStatusType', $service_status_type)
+            ;
     }
 
     public function documentList(){
-        $service_status_type = Input::has('service_status_type') ? (int)Input::get('service_status_type') : ServiceStatusTypeList::All;
-
-        // Обрабатываем значение -1 как "все услуги"
-        if ($service_status_type == -1) {
-            $service_status_type = null;
-        }
-
+        $service_status_type = Input::has('service_status_type') ? Input::get('service_status_type') : ServiceStatusTypeList::Opened;
         $serviceJournalList = ServiceJournalDal::getServiceJournalListByCurrentUserAndStatusType($service_status_type, false);
-
-        // Добавляем отладочную информацию
-        \Log::info('DocumentList: service_status_type = ' . $service_status_type . ', services count = ' . $serviceJournalList->count());
-
-        // Загружаем документы для каждой услуги
-        foreach($serviceJournalList as $serviceJournal) {
-            $serviceJournal->load('clientDocuments.document');
-            $serviceJournal->companyDocuments = $serviceJournal->documentList();
-            $serviceJournal->clientDocuments = $serviceJournal->clientDocuments;
-
-            // Добавляем отладочную информацию
-            $serviceJournal->debug_client_docs_count = $serviceJournal->clientDocuments ? $serviceJournal->clientDocuments->count() : 0;
-            $serviceJournal->debug_company_docs_count = $serviceJournal->companyDocuments ? $serviceJournal->companyDocuments->count() : 0;
-        }
 
         return view('Client.documentList')
             ->with('serviceJournalList', $serviceJournalList)
-            ->with('serviceStatusType', $service_status_type ?? -1);
+            ->with('serviceStatusType', $service_status_type);
     }
 
 }

@@ -30,8 +30,8 @@
     {{--          type="text/css"/>--}}
     {{--    <link href="{{asset('libs/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css">--}}
     <link href="{{asset('libs/font-awesome/css/all.min.css')}}" rel="stylesheet" type="text/css">
-    <link href="{{asset('css/app_new.css')}}" rel="stylesheet" type="text/css">
-    <link href="{{asset('new/css/app_1.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{mix('css/app_new.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{mix('css/app_1.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('libs/jquery-ui.min.css')}}" rel="stylesheet" type="text/css">
     {{--    <link href="https://db.onlinewebfonts.com/c/13ab13418f633c1b0516fed6e30bedbc?family=Suisse+Int'l" rel="stylesheet" type="text/css"/>--}}
     <link rel="stylesheet" href="{{asset('libs/splide/splide.min.css')}}">
@@ -63,10 +63,6 @@
     @include('layouts.header')
 
     @yield('breadcrumb')
-    
-    @if(Auth::check() && !Auth::user()->isUserInRole(\App\Data\Helper\RoleList::Client) && !request()->routeIs('new-index') && !request()->routeIs('new-home'))
-        @include('components.breadcrumbs-cabinet')
-    @endif
 
     @yield('content')
 

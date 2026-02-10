@@ -1,11 +1,9 @@
-@import '../_header_redesigned';
-
 .bg_white {
   background-color: #ffffff;
 }
 
 #app {
-  padding-top: 0;
+  padding-top: 136px;
 }
 
 .header-new__language_dropdown .submenu {
@@ -256,7 +254,7 @@
       display: flex;
       justify-content: flex-end;
       height: 100%;
-      align-items: flex-end;
+      align-items: end;
     }
   }
 
@@ -422,7 +420,7 @@
 
         &-btn {
           display: flex;
-          justify-content: flex-end;
+          justify-content: end;
           align-items: center;
 
           .btn {
@@ -1496,7 +1494,7 @@
         display: flex;
         justify-content: flex-end;
         height: 100%;
-        align-items: flex-end;
+        align-items: end;
       }
     }
 

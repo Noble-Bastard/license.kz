@@ -17,7 +17,6 @@ use App\Data\Service\Model\NewPotentialClientService;
 use App\Repositories\Interfaces\IReviewRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
-use Illuminate\Support\Facades\Cache;
 
 class HomeController extends Controller
 {
@@ -60,93 +59,41 @@ class HomeController extends Controller
      */
     public function indexNew()
     {
-        return view('redesign.index');
+        $countryId = 1; //KZ
+
+        $newsList = NewsDal::getTopActualNews(4);
+        $categoryList = ServiceCategoryDal::getServiceCategoryWithRootCatalog(
+            false,
+            false,
+            $countryId
+        );
+        $partnerList =  (new ExternalPartnerDal())->getList(true);
+        $reviewList = $this->reviewRepository->all();
+
+        $topCategoryList = ServiceCategoryDal::getServiceCategoryWithRootCatalog(
+            false,
+            false,
+            $countryId,
+            true,
+            true
+        );
+
+        return view('new.index')
+            ->with('categoryList', $categoryList)
+            ->with('topCategoryList', $topCategoryList)
+            ->with('newsList', $newsList)
+            ->with('reviewList', $reviewList)
+            ->with('partnerList', $partnerList);
     }
 
     public function newHome()
     {
-		return view('redesign.index');
+		return view('current.index');
     }
   
     public function servicesNew()
     {
-        $countryId = 1; // KZ
-        
-        // Cache categories list (10 minutes)
-        $categoryList = Cache::remember('services_categories_' . $countryId, 10, function() use ($countryId) {
-            return ServiceCategoryDal::getServiceCategoryWithRootCatalog(
-                false,
-                false,
-                $countryId
-            );
-        });
-
-        // Маппинг названий разделов к ID категорий по названию
-        $categoryMapping = [];
-        foreach($categoryList as $category) {
-            $categoryName = mb_strtolower(trim($category->name));
-            $categoryMapping[$categoryName] = $category->id;
-            
-            // Дополнительные варианты названий для сопоставления
-            if (strpos($categoryName, 'лицензи') !== false) {
-                $categoryMapping['лицензирование'] = $category->id;
-            }
-            if (strpos($categoryName, 'регистрац') !== false && strpos($categoryName, 'компани') !== false) {
-                $categoryMapping['регистрация компании'] = $category->id;
-            }
-            if (strpos($categoryName, 'юридическ') !== false) {
-                $categoryMapping['юридическое сопровождение'] = $category->id;
-            }
-            if (strpos($categoryName, 'бухгалтер') !== false || strpos($categoryName, 'аутсорс') !== false) {
-                $categoryMapping['бухгалтерский аутсорсинг'] = $category->id;
-            }
-            if (strpos($categoryName, 'виза') !== false) {
-                $categoryMapping['получение визы'] = $category->id;
-            }
-        }
-
-        // Загружаем все категории с их каталогами (кешируем каждый каталог отдельно)
-        $allCategoriesWithCatalogs = [];
-        foreach($categoryList as $category) {
-            try {
-                // Cache each catalog separately (15 minutes)
-                $rootNode = Cache::remember('service_catalog_' . $category->id, 15, function() use ($category) {
-                    return \App\Data\Catalog\Dal\ServiceCategoryCatalogDal::getByServiceCategory($category->id, true);
-                });
-                
-                if($rootNode && $rootNode->childNodeList) {
-                    $allCategoriesWithCatalogs[] = [
-                        'category' => $category,
-                        'catalogItems' => collect($rootNode->childNodeList->where('is_visible', 1)->all())->sortBy('name')
-                    ];
-                }
-            } catch (\Exception $e) {
-                \Log::error('Error loading category ' . $category->id . ': ' . $e->getMessage());
-            }
-        }
-
-        // Загружаем первую категорию по умолчанию (если есть)
-        $defaultCategoryId = null;
-        $defaultRootNode = null;
-        if(count($categoryList) > 0) {
-            $defaultCategoryId = $categoryList[0]->id;
-            try {
-                // Use cached catalog if available
-                $defaultRootNode = Cache::remember('service_catalog_' . $defaultCategoryId, 15, function() use ($defaultCategoryId) {
-                    return \App\Data\Catalog\Dal\ServiceCategoryCatalogDal::getByServiceCategory($defaultCategoryId, true);
-                });
-            } catch (\Exception $e) {
-                \Log::error('Error loading default category: ' . $e->getMessage());
-                $defaultRootNode = null;
-            }
-        }
-
-        return view('services-new')
-            ->with('categoryList', $categoryList)
-            ->with('categoryMapping', $categoryMapping)
-            ->with('defaultCategoryId', $defaultCategoryId)
-            ->with('defaultRootNode', $defaultRootNode)
-            ->with('allCategoriesWithCatalogs', $allCategoriesWithCatalogs);
+        return view('new.pages.services');
     }
 
     public function callMe()
@@ -304,10 +251,5 @@ class HomeController extends Controller
     public function check_partner()
     {
         return view('checkPartner');
-    }
-
-    public function constructionNew()
-    {
-        return view('new.pages.construction');
     }
 }

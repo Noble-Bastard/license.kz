@@ -106,40 +106,13 @@
                       <div class="row">
 
                         @if(sizeof($catalogSubList) > 0)
-                          @php
-                            $totalServices = 0;
-                            foreach($catalogSubList as $catalogSubItem) {
-                              $totalServices += sizeof($catalogSubItem->serviceCatalogList ?? []);
-                            }
-                            $currentServiceIndex = 0;
-                          @endphp
                           @foreach($catalogSubList as $catalogSubItem)
                             @if(sizeof($catalogSubItem->serviceCatalogList) > 0)
-                              @foreach($catalogSubItem->serviceCatalogList as $serviceCatalog)
-                                @php $currentServiceIndex++; @endphp
-                                <div class="col-12 services__window_choices_layout">
-                                  <label class="container_checkbox">{{$catalogSubItem->name}}@if($catalogSubItem->serviceCatalogList->count() > 1) - {{$serviceCatalog->service->name ?? ''}}@endif
-                                    <input type="checkbox"
-                                           data-service-id="{{$serviceCatalog->service_id}}"
-                                           data-name="{{$catalogSubItem->name}}@if($catalogSubItem->serviceCatalogList->count() > 1) - {{$serviceCatalog->service->name ?? ''}}@endif"
-                                    >
-                                    <span class="checkmark"></span>
-                                  </label>
-                                  @if($currentServiceIndex < $totalServices)
-                                    <hr class="services__window-strip">
-                                  @endif
-                                </div>
-                              @endforeach
-                            @endif
-                          @endforeach
-                        @else
-                          @if(sizeof($catalogItem->serviceCatalogList) > 0)
-                            @foreach($catalogItem->serviceCatalogList as $serviceCatalog)
                               <div class="col-12 services__window_choices_layout">
-                                <label class="container_checkbox">{{$catalogItem->name}}@if($catalogItem->serviceCatalogList->count() > 1) - {{$serviceCatalog->service->name ?? ''}}@endif
+                                <label class="container_checkbox">{{$catalogSubItem->name}}
                                   <input type="checkbox"
-                                         data-service-id="{{$serviceCatalog->service_id}}"
-                                         data-name="{{$catalogItem->name}}@if($catalogItem->serviceCatalogList->count() > 1) - {{$serviceCatalog->service->name ?? ''}}@endif"
+                                         data-service-id="{{$catalogSubItem->serviceCatalogList[0]->service_id}}"
+                                         data-name="{{$catalogSubItem->name}}"
                                   >
                                   <span class="checkmark"></span>
                                 </label>
@@ -147,7 +120,19 @@
                                   <hr class="services__window-strip">
                                 @endif
                               </div>
-                            @endforeach
+                            @endif
+                          @endforeach
+                        @else
+                          @if(sizeof($catalogItem->serviceCatalogList) > 0)
+                            <div class="col-12 services__window_choices_layout">
+                              <label class="container_checkbox">{{$catalogItem->name}}
+                                <input type="checkbox"
+                                       data-service-id="{{$catalogItem->serviceCatalogList[0]->service_id}}"
+                                       data-name="{{$catalogItem->name}}"
+                                >
+                                <span class="checkmark"></span>
+                              </label>
+                            </div>
                           @endif
                         @endif
                       </div>

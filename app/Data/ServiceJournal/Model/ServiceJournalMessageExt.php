@@ -67,6 +67,6 @@ class ServiceJournalMessageExt extends Model
 
     public function createdBy()
     {
-        return $this->hasOne('App\User','id', 'created_by')->with('profile');
+        return $this->hasOne('App\User','id', 'created_by');
     }
 }

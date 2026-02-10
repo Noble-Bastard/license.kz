@@ -17,10 +17,9 @@ use App\Data\RegistrationFormTemplate\Model\ServiceRegistrationFormTemplate;
 use App\Data\Service\Helper\CommercialOfferTypeList;
 use App\Data\Service\Model\CommercialOffer;
 use App\Data\Service\Model\CommercialOfferService;
-use App\Data\Core\Model\Currency;
 use App\Data\Service\Model\Service;
-use App\Data\Service\Model\ServiceStep;
 use App\Data\Service\Model\ServiceCostHist;
+use App\Data\Service\Model\ServiceExt;
 use App\Data\Service\Model\ServiceStatus;
 use App\Data\Service\Model\ServiceStepExt;
 use App\Data\Translation\Dal\TranslationDal;
@@ -33,141 +32,27 @@ use Illuminate\Support\Facades\Log;
 class ServiceDal
 {
     const entityName = 'service';
+
     const baseField = [
-        'service_ext.id',
-        'service_ext.name',
-        'service_ext.code',
-        'service_ext.description',
-        'service_ext.service_category_id',
-        'service_ext.country_id',
-        'service_ext.service_thematic_group_id',
-        'service_ext.service_thematic_group_name',
-        'service_ext.license_type_id',
-        'service_ext.execution_days_from',
-        'service_ext.execution_days_to',
-        'service_ext.counter_type_id',
-        'service_ext.total_service_cost',
-        'service_ext.total_execution_work_day_cnt',
-        'service_ext.currency_id',
-        'service_ext.currency_name',
-        'service_ext.service_category_name',
-        'service_ext.comment',
-        'service_ext.license_type_name',
-        'service_ext.execuive_agency',
-        'service_ext.live_period',
-        'service_ext.service_type_id',
-        'service_ext.base_cost',
-        'service_ext.additional_cost',
-        'service_ext.service_currency_id',
-        'service_ext.service_currency_name',
-        'service_ext.additional_approvals',
-        'service_ext.special_terms',
-        'service_ext.npa_link',
-        'service_ext.service_start_date',
-        'service_ext.service_end_date',
+        'service_ext.*'
     ];
 
+
     /**
-     * Альтернативный метод получения данных услуги без использования view service_ext
-     * Использует прямые запросы к таблицам для избежания проблем с view
+     * Get Service by Id
      *
      * @param $entityId
-     * @param bool $translateData
-     * @return mixed
+     * @param $translateData
+     * @return ServiceExt
      */
-    public static function getServiceInfo($entityId, bool $translateData = false)
+    public static function get($entityId, bool $translateData = false)
     {
-        try {
-            // Используем прямые запросы к таблицам вместо view service_ext
-            $service = Service::with([
-                'serviceThematicGroup.serviceCategory',
-                'counterType',
-                'licenseType'
-            ])->find($entityId);
+        $entityList = ServiceExt::where('service_ext.id', $entityId);
 
-            if (!$service) {
-                return null;
-            }
+        TranslationDal::generateViewQuery(self::entityName, $entityList, self::baseField, $translateData);
 
-            // Получаем дополнительные данные из связанных таблиц
-            $latestCostHist = ServiceCostHist::where('service_id', $entityId)
-                ->latest('create_date')
-                ->first();
-
-            $totalServiceCost = 0;
-            $totalExecutionWorkDay = 0;
-            $currencyId = null;
-
-            if ($latestCostHist) {
-                $totalServiceCost = $latestCostHist->base_cost + $latestCostHist->additional_cost;
-                $currencyId = $latestCostHist->currency_id;
-            }
-
-            // Получаем общие данные о шагах услуги
-            $serviceSteps = ServiceStep::join('service_step_map', function ($join) use ($entityId) {
-                $join->on('service_step_map.service_step_id', '=', 'service_step.id')
-                    ->where('service_step_map.service_id', '=', $entityId);
-            })
-            ->selectRaw('SUM(service_step.execution_work_day_cnt) as total_days')
-            ->first();
-
-            if ($serviceSteps) {
-                $totalExecutionWorkDay = $serviceSteps->total_days ?? 0;
-            }
-
-            // Получаем валюту
-            $currency = null;
-            if ($currencyId) {
-                $currency = Currency::find($currencyId);
-            }
-
-            // Создаем объект с данными услуги
-            $result = new \stdClass();
-            $result->id = $service->id;
-            $result->name = $service->name;
-            $result->code = $service->code;
-            $result->description = $service->description;
-            $result->is_active = $service->is_active;
-            $result->service_start_date = $service->service_start_date;
-            $result->service_end_date = $service->service_end_date;
-            $result->service_thematic_group_id = $service->service_thematic_group_id;
-            $result->service_thematic_group_name = $service->serviceThematicGroup ? $service->serviceThematicGroup->name : null;
-            $result->execution_days_from = $service->execution_days_from;
-            $result->execution_days_to = $service->execution_days_to;
-            $result->counter_type_id = $service->counter_type_id;
-            $result->counter_type_name = $service->counterType ? $service->counterType->name : null;
-            $result->total_service_cost = $totalServiceCost;
-            $result->total_execution_work_day_cnt = $totalExecutionWorkDay;
-            $result->currency_id = $currencyId;
-            $result->currency_name = $currency ? $currency->name : null;
-            $result->service_category_id = $service->serviceThematicGroup && $service->serviceThematicGroup->serviceCategory ? $service->serviceThematicGroup->serviceCategory->id : null;
-            $result->country_id = $service->serviceThematicGroup && $service->serviceThematicGroup->serviceCategory ? $service->serviceThematicGroup->serviceCategory->country_id : null;
-            $result->comment = $service->comment;
-            $result->license_type_id = $service->license_type_id;
-            $result->executive_agency = $service->executive_agency;
-            $result->live_period = $service->live_period;
-            $result->service_type_id = $service->service_type_id;
-            $result->base_cost = $latestCostHist ? $latestCostHist->base_cost : 0;
-            $result->additional_cost = $latestCostHist ? $latestCostHist->additional_cost : 0;
-            $result->service_currency_id = $currencyId;
-            $result->service_currency_name = $currency ? $currency->name : null;
-            $result->additional_approvals = $service->additional_approvals;
-            $result->special_terms = $service->special_terms;
-            $result->npa_link = $service->npa_link;
-
-            // Добавляем связи для совместимости
-            $result->serviceThematicGroup = $service->serviceThematicGroup;
-            $result->counterType = $service->counterType;
-            $result->licenseType = $service->licenseType;
-            $result->latestServiceCostHist = $latestCostHist;
-
-            return $result;
-
-        } catch (\Exception $e) {
-            Log::error('Error in getServiceInfo: ' . $e->getMessage());
-            // Fallback к обычному методу если что-то пойдет не так
-            return self::get($entityId, $translateData);
-        }
+        $result = $entityList->first();
+        return $result;
     }
 
     public function getExtByName(int $licenseTypeId, int $serviceThematicGroupId, string $serviceName)
@@ -464,34 +349,13 @@ class ServiceDal
         return $result;
     }
 
-    /**
-     * Альтернативный метод получения списка услуг по массиву ID без использования view service_ext
-     * @param $idList
-     * @param bool $translateData
-     * @return mixed
-     */
-    public static function getServiceListByIdArray($idList, bool $translateData = false)
+    public static function getListByIdArray($idList, bool $translateData = false)
     {
-        try {
-            $services = Service::with([
-                'serviceThematicGroup.serviceCategory',
-                'counterType',
-                'licenseType'
-            ])->whereIn('id', $idList)->get();
+        $entityList = ServiceExt::whereIn('service_ext.id', $idList);
 
-            $result = [];
-            foreach ($services as $service) {
-                $serviceInfo = self::getServiceInfo($service->id, $translateData);
-                $result[] = $serviceInfo;
-            }
+        TranslationDal::generateViewQuery(self::entityName, $entityList, self::baseField, $translateData);
 
-            return collect($result);
-
-        } catch (\Exception $e) {
-            Log::error('Error in getServiceListByIdArray: ' . $e->getMessage());
-            // Fallback к обычному методу если что-то пойдет не так
-            return self::getListByIdArray($idList, $translateData);
-        }
+        return $entityList->distinct()->get();
     }
 
     public static function generateCommercialOffer($serviceIdList)

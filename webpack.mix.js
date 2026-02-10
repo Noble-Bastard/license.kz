@@ -30,8 +30,6 @@ mix
   // .copy('resources/raw/app.js', 'public/js')
   // .copy('resources/raw/manifest.js', 'public/js')
   // .copy('resources/raw/messages.js', 'public/js')
-  .copy('resources/raw/app.css', 'public/css/app_new.css')
-  .copy('resources/raw/app.css', 'public/new/css/app.css')
-  .copy('resources/raw/app_new.css', 'public/css')
+  .copy('resources/raw/app.css', 'public/new/css')
     .sass('resources/sass/new/app_1.scss', 'public/new/css')
     .version();

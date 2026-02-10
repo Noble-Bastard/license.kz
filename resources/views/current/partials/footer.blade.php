@@ -21,6 +21,12 @@
           <div class="new_footer_copyright">
             ©2023 UPPERLICENSE
           </div>
+
+          <div class="new_footer_main_description">
+            <a href="{{asset('Политика конфиденциальности на сайт.pdf')}}" target="_blank" style="color: inherit; text-decoration: none;">Политика конфиденциальности</a>
+            <span> | </span>
+            <a href="{{asset('Публичная оферта.pdf')}}" target="_blank" style="color: inherit; text-decoration: none;">Публичная оферта</a>
+          </div>
         </div>
       </div>
 
@@ -144,6 +150,12 @@
         Все названия компаний, органов власти, реестра, продуктов и услуг, используемые на этом
         веб-сайте, используются только в целях идентификации. Использование этих названий, логотипов
         и брендов не означает одобрения.
+      </div>
+
+      <div class="new_mobile_footer_main_description">
+        <a href="{{asset('Политика конфиденциальности на сайт.pdf')}}" target="_blank" style="color: inherit; text-decoration: none;">Политика конфиденциальности</a>
+        <span> | </span>
+        <a href="{{asset('Публичная оферта.pdf')}}" target="_blank" style="color: inherit; text-decoration: none;">Публичная оферта</a>
       </div>
     </div>
   </div>

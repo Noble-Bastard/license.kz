@@ -5,10 +5,6 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <!-- Prevent caching -->
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
 
     <title>@yield('title')</title>
     <meta name="keywords"
@@ -27,14 +23,12 @@
     <meta name="facebook-domain-verification" content="q94r2el0gik2luew169nft0lnmyy5j" />
 
     @stack('css')
-    <link href="{{asset('css/app_new.css')}}" rel="stylesheet" type="text/css">
+    <link href="/css/app_new.css" rel="stylesheet" type="text/css">
     <link href="{{mix('new/css/app.css')}}" rel="stylesheet">
     <link href="{{mix('new/css/app_1.css')}}" rel="stylesheet">
     <link href="{{asset('libs/jquery-ui.min.css')}}" rel="stylesheet" type="text/css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
-    <!-- Tailwind CSS for modal backdrop blur -->
-    <script src="https://cdn.tailwindcss.com"></script>
 
     @if(Auth::check() && !Auth::user()->isUserInRole(\App\Data\Helper\RoleList::Client))
         <link href="{{asset('libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css')}}" rel="stylesheet"
@@ -51,39 +45,6 @@
         window.Laravel = {"csrfToken": "{!!csrf_token()!!}"};
         window.default_locale = "{{ \Illuminate\Support\Facades\App::getLocale() }}";
         window.fallback_locale = "{{ config('app.fallback_locale') }}";
-        
-        // Define login modal functions immediately - must be available before page loads
-        window.openLoginModal = function() {
-            try {
-                var modal = document.getElementById('loginModal');
-                if (modal) {
-                    modal.style.display = 'block';
-                    document.body.classList.add('modal-open');
-                    document.body.style.overflow = 'hidden';
-                }
-            } catch (e) {
-                console.error('Error opening login modal:', e);
-            }
-            return false;
-        };
-        
-        window.closeLoginModal = function() {
-            try {
-                var modal = document.getElementById('loginModal');
-                if (modal) {
-                    modal.style.animation = 'fadeOut 0.3s ease-out';
-                    setTimeout(function() {
-                        modal.style.display = 'none';
-                        modal.style.animation = '';
-                        document.body.classList.remove('modal-open');
-                        document.body.style.overflow = '';
-                    }, 300);
-                }
-            } catch (e) {
-                console.error('Error closing login modal:', e);
-            }
-            return false;
-        };
     </script>
     <!-- Google Tag Manager -->
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -101,10 +62,6 @@
             @include('new.partials.footer')
         </div>
     </div>
-    @include('new.partials.modal.login')
-    @include('new.partials.modal.reset_password')
-    @include('new.partials.modal.forgot_password')
-    @include('new-redesign.partials.modal.services')
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 
@@ -192,32 +149,6 @@
     function close_video() {
         $('.video-overlay.open').removeClass('open').find('iframe').remove();
     };
-    
-    // Функции для работы с модалкой услуг
-    if (typeof window.toggleServicesModal === 'undefined') {
-        window.toggleServicesModal = function() {
-            var modal = document.getElementById('servicesModal');
-            if (modal) {
-                var bsModal = bootstrap.Modal.getInstance(modal);
-                if (bsModal) {
-                    bsModal.toggle();
-                } else {
-                    bsModal = new bootstrap.Modal(modal);
-                    bsModal.show();
-                }
-            }
-        };
-    }
-    
-    if (typeof window.isServicesModalOpen === 'undefined') {
-        window.isServicesModalOpen = function() {
-            var modal = document.getElementById('servicesModal');
-            if (modal) {
-                return modal.classList.contains('show');
-            }
-            return false;
-        };
-    }
 </script>
     @include('layouts.metrix')
 </body>

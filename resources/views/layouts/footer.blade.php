@@ -36,5 +36,14 @@
                 </span>
             </div>
         </div>
+        <div class="row mr-0 ml-0">
+            <div class="col-12 mt-3">
+                <span class="footer_dialogue">
+                    <a href="{{asset('Политика конфиденциальности на сайт.pdf')}}" target="_blank" style="color: inherit; text-decoration: none;">Политика конфиденциальности</a>
+                    <span> | </span>
+                    <a href="{{asset('Публичная оферта.pdf')}}" target="_blank" style="color: inherit; text-decoration: none;">Публичная оферта</a>
+                </span>
+            </div>
+        </div>
     </div>
 </footer>

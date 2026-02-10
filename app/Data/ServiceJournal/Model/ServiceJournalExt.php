@@ -5,10 +5,7 @@ namespace App\Data\ServiceJournal\Model;
 use App\Data\Payment\Model\Agreement;
 use App\Data\Payment\Model\Invoice;
 use App\Data\Payment\Model\PaymentInvoice;
-use App\Data\ServiceJournal\Model\ServiceJournalClientDocument;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\Log;
 
 class ServiceJournalExt extends Model
 {
@@ -22,9 +19,9 @@ class ServiceJournalExt extends Model
         return $this->hasOne('App\Data\Service\Model\ServiceStatus','id','service_status_id');
     }
 
-    public function projectStatus()
+    public function service()
     {
-        return $this->hasOne('App\Data\Project\Model\ProjectStatusTable','id','project_status_id');
+        return $this->hasOne('App\Data\Service\Model\Service','id','service_id');
     }
 
     public function manager()
@@ -40,12 +37,6 @@ class ServiceJournalExt extends Model
     public function country()
     {
         return $this->hasOne('App\Data\Service\Model\Country','id','country_id');
-    }
-
-    public function service()
-    {
-        // The service_journal_ext view has a service_id column, so always use hasOne
-        return $this->hasOne('App\Data\Service\Model\Service', 'id', 'service_id');
     }
 
     public function serviceStepList()
@@ -118,32 +109,12 @@ class ServiceJournalExt extends Model
             array_push($docList, $obj);
         }
 
-        $result = collect($docList)->groupBy('doc_type');
 
-        // Добавляем отладочную информацию
-        \Log::info('ServiceJournal ID: ' . $this->id . ', Company Documents Count: ' . $result->count() . ', Total Documents: ' . collect($docList)->count());
-
-        return $result;
+        return collect($docList)->groupBy('doc_type');
     }
 
     public function clientDocumentList(){
-        // Получаем документы клиента через ServiceJournalClientDocument
-        $documents = $this->hasMany(ServiceJournalClientDocument::class, 'service_journal_id', 'id')
-            ->where('is_active', 1)
-            ->with('document')
-            ->get();
-
-        // Добавляем отладочную информацию
-        \Log::info('ServiceJournal ID: ' . $this->id . ', Client Documents Count: ' . $documents->count());
-
-        return $documents;
-    }
-
-    public function clientDocuments()
-    {
-        return $this->hasMany(ServiceJournalClientDocument::class, 'service_journal_id', 'id')
-            ->where('is_active', 1)
-            ->with('document');
+        return $this->serviceStepList()->with('clientAttachedDocument')->get()->pluck('clientAttachedDocument')->flatten();
     }
 
     public function invoice()

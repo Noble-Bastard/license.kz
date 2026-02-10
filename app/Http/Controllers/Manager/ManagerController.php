@@ -17,7 +17,6 @@ use App\Data\Task\Dal\TaskDal;
 use App\Data\Task\Dal\TaskExecutorDal;
 use App\Data\Task\Model\ExecutorGroup;
 use App\Data\Task\Model\ExecutorHourlyRate;
-use App\Data\ServiceJournal\Dal\ServiceJournalMessageDal;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -52,27 +51,23 @@ class ManagerController extends Controller
 
         $groupList = ExecutorGroupDal::getList(true);
 
-        return view('Manager.Groups.index_new')
+        return view('Manager.Groups.index')
             ->with('groupList', $groupList);
     }
 
-    public function servicesList(Request $request){
+    public function servicesList(){
         $manager = ProfileDal::getByUserId(Auth::id());
-        $statusList = ProjectDal::getProjectStatusList();
-        
-        $statusId = $request->input('status_id', null);
-        
+        $statusList=ProjectDal::getProjectStatusList();
         $serviceJournalList = ServiceJournalDal::getServiceJournalListByManager(
             $manager->id,
-            true, //
-            $statusId
+            false,
+            $statusList[0]->id
         );
-        
         $curatorList = ProfileDal::getListByRoles([RoleList::Curator], false);
 
         return view('Manager.Services.index')
             ->with('serviceJournalList', $serviceJournalList)
-            ->with('statusList', $statusList)
+            ->with('statusList',$statusList)
             ->with('curatorList', $curatorList);
     }
 
@@ -93,41 +88,18 @@ class ManagerController extends Controller
 
         $serviceJournalList = ServiceJournalDal::getServiceJournalListByManager($manager->id, true);
         $serviceJournal = ServiceJournalDal::getExt($serviceJournalId);
-        
-        // Ensure we have a single model, not a collection
-        if ($serviceJournal instanceof \Illuminate\Database\Eloquent\Collection) {
-            $serviceJournal = $serviceJournal->first();
-        }
-        
-        if (!$serviceJournal) {
-            abort(404, 'Service Journal not found');
-        }
-        
-        $serviceJournal->load('serviceStatus');
         $serviceJournalStepList = ServiceJournalDal::getServiceJournalStepList($serviceJournalId);
-        $taskExecutorList = TaskDal::getTaskExecutorsListByProject($serviceJournal->project_id);
+        $taskExecutorList=TaskDal::getTaskExecutorsListByProject($serviceJournal->project_id);
+        $manager = ProfileDal::getByUserId(Auth::id());
         $executorList = ProfileDal::getListByRolesAndManager([RoleList::Executor], $manager->id, true);
         $groupList = ExecutorGroupDal::getList(true);
-        
-        // Add documents, comments, and messages data
-        $documents = collect(); // TODO: Add documents logic
-        $comments = collect(); // TODO: Add comments logic  
-        // Get messages using the basic table instead of the view
-        $messages = \App\Data\ServiceJournal\Model\ServiceJournalMessage::with(['message', 'createdBy'])
-            ->where('service_journal_id', $serviceJournalId)
-            ->orderBy('create_date', 'asc')
-            ->get();
-        
         return view('Manager.Services.show')
             ->with('serviceJournalList', $serviceJournalList)
             ->with('serviceJournal',$serviceJournal)
             ->with('serviceJournalStepList',$serviceJournalStepList)
             ->with('taskExecutorList',$taskExecutorList)
             ->with('executorList',$executorList->pluck('full_name', 'id'))
-            ->with('groupList',$groupList->pluck('name', 'id'))
-            ->with('documents', $documents)
-            ->with('comments', $comments)
-            ->with('messages', $messages);
+            ->with('groupList',$groupList->pluck('name', 'id'));
 
     }
     public function getTaskExecutorList()
@@ -201,7 +173,7 @@ class ManagerController extends Controller
         ExecutorGroupDal::set($new);
 
         $groupList = ExecutorGroupDal::getList(true);
-        return view('Manager.Groups.index_new')
+        return view('Manager.Groups.index')
             ->with('groupList', $groupList);
     }
 
@@ -217,7 +189,7 @@ class ManagerController extends Controller
         $executorGroupBodyList=ExecutorGroupBodyDal::getListByExecutorGroupId($id);
         $manager = ProfileDal::getByUserId(Auth::id());
         $executorList = ProfileDal::getListByRolesAndManager([RoleList::Executor], $manager->id, true);
-        return view('Manager.Groups.bodyEdit_clean')
+        return view('Manager.Groups.bodyEdit')
             ->with('executorGroup', $executorGroup)
             ->with('executorGroupBodyList', $executorGroupBodyList)
             ->with('executorList', $executorList->pluck('full_name', 'id'));
@@ -235,7 +207,7 @@ class ManagerController extends Controller
 
         ExecutorGroupDal::set($new);
         $groupList = ExecutorGroupDal::getList(true);
-        return view('Manager.Groups.index_new')
+        return view('Manager.Groups.index')
             ->with('groupList', $groupList);
     }
 
@@ -254,19 +226,17 @@ class ManagerController extends Controller
         $executorGroupBodyList=ExecutorGroupBodyDal::getListByExecutorGroupId($new->executor_group_id);
         $manager = ProfileDal::getByUserId(Auth::id());
         $executorList = ProfileDal::getListByRolesAndManager([RoleList::Executor], $manager->id, true);
-        return view('Manager.Groups.bodyEdit_clean')
+        return view('Manager.Groups.bodyEdit')
             ->with('executorGroup', $executorGroup)
             ->with('executorGroupBodyList', $executorGroupBodyList)
             ->with('executorList', $executorList->pluck('full_name', 'id'));
     }
 
     public function destroyGroup($id)
-    {
-        // Handle both GET and POST requests
-        ExecutorGroupBodyDal::deleteByExecutorGroup($id);
+    {   ExecutorGroupBodyDal::deleteByExecutorGroup($id);
         ExecutorGroupDal::delete($id);
         $groupList = ExecutorGroupDal::getList(true);
-        return view('Manager.Groups.index_new')
+        return view('Manager.Groups.index')
             ->with('groupList', $groupList);
     }
 
@@ -279,7 +249,7 @@ class ManagerController extends Controller
         $executorGroupBodyList=ExecutorGroupBodyDal::getListByExecutorGroupId($executorGroupBody->executor_group_id);
         $manager = ProfileDal::getByUserId(Auth::id());
         $executorList = ProfileDal::getListByRolesAndManager([RoleList::Executor], $manager->id, true);
-        return view('Manager.Groups.bodyEdit_clean')
+        return view('Manager.Groups.bodyEdit')
             ->with('executorGroup', $executorGroup)
             ->with('executorGroupBodyList', $executorGroupBodyList)
             ->with('executorList', $executorList->pluck('full_name', 'id'));

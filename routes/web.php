@@ -4,7 +4,7 @@ use App\Data\Notify\Dal\EmailDal;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
-use App\Http\Controllers\Accountant\AccountantController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -35,34 +35,16 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
 //    Route::prefix('new-version')->group(function () {
         Route::get('/', [\App\Http\Controllers\HomeController::class, 'indexNew'])->name('new-index');
         Route::get('home', [\App\Http\Controllers\HomeController::class, 'indexNew'])->name('new-home');
-        Route::get('about', [\App\Http\Controllers\AboutController::class, 'indexRedesign'])->name('about');
-        Route::get('new-about', [\App\Http\Controllers\AboutController::class, 'indexRedesign'])->name('new-about');
-        Route::get('/partners', [\App\Http\Controllers\ExternalPartnerController::class, 'indexNew'])->name('partners');
-        Route::get('/new-partners', [\App\Http\Controllers\ExternalPartnerController::class, 'indexNew'])->name('new-partners');
-        Route::get('/reviews', [\App\Http\Controllers\ReviewController::class, 'indexRedesign'])->name('reviews');
-        Route::get('/new-reviews', [\App\Http\Controllers\ReviewController::class, 'indexRedesign'])->name('new-reviews');
-        Route::get('/faq', [\App\Http\Controllers\FaqController::class, 'indexRedesign'])->name('faq');
-    
-    // Тестовый роут для проверки перенаправления
-    Route::get('/test-redirect', function() {
-        return \App\Data\Core\Dal\UserDal::login(Auth::user());
-    })->name('test.redirect')->middleware('auth');
-
-        // Заредизайненные страницы из license.com
-        Route::get('/about-redesign', [\App\Http\Controllers\AboutController::class, 'indexRedesign'])->name('about-redesign');
-        Route::get('/reviews-redesign', [\App\Http\Controllers\ReviewController::class, 'indexRedesign'])->name('reviews-redesign');
-        Route::get('/faq-redesign', [\App\Http\Controllers\FaqController::class, 'indexRedesign'])->name('faq-redesign');
-        Route::get('/news', [\App\Http\Controllers\NewsController::class, 'index'])->name('news');
-        Route::post('/callback', [\App\Http\Controllers\CallbackController::class, 'store'])->name('callback.store');
+        Route::get('about', [\App\Http\Controllers\AboutController::class, 'indexNew'])->name('new-about');
+        Route::get('/partners', [\App\Http\Controllers\ExternalPartnerController::class, 'indexNew'])->name('new-partners');
+        Route::get('/reviews', [\App\Http\Controllers\ReviewController::class, 'indexNew'])->name('new-reviews');
 
         Route::get('/service-group/{serviceGroupName}', [\App\Http\Controllers\ServicesController::class, 'serviceGroupInfoNew'])->name('new.services-group.info');
         Route::get('/service-group/catalog/{catalogName}', [\App\Http\Controllers\ServicesController::class, 'serviceGroupCatalogNew'])->name('new.services-group.catalog');
         Route::post('/service-group/compare/', [\App\Http\Controllers\ServicesController::class, 'serviceGroupCompareNew'])->name('new.services-group.compare');
-        Route::post('/api/service-totals', [\App\Http\Controllers\ServicesController::class, 'getServiceTotalsJson'])->name('api.service-totals');
-        Route::post('/api/service-totals-quick', [\App\Http\Controllers\ServicesController::class, 'getServiceTotalsQuick'])->name('api.service-totals-quick');
 
-        Route::get('/construction', [\App\Http\Controllers\ServicesController::class, 'constructionServices'])->name('new-construction');
-        Route::get('/new-services', [\App\Http\Controllers\HomeController::class, 'servicesNew'])->name('new-services');
+        Route::get('/construction', [\App\Http\Controllers\HomeController::class, 'constructionNew'])->name('new-construction');
+        Route::get('/services', [\App\Http\Controllers\HomeController::class, 'servicesNew'])->name('new-services');
         Route::get('/services/child-nodes/{serviceCategoryId}', [\App\Http\Controllers\ServicesController::class, 'childNodesNew'])->name('new-services.child-nodes');
 
 //    });
@@ -84,11 +66,11 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
 //    Route::get('contacts', 'ContactsController@index')->name('contacts');
 //    Route::get('about', 'AboutController@index')->name('about');
 
-    Route::get('news/list', 'NewsController@newsList')->name('news.list');
+    Route::get('news/list', 'Admin\NewsController@newsList')->name('news.list');
     Route::get('government_agencies_news/list', 'Admin\NewsController@governmentAgenciesNewsList')->name('news.government_agencies.list');
     Route::get('npa_news/list', 'Admin\NewsController@npaNewsList')->name('news.npa.list');
     Route::get('expert_news/list', 'Admin\NewsController@expertNewsList')->name('news.expert.list');
-    Route::get('faq/list', 'NewsController@faqList')->name('news.faq.list');
+    Route::get('faq/list', 'Admin\NewsController@faqList')->name('news.faq.list');
     Route::post('faq', 'Admin\NewsController@faqNew')->name('news.faq.new');
 
 //    Route::get('news/{tag}/list', 'Admin\NewsController@newsListByTag')->name('news.listByTag');
@@ -175,14 +157,11 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
         Route::group(['middleware' => ['auth', 'role:SaleManager']], function () {
             Route::get('services', 'SaleManager\ServicesController@serviceList')->name('sale_manager.service.list');
             Route::get('services/{service_status_id}', 'SaleManager\ServicesController@serviceListByStatus')->name('sale_manager.service.list_by_status');
-            Route::get('service/{serviceJournalId}', 'SaleManager\ServicesController@serviceDetail')->name('sale_manager.service.detail');
             Route::post('services/setManager', 'SaleManager\ServicesController@setManager')->name('sale_manager.service.setManager');
             Route::post('services/setProfileLegalInfo', 'SaleManager\ServicesController@setProfileLegalInfo')->name('sale_manager.service.setProfileLegalInfo');
             Route::get('services/setInWork/{serviceJournal}', 'SaleManager\ServicesController@setInWork')->name('sale_manager.service.setInWork');
 
             Route::get('servicesJournal/{servicesJournalId}', 'ServicesController@show')->name('sale_manager.serviceJournal.show');
-            // Modal content for service details (Sale Manager)
-            Route::get('vue/servicesJournal/{servicesJournalId}/modal', 'SaleManager\ServicesController@serviceJournalModal')->name('sale_manager.serviceJournal.modal');
 
             Route::get('clients', 'SaleManager\ClientController@index')->name('sale_manager.client.index');
             Route::get('vue/clientList', 'SaleManager\ClientController@clientList')->name('sale_manager.client.list');
@@ -192,19 +171,6 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             Route::get('commercial_offers/create', 'SaleManager\CommercialOfferController@create')->name('sale_manager.commercial_offer.create');
             Route::post('commercial_offers/store', 'SaleManager\CommercialOfferController@store')->name('sale_manager.commercial_offer.store');
             Route::get('commercial_offers/prepareServiceById', 'SaleManager\CommercialOfferController@prepareServiceById')->name('sale_manager.commercial_offer.prepareServiceById');
-            
-            // Test route for debugging
-            Route::get('test-button', function() {
-    return view('test-button');
-})->name('test.button');
-
-Route::get('test-simple', function() {
-    return view('test-simple');
-})->name('test.simple');
-
-Route::get('test-alpine', function() {
-    return view('test-alpine');
-})->name('test.alpine');
 
 
             Route::get('potential_client', 'SaleManager\PotentialClientController@index')->name('sale_manager.potential_client.index');
@@ -501,7 +467,7 @@ Route::get('test-alpine', function() {
 
 
     Route::prefix('company')->group(function () {
-        Route::group(['middleware' => ['auth', 'setLocale']], function () {
+        Route::group(['middleware' => ['auth', 'setLocale', 'role:Administrator']], function () {
             Route::get('standart_contract_template', 'Company\StandartContractTemplateController@index')->name('company.standart_contract_template');
             Route::get('vue/standart_contract_template/list', 'Company\StandartContractTemplateController@entityList');
             Route::get('vue/standart_contract_template/download', 'Company\StandartContractTemplateController@download');
@@ -513,10 +479,6 @@ Route::get('test-alpine', function() {
             Route::post('vue/standart_contract_template_type/delete', 'Company\StandartContractTemplateTypeController@delete');
             Route::post('vue/standart_contract_template_type/store', 'Company\StandartContractTemplateTypeController@store');
 
-            // Legacy accountant-facing document templates URL -> redirect to new accountant page
-            Route::get('document_template', function() {
-                return redirect()->route('Accountant.document_templates');
-            })->name('company.document_template');
         });
     });
 
@@ -526,10 +488,6 @@ Route::get('test-alpine', function() {
             Route::get('projects', 'ProjectController@projectList')->name('executor.project.list');
             Route::get('projects/{projectId}', 'ProjectController@projectShow')->name('executor.project.show');
             Route::get('projects/{service_status_id}/list', 'ProjectController@projectListByStatus')->name('executor.project.list_by_status');
-            Route::get('service-modal/{serviceJournalId}', 'ProjectController@serviceModal')->name('executor.service.modal');
-            Route::get('service-modal/{serviceJournalId}/send-to-check', 'ProjectController@sendToCheck')->name('executor.service.sendToCheck');
-            Route::post('send-message', 'MessageController@addExecutorServiceMessage')->name('executor.send.message');
-            Route::post('send-step-message', 'MessageController@addExecutorStepMessage')->name('executor.send.step.message');
 
             Route::get('task/{taskId}', 'TaskController@taskShow')->name('executor.task.show');
             Route::get('task/start/{taskId}', 'TaskController@start')->name('executor.task.start');
@@ -541,9 +499,6 @@ Route::get('test-alpine', function() {
             Route::post('task/start/{$taskId}', 'TaskController@start')->name('executor.taskDocument.start');
             Route::post('task/messageList', 'TaskController@messageList')->name('executor.task.messageList');
             Route::post('task/message/create', 'TaskController@messageCreate')->name('executor.task.message.create');
-
-            // Executor Messages page
-            Route::get('messages', 'MessageController@index')->name('executor.messages');
 
         });
     });
@@ -599,6 +554,7 @@ Route::get('test-alpine', function() {
     Route::group(['middleware' => ['auth', 'setLocale', 'role:Manager|Partner']], function () {
         Route::get('manager/messages', 'MessageController@managerServiceMessageList')->name('Manager.service.message.list');
         Route::get('manager/messageList/{serviceJournalId}', 'MessageController@managerMessageList')->name('Manager.message.list');
+        Route::post('manager/messages/serviceJournalCreate', 'MessageController@addManagerServiceMessage')->name('Manager.service.message.create');
     });
 
     Route::prefix('curator')->group(function () {
@@ -642,8 +598,6 @@ Route::get('test-alpine', function() {
         Route::get('client/_serviceDocList/{serviceStep}/{serviceJournal}', 'ServicesController@stepReqDocList')->name('Client._serviceDocList');
         Route::get('messages', 'MessageController@clientServiceMessageList')->name('Client.service.message.list');
         Route::get('servicesJournal/{servicesJournalId}', 'ServicesController@show')->name('Client.serviceJournal.show');
-        Route::get('client/service-steps/{serviceId}', 'ServicesController@getServiceSteps')->name('Client.serviceSteps');
-        Route::get('client/service-documents/{serviceId}', 'ServicesController@getServiceDocuments')->name('Client.serviceDocuments');
 
         Route::get('servicesJournal/{servicesJournalId}/sendToCheck', 'ServicesController@sendToCheck')->name('Client.serviceJournal.sendToCheck');
         Route::post('servicesJournal/addStepDocument', 'ServicesController@addStepDocument')->name('Client.StepDocument.add');
@@ -705,17 +659,10 @@ Route::get('test-alpine', function() {
         });
     });
 
-    Route::get('document-delete/{id}', [AccountantController::class, 'deleteDocumentTemplate']);
-
     Route::namespace('Accountant')->prefix('accountant')->group(function () {
         Route::group(['middleware' => ['auth', 'setLocale', 'role:Accountant']], function () {
             Route::get('/', 'AccountantController@index')->name('Accountant.index');
             Route::get('services', 'AccountantController@getServiceList')->name('Accountant.services');
-            Route::get('document-templates', 'AccountantController@documentTemplates')->name('Accountant.document_templates');
-            Route::post('document-templates/upload', 'AccountantController@uploadDocument')->name('Accountant.document_templates.upload');
-            Route::get('document-templates/{id}/download', 'AccountantController@downloadDocument')->name('Accountant.document_templates.download');
-            Route::get('document-delete/{id}', 'AccountantController@deleteDocumentTemplate');
-
             Route::get('vue/services/list', 'AccountantController@entityList');
             Route::post('vue/services/confirmPayment', 'AccountantController@confirmPayment')->name('accountant.service.confirmPayment');
             Route::post('services/generateAgreement', 'AccountantController@generateAgreement')->name('accountant.service.generateAgreement');
@@ -733,7 +680,14 @@ Route::get('test-alpine', function() {
         });
     });
 
-    // Moved to accountant section
+    Route::prefix('company')->group(function () {
+        Route::group(['middleware' => ['auth', 'setLocale', 'role:Accountant']], function () {
+            Route::get('document_template', 'Company\DocumentTemplateController@index')->name('company.document_template');
+            Route::get('vue/document_template/list', 'Company\DocumentTemplateController@entityList');
+            Route::get('vue/document_template/download', 'Company\DocumentTemplateController@download');
+            Route::post('vue/document_template/store', 'Company\DocumentTemplateController@store');
+        });
+    });
 
     Route::prefix('service_journal')->group(function () {
         Route::group(['middleware' => ['auth', 'setLocale', 'role:Accountant|Head|Client']], function () {
@@ -789,4 +743,3 @@ Route::get('test_document', [\App\Http\Controllers\Accountant\AccountantControll
 Route::get('php_info', function () {
   phpinfo();
 });
-

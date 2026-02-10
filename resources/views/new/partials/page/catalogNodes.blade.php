@@ -6,6 +6,7 @@
                     <a
                         class="main__top_card-link"
                         href="{{route('new.services-group.info', ['serviceCategoryId'=>$catalogItem->pretty_url])}}"
+                        title="{{$catalogItem->name}}"
                     >
                         {{$catalogItem->name}}
                     </a>
