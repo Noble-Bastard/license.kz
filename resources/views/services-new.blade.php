@@ -52,12 +52,6 @@
         }
       }
       
-      // Специальная обработка для "Строительство"
-      $itemNameLower = mb_strtolower($itemName);
-      if (strpos($itemNameLower, 'строительство') !== false || strpos($itemNameLower, 'строи') !== false) {
-        return '/construction';
-      }
-      
       // Если не найдено, используем стандартный маршрут для категорий каталога
       if ($prettyUrl) {
         return '/service-group/' . $prettyUrl;
@@ -122,9 +116,10 @@
         foreach ($categoryList as $category) {
           $categoryNameLower = mb_strtolower($category->name);
           // Ищем частичное совпадение в любом направлении
-          if (strpos($sectionNameLower, $categoryNameLower) !== false || 
+          if (!empty($sectionNameLower) && !empty($categoryNameLower) && (
+              strpos($sectionNameLower, $categoryNameLower) !== false || 
               strpos($categoryNameLower, $sectionNameLower) !== false ||
-              similar_text($sectionNameLower, $categoryNameLower) / max(mb_strlen($sectionNameLower), mb_strlen($categoryNameLower)) > 0.5) {
+              similar_text($sectionNameLower, $categoryNameLower) / max(mb_strlen($sectionNameLower), mb_strlen($categoryNameLower), 1) > 0.5)) {
             $categoryId = $category->id;
             break;
           }
@@ -145,25 +140,83 @@
         'name' => $sectionName,
         'icon' => $config['icon'],
         'categoryId' => $categoryId,
-        'url' => $config['url'] ?? null
+        'url' => $config['url'] ?? null,
+        'isLicensing' => ($sectionName === 'Лицензирование')
       ];
     }
     
     // Используем первую категорию как активную по умолчанию
     $activeCategoryId = $defaultCategoryId;
-    $customGroupOrders = [
-      'лицензирование' => [
-        'Безопасность',
-        'Естественные монополии',
-        'Защита конкуренции',
-        'Здравоохранение',
-        'Земельные отношения',
-        'Экспорт товаров',
-        'Импорт товаров',
-        'Культура',
-        'Строительство'
-      ]
+    
+    // Для "Лицензирование" формируем подразделы из ВСЕХ service_categories
+    // Каждая category — это отдельный подраздел (Безопасность, Естественные монополии и т.д.)
+    $licensingSubsections = [];
+    if(isset($allCategoriesWithCatalogs) && count($allCategoriesWithCatalogs) > 0) {
+      foreach($allCategoriesWithCatalogs as $catData) {
+        $cat = $catData['category'];
+        // Получаем root_pretty_url из каталога
+        $rootNode = null;
+        try {
+          $rootNode = \Illuminate\Support\Facades\Cache::remember('service_catalog_root_' . $cat->id, 15, function() use ($cat) {
+            return \App\Data\Catalog\Dal\ServiceCategoryCatalogDal::getByServiceCategory($cat->id, true);
+          });
+        } catch (\Exception $e) {}
+        
+        $rootPrettyUrl = $rootNode ? ($rootNode->pretty_url ?? null) : null;
+        
+        $licensingSubsections[] = [
+          'name' => $cat->name,
+          'pretty_url' => $rootPrettyUrl,
+          'url' => $rootPrettyUrl ? '/service-group/' . $rootPrettyUrl : '#',
+          'categoryId' => $cat->id
+        ];
+      }
+    }
+    
+    // Порядок отображения подразделов для "Лицензирование"
+    $licensingOrder = [
+      'Безопасность',
+      'Естественные монополии',
+      'Защита конкуренции',
+      'Здравоохранение',
+      'Земельные отношения',
+      'Экспорт товаров',
+      'Импорт товаров',
+      'Культура',
+      'Строительство'
     ];
+    
+    // Сортируем: сначала заданный порядок, потом остальные
+    $orderedLicensingSubsections = [];
+    foreach($licensingOrder as $orderName) {
+      $orderNameLower = mb_strtolower(trim($orderName));
+      foreach($licensingSubsections as $sub) {
+        $subNameLower = mb_strtolower(trim($sub['name']));
+        if ($subNameLower === $orderNameLower || 
+            (!empty($subNameLower) && !empty($orderNameLower) && (
+              strpos($subNameLower, $orderNameLower) !== false || 
+              strpos($orderNameLower, $subNameLower) !== false))) {
+          $orderedLicensingSubsections[] = $sub;
+          break;
+        }
+      }
+    }
+    // Добавляем остальные, которых нет в порядке
+    foreach($licensingSubsections as $sub) {
+      $found = false;
+      foreach($orderedLicensingSubsections as $ordered) {
+        if ($ordered['categoryId'] === $sub['categoryId']) {
+          $found = true;
+          break;
+        }
+      }
+      if (!$found) {
+        $orderedLicensingSubsections[] = $sub;
+      }
+    }
+    $licensingSubsections = $orderedLicensingSubsections;
+    
+    $customGroupOrders = [];
     
     $categoryDataMap = [];
     if(isset($allCategoriesWithCatalogs) && count($allCategoriesWithCatalogs) > 0) {
@@ -336,137 +389,47 @@
                             </div>
                             <div class="services-mobile-detail__content">
                               <div class="services-mobile-subsection-list">
-                                @php
-                                  $sectionNameLower = mb_strtolower($section['name']);
-                                  $subsectionTitles = [];
-                                  
-                                  // Сначала собираем все доступные названия из groupedItems
-                                  $availableTitles = [];
-                                  foreach($categoryData['groupedItems'] as $group) {
-                                    $groupTitle = $group['title'] ?? null;
-                                    if ($groupTitle) {
-                                      $availableTitles[mb_strtolower(trim($groupTitle))] = $groupTitle;
-                                    }
-                                  }
-                                  
-                                  // Для Лицензирования используем порядок из customGroupOrders, но берем реальные названия из groupedItems
-                                  if (isset($customGroupOrders[$sectionNameLower])) {
-                                    foreach($customGroupOrders[$sectionNameLower] as $orderTitle) {
-                                      $orderTitleNormalized = mb_strtolower(trim($orderTitle));
-                                      // Ищем точное совпадение
-                                      if (isset($availableTitles[$orderTitleNormalized])) {
-                                        $subsectionTitles[] = $availableTitles[$orderTitleNormalized];
-                                      } else {
-                                        // Ищем частичное совпадение
-                                        $found = false;
-                                        foreach($availableTitles as $normalized => $original) {
-                                          if (strpos($normalized, $orderTitleNormalized) !== false || 
-                                              strpos($orderTitleNormalized, $normalized) !== false) {
-                                            $subsectionTitles[] = $original;
-                                            $found = true;
-                                            break;
-                                          }
-                                        }
-                                        // Если не нашли, добавляем название из customGroupOrders (может быть данных нет)
-                                        if (!$found) {
-                                          $subsectionTitles[] = $orderTitle;
-                                        }
+                                @if(!empty($section['isLicensing']))
+                                  {{-- Лицензирование: показываем ВСЕ service_categories как подразделы --}}
+                                  @foreach($licensingSubsections as $licSub)
+                                    <a href="{{ $licSub['url'] }}" 
+                                       class="services-mobile-subsection-link"
+                                       data-subsection-title="{{ $licSub['name'] }}">
+                                      <span>{{ $licSub['name'] }}</span>
+                                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M6 12L10 8L6 4" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                      </svg>
+                                    </a>
+                                  @endforeach
+                                @else
+                                  {{-- Другие разделы: используем groupedItems --}}
+                                  @foreach($categoryData['groupedItems'] as $group)
+                                    @php
+                                      $groupTitle = $group['title'] ?? null;
+                                      $groupPrettyUrl = $group['pretty_url'] ?? null;
+                                      if (!$groupTitle && !empty($group['items'])) {
+                                        $firstItem = collect($group['items'])->first();
+                                        $groupTitle = $firstItem['name'] ?? null;
+                                        $groupPrettyUrl = $firstItem['pretty_url'] ?? $groupPrettyUrl;
                                       }
-                                    }
-                                    // Добавляем остальные названия, которых нет в customGroupOrders
-                                    foreach($availableTitles as $normalized => $original) {
-                                      $found = false;
-                                      foreach($customGroupOrders[$sectionNameLower] as $orderTitle) {
-                                        if (mb_strtolower(trim($orderTitle)) === $normalized) {
-                                          $found = true;
-                                          break;
-                                        }
-                                      }
-                                      if (!$found && !in_array($original, $subsectionTitles)) {
-                                        $subsectionTitles[] = $original;
-                                      }
-                                    }
-                                  } else {
-                                    // Для других разделов используем названия из groupedItems
-                                    foreach($categoryData['groupedItems'] as $group) {
-                                      $groupTitle = $group['title'] ?: __('Прочие услуги');
-                                      if ($groupTitle && !in_array($groupTitle, $subsectionTitles)) {
-                                        $subsectionTitles[] = $groupTitle;
-                                      }
-                                    }
-                                  }
-                                @endphp
-                                @foreach($subsectionTitles as $subsectionIndex => $subsectionTitle)
-                                  @php
-                                    // Находим соответствующий groupedItem для этого заголовка
-                                    $subsectionData = null;
-                                    $subsectionTitleNormalized = mb_strtolower(trim($subsectionTitle));
-                                    
-                                    // Сначала пытаемся найти точное совпадение
-                                    foreach($categoryData['groupedItems'] as $group) {
-                                      $groupTitleNormalized = mb_strtolower(trim($group['title'] ?? ''));
-                                      if ($groupTitleNormalized === $subsectionTitleNormalized) {
-                                        $subsectionData = $group;
-                                        break;
-                                      }
-                                    }
-                                    
-                                    // Если не нашли точное совпадение, пытаемся найти частичное
-                                    if (!$subsectionData) {
-                                      foreach($categoryData['groupedItems'] as $group) {
-                                        $groupTitleNormalized = mb_strtolower(trim($group['title'] ?? ''));
-                                        // Проверяем частичное совпадение в любом направлении
-                                        if (strpos($groupTitleNormalized, $subsectionTitleNormalized) !== false || 
-                                            strpos($subsectionTitleNormalized, $groupTitleNormalized) !== false) {
-                                          $subsectionData = $group;
-                                          break;
-                                        }
-                                      }
-                                    }
-                                    
-                                    $subsectionId = "subsection-{$sectionIndex}-{$subsectionIndex}";
-                                    // Получаем pretty_url для заголовка группы
-                                    $subsectionPrettyUrl = null;
-                                    foreach($categoryData['groupedItems'] as $group) {
-                                      $groupTitleNormalized = mb_strtolower(trim($group['title'] ?? ''));
-                                      if ($groupTitleNormalized === $subsectionTitleNormalized) {
-                                        $subsectionPrettyUrl = $group['pretty_url'] ?? null;
-                                        break;
-                                      }
-                                    }
-                                    // Если не нашли, ищем частичное совпадение
-                                    if (!$subsectionPrettyUrl) {
-                                      foreach($categoryData['groupedItems'] as $group) {
-                                        $groupTitleNormalized = mb_strtolower(trim($group['title'] ?? ''));
-                                        if (strpos($groupTitleNormalized, $subsectionTitleNormalized) !== false || 
-                                            strpos($subsectionTitleNormalized, $groupTitleNormalized) !== false) {
-                                          $subsectionPrettyUrl = $group['pretty_url'] ?? null;
-                                          break;
-                                        }
-                                      }
-                                    }
-                                    
-                                    // Специальная обработка для "Строительство"
-                                    $subsectionTitleLower = mb_strtolower(trim($subsectionTitle));
-                                    if (strpos($subsectionTitleLower, 'строительство') !== false || strpos($subsectionTitleLower, 'строи') !== false) {
-                                      $subsectionUrl = '/construction';
-                                    } else {
-                                      $subsectionUrl = $subsectionPrettyUrl ? '/service-group/' . $subsectionPrettyUrl : '#';
-                                    }
-                                  @endphp
-                                  <a href="{{ $subsectionUrl }}" 
-                                     class="services-mobile-subsection-link"
-                                     data-subsection-title="{{ $subsectionTitle }}"
-                                     @if($subsectionUrl !== '#') onclick="window.location.href = '{{ $subsectionUrl }}'; return false;" @endif>
-                                    <span>{{ $subsectionTitle }}</span>
-                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                      <path d="M6 12L10 8L6 4" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>
-                                  </a>
-                                @endforeach
+                                      $groupUrl = $groupPrettyUrl ? '/service-group/' . $groupPrettyUrl : '#';
+                                    @endphp
+                                    @if($groupTitle)
+                                      <a href="{{ $groupUrl }}" 
+                                         class="services-mobile-subsection-link"
+                                         data-subsection-title="{{ $groupTitle }}">
+                                        <span>{{ $groupTitle }}</span>
+                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                          <path d="M6 12L10 8L6 4" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                      </a>
+                                    @endif
+                                  @endforeach
+                                @endif
                               </div>
                               
-                              <!-- Детальные списки для каждого подраздела -->
+                              <!-- Детальные списки для каждого подраздела (не для Лицензирования) -->
+                              @if(empty($section['isLicensing']) && isset($subsectionTitles))
                               @foreach($subsectionTitles as $subsectionIndex => $subsectionTitle)
                                 @php
                                   // Находим соответствующий groupedItem для этого заголовка
@@ -483,9 +446,10 @@
                                   }
                                   
                                   // Если не нашли точное совпадение, пытаемся найти частичное
-                                  if (!$subsectionData) {
+                                  if (!$subsectionData && !empty($subsectionTitleNormalized)) {
                                     foreach($categoryData['groupedItems'] as $group) {
                                       $groupTitleNormalized = mb_strtolower(trim($group['title'] ?? ''));
+                                      if (empty($groupTitleNormalized)) continue;
                                       // Проверяем частичное совпадение в любом направлении
                                       if (strpos($groupTitleNormalized, $subsectionTitleNormalized) !== false || 
                                           strpos($subsectionTitleNormalized, $groupTitleNormalized) !== false) {
@@ -524,6 +488,7 @@
                                   </div>
                                 </div>
                               @endforeach
+                              @endif
                             </div>
                           </div>
                         @endif
@@ -627,11 +592,27 @@
   <style>
     @media (max-width: 991.98px) {
       .header-redesigned,
-      .header-redesigned__mobile {
+      .header-redesigned__mobile,
+      header.header-redesigned,
+      header.header-redesigned[style] {
         display: none !important;
+        visibility: hidden !important;
+        height: 0 !important;
+        overflow: hidden !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+      }
+      .client-app > header.header-redesigned,
+      .client-app header.header-redesigned {
+        display: none !important;
+        visibility: hidden !important;
+        height: 0 !important;
+        overflow: hidden !important;
       }
       .services-inline-header {
-        display: block;
+        display: flex !important;
       }
     }
 
@@ -657,6 +638,9 @@
       margin-left: 0;
       margin-right: 0;
       box-sizing: border-box;
+      position: sticky;
+      top: 0;
+      z-index: 10001;
     }
 
     .services-inline-header__logo img {
@@ -694,7 +678,12 @@
       border: 1px solid #279760;
       cursor: pointer;
       position: relative;
-      z-index: 10;
+      z-index: 10002;
+      pointer-events: auto !important;
+    }
+    
+    .services-inline-header__icon[href] {
+      cursor: pointer;
       pointer-events: auto !important;
     }
 
@@ -1541,16 +1530,30 @@
         serviceLinks.forEach(function(link) {
           link.addEventListener('click', function(e) {
             var hasDescription = this.getAttribute('data-service-has-description') === 'true';
-            if (!isMobileView() || !hasDescription) {
-              return;
+            var href = this.getAttribute('href');
+            
+            // Если это не мобильная версия, всегда разрешаем переход
+            if (!isMobileView()) {
+              // На десктопе разрешаем стандартное поведение ссылки
+              return true;
             }
+            
+            // На мобильной версии:
+            // Если нет описания или ссылка ведет на #, разрешаем переход
+            if (!hasDescription || !href || href === '#' || href === '') {
+              // Разрешаем стандартное поведение ссылки
+              return true;
+            }
+            
+            // Если есть описание, показываем его вместо перехода
             e.preventDefault();
             var targetId = this.getAttribute('data-service-toggle');
             var description = document.getElementById(targetId);
             var serviceItem = this.closest('.service-item');
             var parentList = this.closest('.services-list-grid');
             if (!description || !serviceItem || !parentList) {
-              return;
+              // Если не нашли описание, разрешаем переход
+              return true;
             }
             var alreadyOpen = serviceItem.classList.contains('is-open');
             parentList.querySelectorAll('.service-item').forEach(function(item) {
@@ -1563,6 +1566,7 @@
               serviceItem.classList.add('is-open');
               description.classList.add('is-visible');
             }
+            return false;
           });
         });
       }
@@ -1734,14 +1738,17 @@
       function attachMobileSubsectionHandlers() {
         // Используем делегирование событий для работы с динамически созданными элементами
         document.addEventListener('click', function(e) {
-          var subsectionButton = e.target.closest('[data-mobile-subsection-open]');
-          if (subsectionButton) {
+          var subsectionLink = e.target.closest('.services-mobile-subsection-link');
+          if (subsectionLink) {
             e.preventDefault();
             e.stopPropagation();
-            var subsectionId = subsectionButton.getAttribute('data-mobile-subsection-open');
-            var subsectionTitle = subsectionButton.getAttribute('data-subsection-title');
-            console.log('Клик по подразделу:', subsectionId, subsectionTitle);
-            openMobileSubsectionDetail(subsectionId, subsectionTitle);
+            var href = subsectionLink.getAttribute('href');
+            // Делаем переадресацию, если есть URL
+            if (href && href !== '#' && href !== '') {
+              window.location.href = href;
+              return false;
+            }
+            return false;
           }
         });
 
@@ -1820,19 +1827,8 @@
       if (servicesBtn) {
         servicesBtn.addEventListener('click', function (e) {
           e.preventDefault();
-          // Делаем кнопку "< Услуги" такой же кнопкой меню, как бургер:
-          // открываем offcanvas с id="mobileMenu", если он есть на странице.
-          var mobileMenu = document.getElementById('mobileMenu');
-          if (mobileMenu && window.bootstrap && window.bootstrap.Offcanvas) {
-            var offcanvas = window.bootstrap.Offcanvas.getOrCreateInstance(mobileMenu);
-            offcanvas.show();
-          } else {
-            // запасной вариант: просто кликаем по бургеру, если он есть
-            var burgerBtn = document.querySelector('[data-bs-toggle="offcanvas"][data-bs-target="#mobileMenu"]');
-            if (burgerBtn) {
-              burgerBtn.click();
-            }
-          }
+          // Возвращаемся к списку разделов услуг
+          showMobileSectionList();
         });
       }
 

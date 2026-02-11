@@ -303,37 +303,66 @@
                 // Make the services page content fullscreen (as modal)
                 var appWrapper = document.getElementById('app');
                 if (appWrapper) {
+                    // Check if mobile view
+                    var isMobile = window.matchMedia('(max-width: 991.98px)').matches;
+                    
                     // Keep header exactly as on main page - ensure it's above modal
+                    // BUT hide it on mobile devices
                     var header = document.querySelector('header.header-redesigned');
                     if (header) {
-                        // Keep header visible and above modal content
-                        header.style.display = 'flex';
-                        header.style.position = 'sticky';
-                        header.style.top = '0';
-                        header.style.zIndex = '10000'; // Higher than appWrapper (9999)
-                        header.style.background = '#FFFFFF';
+                        if (isMobile) {
+                            // Hide header on mobile - services-inline-header will be shown instead
+                            header.style.display = 'none';
+                            header.style.visibility = 'hidden';
+                            header.style.height = '0';
+                            header.style.overflow = 'hidden';
+                            header.style.margin = '0';
+                            header.style.padding = '0';
+                            header.style.opacity = '0';
+                            header.style.pointerEvents = 'none';
+                        } else {
+                            // Keep header visible and above modal content on desktop
+                            header.style.display = 'flex';
+                            header.style.position = 'sticky';
+                            header.style.top = '0';
+                            header.style.zIndex = '10000'; // Higher than appWrapper (9999)
+                            header.style.background = '#FFFFFF';
+                        }
                     }
                     
                     // Start modal content below header (not from top: 0)
                     appWrapper.style.position = 'fixed';
-                    appWrapper.style.top = '78px'; // Start below header (header height is 78px)
+                    if (isMobile) {
+                        // On mobile, start from top since header is hidden
+                        appWrapper.style.top = '0';
+                        appWrapper.style.height = '100%';
+                    } else {
+                        // On desktop, start below header
+                        appWrapper.style.top = '78px'; // Start below header (header height is 78px)
+                        appWrapper.style.height = 'calc(100% - 78px)'; // Full height minus header
+                    }
                     appWrapper.style.left = '0';
                     appWrapper.style.width = '100%';
-                    appWrapper.style.height = 'calc(100% - 78px)'; // Full height minus header
                     appWrapper.style.zIndex = '9999';
                     appWrapper.style.background = '#ffffff';
                     appWrapper.style.overflow = 'auto';
                     appWrapper.style.margin = '0';
                     appWrapper.style.padding = '0';
                     
-                    // Add padding-top to show content (less padding since we already offset by header)
+                    // Add padding-top to show content
                     var servicesPage = appWrapper.querySelector('.services-new-page');
                     if (servicesPage) {
                         servicesPage.style.marginTop = '0';
-                        servicesPage.style.paddingTop = '20px'; // Less padding since header is already above
+                        if (isMobile) {
+                            servicesPage.style.paddingTop = '0'; // No padding on mobile since header is hidden
+                        } else {
+                            servicesPage.style.paddingTop = '20px'; // Less padding since header is already above
+                        }
                     } else {
                         // If services-new-page not found, add padding to wrapper
-                        appWrapper.style.paddingTop = '20px';
+                        if (!isMobile) {
+                            appWrapper.style.paddingTop = '20px';
+                        }
                     }
                     
                     // Update services button state (the onclick in header will handle closing)
@@ -375,6 +404,9 @@
             
             if (isDirectAccess) {
                 console.log('Closing direct access modal');
+                // Check if mobile view
+                var isMobile = window.matchMedia('(max-width: 991.98px)').matches;
+                
                 // Restore page from direct access mode
                 appWrapper.style.position = '';
                 appWrapper.style.top = '';
@@ -399,11 +431,31 @@
                 // Restore header - remove any inline styles we might have added
                 var header = document.querySelector('header.header-redesigned');
                 if (header) {
-                    header.style.display = '';
-                    header.style.position = '';
-                    header.style.top = '';
-                    header.style.zIndex = '';
-                    header.style.background = '';
+                    if (isMobile) {
+                        // On mobile, keep header hidden
+                        header.style.display = 'none';
+                        header.style.visibility = 'hidden';
+                        header.style.height = '0';
+                        header.style.overflow = 'hidden';
+                        header.style.margin = '0';
+                        header.style.padding = '0';
+                        header.style.opacity = '0';
+                        header.style.pointerEvents = 'none';
+                    } else {
+                        // On desktop, restore header styles
+                        header.style.display = '';
+                        header.style.position = '';
+                        header.style.top = '';
+                        header.style.zIndex = '';
+                        header.style.background = '';
+                        header.style.visibility = '';
+                        header.style.height = '';
+                        header.style.overflow = '';
+                        header.style.margin = '';
+                        header.style.padding = '';
+                        header.style.opacity = '';
+                        header.style.pointerEvents = '';
+                    }
                 }
                 
                 document.body.style.overflow = '';

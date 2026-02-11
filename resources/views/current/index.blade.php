@@ -505,7 +505,7 @@
                                         <div class="first__slider__block__green">
                                             <div class="first__slider__block__title">UPPERLICENSE: Идеальное решение для регистрации вашего бизнеса в РК</div>
                                             <div class="first__slider__block__descr">Полная автоматизация и удобство управления — откройте новые возможности для вашего бизнеса в Казахстане с нашей инновационной онлайн-платформой!</div>
-                                            <a href="#" class="first__slider__block__link">Начать регистрацию</a>
+                                            <a href="tel:+77471350000" class="first__slider__block__link">Начать регистрацию</a>
                                             <div class="first__slider__items__wrap">
                                                 <div class="first__slider__counter">
                                                     <span class="current">01</span> / <span class="total">04</span>
@@ -526,7 +526,7 @@
                                         <div class="first__slider__block__green">
                                             <div class="first__slider__block__title">Гарантируйте стабильный рост вашего бизнеса в эпоху перемен с экспертной поддержкой UPPERLICENSE</div>
                                             <div class="first__slider__block__descr">Высококлассное юридическое и бухгалтерское сопровождение от UPPERLICENSE — ваш надежный фундамент для стойкости и прогресса вашей компании</div>
-                                            <a href="#" class="first__slider__block__link">Начать регистрацию</a>
+                                            <a href="tel:+77471350000" class="first__slider__block__link">Начать регистрацию</a>
                                             <div class="first__slider__items__wrap">
                                                 <div class="first__slider__counter">
                                                     <span class="current">02</span> / <span class="total">04</span>
@@ -547,7 +547,7 @@
                                         <div class="first__slider__block__green">
                                             <div class="first__slider__block__title">Получите вашу рабочую и бизнес-визу в Казахстане легко и надежно с UPPERLICENSE. Быстро, эффективно, без хлопот</div>
                                             <div class="first__slider__block__descr">Оперативное оформление виз С3 и С5 — максимальная скорость, минимальные сроки</div>
-                                            <a href="#" class="first__slider__block__link">Начать регистрацию</a>
+                                            <a href="tel:+77471350000" class="first__slider__block__link">Начать регистрацию</a>
                                             <div class="first__slider__items__wrap">
                                                 <div class="first__slider__counter">
                                                     <span class="current">03</span> / <span class="total">04</span>
@@ -568,7 +568,7 @@
                                         <div class="first__slider__block__green">
                                             <div class="first__slider__block__title">UPPERLICENSE: Ваш ключ к беспроблемному лицензированию</div>
                                             <div class="first__slider__block__descr">Надежное сопровождение вашего процесса лицензирования «под ключ», усиленное базой данных и индивидуально адаптированным личным кабинетом для вашего максимального комфорта и удобства</div>
-                                            <a href="#" class="first__slider__block__link">Начать регистрацию</a>
+                                            <a href="tel:+77471350000" class="first__slider__block__link">Начать регистрацию</a>
                                             <div class="first__slider__items__wrap">
                                                 <div class="first__slider__counter">
                                                     <span class="current">04</span> / <span class="total">04</span>
@@ -646,7 +646,7 @@
                             </div>
                         </div>
                     </div>
-                    <a href="#" class="second__button">Узнать всё о платформе</a>
+                    <a href="{{ route('about') }}" class="second__button">Узнвфцвать всё о платформе</a>
                 </div>
             </div>
         </div>
@@ -732,7 +732,7 @@
                     </div>
                     <div class="third__footer">
                         <div class="third__footer__title">Делаем процесс лицензирования легким и доступным!</div>
-                        <a href="#" class="third__button">Оформить заявку</a>
+                        <a href="tel:+77471350000" class="third__button">Оформить заявку</a>
                     </div>
                 </div>
             </div>
@@ -752,7 +752,7 @@
                                 <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Заполнение формы на регистрацию</li>
                             </ul>
                         </div>
-                        <a href="#" class="fourth__block__items__btn">
+                        <a href="tel:+77471350000" class="fourth__block__items__btn">
                             Оформить заявку
                         </a>
                     </div>
@@ -764,7 +764,7 @@
                                 <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Регистрация в качестве участника Astana Hub International Technology Park</li>
                             </ul>
                         </div>
-                        <a href="#" class="fourth__block__items__btn">
+                        <a href="tel:+77471350000" class="fourth__block__items__btn">
                             Оформить заявку
                         </a>
                     </div>
@@ -776,7 +776,7 @@
                                 <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Подавка заявки на открытие счета</li>
                             </ul>
                         </div>
-                        <a href="#" class="fourth__block__items__btn">
+                        <a href="tel:+77471350000" class="fourth__block__items__btn">
                             Оформить заявку
                         </a>
                     </div>
@@ -787,7 +787,7 @@
                                 <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Получение лицензий и разрешительных документов для всех видов деятельности</li>
                             </ul>
                         </div>
-                        <a href="#" class="fourth__block__items__btn">
+                        <a href="tel:+77471350000" class="fourth__block__items__btn">
                             Оформить заявку
                         </a>
                     </div>
@@ -799,7 +799,7 @@
                                 <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Оформление визы в консульстве РК</li>
                             </ul>
                         </div>
-                        <a href="#" class="fourth__block__items__btn">
+                        <a href="tel:+77471350000" class="fourth__block__items__btn">
                             Оформить заявку
                         </a>
                     </div>
@@ -810,7 +810,7 @@
                                 <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Услуги юриста на аутсорсинге для вашего бизнеса</li>
                             </ul>
                         </div>
-                        <a href="#" class="fourth__block__items__btn">
+                        <a href="tel:+77471350000" class="fourth__block__items__btn">
                             Оформить заявку
                         </a>
                     </div>
@@ -822,7 +822,7 @@
                                 <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Сбор данных клиентов</li>
                             </ul>
                         </div>
-                        <a href="#" class="fourth__block__items__btn">
+                        <a href="tel:+77471350000" class="fourth__block__items__btn">
                             Оформить заявку
                         </a>
                     </div>
@@ -835,7 +835,7 @@
                                 <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Оформление РВП</li>
                             </ul>
                         </div>
-                        <a href="#" class="fourth__block__items__btn">
+                        <a href="tel:+77471350000" class="fourth__block__items__btn">
                             Оформить заявку
                         </a>
                     </div>
@@ -971,7 +971,7 @@
                                     <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Получение специализированных отраслевых услуг</li>
                                 </ul>
                             </div>
-                            <a href="#" class="sixth__block__btn">Получить консультацию</a>
+                            <a href="tel:+77471350000" class="sixth__block__btn">Получить консультацию</a>
                         </div>
                     </div>
                     <div class="col-12 col-sm-12 col-xl-6 col-lg-6 col-xs-12 sixth__block__wrap">
@@ -1153,7 +1153,7 @@
                                 <textarea id="comment"></textarea>
                             </div>
                             <div class="nineth__form__footer">
-                                <a class="nineth__form__footer__btn" href="#">Получить консультацию</a>
+                                <a class="nineth__form__footer__btn" href="tel:+77471350000">Получить консультацию</a>
                                 <div class="ninth__form__warn">Нажимая на кнопку, я соглашаюсь на обработку персональных данных </div>
                             </div>
                         </div>

@@ -2345,7 +2345,7 @@
                 </div>
             </div>
             <div class="about-us__find__btn">
-                <a href="#" class="about-us__find__btn__link">Узнать всё о платформе</a>
+                <a href="#" class="about-us__find__btn__link">Узнфцвать всё о платформе</a>
             </div>
     </section>
 

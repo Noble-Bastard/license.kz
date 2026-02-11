@@ -136,9 +136,11 @@
                 <article class="arrow-right-4BngBJ" src="{{asset('current/img/arrow-right-40.svg')}}" alt="arrow-right" />
                 <article class="arrow-right-DggT6Z" src="{{asset('current/img/arrow-right-41.svg')}}" alt="arrow-right" />
             </div>
-            <div class="button-aKwvvX">
-                <div class="text_label-sJOooA manrope-semi-bold-eucalyptus-16px">Начать регистрацию</div>
-            </div>
+            <a href="tel:+77471350000" style="text-decoration: none; color: inherit;">
+                <div class="button-aKwvvX">
+                    <div class="text_label-sJOooA manrope-semi-bold-eucalyptus-16px">Начать регистрацию</div>
+                </div>
+            </a>
             <div class="txt-aKwvvX txt">
                 <p class="upperlicense-aNYYHG upperlicense">
                     UPPERLICENSE: Идеальное решение для регистрации вашего бизнеса в РК
@@ -211,9 +213,11 @@
                     Фундамент для долгосрочного партнерства, поддержка вашего бизнеса на каждом этапе
                 </p>
             </div>
-            <div class="button-2q4aZt">
-                <div class="text_label-2g2xVW manrope-semi-bold-white-16px">Узнать всё о платформе</div>
-            </div>
+            <a href="{{ route('about') }}" style="text-decoration: none; color: inherit;">
+                <div class="button-2q4aZt">
+                    <div class="text_label-2g2xVW manrope-semi-bold-white-16px">Узнать всё о платформе</div>
+                </div>
+            </a>
         </div>
         <div class="categories-IO3Fu5">
             <p class="x-u8l2EV">
@@ -260,9 +264,11 @@
                 <article class="arrow-right-O9oJXO" src="{{asset('current/img/arrow-right-43.svg')}}" alt="arrow-right" />
             </div>
             <p class="x-eV9weN manrope-medium-eerie-black-28px">Делаем процесс лицензирования легким и доступным!</p>
-            <div class="button-u8l2EV">
-                <div class="text_label-zx5kN5 manrope-semi-bold-white-16px">Оформить заявку</div>
-            </div>
+            <a href="tel:+77471350000" style="text-decoration: none; color: inherit;">
+                <div class="button-u8l2EV">
+                    <div class="text_label-zx5kN5 manrope-semi-bold-white-16px">Оформить заявку</div>
+                </div>
+            </a>
             <img class="line-5-u8l2EV" src="{{asset('current/img/line-17-5.svg')}}" alt="Line 5" />
         </div>
         <div class="services-IO3Fu5">
@@ -311,9 +317,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="button-mcK68k">
-                    <div class="text_label-7lxepG manrope-semi-bold-eerie-black-16px">Оформить заявку</div>
-                </div>
+                <a href="tel:+77471350000" style="text-decoration: none; color: inherit;">
+                    <div class="button-mcK68k">
+                        <div class="text_label-7lxepG manrope-semi-bold-eerie-black-16px">Оформить заявку</div>
+                    </div>
+                </a>
                 <img class="element-arrow-mcK68k element-arrow" src="{{asset('current/img/element-arrow-35.svg')}}" alt="element-arrow" />
                 <img class="image-services-02-mcK68k" src="{{asset('current/img/image-services-02-2@2x.png')}}" alt="Image-Services-02" />
             </div>
@@ -479,9 +487,11 @@
             <div class="rectangle-104-yVD4xx"></div>
             <img class="image-line-yVD4xx" src="{{asset('current/img/image-line-2.svg')}}" alt="Image-Line" />
             <div class="rectangle-105-yVD4xx"></div>
-            <div class="button-yVD4xx">
-                <div class="text_label-RSvL3d manrope-semi-bold-eucalyptus-16px">Получить консультацию</div>
-            </div>
+            <a href="tel:+77471350000" style="text-decoration: none; color: inherit;">
+                <div class="button-yVD4xx">
+                    <div class="text_label-RSvL3d manrope-semi-bold-eucalyptus-16px">Получить консультацию</div>
+                </div>
+            </a>
             <p class="text_label-yVD4xx">Пользователю портала предоставляется простой и удобный личный кабинет</p>
             <div class="frame-156-yVD4xx frame-156">
                 <div class="frame-118">
@@ -535,9 +545,11 @@
                         <div class="text_label-ROPbPy manrope-semi-bold-mountain-mist-16px">Оставьте свой комментарий</div>
                     </div>
                 </div>
-                <div class="button-Tj6uoL">
-                    <div class="text_label-h7BP9b manrope-semi-bold-white-16px">Получить консультацию</div>
-                </div>
+                <a href="tel:+77471350000" style="text-decoration: none; color: inherit;">
+                    <div class="button-Tj6uoL">
+                        <div class="text_label-h7BP9b manrope-semi-bold-white-16px">Получить консультацию</div>
+                    </div>
+                </a>
                 <img class="rectangle-95-Tj6uoL rectangle-95" src="{{asset('current/img/element-arrow-35.svg')}}" alt="Rectangle 95" />
                 <p class="x-Tj6uoL manrope-semi-bold-eerie-black-14px">
               <span class="span0-I8Z1xh manrope-semi-bold-eerie-black-14px">Нажимая на кнопку, я соглашаюсь на </span
@@ -912,9 +924,11 @@
                     Полная автоматизация и удобство управления — откройте новые возможности для вашего бизнеса в Казахстане с
                     нашей инновационной онлайн-платформой!
                 </p>
-                <div class="button-poaWf3">
-                    <div class="text_label-aq7Z6p manrope-semi-bold-eucalyptus-16px">Начать регистрацию</div>
-                </div>
+                <a href="tel:+77471350000" style="text-decoration: none; color: inherit;">
+                    <div class="button-poaWf3">
+                        <div class="text_label-aq7Z6p manrope-semi-bold-eucalyptus-16px">Начать регистрацию</div>
+                    </div>
+                </a>
             </div>
             <div class="frame-158">
                 <div class="x01-04 manrope-medium-black-haze-16px">01 / 04</div>
@@ -992,9 +1006,11 @@
                     </div>
                 </div>
             </div>
-            <div class="button-2XJxe4">
-                <div class="text_label-2TqQTx manrope-semi-bold-white-16px">Узнать всё о платформе</div>
-            </div>
+            <a href="{{ route('about') }}" style="text-decoration: none; color: inherit;">
+                <div class="button-2XJxe4">
+                    <div class="text_label-2TqQTx manrope-semi-bold-white-16px">Узнатфцвь всё о платформе</div>
+                </div>
+            </a>
         </div>
         <div class="categories-rwxf71">
             <p class="x-ZW8NVc x">
@@ -1106,9 +1122,11 @@
             </div>
             <div class="frame-163-ZW8NVc">
                 <p class="x-ld92tT x manrope-medium-eerie-black-20px">Делаем процесс лицензирования легким и доступным!</p>
-                <div class="button-ld92tT">
-                    <div class="text_label-T3JBS3 manrope-semi-bold-white-16px">Узнать всё о платформе</div>
-                </div>
+                <a href="{{ route('about') }}" style="text-decoration: none; color: inherit;">
+                    <div class="button-ld92tT">
+                        <div class="text_label-T3JBS3 manrope-semi-bold-white-16px">Узнвфцафцвть всё о платформе</div>
+                    </div>
+                </a>
             </div>
         </div>
         <div class="categories-Y1hAoq">
@@ -1164,9 +1182,11 @@
                             alt="Image-Spheres-01"
                     />
                     <img class="element-arrow-VklvHK element-arrow" src="{{asset('current/img/element-arrow-35.svg')}}" alt="element-arrow" />
-                    <div class="button-VklvHK">
-                        <div class="text_label-uPaNn3 manrope-semi-bold-eerie-black-16px">Оформить заявку</div>
-                    </div>
+                    <a href="tel:+77471350000" style="text-decoration: none; color: inherit;">
+                        <div class="button-VklvHK">
+                            <div class="text_label-uPaNn3 manrope-semi-bold-eerie-black-16px">Оформить заявку</div>
+                        </div>
+                    </a>
                 </article>
                 <article class="card-AjF9Nx customCard">
                     <div class="text_label-NZKw0A manrope-medium-eerie-black-20px">Открытие банковских счетов</div>
@@ -1377,9 +1397,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="button-wsAiuV">
-                        <div class="text_label-knDCJz manrope-semi-bold-eucalyptus-16px">Получить консультацию</div>
-                    </div>
+                    <a href="tel:+77471350000" style="text-decoration: none; color: inherit;">
+                        <div class="button-wsAiuV">
+                            <div class="text_label-knDCJz manrope-semi-bold-eucalyptus-16px">Получить консультацию</div>
+                        </div>
+                    </a>
                 </div>
                 <div class="frame-158">
                     <div class="x01-04 manrope-medium-black-haze-16px">01 / 04</div>
@@ -1555,9 +1577,11 @@
                         <div class="text_label-7ocO1H manrope-semi-bold-mountain-mist-16px">Оставьте свой комментарий</div>
                     </div>
                 </div>
-                <div class="button-b20BCX">
-                    <div class="text_label-MRYc4E manrope-semi-bold-white-16px">Получить консультацию</div>
-                </div>
+                <a href="tel:+77471350000" style="text-decoration: none; color: inherit;">
+                    <div class="button-b20BCX">
+                        <div class="text_label-MRYc4E manrope-semi-bold-white-16px">Получить консультацию</div>
+                    </div>
+                </a>
                 <p class="x-b20BCX x manrope-semi-bold-eerie-black-14px">
               <span class="span0-bXszWl manrope-semi-bold-eerie-black-14px">Нажимая на кнопку, я соглашаюсь на </span
               ><a href="https://skillbox.ru/privacy_policy.pdf" target="_blank"
