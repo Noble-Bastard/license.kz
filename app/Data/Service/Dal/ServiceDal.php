@@ -17,7 +17,7 @@ use App\Data\RegistrationFormTemplate\Model\ServiceRegistrationFormTemplate;
 use App\Data\Service\Helper\CommercialOfferTypeList;
 use App\Data\Service\Model\CommercialOffer;
 use App\Data\Service\Model\CommercialOfferService;
-use App\Data\Core\Model\Currency;
+use App\Data\Service\Model\Currency;
 use App\Data\Service\Model\Service;
 use App\Data\Service\Model\ServiceStep;
 use App\Data\Service\Model\ServiceCostHist;
