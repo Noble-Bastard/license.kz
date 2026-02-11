@@ -71,77 +71,71 @@
     // /extra_services/visa_c3 - Виза С3
     // /extra_services/visa_c5 - Виза С5
     // /extra_services/branch_registration - Регистрация филиала
+    // Типы разделов:
+    // 'licensing' — показывает все service_categories как подразделы с переходом
+    // 'extra_services' — показывает список extra_services как подразделы
+    // 'direct_url' — прямая ссылка, без подкатегорий
+    // 'phone' — ссылка на телефон (нет подкатегорий, нет страницы)
     $sectionConfigs = [
-      'Лицензирование' => ['icon' => '/new/images/icons/uslugicompany.png', 'keywords' => ['лицензи'], 'url' => null],
-      'Регистрация компании' => ['icon' => '/new/images/icons/03b375c18b171e19614532b0cdee72ca6e55971b.png', 'keywords' => ['регистрац', 'компани'], 'url' => '/extra_services/company'],
-      'Юридическое сопровождение' => ['icon' => '/new/images/icons/uslugilaw.png', 'keywords' => ['юридическ'], 'url' => null],
-      'Бухгалтерский аутсорсинг' => ['icon' => '/new/images/icons/uslugibuh.png', 'keywords' => ['бухгалтер', 'аутсорс'], 'url' => null],
-      'Получение визы С3 и С5' => ['icon' => '/new/images/icons/uslugivisa.png', 'keywords' => ['виза'], 'url' => null],
-      'Дополнительные услуги' => ['icon' => '/new/images/icons/uslugiplus.png', 'keywords' => [], 'url' => null],
-      'Регистрация компании в СЭЗ и МФЦА' => ['icon' => '/new/images/icons/5dc86ec46fe074b98a02e0993dc9458c53e8509e.png', 'keywords' => ['сэз', 'мфца'], 'url' => null],
-      'Открытие банковских счетов' => ['icon' => '/new/images/icons/uslugibank.png', 'keywords' => ['банковск', 'счет'], 'url' => '/extra_services/open_bank_account']
-
+      'Лицензирование' => ['icon' => '/new/images/icons/uslugicompany.png', 'type' => 'licensing'],
+      'Регистрация компании' => ['icon' => '/new/images/icons/03b375c18b171e19614532b0cdee72ca6e55971b.png', 'type' => 'direct_url', 'url' => '/extra_services/company'],
+      'Юридическое сопровождение' => ['icon' => '/new/images/icons/uslugilaw.png', 'type' => 'phone'],
+      'Бухгалтерский аутсорсинг' => ['icon' => '/new/images/icons/uslugibuh.png', 'type' => 'phone'],
+      'Получение визы С3 и С5' => ['icon' => '/new/images/icons/uslugivisa.png', 'type' => 'direct_url', 'url' => '/extra_services/visa_c3'],
+      'Дополнительные услуги' => ['icon' => '/new/images/icons/uslugiplus.png', 'type' => 'extra_services'],
+      'Регистрация компании в СЭЗ и МФЦА' => ['icon' => '/new/images/icons/5dc86ec46fe074b98a02e0993dc9458c53e8509e.png', 'type' => 'phone'],
+      'Открытие банковских счетов' => ['icon' => '/new/images/icons/uslugibank.png', 'type' => 'direct_url', 'url' => '/extra_services/open_bank_account'],
     ];
     
-    // Находим категорию для каждого раздела
+    // Список дополнительных услуг (extra_services) с названиями из БД
+    $extraServicesList = [];
+    try {
+      $extraServiceRepo = app(\App\Repositories\Interfaces\IExtraServiceRepository::class);
+      $extraCodes = ['company', 'iin', 'bin', 'open_bank_account', 'ecp', 'llp_change_documents', 'llp_reregistration', 'visa_c3', 'visa_c5', 'branch_registration'];
+      foreach ($extraCodes as $code) {
+        $extraService = $extraServiceRepo->getByCode($code);
+        if ($extraService) {
+          $extraServicesList[] = [
+            'name' => $extraService->name,
+            'url' => '/extra_services/' . $code,
+          ];
+        }
+      }
+    } catch (\Exception $e) {
+      // Fallback с захардкоженными названиями
+      $extraServicesList = [
+        ['name' => 'Регистрация ТОО', 'url' => '/extra_services/company'],
+        ['name' => 'Получение ИИН', 'url' => '/extra_services/iin'],
+        ['name' => 'Получение БИН', 'url' => '/extra_services/bin'],
+        ['name' => 'Открытие банковского счета', 'url' => '/extra_services/open_bank_account'],
+        ['name' => 'Получение ЭЦП', 'url' => '/extra_services/ecp'],
+        ['name' => 'Изменение документов ТОО', 'url' => '/extra_services/llp_change_documents'],
+        ['name' => 'Перерегистрация ТОО', 'url' => '/extra_services/llp_reregistration'],
+        ['name' => 'Виза С3', 'url' => '/extra_services/visa_c3'],
+        ['name' => 'Виза С5', 'url' => '/extra_services/visa_c5'],
+        ['name' => 'Регистрация филиала', 'url' => '/extra_services/branch_registration'],
+      ];
+    }
+    
+    // Формируем разделы меню
     $sections = [];
     foreach ($sectionConfigs as $sectionName => $config) {
-      $categoryId = null;
+      $type = $config['type'];
+      $url = $config['url'] ?? null;
       
-      if (!empty($config['keywords'])) {
-        foreach ($categoryList as $category) {
-          $categoryNameLower = mb_strtolower($category->name);
-          $matched = false;
-          foreach ($config['keywords'] as $keyword) {
-            if (strpos($categoryNameLower, $keyword) !== false) {
-              $matched = true;
-              break;
-            }
-          }
-          if ($matched) {
-            $categoryId = $category->id;
-            break;
-          }
-        }
-      }
-      
-      // Если не нашли по ключевым словам, проверяем маппинг
-      if (!$categoryId && isset($categoryMapping[mb_strtolower($sectionName)])) {
-        $categoryId = $categoryMapping[mb_strtolower($sectionName)];
-      }
-      
-      // Если не нашли категорию, проверяем все категории по частичному совпадению
-      if (!$categoryId) {
-        $sectionNameLower = mb_strtolower($sectionName);
-        foreach ($categoryList as $category) {
-          $categoryNameLower = mb_strtolower($category->name);
-          // Ищем частичное совпадение в любом направлении
-          if (!empty($sectionNameLower) && !empty($categoryNameLower) && (
-              strpos($sectionNameLower, $categoryNameLower) !== false || 
-              strpos($categoryNameLower, $sectionNameLower) !== false ||
-              similar_text($sectionNameLower, $categoryNameLower) / max(mb_strlen($sectionNameLower), mb_strlen($categoryNameLower), 1) > 0.5)) {
-            $categoryId = $category->id;
-            break;
-          }
-        }
-      }
-      
-      // Если это первый раздел и не нашли категорию, берем первую из списка
-      if (!$categoryId && $sectionName === 'Лицензирование' && $categoryList->count() > 0) {
-        $categoryId = $categoryList->first()->id;
-      }
-      
-      // Для всех остальных разделов без категории, используем первую доступную
-      if (!$categoryId && $categoryList->count() > 0) {
-        $categoryId = $categoryList->first()->id;
+      // Для типов phone — ссылка на телефон
+      if ($type === 'phone') {
+        $url = 'tel:+77471350000';
       }
       
       $sections[] = [
         'name' => $sectionName,
         'icon' => $config['icon'],
-        'categoryId' => $categoryId,
-        'url' => $config['url'] ?? null,
-        'isLicensing' => ($sectionName === 'Лицензирование')
+        'categoryId' => null,
+        'url' => $url,
+        'isLicensing' => ($type === 'licensing'),
+        'isExtraServices' => ($type === 'extra_services'),
+        'type' => $type,
       ];
     }
     
@@ -175,15 +169,15 @@
     
     // Порядок отображения подразделов для "Лицензирование"
     $licensingOrder = [
-      'Безопасность',
-      'Естественные монополии',
-      'Защита конкуренции',
-      'Здравоохранение',
-      'Земельные отношения',
-      'Экспорт товаров',
-      'Импорт товаров',
-      'Культура',
-      'Строительство'
+        'Безопасность',
+        'Естественные монополии',
+        'Защита конкуренции',
+        'Здравоохранение',
+        'Земельные отношения',
+        'Экспорт товаров',
+        'Импорт товаров',
+        'Культура',
+        'Строительство'
     ];
     
     // Сортируем: сначала заданный порядок, потом остальные
@@ -344,17 +338,8 @@
                               ? $categoryDataMap[$section['categoryId']]
                               : null;
                           @endphp
-                          @if($section['url'])
-                            <a href="{{ $section['url'] }}" class="services-mobile-section-link">
-                              <span class="services-mobile-section-link__icon">
-                                <img src="{{ asset($section['icon']) }}" alt="{{ $section['name'] }}" onerror="this.style.visibility='hidden'">
-                              </span>
-                              <span class="services-mobile-section-link__label">{{ $section['name'] }}</span>
-                              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M6 12L10 8L6 4" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                              </svg>
-                            </a>
-                          @elseif($categoryData && !empty($categoryData['groupedItems']))
+                          @if(!empty($section['isLicensing']) || !empty($section['isExtraServices']))
+                            {{-- Лицензирование или Дополнительные услуги — кнопка для открытия подменю --}}
                             <button class="services-mobile-section-link" type="button" data-mobile-open="{{ $sectionIndex }}">
                               <span class="services-mobile-section-link__icon">
                                 <img src="{{ asset($section['icon']) }}" alt="{{ $section['name'] }}" onerror="this.style.visibility='hidden'">
@@ -364,17 +349,23 @@
                                 <path d="M6 12L10 8L6 4" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                               </svg>
                             </button>
+                          @elseif($section['url'])
+                            {{-- Прямая ссылка (регистрация, визы, банк, телефон) --}}
+                            <a href="{{ $section['url'] }}" class="services-mobile-section-link">
+                              <span class="services-mobile-section-link__icon">
+                                <img src="{{ asset($section['icon']) }}" alt="{{ $section['name'] }}" onerror="this.style.visibility='hidden'">
+                              </span>
+                              <span class="services-mobile-section-link__label">{{ $section['name'] }}</span>
+                              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M6 12L10 8L6 4" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                              </svg>
+                            </a>
                           @endif
                         @endforeach
                       </div>
 
                       @foreach($sections as $sectionIndex => $section)
-                        @php
-                          $categoryData = isset($section['categoryId'], $categoryDataMap[$section['categoryId']])
-                            ? $categoryDataMap[$section['categoryId']]
-                            : null;
-                        @endphp
-                        @if($categoryData && !empty($categoryData['groupedItems']))
+                        @if(!empty($section['isLicensing']) || !empty($section['isExtraServices']))
                           <div class="services-mobile-detail" 
                                data-mobile-detail="{{ $sectionIndex }}"
                                data-section-name="{{ $section['name'] }}">
@@ -401,94 +392,22 @@
                                       </svg>
                                     </a>
                                   @endforeach
-                                @else
-                                  {{-- Другие разделы: используем groupedItems --}}
-                                  @foreach($categoryData['groupedItems'] as $group)
-                                    @php
-                                      $groupTitle = $group['title'] ?? null;
-                                      $groupPrettyUrl = $group['pretty_url'] ?? null;
-                                      if (!$groupTitle && !empty($group['items'])) {
-                                        $firstItem = collect($group['items'])->first();
-                                        $groupTitle = $firstItem['name'] ?? null;
-                                        $groupPrettyUrl = $firstItem['pretty_url'] ?? $groupPrettyUrl;
-                                      }
-                                      $groupUrl = $groupPrettyUrl ? '/service-group/' . $groupPrettyUrl : '#';
-                                    @endphp
-                                    @if($groupTitle)
-                                      <a href="{{ $groupUrl }}" 
-                                         class="services-mobile-subsection-link"
-                                         data-subsection-title="{{ $groupTitle }}">
-                                        <span>{{ $groupTitle }}</span>
-                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                          <path d="M6 12L10 8L6 4" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                        </svg>
-                                      </a>
-                                    @endif
+                                @elseif(!empty($section['isExtraServices']))
+                                  {{-- Дополнительные услуги: список extra_services из БД --}}
+                                  @foreach($extraServicesList as $extraSvc)
+                                    <a href="{{ $extraSvc['url'] }}" 
+                                       class="services-mobile-subsection-link"
+                                       data-subsection-title="{{ $extraSvc['name'] }}">
+                                      <span>{{ $extraSvc['name'] }}</span>
+                                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M6 12L10 8L6 4" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                      </svg>
+                                    </a>
                                   @endforeach
                                 @endif
                               </div>
                               
-                              <!-- Детальные списки для каждого подраздела (не для Лицензирования) -->
-                              @if(empty($section['isLicensing']) && isset($subsectionTitles))
-                              @foreach($subsectionTitles as $subsectionIndex => $subsectionTitle)
-                                @php
-                                  // Находим соответствующий groupedItem для этого заголовка
-                                  $subsectionData = null;
-                                  $subsectionTitleNormalized = mb_strtolower(trim($subsectionTitle));
-                                  
-                                  // Сначала пытаемся найти точное совпадение
-                                  foreach($categoryData['groupedItems'] as $group) {
-                                    $groupTitleNormalized = mb_strtolower(trim($group['title'] ?? ''));
-                                    if ($groupTitleNormalized === $subsectionTitleNormalized) {
-                                      $subsectionData = $group;
-                                      break;
-                                    }
-                                  }
-                                  
-                                  // Если не нашли точное совпадение, пытаемся найти частичное
-                                  if (!$subsectionData && !empty($subsectionTitleNormalized)) {
-                                    foreach($categoryData['groupedItems'] as $group) {
-                                      $groupTitleNormalized = mb_strtolower(trim($group['title'] ?? ''));
-                                      if (empty($groupTitleNormalized)) continue;
-                                      // Проверяем частичное совпадение в любом направлении
-                                      if (strpos($groupTitleNormalized, $subsectionTitleNormalized) !== false || 
-                                          strpos($subsectionTitleNormalized, $groupTitleNormalized) !== false) {
-                                        $subsectionData = $group;
-                                        break;
-                                      }
-                                    }
-                                  }
-                                  
-                                  $subsectionId = "subsection-{$sectionIndex}-{$subsectionIndex}";
-                                @endphp
-                                <div class="services-mobile-subsection-detail" 
-                                     data-mobile-subsection-detail="{{ $subsectionId }}"
-                                     data-subsection-title="{{ $subsectionTitle }}">
-                                  <div class="services-mobile-subsection__list">
-                                    @if($subsectionData && !empty($subsectionData['items']))
-                                      @foreach($subsectionData['items'] as $item)
-                                        <a href="{{ getServiceUrl($item, $extraServicesMapping) }}" 
-                                           class="services-mobile-detail__item">
-                                          <div class="services-mobile-detail__item-text">
-                                            <span class="services-mobile-detail__item-title">{{ $item['name'] }}</span>
-                                            @if(!empty($item['description']))
-                                              <span class="services-mobile-detail__item-description">{{ strip_tags($item['description']) }}</span>
-                                            @endif
-                                          </div>
-                                          <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path d="M6 12L10 8L6 4" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                          </svg>
-                                        </a>
-                                      @endforeach
-                                    @else
-                                      <div class="services-mobile-detail__item" style="padding: 20px; text-align: center; color: #6F6F6F;">
-                                        {{ __('Нет доступных услуг') }}
-                                      </div>
-                                    @endif
-                                  </div>
-                                </div>
-                              @endforeach
-                              @endif
+                              {{-- Прямые переходы — детальных списков не нужно --}}
                             </div>
                           </div>
                         @endif
