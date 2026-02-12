@@ -2,24 +2,24 @@
 @section('content')
   {{-- Mobile Header for Service Pages --}}
   <div class="services-inline-header-wrapper">
-    <div class="services-inline-header d-lg-none">
-      <a href="{{ route('new-index') }}" class="services-inline-header__logo">
-        <img src="{{ asset('/new/images/icons/Frame7.png') }}" alt="UPPERLICENSE">
-      </a>
-      <div class="services-inline-header__actions">
-        <a href="tel:+77471350000" class="services-inline-header__icon">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122L9.98 10.98s-.787.205-1.994-1.002C6.782 8.774 6.987 7.987 6.987 7.987l.549-1.805a.678.678 0 0 0-.122-.58L5.62 3.295a.678.678 0 0 0-.58-.122z" fill="#191E1D"/>
-          </svg>
-        </a>
-        <button type="button" class="services-inline-header__icon" data-close-inline-header onclick="var path = window.location.pathname.split('/').filter(function(p){return p.length>0}); var locale = (path.length>0 && ['en','ru','kz'].includes(path[0])) ? path[0] : 'en'; window.location.href = '/' + locale; return false;">
-          <svg width="12" height="12" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M1 1L13 13" stroke="#279760" stroke-width="1.4" stroke-linecap="round"/>
-            <path d="M13 1L1 13" stroke="#279760" stroke-width="1.4" stroke-linecap="round"/>
-          </svg>
-        </button>
-      </div>
-    </div>
+{{--    <div class="services-inline-header d-lg-none">--}}
+{{--      <a href="{{ route('new-index') }}" class="services-inline-header__logo">--}}
+{{--        <img src="{{ asset('/new/images/icons/Frame7.png') }}" alt="UPPERLICENSE">--}}
+{{--      </a>--}}
+{{--      <div class="services-inline-header__actions">--}}
+{{--        <a href="tel:+77471350000" class="services-inline-header__icon">--}}
+{{--          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">--}}
+{{--            <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.568 17.568 0 0 0 4.168 6.608 17.569 17.569 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.678.678 0 0 0-.58-.122L9.98 10.98s-.787.205-1.994-1.002C6.782 8.774 6.987 7.987 6.987 7.987l.549-1.805a.678.678 0 0 0-.122-.58L5.62 3.295a.678.678 0 0 0-.58-.122z" fill="#191E1D"/>--}}
+{{--          </svg>--}}
+{{--        </a>--}}
+{{--        <button type="button" class="services-inline-header__icon" data-close-inline-header onclick="var path = window.location.pathname.split('/').filter(function(p){return p.length>0}); var locale = (path.length>0 && ['en','ru','kz'].includes(path[0])) ? path[0] : 'en'; window.location.href = '/' + locale; return false;">--}}
+{{--          <svg width="12" height="12" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">--}}
+{{--            <path d="M1 1L13 13" stroke="#279760" stroke-width="1.4" stroke-linecap="round"/>--}}
+{{--            <path d="M13 1L1 13" stroke="#279760" stroke-width="1.4" stroke-linecap="round"/>--}}
+{{--          </svg>--}}
+{{--        </button>--}}
+{{--      </div>--}}
+{{--    </div>--}}
   </div>
   <div class="services-inline-subheader d-lg-none">
     <a href="{{ route('new-services') }}" class="services-inline-subheader__btn">&lt; {{ __('Услуги') }}</a>
@@ -690,7 +690,6 @@
 
     .services-inline-header {
       display: flex;
-      padding: 2px 16px 0 16px;
       background: #ffffff;
       border-bottom: 1px solid #E8E8E8;
       align-items: flex-start;
