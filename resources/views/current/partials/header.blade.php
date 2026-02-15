@@ -456,40 +456,82 @@
 </header>
 <div class="modals">
   <div class="modal fade" id="consultModal" tabindex="-1" aria-labelledby="consultModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-      <div class="modal-content">
-        <button type="button" class="btn modal_close" data-bs-dismiss="modal" aria-label="Close"><i
-            class="bi bi-x modals__icon"></i></button>
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 520px; margin-top: 80px;">
+      <div class="modal-content" style="border-radius: 16px; border: none; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15); overflow: hidden;">
+        <button type="button" class="btn modal_close" data-bs-dismiss="modal" aria-label="Close" style="position: absolute; top: 16px; right: 16px; z-index: 10; width: 32px; height: 32px; padding: 0; display: flex; align-items: center; justify-content: center; background: #F5F5F5; border-radius: 50%; border: none; cursor: pointer; transition: all 0.2s;">
+          <i class="bi bi-x" style="font-size: 18px; color: #191E1D;"></i>
+        </button>
 
-
-          <div class="modal-body">
-            <p class="modals__title-head">Менеджер перезвонит и проконсультирует вас</p>
+          <div class="modal-body" style="padding: 40px 32px 32px;">
+            <h3 class="modals__title-head" style="font-family: 'Manrope', sans-serif; font-size: 24px; font-weight: 600; color: #191E1D; margin-bottom: 24px; line-height: 1.3; text-align: center;">Менеджер перезвонит и проконсультирует вас</h3>
             {!! Form::open(['url' => route('callMe'), 'method' => 'post', 'class' => 'callMe']) !!}
             <input type="hidden" name="tags" value="Callback">
             <input type="hidden" name="comment" value="Заказ звонка">
             <input type="hidden" name="source_page" id="callback_source_page" value="">
             <input type="hidden" name="button_text" id="callback_button_text" value="">
-            <div class="col-12">
-              <div class="row">
-                <div class="col-lg-6 col-12">
+            <div class="col-12" style="margin-bottom: 20px;">
+              <div class="row" style="gap: 16px; margin: 0;">
+                <div class="col-12" style="padding: 0;">
                   <input type="text" class="form-control modals__input" name="name"
-                         placeholder="Ваше имя" required>
+                         placeholder="Ваше имя" required
+                         style="width: 100%; padding: 14px 16px; border: 1px solid #E8E8E8; border-radius: 8px; font-family: 'Manrope', sans-serif; font-size: 14px; color: #191E1D; background: #FFFFFF; transition: all 0.2s; margin-bottom: 0;">
                 </div>
-                <div class="col-lg-6 col-12">
+                <div class="col-12" style="padding: 0;">
                   <input type="text" class="form-control modals__input" name="phone"
-                         placeholder="Ваш телефон*" required>
+                         placeholder="Ваш телефон*" required
+                         style="width: 100%; padding: 14px 16px; border: 1px solid #E8E8E8; border-radius: 8px; font-family: 'Manrope', sans-serif; font-size: 14px; color: #191E1D; background: #FFFFFF; transition: all 0.2s;">
                 </div>
               </div>
             </div>
-            <button type="submit" class="btn btn-success modals__success_btn">Отправить</button>
-            <p class="modals__title-description">Нажимая кнопку отправить вы даете разрешение на обработку
-              персональных данных</p>
+            <button type="submit" class="btn btn-success modals__success_btn" style="width: 100%; padding: 14px; background: #279760; color: #FFFFFF; border: none; border-radius: 8px; font-family: 'Manrope', sans-serif; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin-bottom: 16px;">Отправить</button>
+            <p class="modals__title-description" style="font-family: 'Manrope', sans-serif; font-size: 12px; color: #6F6F6F; text-align: center; margin: 0; line-height: 1.4;">Нажимая кнопку отправить вы даете разрешение на обработку персональных данных</p>
             {!! Form::close() !!}
           </div>
 
       </div>
     </div>
   </div>
+  
+  <style>
+    #consultModal .modal-dialog {
+        margin-top: 80px !important;
+    }
+    
+    #consultModal .modal-backdrop {
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+    
+    #consultModal .modals__input:focus {
+        outline: none;
+        border-color: #279760;
+        box-shadow: 0 0 0 3px rgba(39, 151, 96, 0.1);
+    }
+    
+    #consultModal .modals__success_btn:hover {
+        background: #1e7a50 !important;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(39, 151, 96, 0.3);
+    }
+    
+    #consultModal .modals__success_btn:active {
+        transform: translateY(0);
+    }
+    
+    #consultModal .modal_close:hover {
+        background: #E8E8E8 !important;
+    }
+    
+    @media (max-width: 576px) {
+        #consultModal .modal-dialog {
+            margin: 20px;
+            max-width: calc(100% - 40px);
+        }
+        
+        #consultModal .modal-body {
+            padding: 32px 24px 24px !important;
+        }
+    }
+  </style>
   @php
     if(optional($errors)->login){
         $loginError = $errors->login;
