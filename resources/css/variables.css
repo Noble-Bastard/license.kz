@@ -161,3 +161,20 @@
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+/* ========================================
+   GLOBAL LINK STYLES
+   Убираем синий цвет и подчеркивание при клике
+======================================== */
+
+a,
+a:link,
+a:visited,
+a:active {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: none;
+}

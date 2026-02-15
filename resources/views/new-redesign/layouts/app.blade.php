@@ -35,6 +35,21 @@
 
     @yield('css')
 
+    <style>
+        /* Global Link Styles - Убираем синий цвет и подчеркивание при клике */
+        a,
+        a:link,
+        a:visited,
+        a:active {
+            text-decoration: none !important;
+            color: inherit;
+        }
+        
+        a:hover {
+            text-decoration: none !important;
+        }
+    </style>
+
     <link href="{{asset('libs/font-awesome/css/all.min.css')}}" rel="stylesheet" type="text/css">
     <link rel="shortcut icon" href="{{asset('images/favicon.png')}}"/>
     <!-- Prefetch services page for faster modal loading -->

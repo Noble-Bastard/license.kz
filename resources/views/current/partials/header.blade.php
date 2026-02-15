@@ -436,7 +436,7 @@
           </li>
           <li class="new_mobile_main_menu_panel_nav_item">
             <a href="#" class="new_mobile_main_menu_panel_nav_link">
-              Faq
+              FAQ
               <img class="arrow" src="{{asset('/new/images/icons/new/arrow_right.svg')}}"
                    alt="arrow_right"/>
             </a>
@@ -467,6 +467,8 @@
             {!! Form::open(['url' => route('callMe'), 'method' => 'post', 'class' => 'callMe']) !!}
             <input type="hidden" name="tags" value="Callback">
             <input type="hidden" name="comment" value="Заказ звонка">
+            <input type="hidden" name="source_page" id="callback_source_page" value="">
+            <input type="hidden" name="button_text" id="callback_button_text" value="">
             <div class="col-12">
               <div class="row">
                 <div class="col-lg-6 col-12">
@@ -567,6 +569,31 @@
 
 
       $('input[name="phone"]').inputmask("+7 (999) 999-99-99");
+
+      // Обработчик кликов на телефонные ссылки
+      $(document).on('click', 'a[href^="tel:"]', function(e) {
+          e.preventDefault();
+          var $link = $(this);
+          var buttonText = $link.text().trim() || $link.find('span').text().trim() || 'Телефон';
+          var sourcePage = window.location.href;
+          
+          // Заполняем скрытые поля формы
+          $('#callback_source_page').val(sourcePage);
+          $('#callback_button_text').val(buttonText);
+          
+          // Открываем модальное окно
+          var modal = new bootstrap.Modal(document.getElementById('consultModal'));
+          modal.show();
+          
+          // Отправляем событие в Google Analytics
+          if (typeof gtag !== 'undefined') {
+              gtag('event', 'click', {
+                  'event_category': 'phone',
+                  'event_label': buttonText,
+                  'page_path': sourcePage
+              });
+          }
+      });
 
       $('.callMe').submit(function () {
 

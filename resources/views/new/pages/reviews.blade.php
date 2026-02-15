@@ -329,7 +329,7 @@
 
                 <div class="client-case-detail">
                     <div class="client-case-detail__left">
-                        <h3 class="client-case-detail__title">Розничная торговля путём заказа товаров по почте</h3>
+                        <h3 class="client-case-detail__title">Получение лицензии на проведение СМР 1 категории</h3>
                         <div class="client-case-detail__client-info">
                             <div class="client-case-detail__logo">
                                 <span class="logo-text">ТН</span>

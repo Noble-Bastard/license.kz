@@ -81,7 +81,7 @@
         <div class="footer-legal">
             
             <div class="footer-legal__bar">
-                <span class="footer-copyright">©2023 UPPERLICENSE</span>
+                <span class="footer-copyright">©2026 UPPERLICENSE</span>
                 <a href="#" class="footer-privacy">Политика конфиденциальности</a>
             </div>
         </div>

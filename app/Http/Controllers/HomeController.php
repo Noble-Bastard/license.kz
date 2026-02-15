@@ -171,12 +171,28 @@ class HomeController extends Controller
             $comment = Input::get('comment');
         }
 
+        // Получаем информацию о странице и кнопке
+        $sourcePage = Input::has('source_page') ? Input::get('source_page') : null;
+        $buttonText = Input::has('button_text') ? Input::get('button_text') : null;
+        
+        // Формируем расширенный комментарий с полной информацией
+        $fullComment = $comment;
+        if ($sourcePage || $buttonText) {
+            $fullComment .= "\n\n";
+            if ($sourcePage) {
+                $fullComment .= "Страница: " . $sourcePage . "\n";
+            }
+            if ($buttonText) {
+                $fullComment .= "Кнопка: " . $buttonText . "\n";
+            }
+        }
+
         $tags = null;
         if(Input::has('tags')){
             $tags = Input::get('tags');
         }
       $roistatVisitId = array_key_exists('roistat_visit', $_COOKIE) ? $_COOKIE['roistat_visit'] : "Ğ½ĞµĞ¸Ğ·Ğ²ĞµÑ�Ñ‚Ğ½Ğ¾";
-        (new AMOCrm())->callMe('license-kz-callback', $fio, $phone, $email, $comment, 'ĞŸĞ¾Ğ·Ğ²Ğ¾Ğ½Ğ¸Ñ‚ÑŒ Ğ¼Ğ½Ğµ', $tags, $roistatVisitId);
+        (new AMOCrm())->callMe('license-kz-callback', $fio, $phone, $email, $fullComment, 'ĞŸĞ¾Ğ·Ğ²Ğ¾Ğ½Ğ¸Ñ‚ÑŒ Ğ¼Ğ½Ğµ', $tags, $roistatVisitId, $sourcePage, $buttonText);
 
         return response()->json("1");
     }

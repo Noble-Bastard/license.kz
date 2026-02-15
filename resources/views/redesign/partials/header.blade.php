@@ -84,7 +84,7 @@
                             <li><a href="{{ route('about') }}">О компании</a></li>
                             <li><a href="{{ route('news.list') }}">Блог</a></li>
                             <li><a href="{{ route('new-reviews') }}">Отзывы</a></li>
-                            <li><a href="{{ route('faq') }}">Faq</a></li>
+                            <li><a href="{{ route('faq') }}">FAQ</a></li>
                             <li><a href="{{ route('partners') }}">Партнёрам</a></li>
                         </ul>
                     </div>
@@ -338,7 +338,7 @@
                 </svg>
             </a>
             <a href="{{ route('faq') }}" class="mobile-menu__nav-link">
-                <span>Faq</span>
+                <span>FAQ</span>
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M6 12L10 8L6 4" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
@@ -384,6 +384,8 @@
                 {!! Form::open(['url' => route('callMe'), 'method' => 'post', 'class' => 'callMe']) !!}
                 <input type="hidden" name="tags" value="Callback">
                 <input type="hidden" name="comment" value="Заказ звонка">
+                <input type="hidden" name="source_page" id="callback_source_page" value="">
+                <input type="hidden" name="button_text" id="callback_button_text" value="">
                 <div class="col-12">
                     <div class="row">
                         <div class="col-lg-6 col-12">
@@ -461,6 +463,31 @@
                 }
             });
         }
+
+        // Обработчик кликов на телефонные ссылки
+        $(document).on('click', 'a[href^="tel:"]', function(e) {
+            e.preventDefault();
+            var $link = $(this);
+            var buttonText = $link.text().trim() || $link.find('span').text().trim() || 'Телефон';
+            var sourcePage = window.location.href;
+            
+            // Заполняем скрытые поля формы
+            $('#callback_source_page').val(sourcePage);
+            $('#callback_button_text').val(buttonText);
+            
+            // Открываем модальное окно
+            var modal = new bootstrap.Modal(document.getElementById('consultModal'));
+            modal.show();
+            
+            // Отправляем событие в Google Analytics
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'click', {
+                    'event_category': 'phone',
+                    'event_label': buttonText,
+                    'page_path': sourcePage
+                });
+            }
+        });
 
         $('.callMe').submit(function () {
             $('.modals__success_btn', this).attr('disabled', true);

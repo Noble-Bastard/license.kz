@@ -8,11 +8,11 @@ use Illuminate\Support\Facades\Session;
 
 class AMOCrm
 {
-    public function callMe($channel, $fio, $phone, $email, $leadComment = null, $dealName = null, $tags = null, $roistatVisitId = null)
+    public function callMe($channel, $fio, $phone, $email, $leadComment = null, $dealName = null, $tags = null, $roistatVisitId = null, $sourcePage = null, $buttonText = null)
     {
         try {
             $amoLead = array(
-                "url" => config('app.url'),
+                "url" => $sourcePage ? $sourcePage : config('app.url'),
                 "name" => $fio,
                 "phone" => $phone,
                 "email" => $email,
@@ -28,6 +28,14 @@ class AMOCrm
 
             if($roistatVisitId){
               $amoLead['roistat_visit'] = $roistatVisitId;
+            }
+
+            // Добавляем информацию о странице и кнопке
+            if ($sourcePage) {
+                $amoLead['source_page'] = $sourcePage;
+            }
+            if ($buttonText) {
+                $amoLead['button_text'] = $buttonText;
             }
 
             if (Session::has('utm')) {

@@ -17,6 +17,19 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     <link rel="stylesheet" href="{{asset('/current/css/style.css')}}">
     <style>
+        /* Global Link Styles - Убираем синий цвет и подчеркивание при клике */
+        a,
+        a:link,
+        a:visited,
+        a:active {
+            text-decoration: none !important;
+            color: inherit;
+        }
+        
+        a:hover {
+            text-decoration: none !important;
+        }
+        
         /* Hero Slider Styles */
         .hero-slider {
             position: relative;
@@ -747,7 +760,7 @@
                         <div class="fourth__block__items__text">
                             <div class="fourth__block__items__text__title">Регистрация компании</div>
                             <ul class="fourth__block__items__text__list">
-                                <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Подготовка учредительных документов филиала/предddставительств</li>
+                                <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Подготовка учредительных документов филиала/представительств</li>
                                 <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Сдача документов в регистрирующий орган</li>
                                 <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Заполнение формы на регистрацию</li>
                             </ul>
@@ -773,7 +786,7 @@
                             <div class="fourth__block__items__text__title">Открытие банковских счетов</div>
                             <ul class="fourth__block__items__text__list">
                                 <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Сбор документов</li>
-                                <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Подавка заявки на открытие счета</li>
+                                <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Подача заявки на открытие счёта</li>
                             </ul>
                         </div>
                         <a href="tel:+77471350000" class="fourth__block__items__btn">
@@ -966,7 +979,7 @@
                             <div class="sixth__block__text">
                                 <div class="sixth__block__title">Пользователю портала предоставляется простой и удобный личный кабинет</div>
                                 <ul class="sixth__block__list">
-                                    <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Отслеживание статус заказанных услуг</li>
+                                    <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Отслеживание статуса заказанных услуг</li>
                                     <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Создание надежного архива ваших документов </li>
                                     <li><img src="{{asset('current/img/ic-chek.svg')}}" alt="">Получение специализированных отраслевых услуг</li>
                                 </ul>
@@ -998,7 +1011,7 @@
                     </div>
                     <div class="col-12 col-sm-12 col-xl-5 col-lg-5 col-xs-12">
                         <div class="seventh__block">
-                            <div class="seventh__block__title">Розничная торговля путём заказа товаров по почте</div>
+                            <div class="seventh__block__title">Получение лицензии на проведение СМР 1 категории</div>
                             <div class="seventh__block__content">
                                 <div class="seventh__block__content__img">
                                     <img src="{{asset('current/img/technicol.png')}}" alt="">
@@ -1114,7 +1127,7 @@
                 <div class="row">
                     <div class="col-12 col-sm-12 col-xl-5 col-lg-5 col-xs-12">
                         <div class="nineth__title">Свяжитесь с нами</div>
-                        <div class="nineth__descr">Предоставимтбыстрое и эффективное открытие и ведение бизнеса в Казахстане</div>
+                        <div class="nineth__descr">Предоставим быстрое и эффективное открытие и ведение бизнеса в Казахстане</div>
                     </div>
                     <div class="col-12 col-sm-12 col-xl-7 col-lg-7 col-xs-12">
                         <div class="nineth__form">
@@ -1385,7 +1398,7 @@
                     </div>
                 </div>
                 <div style="border-top: 1px solid #374151; padding-top: 30px; text-align: center; color: #6B7280;">
-                    <p>© 2024 UPPERLICENSE. Все права защищены.</p>
+                    <p>© 2026 UPPERLICENSE. Все права защищены.</p>
                 </div>
             </div>
         </footer>

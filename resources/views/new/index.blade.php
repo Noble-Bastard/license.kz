@@ -2760,7 +2760,7 @@
                     <div class="cta-list" style="margin-bottom: 32px;">
                         <div class="cta-list-item" style="display: flex; align-items: start; margin-bottom: 12px;">
                             <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px; filter: brightness(0) invert(1);" />
-                            <span style="font-size: 16px; color: white;">Отслеживание статус заказанных услуг</span>
+                            <span style="font-size: 16px; color: white;">Отслеживание статуса заказанных услуг</span>
                         </div>
                         <div class="cta-list-item" style="display: flex; align-items: start; margin-bottom: 12px;">
                             <img src="{{asset('current/img/ic-chek-103.svg')}}" alt="check" style="width: 20px; margin-right: 12px; filter: brightness(0) invert(1);" />
@@ -2800,7 +2800,7 @@
 
             <div class="client-case-detail">
                 <div class="client-case-detail__left">
-                    <h3 class="client-case-detail__title">Розничная торговля путём заказа товаров по почте</h3>
+                    <h3 class="client-case-detail__title">Получение лицензии на проведение СМР 1 категории</h3>
                     <div class="client-case-detail__client-info">
                         <div class="client-case-detail__logo">
                             <span class="logo-text">ТН</span>

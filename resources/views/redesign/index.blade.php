@@ -253,7 +253,7 @@
                     <div class="fourth__block__items__text">
                         <div class="fourth__block__items__text__title">Регистрация компании</div>
                         <ul class="fourth__block__items__text__list">
-                            <li><img src="{{asset('assets/img/ic-chek.svg')}}" alt="">Подготовка учредительных дdwadwadокументов филиала/представительств</li>
+                            <li><img src="{{asset('assets/img/ic-chek.svg')}}" alt="">Подготовка учредительных документов филиала/представительств</li>
                             <li><img src="{{asset('assets/img/ic-chek.svg')}}" alt="">Сдача документов в регистрирующий орган</li>
                             <li><img src="{{asset('assets/img/ic-chek.svg')}}" alt="">Заполнение формы на регистрацию</li>
                         </ul>
@@ -278,7 +278,7 @@
                         <div class="fourth__block__items__text__title">Открытие банковских счетов</div>
                         <ul class="fourth__block__items__text__list">
                             <li><img src="{{asset('assets/img/ic-chek.svg')}}" alt="">Сбор документов</li>
-                            <li><img src="{{asset('assets/img/ic-chek.svg')}}" alt="">Подавка заявки на открытие счета</li>
+                            <li><img src="{{asset('assets/img/ic-chek.svg')}}" alt="">Подача заявки на открытие счёта</li>
                         </ul>
                     </div>
                     <a href="/extra_services/open_bank_account" class="fourth__block__items__btn">
@@ -467,7 +467,7 @@
                         <div class="sixth__block__text">
                             <div class="sixth__block__title">Пользователю портала предоставляется простой и удобный личный кабинет</div>
                             <ul class="sixth__block__list">
-                                <li><img src="{{asset('assets/img/ic-chek.svg')}}" alt="">Отслеживание статус заказанных услуг</li>
+                                <li><img src="{{asset('assets/img/ic-chek.svg')}}" alt="">Отслеживание статуса заказанных услуг</li>
                                 <li><img src="{{asset('assets/img/ic-chek.svg')}}" alt="">Создание надежного архива ваших документов </li>
                                 <li><img src="{{asset('assets/img/ic-chek.svg')}}" alt="">Получение специализированных отраслевых услуг</li>
                             </ul>
@@ -497,7 +497,7 @@
                 </div>
                 <div class="col-12 col-sm-12 col-xl-5 col-lg-5 col-xs-12">
                     <div class="seventh__block">
-                        <div class="seventh__block__title">Розничная торговля путём заказа товаров по почте</div>
+                        <div class="seventh__block__title">Получение лицензии на проведение СМР 1 категории</div>
                         <div class="seventh__block__content">
                             <div class="seventh__block__content__img">
                                 <img src="{{asset('assets/img/technicol.png')}}" alt="">
@@ -609,7 +609,7 @@
             <div class="row">
                 <div class="col-12 col-sm-12 col-xl-5 col-lg-5 col-xs-12">
                     <div class="nineth__title">Свяжитесь с нами</div>
-                    <div class="nineth__descr">Предоставимтбыстрое и эффективное открытие и ведение бизнеса в Казахстане</div>
+                    <div class="nineth__descr">Предоставим быстрое и эффективное открытие и ведение бизнеса в Казахстане</div>
                 </div>
                 <div class="col-12 col-sm-12 col-xl-7 col-lg-7 col-xs-12">
                     <div class="nineth__form">

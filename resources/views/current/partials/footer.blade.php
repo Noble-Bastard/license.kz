@@ -19,7 +19,7 @@
           </div>
 
           <div class="new_footer_copyright">
-            ©2023 UPPERLICENSE
+            ©2026 UPPERLICENSE
           </div>
         </div>
       </div>
@@ -135,7 +135,7 @@
       </div>
 
       <div class="new_mobile_footer_copyright">
-        ©2023 UPPERLICENSE
+        ©2026 UPPERLICENSE
       </div>
 
       <div class="new_mobile_footer_main_description">

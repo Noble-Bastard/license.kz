@@ -179,7 +179,7 @@
                         <div class="fourth__block__items__text__title">Открытие банковских счетов</div>
                         <ul class="fourth__block__items__text__list">
                             <li><img src="{{asset('assets/img/ic-chek.svg')}}" alt="">Сбор документов</li>
-                            <li><img src="{{asset('assets/img/ic-chek.svg')}}" alt="">Подавка заявки на открытие счета</li>
+                            <li><img src="{{asset('assets/img/ic-chek.svg')}}" alt="">Подача заявки на открытие счёта</li>
                         </ul>
                     </div>
                     <a href="#" class="fourth__block__items__btn">

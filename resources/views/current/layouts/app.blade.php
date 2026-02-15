@@ -11,6 +11,20 @@
     <link rel="stylesheet" type="text/css" href="{{asset('/current/css/globals.css')}}" />
     <link rel="stylesheet" type="text/css" href="{{asset('/current/css/bootstrap.css ')}}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+    <style>
+        /* Global Link Styles - Убираем синий цвет и подчеркивание при клике */
+        a,
+        a:link,
+        a:visited,
+        a:active {
+            text-decoration: none !important;
+            color: inherit;
+        }
+        
+        a:hover {
+            text-decoration: none !important;
+        }
+    </style>
 </head>
 <body style="margin: 0; background: #ffffff">
 <input type="hidden" id="anPageName" name="page" value="index" />
@@ -335,7 +349,7 @@
                         </div>
                         <div class="frame-119">
                             <img class="ic-chek-g01rfQ ic-chek" src="{{asset('current/img/ic-chek-103.svg')}}" alt="ic-chek" />
-                            <p class="text_label-g01rfQ manrope-medium-eerie-black-14px">Подавка заявки на открытие счета</p>
+                            <p class="text_label-g01rfQ manrope-medium-eerie-black-14px">Подача заявки на открытие счёта</p>
                         </div>
                     </div>
                 </div>
@@ -496,7 +510,7 @@
             <div class="frame-156-yVD4xx frame-156">
                 <div class="frame-118">
                     <img class="ic-chek-WNKAHK ic-chek" src="{{asset('current/img/ic-chek-118.svg')}}" alt="ic-chek" />
-                    <div class="text_label-WNKAHK manrope-medium-white-14px">Отслеживание статус заказанных услуг</div>
+                    <div class="text_label-WNKAHK manrope-medium-white-14px">Отслеживание статуса заказанных услуг</div>
                 </div>
                 <div class="frame-119">
                     <img class="ic-chek-vv1ahS ic-chek" src="{{asset('current/img/ic-chek-118.svg')}}" alt="ic-chek" />
@@ -560,7 +574,7 @@
             </div>
             <div class="text_label-CvbIgo manrope-medium-eerie-black-52px">Свяжитесь с нами</div>
             <p class="text_label-yeYOQS manrope-medium-eerie-black-16px">
-                Предоставимтбыстрое и эффективное открытие и ведение бизнеса в Казахстане
+                Предоставим быстрое и эффективное открытие и ведение бизнеса в Казахстане
             </p>
         </div>
         <div class="logos-IO3Fu5">
@@ -603,7 +617,7 @@
                 идентификации. Использование этих названий, логотипов и брендов не означает одобрения.
             </p>
             <div class="text_label-6isyAT manrope-medium-eerie-black-12px">Политика конфиденциальности</div>
-            <div class="x2023-upperlicense-6isyAT manrope-medium-eerie-black-12px">©2023 UPPERLICENSE</div>
+            <div class="x2023-upperlicense-6isyAT manrope-medium-eerie-black-12px">©2026 UPPERLICENSE</div>
             <div class="text_label-yG03hB manrope-medium-mountain-mist-14px">Контактный центр</div>
             <div class="text_label-PFJXaN manrope-medium-mountain-mist-14px">Мы в социальных сетях</div>
             <div class="text_label-xI381Q manrope-medium-mountain-mist-14px">Меню</div>
@@ -781,7 +795,7 @@
             </div>
             <div class="left-6Udbc1">
                 <p class="text_label-2DrgxM manrope-medium-eerie-black-36px">
-                    Розничная торговля путём заказа товаров по почте
+                    Получение лицензии на проведение СМР 1 категории
                 </p>
                 <div class="frame-155-2DrgxM">
                     <div class="image-logo-X0Eib4">
@@ -1197,7 +1211,7 @@
                         </div>
                         <div class="frame-119">
                             <img class="ic-chek-eexPxT ic-chek" src="{{asset('current/img/ic-chek-103.svg')}}" alt="ic-chek" />
-                            <p class="text_label-eexPxT manrope-medium-eerie-black-14px">Подавка заявки на открытие счета</p>
+                            <p class="text_label-eexPxT manrope-medium-eerie-black-14px">Подача заявки на открытие счёта</p>
                         </div>
                     </div>
                     <img
@@ -1384,7 +1398,7 @@
                     <div class="frame-156">
                         <div class="frame-118">
                             <img class="ic-chek-Q4xQ0J ic-chek" src="{{asset('current/img/ic-chek-118.svg')}}" alt="ic-chek" />
-                            <div class="text_label-Q4xQ0J manrope-medium-white-14px">Отслеживание статус заказанных услуг</div>
+                            <div class="text_label-Q4xQ0J manrope-medium-white-14px">Отслеживание статуса заказанных услуг</div>
                         </div>
                         <div class="frame-119">
                             <img class="ic-chek-EjMxUg ic-chek" src="{{asset('current/img/ic-chek-118.svg')}}" alt="ic-chek" />
@@ -1417,7 +1431,7 @@
             <img class="line-39-o0RQPQ" src="{{asset('current/img/line-39-1.svg')}}" alt="Line 39" />
             <div class="left-o0RQPQ">
                 <p class="text_label-oeTGxj manrope-medium-eerie-black-20px">
-                    Розничная торговля путём заказа товаров по почте
+                    Получение лицензии на проведение СМР 1 категории
                 </p>
                 <div class="frame-155-oeTGxj">
                     <div class="image-logo-PioEvF">
@@ -1543,7 +1557,7 @@
         <div class="form-rwxf71">
             <div class="text_label-q1rxKl manrope-medium-eerie-black-32px">Свяжитесь с нами</div>
             <p class="text_label-opC4Nx manrope-medium-eerie-black-14px">
-                Предоставимтбыстрое и эффективное открытие и ведение бизнеса в Казахстане
+                Предоставим быстрое и эффективное открытие и ведение бизнеса в Казахстане
             </p>
             <div class="frame-177-q1rxKl">
                 <div class="frame-149-b20BCX">
@@ -1708,7 +1722,7 @@
                     <img class="vector-EBzobb vector" src="{{asset('current/img/vector-7.svg')}}" alt="Vector" />
                 </div>
             </div>
-            <div class="x2023-upperlicense-odGaMm manrope-medium-eerie-black-12px">©2024 UPPERLICENSE</div>
+            <div class="x2023-upperlicense-odGaMm manrope-medium-eerie-black-12px">©2026 UPPERLICENSE</div>
             <p class="upperlicense-odGaMm">
                 UPPERLICENSE не является государственным органом и не представляет какой-либо официальный орган. Все
                 названия продуктов, логотипы и бренды являются собственностью их владельцев. Все названия компаний, органов
@@ -1836,6 +1850,8 @@
                     {!! Form::open(['url' => route('callMe'), 'method' => 'post', 'class' => 'callMe']) !!}
                     <input type="hidden" name="tags" value="Callback">
                     <input type="hidden" name="comment" value="Заказ звонка">
+                    <input type="hidden" name="source_page" id="callback_source_page" value="">
+                    <input type="hidden" name="button_text" id="callback_button_text" value="">
                     <div class="col-12">
                         <div class="row">
                             <div class="col-lg-6 col-12">
@@ -1938,6 +1954,31 @@
 
 
         $('input[name="phone"]').inputmask("+7 (999) 999-99-99");
+
+        // Обработчик кликов на телефонные ссылки
+        $(document).on('click', 'a[href^="tel:"]', function(e) {
+            e.preventDefault();
+            var $link = $(this);
+            var buttonText = $link.text().trim() || $link.find('span').text().trim() || 'Телефон';
+            var sourcePage = window.location.href;
+            
+            // Заполняем скрытые поля формы
+            $('#callback_source_page').val(sourcePage);
+            $('#callback_button_text').val(buttonText);
+            
+            // Открываем модальное окно
+            var modal = new bootstrap.Modal(document.getElementById('consultModal'));
+            modal.show();
+            
+            // Отправляем событие в Google Analytics
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'click', {
+                    'event_category': 'phone',
+                    'event_label': buttonText,
+                    'page_path': sourcePage
+                });
+            }
+        });
 
         $('.callMe').submit(function () {
 
