@@ -70,6 +70,8 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
 //    Route::get('/', 'HomeController@index')->name('index');
     Route::get('new-home', 'HomeController@newHome');
     Route::get('offer', 'HomeController@offer')->name('offer');
+    Route::get('privacy-policy', 'HomeController@privacyPolicy')->name('privacy-policy');
+    Route::get('public-offer', 'HomeController@publicOffer')->name('public-offer');
     Route::get('services', 'ServicesController@index')->name('services');
     Route::get('search', 'ServicesController@search')->name('service.search');
     Route::get('searchSelected/{serviceCatalogId}/{serviceId}', 'ServicesController@searchSelected')->name('service.searchSelected');

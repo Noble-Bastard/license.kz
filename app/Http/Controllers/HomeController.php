@@ -277,6 +277,16 @@ class HomeController extends Controller
         return view('offer');
     }
 
+    public function privacyPolicy()
+    {
+        return view('privacy-policy');
+    }
+
+    public function publicOffer()
+    {
+        return view('public-offer');
+    }
+
     public function fixTagList()
     {
         $newsList = News::where('is_actual', 1)->get();

@@ -500,8 +500,11 @@
     /* Размытие фона для модалки обратного звонка - как в модалке Войти */
     .modal-backdrop {
         background-color: rgba(0, 0, 0, 0.4) !important;
-        backdrop-filter: blur(12px) !important;
-        -webkit-backdrop-filter: blur(12px) !important;
+        backdrop-filter: blur(42px) !important;
+        -webkit-backdrop-filter: blur(42px) !important;
+    }
+    .modal-backdrop.show {
+      opacity: 3 !important;
     }
     
     /* Убираем затемнение шапки - только размытие фона */

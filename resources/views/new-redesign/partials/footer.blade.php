@@ -82,7 +82,10 @@
             
             <div class="footer-legal__bar">
                 <span class="footer-copyright">©2026 UPPERLICENSE</span>
-                <a href="#" class="footer-privacy">Политика конфиденциальности</a>
+                <div style="display: flex; gap: 20px;">
+                    <a href="{{route('privacy-policy')}}" class="footer-privacy">Политика конфиденциальности</a>
+                    <a href="{{route('public-offer')}}" class="footer-privacy">Публичная оферта</a>
+                </div>
             </div>
         </div>
     </div>
