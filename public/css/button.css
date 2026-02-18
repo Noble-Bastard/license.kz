@@ -1,5 +1,5 @@
 .btn {
-  color: #fff;
+  color: #fff !important;
   border: 0;
 }
 
@@ -25,7 +25,7 @@
 
 .btn-dark-toggle .btn-dark {
   border: solid #608a74 1px;
-  background-color: #fff;
+  background-color: #fff !important;
   color: #000;
 }
 
@@ -41,6 +41,6 @@
 .btn-dark-toggle .btn-dark:hover {
   background-color: #608a74 !important;
   border: solid #608a74 1px !important;
-  color: #fff;
+  color: #fff !important;
 }
 

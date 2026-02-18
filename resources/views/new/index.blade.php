@@ -419,7 +419,7 @@
             z-index: 10;
             visibility: hidden;
             width: 340px; /* Ширина тултипа */
-            background-color: #fff; /* Зеленый фон */
+            background-color: #fff !important; /* Зеленый фон */
             box-shadow: 0px 20px 50px 0px #0000001A;
             position: absolute;
             color: #191E1D;
@@ -1114,7 +1114,7 @@
             
             .hero-slider-pagination {
                 font-size: 12px;
-                color: #fff;
+                color: #fff !important;
             }
             
             .hero-arrow {

@@ -2597,7 +2597,7 @@ footer {
 
     .card-img-overlay {
       background: linear-gradient(rgba(57, 59, 59, 0), rgb(57, 59, 59));
-      color: #fff;
+      color: #fff !important;
       display: flex;
       justify-content: flex-end;
       flex-direction: column;
@@ -2808,7 +2808,7 @@ footer {
     padding-top: 90px;
 
     background-color: $footer-bg;
-    color: #fff;
+    color: #fff !important;
     position: relative;
 
     &__container {
@@ -3131,7 +3131,7 @@ footer {
 
     .subLicense-group {
       border-radius: 0;
-      background-color: #fff;
+      background-color: #fff !important;
       box-shadow: none;
       padding-left: 45px;
       padding-right: 15px;
@@ -3480,7 +3480,7 @@ footer {
     font-size: 36px;
     line-height: 1;
     font-weight: 400;
-    color: #fff;
+    color: #fff !important;
     text-decoration: none;
     cursor: pointer;
     transition: all 200ms;
@@ -4882,7 +4882,7 @@ footer {
               width: 150px;
               height: 150px;
               border-radius: 50%;
-              background-color: #fff;
+              background-color: #fff !important;
               display: flex;
               justify-content: center;
               align-items: center;
@@ -5695,7 +5695,7 @@ footer {
     .month {
       padding: 0;
       margin: 0;
-      color: #fff;
+      color: #fff !important;
       font-size: 16px;
       width: fit-content;
 

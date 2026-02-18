@@ -37,7 +37,7 @@
   opacity: var(--fa-primary-opacity, 1); }
 
 .fad.fa-inverse {
-  color: #fff; }
+  color: #fff !important; }
 
 .fad.fa-stack-1x, .fad.fa-stack-2x {
   position: absolute; }

@@ -3642,7 +3642,7 @@
   font-size: 36px;
   line-height: 1;
   font-weight: 400;
-  color: #fff;
+  color: #fff !important;
   text-decoration: none;
   cursor: pointer;
   transition: all 200ms;

@@ -204,7 +204,7 @@ html {
 }
 .navigation-a ul li a:hover {
   cursor: pointer;
-  color: #fff;
+  color: #fff !important;
 }
 .icon-navigation-a-github:before,
 .icon-navigation-a-github:after {
@@ -671,7 +671,7 @@ body input.button-a:active,
 body a.button-a:hover,
 body button.button-a:hover,
 body input.button-a:hover {
-  color: #fff;
+  color: #fff !important;
   background: #0277b7;
 }
 body a.button-a:focus,
@@ -703,7 +703,7 @@ body input.button-a-background,
 body a.navigation-b ul li a:hover,
 body button.navigation-b ul li a:hover,
 body input.navigation-b ul li a:hover {
-  color: #fff;
+  color: #fff !important;
   background: #0287D0;
 }
 body a.button-a-background:active,
@@ -718,7 +718,7 @@ body input.navigation-b ul li a:hover:active,
 body a.navigation-b ul li a:hover:hover,
 body button.navigation-b ul li a:hover:hover,
 body input.navigation-b ul li a:hover:hover {
-  color: #fff;
+  color: #fff !important;
   background: #0277b7;
 }
 .balloon-a {
@@ -830,7 +830,7 @@ body input.navigation-b ul li a:hover:hover {
   overflow: hidden;
   display: inline-block;
   padding: 0.75em 0.25em;
-  color: #fff;
+  color: #fff !important;
   -webkit-border-radius: 3px;
   -webkit-background-clip: padding-box;
   -moz-border-radius: 3px;
@@ -1008,14 +1008,14 @@ footer > div {
 }
 .adjoined-top {
   background-color: #0287D0;
-  color: #fff;
+  color: #fff !important;
 }
 .adjoined-top .content h1,
 .adjoined-top .content h2,
 .adjoined-top .content h3,
 .adjoined-top .content h4,
 .adjoined-top .content h5 {
-  color: #fff;
+  color: #fff !important;
 }
 .adjoined-top .content p {
   font-size: 18px;
@@ -1033,10 +1033,10 @@ footer > div {
   color: #e6e6e6;
 }
 .adjoined-top .content button {
-  color: #fff;
+  color: #fff !important;
 }
 .adjoined-top .content strong {
-  color: #fff;
+  color: #fff !important;
 }
 .adjoined-top .content code {
   font-size: inherit;
@@ -1399,7 +1399,7 @@ div.toolbarModifier > ul > li p span button {
 }
 div.toolbarModifier > ul > li p span button:not(.disabled):hover,
 div.toolbarModifier > ul > li p span button:not(.disabled):focus {
-  color: #fff;
+  color: #fff !important;
   background-color: #454545;
   border-color: transparent;
 }

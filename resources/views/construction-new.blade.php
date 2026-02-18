@@ -906,7 +906,7 @@
                     }
 
                     .construction-page {
-                        background-color: #fff;
+                        background-color: #fff !important;
                         width: 100%;
                         overflow-x: hidden;
                     }
@@ -1177,7 +1177,7 @@
                         position: relative;
                         height: 24px;
                         width: 24px;
-                        background-color: #fff;
+                        background-color: #fff !important;
                         border: 2px solid #D9D9D9;
                         border-radius: 50%;
                         flex-shrink: 0;
@@ -1256,7 +1256,7 @@
                         left: 0;
                         height: 24px;
                         width: 24px;
-                        background-color: #fff;
+                        background-color: #fff !important;
                         border: 2px solid #37825D;
                         border-radius: 4px;
                         transition: all 0.3s ease;
@@ -1699,7 +1699,7 @@
 
                     .btn-green {
                         background: #279760;
-                        color: #fff;
+                        color: #fff !important;
                     }
 
                     .btn-gray {
@@ -1938,7 +1938,7 @@
 
                     .btn-outline-success:hover {
                         background-color: #4CAF50;
-                        color: #fff;
+                        color: #fff !important;
                     }
 
                     .fa-bolt {
@@ -2322,7 +2322,7 @@
 
                     .btn-outline-dark:hover {
                         background: #333;
-                        color: #fff;
+                        color: #fff !important;
                     }
 
                     /* UPPERLICENSE Section - Figma Design */
@@ -3419,7 +3419,7 @@
                         bottom: 10px;
                         right: 10px;
                         background: rgba(0, 0, 0, 0.5);
-                        color: #fff;
+                        color: #fff !important;
                         padding: 4px 8px;
                         border-radius: 12px;
                         font-size: 12px;
@@ -3690,7 +3690,7 @@
 
                     .accordion-button:not(.collapsed) .number {
                         background: #4CAF50;
-                        color: #fff;
+                        color: #fff !important;
                         border-color: #4CAF50;
                     }
 

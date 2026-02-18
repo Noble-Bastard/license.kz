@@ -1180,7 +1180,7 @@
   justify-content: center;
   align-items: center;
   border: 1px solid var(--manager-border);
-  background-color: #fff;
+  background-color: #fff !important;
   color: var(--manager-text-light);
   margin: 0 4px;
   font-size: 1rem;
@@ -1189,7 +1189,7 @@
 .pagination-container .page-item.active .page-link {
   background-color: var(--manager-active);
   border-color: var(--manager-active);
-  color: #fff;
+  color: #fff !important;
   font-weight: 700;
 }
 .pagination-container .page-item:not(.disabled) .page-link:hover {
@@ -1280,7 +1280,7 @@
   padding: 0;
 }
 .page-content .manager-table .table-row:hover {
-  background-color: #fff;
+  background-color: #fff !important;
   box-shadow: var(--manager-shadow);
   cursor: pointer;
 }

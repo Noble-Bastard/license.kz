@@ -108,7 +108,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #fff;
+    color: #fff !important;
     border-radius: 60px;
     padding: 24px;
     text-decoration: none;
@@ -260,7 +260,7 @@ body {
 
 .about-us__stats__grid > .about-us__stats__header {
     background: #191E1D;
-    color: #fff;
+    color: #fff !important;
 }
 
 .about-us__stats__header {
@@ -370,7 +370,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #fff;
+    color: #fff !important;
     border-radius: 60px;
     padding: 24px;
     text-decoration: none;

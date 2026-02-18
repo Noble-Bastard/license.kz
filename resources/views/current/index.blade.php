@@ -30,6 +30,21 @@
             text-decoration: none !important;
         }
         
+        /* Global Button Styles - Исправляем цвет текста в зеленых кнопках */
+        .btn-success,
+        .btn-green,
+        button[style*="background: #279760"],
+        button[style*="background:#279760"],
+        a[style*="background: #279760"],
+        a[style*="background:#279760"] {
+            color: #FFFFFF !important;
+        }
+        
+        .btn-success:hover,
+        .btn-green:hover {
+            color: #FFFFFF !important;
+        }
+        
         /* Hero Slider Styles */
         .hero-slider {
             position: relative;

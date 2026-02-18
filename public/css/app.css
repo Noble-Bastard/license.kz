@@ -21,7 +21,7 @@ html {
 }
 
 body {
-  background-color: #fff;
+  background-color: #fff !important;
   background-repeat: repeat;
 }
 
@@ -73,7 +73,7 @@ body {
 
 .bg-stripe.menu .navbar .navbar-collapse .navbar-nav .dropdown-menu li a:hover {
   text-decoration: unset;
-  color: #fff;
+  color: #fff !important;
   background-color: #608a74;
 }
 
@@ -83,7 +83,7 @@ body {
 }
 
 .bg-stripe.menu .navbar .navbar-collapse .navbar-nav .nav-link {
-  color: #fff;
+  color: #fff !important;
   height: 100%;
   padding-left: 0;
   padding-right: 0;
@@ -136,7 +136,7 @@ body {
 }
 
 a:not([href]):not([tabindex]):hover {
-  color: #fff;
+  color: #fff !important;
 }
 
 .subMenu .nav-item .nav-link a,
@@ -209,7 +209,7 @@ a:not([href]):not([tabindex]):hover {
 
 @media (max-width: 576px) {
   .subMenu .navbar-toggler {
-    border-color: #fff;
+    border-color: #fff !important;
     margin: 10px 0px;
   }
 }
@@ -236,7 +236,7 @@ a:not([href]):not([tabindex]):hover {
 .footer {
   background-color: #4b6c5b;
   padding-bottom: 40px;
-  color: #fff;
+  color: #fff !important;
   position: absolute;
   bottom: 0;
   width: 100%;
@@ -254,8 +254,8 @@ a:not([href]):not([tabindex]):hover {
 
 .footer .footer-content .footer-input-block .form-select {
   background-color: #4b6c5b;
-  border-color: #fff;
-  color: #fff;
+  border-color: #fff !important;
+  color: #fff !important;
   border-radius: 15px;
   padding: 0px 5px 1px 5px;
   min-height: 30px;
@@ -264,7 +264,7 @@ a:not([href]):not([tabindex]):hover {
 
 .footer .footer-content .footer-input-block .footer-input {
   background-color: white;
-  border-color: #fff;
+  border-color: #fff !important;
   color: #4b6c5b;
   border-radius: 15px;
   padding: 0px 9px;
@@ -274,7 +274,7 @@ a:not([href]):not([tabindex]):hover {
 
 .footer .footer-content .footer-input-block .btn-footer {
   background-color: #7aa38e;
-  color: #fff;
+  color: #fff !important;
   border-radius: 15px;
   padding: 0px 9px;
   min-height: 30px;
@@ -298,7 +298,7 @@ a:not([href]):not([tabindex]):hover {
 
 .btn.btn-blue {
   background-color: #283f5e;
-  color: #fff;
+  color: #fff !important;
   border-radius: 50px;
   padding: 0px 9px;
   min-height: 50px;
@@ -310,7 +310,7 @@ a:not([href]):not([tabindex]):hover {
 }
 
 .btn.btn-blue a {
-  color: #fff;
+  color: #fff !important;
   text-decoration: unset;
 }
 
@@ -425,7 +425,7 @@ a:not([href]):not([tabindex]):hover {
 }
 
 .table-style thead {
-  color: #fff;
+  color: #fff !important;
   border: 1px solid #608a74;
 }
 
@@ -444,7 +444,7 @@ a:not([href]):not([tabindex]):hover {
 }
 
 .news {
-  background-color: #fff;
+  background-color: #fff !important;
   border: 1px solid #a9c1cc;
   border-radius: 3px;
   padding-top: 15px;
@@ -471,7 +471,7 @@ a:not([href]):not([tabindex]):hover {
 
 .tab-style {
   background-color: #4b6c5b;
-  color: #fff;
+  color: #fff !important;
 }
 
 .tab-style.nav-tabs .nav-item {
@@ -479,7 +479,7 @@ a:not([href]):not([tabindex]):hover {
 }
 
 .tab-style.nav-tabs .nav-link {
-  color: #fff;
+  color: #fff !important;
   border-radius: 0px;
   background-color: #4b6c5b;
   border-color: #4b6c5b;
@@ -591,7 +591,7 @@ a:not([href]):not([tabindex]):hover {
 
 .profilServices ul.nav-tabs .nav-link.active {
   background-color: #4b6c5b;
-  color: #fff;
+  color: #fff !important;
 }
 
 .services-hdr {
@@ -610,7 +610,7 @@ a:not([href]):not([tabindex]):hover {
 }
 
 .services-hdr .btn.btn-default {
-  background-color: #fff;
+  background-color: #fff !important;
   color: #000;
 }
 
@@ -648,7 +648,7 @@ a:not([href]):not([tabindex]):hover {
   border-radius: 0px;
   white-space: normal;
   text-align: left;
-  color: #fff;
+  color: #fff !important;
   text-decoration: none;
 }
 
@@ -688,7 +688,7 @@ a:not([href]):not([tabindex]):hover {
 .servis-order .iaccordion .card .card-header button {
   white-space: normal;
   text-align: left;
-  color: #fff;
+  color: #fff !important;
   text-decoration: none;
 }
 
@@ -776,7 +776,7 @@ input.form-control {
 
 .bg-primary {
   background-color: #608a74 !important;
-  color: #fff;
+  color: #fff !important;
 }
 
 .form-control {
@@ -969,13 +969,13 @@ input.form-control {
 /* On mouse-over, add a grey background color */
 
 .cbx:hover input ~ .checkmark {
-  background-color: #fff;
+  background-color: #fff !important;
 }
 
 /* When the checkbox is checked, add a blue background */
 
 .cbx input:checked ~ .checkmark {
-  background-color: #fff;
+  background-color: #fff !important;
 }
 
 .cbx input:checked ~ .checkmark.is-readonly {
@@ -1111,7 +1111,7 @@ input.form-control {
 }
 
 .contacts .contacts-input-block .form-select {
-  background-color: #fff;
+  background-color: #fff !important;
   border-color: #4b6c5b;
   color: #4b6c5b;
   border-radius: 25px;
@@ -1122,7 +1122,7 @@ input.form-control {
 }
 
 .contacts .contacts-input-block .contacts-input {
-  background-color: #fff;
+  background-color: #fff !important;
   border-color: #4b6c5b;
   color: #4b6c5b;
   border-radius: 25px;
@@ -1134,7 +1134,7 @@ input.form-control {
 
 .contacts .contacts-input-block .btn-contacts {
   background-color: #4b6c5b;
-  color: #fff;
+  color: #fff !important;
   border-radius: 25px;
   padding: 0px 9px;
   min-height: 50px;
@@ -1289,7 +1289,7 @@ input.form-control {
   font-size: 18px;
   padding: 5px;
   color: #000;
-  background-color: #fff;
+  background-color: #fff !important;
   box-shadow: 0 0 15px rgba(178, 178, 178, 0.25);
 }
 
@@ -1332,7 +1332,7 @@ input.form-control {
   background: #0B2A41;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.43);
   border-radius: 34px;
-  color: #fff;
+  color: #fff !important;
   text-align: center;
   width: 200px;
   min-height: 50px;
@@ -1353,7 +1353,7 @@ input.form-control {
   background-repeat: no-repeat;
   background-position: right;
   background-color: #262c40;
-  color: #fff;
+  color: #fff !important;
   border: 0;
   margin-bottom: 20px;
 }
@@ -1388,7 +1388,7 @@ input.form-control {
   background: rgba(11, 60, 93, 0.8);
   border-top: none;
   bottom: 0;
-  color: #fff;
+  color: #fff !important;
   font-size: 24px;
   text-transform: uppercase;
 }
@@ -1413,7 +1413,7 @@ input.form-control {
 
 .catalog_list .catalog_item.catalog_type_9 .card:hover .card-body {
   background: #0B3C5D;
-  color: #fff;
+  color: #fff !important;
 }
 
 .catalog_list .catalog_item.catalog_type_10 {
@@ -1423,14 +1423,14 @@ input.form-control {
 .catalog_list .catalog_item.catalog_type_10 .card .card-body {
   padding: 10px;
   background: #0B3C5D;
-  color: #fff;
+  color: #fff !important;
 }
 
 .catalog_list .catalog_item.catalog_type_11 .card {
   background-repeat: no-repeat;
   background-position: right top;
   background-color: #262c40;
-  color: #fff;
+  color: #fff !important;
   border: 0;
   margin-bottom: 20px;
 }
@@ -1465,7 +1465,7 @@ input.form-control {
 .catalog_list .catalog_item.catalog_type_12 .card .card-body table {
   width: 100%;
   height: 100%;
-  color: #fff;
+  color: #fff !important;
   font-size: 20px;
 }
 
@@ -1486,11 +1486,11 @@ input.form-control {
 
 .dropdown-menu .dropdown-item:hover {
   background-color: #4b6c5b;
-  color: #fff;
+  color: #fff !important;
 }
 
 .dropdown-menu .dropdown-item:hover > a {
-  color: #fff;
+  color: #fff !important;
 }
 
 .dropdown-submenu > div:after {
@@ -1504,7 +1504,7 @@ input.form-control {
 }
 
 .employee-summary {
-  color: #fff;
+  color: #fff !important;
   padding: 12pt;
   font-size: 9.6pt;
 }
@@ -1611,7 +1611,7 @@ input.form-control {
   height: 120px;
   width: 120px;
   margin: 0 auto;
-  background-color: #fff;
+  background-color: #fff !important;
   border-radius: 200px;
   border: solid 1px #fff;
   color: #1261a7;
@@ -1891,7 +1891,7 @@ input.form-control {
 
 .partner-summary .location {
   background-color: #202839;
-  color: #fff;
+  color: #fff !important;
 }
 
 .partner-summary .email {
@@ -1901,11 +1901,11 @@ input.form-control {
 
 .partner-summary .company_site {
   background-color: #030311;
-  color: #fff;
+  color: #fff !important;
 }
 
 .partner-summary a {
-  color: #fff;
+  color: #fff !important;
 }
 
 .input-group .custom-form-control {

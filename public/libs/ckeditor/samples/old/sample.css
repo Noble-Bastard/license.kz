@@ -56,7 +56,7 @@ abbr
 	font-weight: bold;
 	padding: 1px 4px;
 	margin: 0 0 0 5px;
-	color: #fff;
+	color: #fff !important;
 	float: right;
 	border-radius: 3px;
 }

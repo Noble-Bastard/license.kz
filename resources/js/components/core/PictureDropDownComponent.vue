@@ -124,7 +124,7 @@
     .vue-dropzone >>> .dz-preview .dz-remove {
         position: absolute;
         z-index: 30;
-        color: #fff;
+        color: #fff !important;
         margin-left: 5px;
         padding: 0;
         top: inherit;
@@ -138,7 +138,7 @@
     }
 
     .vue-dropzone >>> .dz-preview .dz-show {
-        color: #fff;
+        color: #fff !important;
         margin-left: 5px;
         padding: 0;
         text-decoration: none;

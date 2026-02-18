@@ -84,6 +84,9 @@
     </div>
   </div>
 
+  <!-- Раздел требований и инструкций -->
+  <div class="service-steps"></div>
+
   <div class="modals">
     <div class="modal fade" id="downloadRequirementModal" tabindex="-1" aria-labelledby="downloadRequirementModalLabel"
          aria-hidden="true">
@@ -278,8 +281,26 @@
 
 @section('js')
   <script>
-    $(document).ready(function () {
-      $.fn.isInViewport = function() {
+      $(document).ready(function () {
+        // Загружаем раздел требований при первой загрузке страницы
+        // Ищем первую доступную услугу и загружаем для неё требования
+        setTimeout(function() {
+          var firstCheckbox = $('.services__window_all .container_checkbox input[type="checkbox"]').first();
+          if (firstCheckbox.length && firstCheckbox.data('service-id')) {
+            var firstServiceId = firstCheckbox.data('service-id');
+            // Автоматически выбираем первую услугу и загружаем требования
+            firstCheckbox.prop('checked', true);
+            // Обновляем счетчик выбранных
+            var parent = firstCheckbox.parents('.service-content-data-list-item')[0];
+            if (parent) {
+              setSelectedItemsText(parent, true);
+              disableServiceAction();
+            }
+            loadServiceCompare();
+          }
+        }, 1000);
+        
+        $.fn.isInViewport = function() {
         let elementTop = $(this).offset().top;
         let elementBottom = elementTop + $(this).outerHeight();
         let viewportTop = $(window).scrollTop() + $('.header-new').outerHeight();
@@ -409,6 +430,23 @@
             $('.card-container').removeClass('card-container__active')
             $(self).addClass('card-container__active')
             $('.loader-line', self).addClass('d-none')
+
+            // Загружаем раздел требований после загрузки services.blade.php
+            setTimeout(function() {
+              var firstCheckbox = $('.services__window_all .container_checkbox input[type="checkbox"]').first();
+              if (firstCheckbox.length && firstCheckbox.data('service-id')) {
+                var firstServiceId = firstCheckbox.data('service-id');
+                // Автоматически выбираем первую услугу и загружаем требования
+                firstCheckbox.prop('checked', true);
+                // Обновляем счетчик выбранных
+                var parentItem = firstCheckbox.parents('.service-content-data-list-item')[0];
+                if (parentItem) {
+                  setSelectedItemsText(parentItem, true);
+                  disableServiceAction();
+                }
+                loadServiceCompare();
+              }
+            }, 500);
 
             let scrollTo = $(".service-content-data-list-head");
             let header = $('.header-new')

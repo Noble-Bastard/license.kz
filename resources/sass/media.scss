@@ -102,7 +102,7 @@
     text-align: center;
     padding-bottom: 30px;
     .link {
-      color: #fff;
+      color: #fff !important;
       text-decoration: underline;
     }
   }
@@ -326,7 +326,7 @@
 
   .btn-more {
     background-color: #283f5e;
-    color: #fff;
+    color: #fff !important;
     border-radius: 20px;
     margin-top: 15px;
     margin-bottom: 15px;

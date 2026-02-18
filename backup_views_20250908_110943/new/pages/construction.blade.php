@@ -877,7 +877,7 @@
                     }
                     
                     .construction-page {
-                        background-color: #fff;
+                        background-color: #fff !important;
                     }
 
                     .construction-icon {
@@ -965,7 +965,7 @@
                         position: relative;
                         height: 20px;
                         width: 20px;
-                        background-color: #fff;
+                        background-color: #fff !important;
                         border: 2px solid #4CAF50;
                         border-radius: 50%;
                         flex-shrink: 0;
@@ -1300,7 +1300,7 @@
 
                     .btn-outline-success:hover {
                         background-color: #4CAF50;
-                        color: #fff;
+                        color: #fff !important;
                     }
 
                     .fa-bolt {
@@ -1418,7 +1418,7 @@
 
                     .btn-outline-dark:hover {
                         background: #333;
-                        color: #fff;
+                        color: #fff !important;
                     }
 
                     .service-card-info,
@@ -1602,7 +1602,7 @@
                         bottom: 10px;
                         right: 10px;
                         background: rgba(0, 0, 0, 0.5);
-                        color: #fff;
+                        color: #fff !important;
                         padding: 4px 8px;
                         border-radius: 12px;
                         font-size: 12px;
@@ -1726,7 +1726,7 @@
                     
                     .accordion-button:not(.collapsed) .number {
                         background: #4CAF50;
-                        color: #fff;
+                        color: #fff !important;
                         border-color: #4CAF50;
                     }
 

@@ -409,14 +409,35 @@
     </div>
 </div>
 
-<style>
-    #consultModal .modal-dialog {
-        margin-top: 80px !important;
-    }
-    
-    #consultModal .modal-backdrop {
-        background-color: rgba(0, 0, 0, 0.5);
-    }
+    <style>
+        #consultModal .modal-dialog {
+            margin-top: 80px !important;
+        }
+        
+        /* Размытие фона для модалки обратного звонка - как в модалке Войти */
+        .modal-backdrop {
+            background-color: rgba(0, 0, 0, 0.4) !important;
+            backdrop-filter: blur(12px) !important;
+            -webkit-backdrop-filter: blur(12px) !important;
+        }
+        
+        /* Убираем затемнение шапки - только размытие фона */
+        body.modal-open header,
+        body.modal-open .header-new,
+        body.modal-open .header-redesigned {
+            filter: none !important;
+            opacity: 1 !important;
+            z-index: 1030 !important;
+        }
+        
+        /* Убеждаемся, что backdrop находится под модалкой, но над контентом */
+        .modal-backdrop.show {
+            z-index: 1040 !important;
+        }
+        
+        #consultModal {
+            z-index: 1050 !important;
+        }
     
     #consultModal .modals__input:focus {
         outline: none;
@@ -437,6 +458,32 @@
     #consultModal .modal_close:hover {
         background: #E8E8E8 !important;
     }
+</style>
+
+<script>
+    $(document).ready(function() {
+        // Применяем размытие к backdrop при открытии модалки - с затемнением как в модалке Войти
+        $('#consultModal').on('show.bs.modal', function() {
+            setTimeout(function() {
+                $('.modal-backdrop').css({
+                    'background-color': 'rgba(0, 0, 0, 0.4)',
+                    'backdrop-filter': 'blur(12px)',
+                    '-webkit-backdrop-filter': 'blur(12px)'
+                });
+            }, 10);
+        });
+        
+        // Также применяем при каждом показе
+        $('#consultModal').on('shown.bs.modal', function() {
+            $('.modal-backdrop').css({
+                'background-color': 'rgba(0, 0, 0, 0.4)',
+                'backdrop-filter': 'blur(12px)',
+                '-webkit-backdrop-filter': 'blur(12px)'
+            });
+        });
+    });
+</script>
+<style>
     
     @media (max-width: 576px) {
         #consultModal .modal-dialog {
