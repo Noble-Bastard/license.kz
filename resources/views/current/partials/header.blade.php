@@ -454,7 +454,8 @@
   </div>
 
 </header>
-<div class="modals">
+<div class="modals" style="z-index: 99999 !important;
+            opacity: 3 !important;">
   <div class="modal fade" id="consultModal" tabindex="-1" aria-labelledby="consultModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 520px; margin-top: 80px;">
       <div class="modal-content" style="border-radius: 16px; border: none; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15); overflow: hidden;">
@@ -462,7 +463,8 @@
           <i class="bi bi-x" style="font-size: 18px; color: #191E1D;"></i>
         </button>
 
-          <div class="modal-body" style="padding: 40px 32px 32px;">
+          <div class="modal-body" style="padding: 40px 32px 32px;z-index: 999999 !important;
+            opacity: 5 !important;">
             <h3 class="modals__title-head" style="font-family: 'Manrope', sans-serif; font-size: 24px; font-weight: 600; color: #191E1D; margin-bottom: 24px; line-height: 1.3; text-align: center;">Менеджер перезвонит и проконсультирует вас</h3>
             {!! Form::open(['url' => route('callMe'), 'method' => 'post', 'class' => 'callMe']) !!}
             <input type="hidden" name="tags" value="Callback">
