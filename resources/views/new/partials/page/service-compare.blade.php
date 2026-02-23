@@ -25,7 +25,7 @@
     <div class="col-12 col-md-8">
       @foreach($serviceStepList as $stepNo => $serviceStep)
         <div class="row">
-          <div class="service-content-data-instructions-item">
+          <div class="service-content-data-instructions-item" id="step-{{$stepNo+1}}">
             <div class="service-content-data-instructions-item-head">
               <div class="service-content-data-instructions-item-head-group">
                 <div class="service-content-data-instructions-item-head-no">{{$stepNo+1}}</div>

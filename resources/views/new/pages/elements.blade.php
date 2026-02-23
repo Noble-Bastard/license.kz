@@ -84,9 +84,6 @@
     </div>
   </div>
 
-  <!-- Раздел требований и инструкций -->
-  <div class="service-steps"></div>
-
   <div class="modals">
     <div class="modal fade" id="downloadRequirementModal" tabindex="-1" aria-labelledby="downloadRequirementModalLabel"
          aria-hidden="true">
@@ -277,6 +274,9 @@
       </div>
     </div>
   </div>
+
+  <!-- Раздел требований и инструкций -->
+  <div class="service-steps"></div>
 @endsection
 
 @section('js')
@@ -597,12 +597,16 @@
               $('.service-content-data-total .cnt span').html(getServiceIdList().length)
               $('.service-content-data-turnkey-solution-total .cnt span').html(getServiceIdList().length)
 
-
-
-
               $('.selected-sub-licence').html(getServiceNameList())
 
               $('.service-content-data-total .loader-line').addClass('d-none')
+              
+              // Прокручиваем к разделу требований после загрузки
+              if ($('.service-steps').length && $('.service-steps').html().trim() !== '') {
+                $('html, body').animate({
+                  scrollTop: $('.service-steps').offset().top - $('.header-new').outerHeight() - 20
+                }, 500);
+              }
             },
             error: function () {
               $('.service-content-data-total .loader-line').addClass('d-none')

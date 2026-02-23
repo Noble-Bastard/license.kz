@@ -455,7 +455,7 @@
 
 </header>
 <div class="modals" style="z-index: 99999 !important;
-            opacity: 3 !important;">
+            opacity: 3 !important;backdrop-filter: blur(5px);">
   <div class="modal fade" id="consultModal" tabindex="-1" aria-labelledby="consultModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 520px; margin-top: 80px;">
       <div class="modal-content" style="border-radius: 16px; border: none; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15); overflow: hidden;">
