@@ -216,7 +216,6 @@
                   Если поджимают сроки, воспользуйтесь готовым решением
                 </div>
                 <button type="button" class="btn btn-success services__window-white-button readyOffer d-none d-sm-block"
-                        data-bs-toggle="modal"
                         data-bs-target="#consultModal"
                         aria-expanded="false">
                   Оставить заявку
@@ -236,7 +235,6 @@
                 </div>
               </div>
               <button type="button" class="btn btn-success services__window-white-button readyOffer d-block d-sm-none"
-                      data-bs-toggle="modal"
                       data-bs-target="#consultModal"
                       aria-expanded="false">
                 Оставить заявку

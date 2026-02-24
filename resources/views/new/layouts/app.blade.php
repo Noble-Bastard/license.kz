@@ -105,6 +105,82 @@
     @include('new.partials.modal.reset_password')
     @include('new.partials.modal.forgot_password')
     @include('new-redesign.partials.modal.services')
+
+    <!-- Callback Modal — кастомная модалка как Войти -->
+    <div id="consultModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 999999; width: 100vw; height: 100vh; overflow: auto; background: rgba(0,0,0,0.4); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);" onclick="if(event.target === this) closeConsultModal();">
+        <div style="display: flex; align-items: center; justify-content: center; min-height: 100%; padding: 20px;">
+            <div style="position: relative; max-width: 520px; width: 100%; margin: auto;" onclick="event.stopPropagation();">
+                <div style="background: #FFFFFF; border-radius: 16px; border: none; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15); overflow: hidden; position: relative;">
+                    <button type="button" onclick="closeConsultModal(); return false;" style="position: absolute; top: 16px; right: 16px; z-index: 10; width: 32px; height: 32px; padding: 0; display: flex; align-items: center; justify-content: center; background: #F5F5F5; border-radius: 50%; border: none; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#F5F5F5'">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 4L4 12M4 4L12 12" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </button>
+                    <div style="padding: 40px 32px 32px;">
+                        <h3 style="font-family: 'Manrope', sans-serif; font-size: 24px; font-weight: 600; color: #191E1D; margin-bottom: 24px; line-height: 1.3; text-align: center;">Менеджер перезвонит и проконсультирует вас</h3>
+                        {!! Form::open(['url' => route('callMe'), 'method' => 'post', 'class' => 'callMe', 'id' => 'consultForm']) !!}
+                        <input type="hidden" name="tags" value="Callback">
+                        <input type="hidden" name="comment" value="Заказ звонка">
+                        <input type="hidden" name="source_page" id="callback_source_page" value="">
+                        <input type="hidden" name="button_text" id="callback_button_text" value="">
+                        <div style="margin-bottom: 20px;">
+                            <div style="display: flex; flex-direction: column; gap: 16px;">
+                                <input type="text" class="form-control" name="name" placeholder="Ваше имя" required
+                                       style="width: 100%; padding: 14px 16px; border: 1px solid #E8E8E8; border-radius: 8px; font-family: 'Manrope', sans-serif; font-size: 14px; color: #191E1D; background: #FFFFFF; transition: all 0.2s; outline: none;"
+                                       onfocus="this.style.borderColor='#279760'; this.style.boxShadow='0 0 0 3px rgba(39,151,96,0.1)'"
+                                       onblur="this.style.borderColor='#E8E8E8'; this.style.boxShadow='none'">
+                                <input type="text" class="form-control" name="phone" placeholder="Ваш телефон*" required
+                                       style="width: 100%; padding: 14px 16px; border: 1px solid #E8E8E8; border-radius: 8px; font-family: 'Manrope', sans-serif; font-size: 14px; color: #191E1D; background: #FFFFFF; transition: all 0.2s; outline: none;"
+                                       onfocus="this.style.borderColor='#279760'; this.style.boxShadow='0 0 0 3px rgba(39,151,96,0.1)'"
+                                       onblur="this.style.borderColor='#E8E8E8'; this.style.boxShadow='none'">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn modals__success_btn" style="width: 100%; padding: 14px; background: #279760; color: #FFFFFF !important; border: none; border-radius: 8px; font-family: 'Manrope', sans-serif; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin-bottom: 16px;" onmouseover="this.style.background='#1e7a50'" onmouseout="this.style.background='#279760'">Отправить</button>
+                        <p style="font-family: 'Manrope', sans-serif; font-size: 12px; color: #6F6F6F; text-align: center; margin: 0; line-height: 1.4;">Нажимая кнопку отправить вы даете разрешение на обработку персональных данных</p>
+                        {!! Form::close() !!}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        if (typeof window.openConsultModal === 'undefined') {
+            window.openConsultModal = function() {
+                var modal = document.getElementById('consultModal');
+                if (modal) { modal.style.display = 'block'; document.body.style.overflow = 'hidden'; }
+            };
+        }
+        if (typeof window.closeConsultModal === 'undefined') {
+            window.closeConsultModal = function() {
+                var modal = document.getElementById('consultModal');
+                if (modal) {
+                    modal.style.display = 'none';
+                    document.body.style.overflow = '';
+                    document.body.classList.remove('modal-open');
+                    document.body.style.paddingRight = '';
+                }
+                // Удаляем ВСЕ Bootstrap backdrop-ы
+                document.querySelectorAll('.modal-backdrop').forEach(function(el) { el.remove(); });
+            };
+        }
+        document.addEventListener('click', function(e) {
+            var el = e.target.closest('[data-bs-target="#consultModal"]');
+            if (el) {
+                e.preventDefault(); e.stopImmediatePropagation();
+                var srcPage = document.getElementById('callback_source_page');
+                if (srcPage) srcPage.value = window.location.href;
+                var btnText = document.getElementById('callback_button_text');
+                if (btnText) btnText.value = el.textContent.trim();
+                openConsultModal();
+            }
+        }, true);
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                var modal = document.getElementById('consultModal');
+                if (modal && modal.style.display === 'block') closeConsultModal();
+            }
+        });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 

@@ -243,7 +243,7 @@
                             </div>
 
                             <div class="pricing-actions">
-                                <button class="btn btn-green readyOffer" data-bs-toggle="modal" data-bs-target="#consultModal">Заказать услугу</button>
+                                <button class="btn btn-green readyOffer" data-bs-target="#consultModal">Заказать услугу</button>
                             </div>
                         </div>
                     </div>

@@ -509,7 +509,7 @@
             <div class="frame-6-74EEvB">
                 <div class="phone-pXFCLN">
                     <div href="tel: +7 (747) 135-00-00" class="x7-747-135-00-00-rP8x3z">7 (747) 135-00-00</div>
-                    <div class="text_label-rP8x3z manrope-medium-eucalyptus-14px" data-bs-toggle="modal" data-bs-target="#consultModal">Заказать звонок</div>
+                    <div class="text_label-rP8x3z manrope-medium-eucalyptus-14px" data-bs-target="#consultModal" style="cursor:pointer;">Заказать звонок</div>
                 </div>
                 <div class="button-pXFCLN" data-bs-toggle="modal" data-bs-target="#loginModal">
                     <img class="icons" src="{{asset('current/img/icons-11.svg')}}" alt="Icons" />

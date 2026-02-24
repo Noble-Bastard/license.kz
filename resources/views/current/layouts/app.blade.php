@@ -91,7 +91,7 @@
             <div class="frame-6-74EEvB">
                 <div class="phone-pXFCLN">
                     <div href="tel: +7 (747) 135-00-00" class="x7-747-135-00-00-rP8x3z">7 (747) 135-00-00</div>
-                    <div class="text_label-rP8x3z manrope-medium-eucalyptus-14px" data-bs-toggle="modal" data-bs-target="#consultModal">@lang('messages.layouts.order_call')</div>
+                    <div class="text_label-rP8x3z manrope-medium-eucalyptus-14px" data-bs-target="#consultModal" style="cursor:pointer;">@lang('messages.layouts.order_call')</div>
                 </div>
                 <div class="button-pXFCLN" data-bs-toggle="modal" data-bs-target="#loginModal">
                     <img class="icons" src="{{asset('current/img/icons-11.svg')}}" alt="Icons" />
@@ -931,7 +931,7 @@
         <header class="header-rwxf71">
             <img class="logo-qBP2f2" src="{{asset('current/img/logo-1.svg')}}" alt="Logo" />
             <div class="frame-157-qBP2f2">
-                <div class="callback-leIyBx" data-bs-toggle="modal" data-bs-target="#consultModal">
+                <div class="callback-leIyBx" data-bs-target="#consultModal" style="cursor:pointer;">
                     <div class="button-jD5n99">
                         <img class="basic-phone-xw66AK" src="{{asset('current/img/basic---phone-2.svg')}}" alt="basic / phone" />
                     </div>
@@ -1852,134 +1852,115 @@
         </div>
     </div>
 </div>
-<div class="modals" style="z-index: 99999 !important;
-            opacity: 3 !important;backdrop-filter: blur(5px);">
-    <div class="modal fade" id="consultModal" tabindex="-1" aria-labelledby="consultModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 520px; margin-top: 80px;">
-            <div class="modal-content" style="border-radius: 16px; border: none; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15); overflow: hidden;">
-                <button type="button" class="btn modal_close" data-bs-dismiss="modal" aria-label="Close" style="position: absolute; top: 16px; right: 16px; z-index: 10; width: 32px; height: 32px; padding: 0; display: flex; align-items: center; justify-content: center; background: #F5F5F5; border-radius: 50%; border: none; cursor: pointer; transition: all 0.2s;">
-                    <i class="bi bi-x" style="font-size: 18px; color: #191E1D;"></i>
+<!-- Callback Modal — кастомная модалка как Войти (без Bootstrap modal) -->
+<div id="consultModal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 999999; width: 100vw; height: 100vh; overflow: auto; background: rgba(0,0,0,0.4); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);" onclick="if(event.target === this) closeConsultModal();">
+    <div style="display: flex; align-items: center; justify-content: center; min-height: 100%; padding: 20px;">
+        <div style="position: relative; max-width: 520px; width: 100%; margin: auto;" onclick="event.stopPropagation();">
+            <div style="background: #FFFFFF; border-radius: 16px; border: none; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15); overflow: hidden; position: relative;">
+                <!-- Кнопка закрыть -->
+                <button type="button" onclick="closeConsultModal(); return false;" style="position: absolute; top: 16px; right: 16px; z-index: 10; width: 32px; height: 32px; padding: 0; display: flex; align-items: center; justify-content: center; background: #F5F5F5; border-radius: 50%; border: none; cursor: pointer; transition: all 0.2s;" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#F5F5F5'">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 4L4 12M4 4L12 12" stroke="#191E1D" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
                 </button>
-
-                <div class="modal-body" style="padding: 40px 32px 32px;z-index: 99999 !important;
-            opacity: 3 !important;backdrop-filter: blur(5px);">
-                    <h3 class="modals__title-head" style="font-family: 'Manrope', sans-serif; font-size: 24px; font-weight: 600; color: #191E1D; margin-bottom: 24px; line-height: 1.3; text-align: center;">Менеджер перезвонит и проконсультирует вас</h3>
-                    {!! Form::open(['url' => route('callMe'), 'method' => 'post', 'class' => 'callMe']) !!}
+                <div style="padding: 40px 32px 32px;">
+                    <h3 style="font-family: 'Manrope', sans-serif; font-size: 24px; font-weight: 600; color: #191E1D; margin-bottom: 24px; line-height: 1.3; text-align: center;">Менеджер перезвонит и проконсультирует вас</h3>
+                    {!! Form::open(['url' => route('callMe'), 'method' => 'post', 'class' => 'callMe', 'id' => 'consultForm']) !!}
                     <input type="hidden" name="tags" value="Callback">
                     <input type="hidden" name="comment" value="Заказ звонка">
                     <input type="hidden" name="source_page" id="callback_source_page" value="">
                     <input type="hidden" name="button_text" id="callback_button_text" value="">
-                    <div class="col-12" style="margin-bottom: 20px;">
-                        <div class="row" style="gap: 16px; margin: 0;">
-                            <div class="col-12" style="padding: 0;">
-                                <input type="text" class="form-control modals__input" name="name"
-                                       placeholder="Ваше имя" required
-                                       style="width: 100%; padding: 14px 16px; border: 1px solid #E8E8E8; border-radius: 8px; font-family: 'Manrope', sans-serif; font-size: 14px; color: #191E1D; background: #FFFFFF; transition: all 0.2s; margin-bottom: 0;">
-                            </div>
-                            <div class="col-12" style="padding: 0;">
-                                <input type="text" class="form-control modals__input" name="phone"
-                                       placeholder="Ваш телефон*" required
-                                       style="width: 100%; padding: 14px 16px; border: 1px solid #E8E8E8; border-radius: 8px; font-family: 'Manrope', sans-serif; font-size: 14px; color: #191E1D; background: #FFFFFF; transition: all 0.2s;">
-                            </div>
+                    <div style="margin-bottom: 20px;">
+                        <div style="display: flex; flex-direction: column; gap: 16px;">
+                            <input type="text" class="form-control" name="name"
+                                   placeholder="Ваше имя" required
+                                   style="width: 100%; padding: 14px 16px; border: 1px solid #E8E8E8; border-radius: 8px; font-family: 'Manrope', sans-serif; font-size: 14px; color: #191E1D; background: #FFFFFF; transition: all 0.2s; outline: none;"
+                                   onfocus="this.style.borderColor='#279760'; this.style.boxShadow='0 0 0 3px rgba(39,151,96,0.1)'"
+                                   onblur="this.style.borderColor='#E8E8E8'; this.style.boxShadow='none'">
+                            <input type="text" class="form-control" name="phone"
+                                   placeholder="Ваш телефон*" required
+                                   style="width: 100%; padding: 14px 16px; border: 1px solid #E8E8E8; border-radius: 8px; font-family: 'Manrope', sans-serif; font-size: 14px; color: #191E1D; background: #FFFFFF; transition: all 0.2s; outline: none;"
+                                   onfocus="this.style.borderColor='#279760'; this.style.boxShadow='0 0 0 3px rgba(39,151,96,0.1)'"
+                                   onblur="this.style.borderColor='#E8E8E8'; this.style.boxShadow='none'">
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-success modals__success_btn" style="width: 100%; padding: 14px; background: #279760; color: #FFFFFF; border: none; border-radius: 8px; font-family: 'Manrope', sans-serif; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin-bottom: 16px;">Отправить</button>
-                    <p class="modals__title-description" style="font-family: 'Manrope', sans-serif; font-size: 12px; color: #6F6F6F; text-align: center; margin: 0; line-height: 1.4;">Нажимая кнопку отправить вы даете разрешение на обработку персональных данных</p>
+                    <button type="submit" class="btn modals__success_btn" style="width: 100%; padding: 14px; background: #279760; color: #FFFFFF !important; border: none; border-radius: 8px; font-family: 'Manrope', sans-serif; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin-bottom: 16px;" onmouseover="this.style.background='#1e7a50'; this.style.transform='translateY(-1px)'; this.style.boxShadow='0 4px 12px rgba(39,151,96,0.3)'" onmouseout="this.style.background='#279760'; this.style.transform='translateY(0)'; this.style.boxShadow='none'">Отправить</button>
+                    <p style="font-family: 'Manrope', sans-serif; font-size: 12px; color: #6F6F6F; text-align: center; margin: 0; line-height: 1.4;">Нажимая кнопку отправить вы даете разрешение на обработку персональных данных</p>
                     {!! Form::close() !!}
                 </div>
-
             </div>
         </div>
     </div>
-    
-    <style>
-        #consultModal .modal-dialog {
-            margin-top: 80px !important;
-        }
-        
-        /* Размытие фона для модалки обратного звонка */
-        .modal-backdrop {
-            background-color: rgba(0, 0, 0, 0.4) !important;
-            backdrop-filter: blur(12px) !important;
-            -webkit-backdrop-filter: blur(12px) !important;
-        }
-        
-        /* Убираем затемнение шапки - только размытие фона */
-        body.modal-open header,
-        body.modal-open .header-new,
-        body.modal-open .header-redesigned {
-            filter: none !important;
-            opacity: 1 !important;
-            z-index: 1030 !important;
-        }
-        
-        /* Убеждаемся, что backdrop находится под модалкой, но над контентом */
-        .modal-backdrop.show {
-            z-index: 10240 !important;
-            opacity: 3;
-        }
-        
-        #consultModal {
-            z-index: 1050 !important;
-        }
-    </style>
-    
-    <script>
-        $(document).ready(function() {
-            // Применяем размытие к backdrop при открытии модалки - с затемнением как в модалке Войти
-            $('#consultModal').on('show.bs.modal', function() {
-                setTimeout(function() {
-                    $('.modal-backdrop').css({
-                        'background-color': 'rgba(0, 0, 0, 0.4)',
-                        'backdrop-filter': 'blur(12px)',
-                        '-webkit-backdrop-filter': 'blur(12px)'
-                    });
-                }, 10);
-            });
-            
-            // Также применяем при каждом показе
-            $('#consultModal').on('shown.bs.modal', function() {
-                $('.modal-backdrop').css({
-                    'background-color': 'rgba(0, 0, 0, 0.4)',
-                    'backdrop-filter': 'blur(12px)',
-                    '-webkit-backdrop-filter': 'blur(12px)'
-                });
-            });
-        });
-    </script>
-    <style>
+</div>
 
-        #consultModal .modals__input:focus {
-            outline: none;
-            border-color: #279760;
-            box-shadow: 0 0 0 3px rgba(39, 151, 96, 0.1);
+<style>
+    #consultModal {
+        animation: consultFadeIn 0.3s ease-out;
+    }
+    @keyframes consultFadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    @media (max-width: 576px) {
+        #consultModal > div > div {
+            max-width: calc(100% - 40px) !important;
         }
-        
-        #consultModal .modals__success_btn:hover {
-            background: #1e7a50 !important;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(39, 151, 96, 0.3);
+        #consultModal > div > div > div > div:last-child {
+            padding: 32px 24px 24px !important;
         }
-        
-        #consultModal .modals__success_btn:active {
-            transform: translateY(0);
-        }
-        
-        #consultModal .modal_close:hover {
-            background: #E8E8E8 !important;
-        }
-        
-        @media (max-width: 576px) {
-            #consultModal .modal-dialog {
-                margin: 20px;
-                max-width: calc(100% - 40px);
+    }
+</style>
+
+<script>
+    // Функции открытия/закрытия модалки обратного звонка
+    if (typeof window.openConsultModal === 'undefined') {
+        window.openConsultModal = function() {
+            var modal = document.getElementById('consultModal');
+            if (modal) {
+                modal.style.display = 'block';
+                document.body.style.overflow = 'hidden';
             }
-            
-            #consultModal .modal-body {
-                padding: 32px 24px 24px !important;
+        };
+    }
+
+    if (typeof window.closeConsultModal === 'undefined') {
+        window.closeConsultModal = function() {
+            var modal = document.getElementById('consultModal');
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+                document.body.classList.remove('modal-open');
+                document.body.style.paddingRight = '';
+            }
+            // Удаляем ВСЕ Bootstrap backdrop-ы
+            document.querySelectorAll('.modal-backdrop').forEach(function(el) { el.remove(); });
+        };
+    }
+
+    // Закрытие по Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            var modal = document.getElementById('consultModal');
+            if (modal && modal.style.display === 'block') {
+                closeConsultModal();
             }
         }
-    </style>
+    });
+
+    // Перехватываем клики на элементы с data-bs-target="#consultModal"
+    document.addEventListener('click', function(e) {
+        var el = e.target.closest('[data-bs-target="#consultModal"]');
+        if (el) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            var srcPage = document.getElementById('callback_source_page');
+            if (srcPage) srcPage.value = window.location.href;
+            var btnText = document.getElementById('callback_button_text');
+            if (btnText) btnText.value = el.textContent.trim();
+            openConsultModal();
+        }
+    }, true);
+</script>
     @php
         if(optional($errors)->login){
             $loginError = $errors->login;
@@ -2073,9 +2054,8 @@
             $('#callback_source_page').val(sourcePage);
             $('#callback_button_text').val(buttonText);
             
-            // Открываем модальное окно
-            var modal = new bootstrap.Modal(document.getElementById('consultModal'));
-            modal.show();
+            // Открываем кастомную модалку
+            openConsultModal();
             
             // Отправляем событие в Google Analytics
             if (typeof gtag !== 'undefined') {
@@ -2092,11 +2072,13 @@
             $('.modals__success_btn', this).attr('disabled', true);
             $(this).ajaxSubmit({
                 success: function () {
-                    gtag('event', 'send', {'event_category': 'callback'});
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'send', {'event_category': 'callback'});
+                    }
                     $('#consultModal .modals__success_btn').attr('disabled', false);
-
-                    $('#consultModal input').val('')
-                    $('#consultModal .btn-x').click()
+                    $('#consultModal input[name="name"]').val('');
+                    $('#consultModal input[name="phone"]').val('');
+                    closeConsultModal();
 
                     setTimeout(() => {
                         alert("@lang('messages.client.service_create')")
@@ -2169,4 +2151,5 @@
     });
 </script>
 </body>
+</html>
 </html>

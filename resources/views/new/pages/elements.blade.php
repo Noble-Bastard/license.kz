@@ -275,8 +275,7 @@
     </div>
   </div>
 
-  <!-- Раздел требований и инструкций -->
-  <div class="service-steps"></div>
+  <!-- Раздел требований и инструкций загружается через AJAX в .services .service-steps -->
 @endsection
 
 @section('js')
@@ -285,18 +284,48 @@
         // Загружаем раздел требований при первой загрузке страницы
         // Ищем первую доступную услугу и загружаем для неё требования
         setTimeout(function() {
-          var firstCheckbox = $('.services__window_all .container_checkbox input[type="checkbox"]').first();
-          if (firstCheckbox.length && firstCheckbox.data('service-id')) {
-            var firstServiceId = firstCheckbox.data('service-id');
-            // Автоматически выбираем первую услугу и загружаем требования
-            firstCheckbox.prop('checked', true);
-            // Обновляем счетчик выбранных
-            var parent = firstCheckbox.parents('.service-content-data-list-item')[0];
-            if (parent) {
-              setSelectedItemsText(parent, true);
-              disableServiceAction();
+          console.log('Автоматическая загрузка требований: начало');
+          // Сначала открываем первый список услуг (убираем d-none)
+          var firstServiceItem = $('.service-content-data-list-item').first();
+          console.log('Найдено элементов .service-content-data-list-item:', firstServiceItem.length);
+          
+          if (firstServiceItem.length) {
+            // Открываем список услуг
+            var choicesDiv = firstServiceItem.find('.services__window_choices');
+            var linksDiv = firstServiceItem.find('.services__window-link');
+            console.log('Найдено .services__window_choices:', choicesDiv.length, 'скрыт:', choicesDiv.hasClass('d-none'));
+            
+            if (choicesDiv.length && choicesDiv.hasClass('d-none')) {
+              choicesDiv.removeClass('d-none');
+              // Переключаем иконки
+              linksDiv.first().addClass('d-none');
+              linksDiv.last().removeClass('d-none');
+              console.log('Список услуг открыт');
             }
-            loadServiceCompare();
+            
+            // Теперь ищем первый чекбокс
+            var firstCheckbox = $('.services__window_all .container_checkbox input[type="checkbox"]').first();
+            console.log('Найдено чекбоксов:', $('.services__window_all .container_checkbox input[type="checkbox"]').length);
+            console.log('Первый чекбокс:', firstCheckbox.length, 'service-id:', firstCheckbox.data('service-id'));
+            
+            if (firstCheckbox.length && firstCheckbox.data('service-id')) {
+              var firstServiceId = firstCheckbox.data('service-id');
+              console.log('Выбираем услугу с ID:', firstServiceId);
+              // Автоматически выбираем первую услугу и загружаем требования
+              firstCheckbox.prop('checked', true);
+              // Обновляем счетчик выбранных
+              var parent = firstCheckbox.parents('.service-content-data-list-item')[0];
+              if (parent) {
+                setSelectedItemsText(parent, true);
+                disableServiceAction();
+              }
+              console.log('Загружаем требования...');
+              loadServiceCompare();
+            } else {
+              console.error('Не найден чекбокс с service-id');
+            }
+          } else {
+            console.error('Не найден элемент .service-content-data-list-item');
           }
         }, 1000);
         
@@ -433,18 +462,33 @@
 
             // Загружаем раздел требований после загрузки services.blade.php
             setTimeout(function() {
-              var firstCheckbox = $('.services__window_all .container_checkbox input[type="checkbox"]').first();
-              if (firstCheckbox.length && firstCheckbox.data('service-id')) {
-                var firstServiceId = firstCheckbox.data('service-id');
-                // Автоматически выбираем первую услугу и загружаем требования
-                firstCheckbox.prop('checked', true);
-                // Обновляем счетчик выбранных
-                var parentItem = firstCheckbox.parents('.service-content-data-list-item')[0];
-                if (parentItem) {
-                  setSelectedItemsText(parentItem, true);
-                  disableServiceAction();
+              // Сначала открываем первый список услуг (убираем d-none)
+              var firstServiceItem = $('.service-content-data-list-item').first();
+              if (firstServiceItem.length) {
+                // Открываем список услуг
+                var choicesDiv = firstServiceItem.find('.services__window_choices');
+                var linksDiv = firstServiceItem.find('.services__window-link');
+                if (choicesDiv.length && choicesDiv.hasClass('d-none')) {
+                  choicesDiv.removeClass('d-none');
+                  // Переключаем иконки
+                  linksDiv.first().addClass('d-none');
+                  linksDiv.last().removeClass('d-none');
                 }
-                loadServiceCompare();
+                
+                // Теперь ищем первый чекбокс
+                var firstCheckbox = $('.services__window_all .container_checkbox input[type="checkbox"]').first();
+                if (firstCheckbox.length && firstCheckbox.data('service-id')) {
+                  var firstServiceId = firstCheckbox.data('service-id');
+                  // Автоматически выбираем первую услугу и загружаем требования
+                  firstCheckbox.prop('checked', true);
+                  // Обновляем счетчик выбранных
+                  var parentItem = firstCheckbox.parents('.service-content-data-list-item')[0];
+                  if (parentItem) {
+                    setSelectedItemsText(parentItem, true);
+                    disableServiceAction();
+                  }
+                  loadServiceCompare();
+                }
               }
             }, 500);
 
@@ -568,52 +612,93 @@
       }
 
       function loadServiceCompare() {
-        if ($('.services__window_all .container_checkbox input:checkbox:checked').length > 0) {
+        var checkedCount = $('.services__window_all .container_checkbox input:checkbox:checked').length;
+        console.log('loadServiceCompare вызвана, выбрано услуг:', checkedCount);
+        
+        if (checkedCount > 0) {
+          var serviceIdList = getServiceIdList();
+          console.log('ID выбранных услуг:', serviceIdList);
+          
           $('.service-content-data-total .loader-line').removeClass('d-none')
           $.ajax({
             type: 'POST',
             url: '{{route('new.services-group.compare')}}',
             data: {
               '_token': "{{ csrf_token() }}",
-              'serviceId[]': getServiceIdList()
+              'serviceId[]': serviceIdList
             },
             success: function (data) {
-              $('.service-steps').html(data)
-
-              const price = $('.service-steps .total-step-info').data('price')
-              const dayCnt = $('.service-steps .total-step-info').data('day-cnt')
-              const tax = $('.service-steps .total-step-info').data('tax')
-
-              $('.service-content-data-total .price span').html(price)
-              $('.service-content-data-turnkey-solution-total .price span').html(price)
-              $('.service-content-info_additional_info .price span').html(price)
-
-              $('.service-content-data-total .day_cnt span').html(dayCnt)
-              $('.service-content-data-turnkey-solution-total .day_cnt span').html(dayCnt)
-              $('.service-content-info_additional_info .day_cnt span').html(dayCnt)
-
-              $('.service-content-info_additional_info .tax span').html(tax)
-
-              $('.service-content-data-total .cnt span').html(getServiceIdList().length)
-              $('.service-content-data-turnkey-solution-total .cnt span').html(getServiceIdList().length)
-
-              $('.selected-sub-licence').html(getServiceNameList())
-
-              $('.service-content-data-total .loader-line').addClass('d-none')
+              console.log('Данные получены, длина:', data.length);
               
-              // Прокручиваем к разделу требований после загрузки
-              if ($('.service-steps').length && $('.service-steps').html().trim() !== '') {
-                $('html, body').animate({
-                  scrollTop: $('.service-steps').offset().top - $('.header-new').outerHeight() - 20
-                }, 500);
+              // Ищем .service-steps внутри блока .services (из services.blade.php)
+              var serviceStepsContainer = $('.services .service-steps');
+              console.log('Найдено .services .service-steps:', serviceStepsContainer.length);
+              
+              if (serviceStepsContainer.length === 0) {
+                // Если не нашли внутри .services, используем первый найденный
+                serviceStepsContainer = $('.service-steps').first();
+                console.log('Используем первый .service-steps:', serviceStepsContainer.length);
+              }
+              
+              if (serviceStepsContainer.length > 0) {
+                serviceStepsContainer.html(data);
+                console.log('Требования загружены в контейнер');
+
+                const price = serviceStepsContainer.find('.total-step-info').data('price')
+                const dayCnt = serviceStepsContainer.find('.total-step-info').data('day-cnt')
+                const tax = serviceStepsContainer.find('.total-step-info').data('tax')
+
+                $('.service-content-data-total .price span').html(price)
+                $('.service-content-data-turnkey-solution-total .price span').html(price)
+                $('.service-content-info_additional_info .price span').html(price)
+
+                $('.service-content-data-total .day_cnt span').html(dayCnt)
+                $('.service-content-data-turnkey-solution-total .day_cnt span').html(dayCnt)
+                $('.service-content-info_additional_info .day_cnt span').html(dayCnt)
+
+                $('.service-content-info_additional_info .tax span').html(tax)
+
+                $('.service-content-data-total .cnt span').html(getServiceIdList().length)
+                $('.service-content-data-turnkey-solution-total .cnt span').html(getServiceIdList().length)
+
+                $('.selected-sub-licence').html(getServiceNameList())
+
+                $('.service-content-data-total .loader-line').addClass('d-none')
+                
+                // Прокручиваем к разделу требований после загрузки
+                if (serviceStepsContainer.length && serviceStepsContainer.html().trim() !== '') {
+                  setTimeout(function() {
+                    var headerHeight = $('.header-new').length ? $('.header-new').outerHeight() : 0;
+                    var headerRedesignedHeight = $('.header-redesigned').length ? $('.header-redesigned').outerHeight() : 0;
+                    var headerHeightFinal = Math.max(headerHeight, headerRedesignedHeight) || 80;
+                    
+                    $('html, body').animate({
+                      scrollTop: serviceStepsContainer.offset().top - headerHeightFinal - 20
+                    }, 500);
+                  }, 100);
+                }
+              } else {
+                console.error('Не найден элемент .service-steps для загрузки требований');
+                $('.service-content-data-total .loader-line').addClass('d-none');
               }
             },
-            error: function () {
+            error: function (xhr, status, error) {
+              console.error('Ошибка загрузки требований:', error);
+              console.error('Статус:', status);
+              console.error('Ответ сервера:', xhr.responseText);
               $('.service-content-data-total .loader-line').addClass('d-none')
             }
           })
         } else {
           $('.service-content-data-total .cnt span').html(0)
+          // Очищаем раздел требований, если ничего не выбрано
+          var serviceStepsContainer = $('.services .service-steps');
+          if (serviceStepsContainer.length === 0) {
+            serviceStepsContainer = $('.service-steps').first();
+          }
+          if (serviceStepsContainer.length > 0) {
+            serviceStepsContainer.html('');
+          }
         }
       }
 

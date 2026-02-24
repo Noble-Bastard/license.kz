@@ -48,7 +48,7 @@
     <div class="header-redesigned__contact-section">
         <div class="header-redesigned__phone">
             <a href="tel:+77471350000" class="phone-number">7 (747) 135-00-00</a>
-            <a href="#" class="callback-link" data-bs-toggle="modal" data-bs-target="#consultModal">{{ __('Заказать звонок') }}</a>
+            <a href="#" class="callback-link" data-bs-target="#consultModal">{{ __('Заказать звонок') }}</a>
         </div>
 
         @auth
@@ -177,7 +177,7 @@
         <div class="mb-3" style="display: flex; justify-content: space-between; align-items: center;">
             <div>
                 <div style="font-family: 'Manrope', sans-serif; font-weight: 500; color: #000;">7 (747) 135-00-00</div>
-                <a href="#" style="color: #279760; text-decoration: none; font-family: 'Manrope', sans-serif;" data-bs-toggle="modal" data-bs-target="#consultModal">{{ __('Заказать звонок') }}</a>
+                <a href="#" style="color: #279760; text-decoration: none; font-family: 'Manrope', sans-serif;" data-bs-target="#consultModal">{{ __('Заказать звонок') }}</a>
             </div>
             @auth
                 <div class="dropdown">

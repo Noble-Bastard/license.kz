@@ -112,7 +112,6 @@
       </div>
       <div class="col-12 col-md-6 d-none d-md-block">
         <button type="button" class="btn btn-success service-content-data-popular-services-head-btn services__window_popular_btn popularServices"
-                data-bs-toggle="modal"
                 data-bs-target="#consultModal"
         >
           Заказать звонок
@@ -159,7 +158,6 @@
   </div>
   <div class="d-flex d-md-none">
     <button type="button" class="w-100 btn btn-success service-content-data-popular-services-head-btn services__window_popular_btn popularServices"
-            data-bs-toggle="modal"
             data-bs-target="#consultModal"
     >
       Заказать звонок
