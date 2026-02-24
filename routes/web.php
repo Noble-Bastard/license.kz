@@ -193,7 +193,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => ['lo
             Route::get('commercial_offers', 'SaleManager\CommercialOfferController@index')->name('sale_manager.commercial_offer.index');
             Route::get('commercial_offers/create', 'SaleManager\CommercialOfferController@create')->name('sale_manager.commercial_offer.create');
             Route::post('commercial_offers/store', 'SaleManager\CommercialOfferController@store')->name('sale_manager.commercial_offer.store');
-            Route::get('commercial_offers/prepareServiceById', 'SaleManager\CommercialOfferController@prepareServiceById')->name('sale_manager.commercial_offer.prepareServiceById');
+            Route::match(['get', 'post'], 'commercial_offers/prepareServiceById', 'SaleManager\CommercialOfferController@prepareServiceById')->name('sale_manager.commercial_offer.prepareServiceById');
             
             // Test route for debugging
             Route::get('test-button', function() {

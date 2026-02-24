@@ -280,7 +280,12 @@ $(function () {
             type: 'get',
             url: '{{route('sale_manager.commercial_offer.prepareServiceById')}}',
             data: { idList: idList },
-            success: function (data) {
+            success: function (response) {
+                if (!response.success) {
+                    showNotification('error', 'Ошибка!', response.error || 'Не удалось загрузить данные');
+                    return;
+                }
+                var data = response.data;
                 $('#serviceName').val(data.serviceName || '');
                 $('#serviceList').val(data.serviceList || '');
                 $('#executiveAgency').val(data.executiveAgency || '');

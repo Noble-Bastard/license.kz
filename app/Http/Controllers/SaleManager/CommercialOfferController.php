@@ -26,6 +26,7 @@ use App\Data\Service\Dal\ServiceStepMapDal;
 use App\Data\Service\Dal\ServiceStepRequiredDocumentDal;
 use App\Data\Service\Helper\CommercialOfferTypeList;
 use App\Data\Service\Model\CommercialOffer;
+use App\Data\Service\Model\Service;
 use App\Mail\CommercialOfferNotification;
 use Illuminate\Support\Facades\Input;
 
@@ -72,10 +73,17 @@ class CommercialOfferController
             $customService->serviceRequiredDocument = $requiredDocuments ? explode('.', $requiredDocuments) : [];
             $customService->cost = $cost ?: 0;
 
+            // Фильтруем только реально существующие service_id
+            $rawIdList = $serviceIds ? array_filter(array_map('trim', preg_split('/[;,]/', $serviceIds))) : [];
+            $validServiceIds = [];
+            if (!empty($rawIdList)) {
+                $validServiceIds = Service::whereIn('id', $rawIdList)->pluck('id')->toArray();
+            }
+
             $params = [
                 'name' => $clientName,
                 'phone' => $clientPhone,
-                'serviceIdList' => $serviceIds ? explode(';', $serviceIds) : [],
+                'serviceIdList' => $validServiceIds,
                 'emailToSend' => $clientEmail
             ];
             
@@ -97,7 +105,7 @@ class CommercialOfferController
             (new CommercialOfferNotification($emailEntity, $attachList))->setData();
 
             // Проверяем, это AJAX запрос или обычный
-            if (request()->ajax()) {
+            if (request()->ajax() || request()->wantsJson()) {
                 return response()->json([
                     'success' => true,
                     'message' => 'КП успешно создано!'
@@ -106,7 +114,7 @@ class CommercialOfferController
 
             return redirect(route('sale_manager.commercial_offer.index'));
         } catch (\Exception $e) {
-            if (request()->ajax()) {
+            if (request()->ajax() || request()->wantsJson()) {
                 return response()->json([
                     'success' => false,
                     'error' => 'Ошибка: ' . $e->getMessage()
@@ -120,7 +128,8 @@ class CommercialOfferController
     public function prepareServiceById()
     {
         try {
-            $ids = request()->input('ids');
+            // Поддержка обоих параметров: 'ids' (index.blade) и 'idList' (create.blade)
+            $ids = request()->input('ids') ?: request()->input('idList');
             if (!$ids) {
                 return response()->json([
                     'success' => false,
@@ -128,30 +137,62 @@ class CommercialOfferController
                 ], 400);
             }
 
-            $serviceIdList = explode(';', $ids);
+            // Разделяем по ; или , и очищаем пробелы
+            $serviceIdList = array_filter(array_map('trim', preg_split('/[;,]/', $ids)));
+
+            if (empty($serviceIdList)) {
+                return response()->json([
+                    'success' => false,
+                    'error' => 'Не удалось разобрать список ID'
+                ], 400);
+            }
 
             $catalogNode = ServiceCatalogDal::getNodeByService(intval($serviceIdList[0]));
+            if (!$catalogNode) {
+                return response()->json([
+                    'success' => false,
+                    'error' => 'Услуга с ID ' . $serviceIdList[0] . ' не найдена в каталоге'
+                ], 404);
+            }
+
             $license = CatalogDal::getParentNodeByType($catalogNode->catalog_id, CatalogTypeList::WHITE_BOX_WITH_ICON);
+            if (!$license) {
+                return response()->json([
+                    'success' => false,
+                    'error' => 'Не найдена лицензия для услуги с ID ' . $serviceIdList[0]
+                ], 404);
+            }
 
             $serviceList = ServiceDal::getListByIdArray($serviceIdList, true);
+            if (!$serviceList || $serviceList->isEmpty()) {
+                return response()->json([
+                    'success' => false,
+                    'error' => 'Услуги с указанными ID не найдены'
+                ], 404);
+            }
+
             $serviceAdditionalRequirementsList = (new ServiceAdditionalRequirementsDal())->getListByServiceArray($serviceIdList, true);
             $serviceStepList = (new ServiceStepMapDal())->getListByServiceArray($serviceIdList);
             $requiredDocumentList = (new ServiceStepRequiredDocumentDal())->getListByServiceArray($serviceIdList, true);
             $serviceTotals = ServiceDal::getServiceTotals($serviceIdList, null);
 
-            $serviceStep = $serviceStepList[0];
-            $curStepRequiredDocument = $requiredDocumentList->where('service_step_id', $serviceStep->service_step_id)->all();
             $documentList = [];
-            foreach($curStepRequiredDocument as $stepRequiredDocument){
-                array_push($documentList, $stepRequiredDocument->serviceRequiredDocumentWithTranslate->description);
+            if ($serviceStepList && count($serviceStepList) > 0) {
+                $serviceStep = $serviceStepList[0];
+                $curStepRequiredDocument = $requiredDocumentList->where('service_step_id', $serviceStep->service_step_id)->all();
+                foreach($curStepRequiredDocument as $stepRequiredDocument){
+                    if ($stepRequiredDocument->serviceRequiredDocumentWithTranslate) {
+                        array_push($documentList, $stepRequiredDocument->serviceRequiredDocumentWithTranslate->description);
+                    }
+                }
             }
             
             $result = new \stdClass();
             $result->license_name = $license->name;
             $result->subspecies = $serviceList->unique('name')->implode('name', '; ');
-            $result->authorized_body = $serviceList[0]->executive_agency;
-            $result->state_duty_cost = $serviceTotals->stepTaxMRPTotal;
-            $result->service_period = $serviceTotals->executionWorkDayTotal;
+            $result->authorized_body = $serviceList[0]->executive_agency ?? '';
+            $result->state_duty_cost = $serviceTotals->stepTaxMRPTotal ?? 0;
+            $result->service_period = $serviceTotals->executionWorkDayTotal ?? '';
             $result->required_documents = implode('; ', $documentList);
 
             $serviceAdditionalRequirements = [];
@@ -168,7 +209,16 @@ class CommercialOfferController
             }
 
             $result->additional_requirements = implode(';', $serviceAdditionalRequirements);
-            $result->cost = $serviceTotals->stepCostTotal;
+            $result->cost = $serviceTotals->stepCostTotal ?? 0;
+
+            // Обратная совместимость: старые имена полей для create.blade.php
+            $result->serviceName = $result->license_name;
+            $result->serviceList = $result->subspecies;
+            $result->executiveAgency = $result->authorized_body;
+            $result->tax = $result->state_duty_cost;
+            $result->executionWorkDay = $result->service_period;
+            $result->serviceAdditionalRequirements = $result->additional_requirements;
+            $result->serviceRequiredDocument = $result->required_documents;
             
             return response()->json([
                 'success' => true,
