@@ -272,9 +272,9 @@ class ServicesController extends Controller
             return response()->json([
                 'success' => true,
                 'count' => count($selectedServices),
-                'total_cost' => $serviceTotals->baseCostTotal,
-                'total_days' => $serviceTotals->executionDaysTotal,
-                'total_tax' => $serviceTotals->taxTotal ?? 0,
+                'total_cost' => $serviceTotals->stepCostTotal ?? 0,
+                'total_days' => $serviceTotals->executionWorkDayTotal ?? 0,
+                'total_tax' => $serviceTotals->stepTaxTotal ?? 0,
             ]);
         } catch (\Exception $e) {
             \Log::error('Error in getServiceTotalsJson: ' . $e->getMessage());
@@ -284,85 +284,94 @@ class ServicesController extends Controller
 
     public function serviceGroupCompareNew()
     {
-        $selectedServices = Input::get('serviceId');
+        try {
+            $selectedServices = Input::get('serviceId');
 
-        $serviceStepList = (new ServiceStepMapDal())->getListByServiceArray($selectedServices);
+            if (empty($selectedServices)) {
+                return response('', 200);
+            }
 
-        $serviceAdditionalRequirements = (new ServiceAdditionalRequirementsDal())->getListByServiceArray($selectedServices, true);
+            $serviceStepList = (new ServiceStepMapDal())->getListByServiceArray($selectedServices);
 
-        $serviceTotals = ServiceDal::getServiceTotals(
-            $selectedServices,
-            null
-        );
+            $serviceAdditionalRequirements = (new ServiceAdditionalRequirementsDal())->getListByServiceArray($selectedServices, true);
 
-        $serviceStepRequiredDocumentList = (new ServiceStepRequiredDocumentDal())->getListByServiceArray($selectedServices, true);
+            $serviceTotals = ServiceDal::getServiceTotals(
+                $selectedServices,
+                null
+            );
 
-        $popularServiceList = [
-            [
-                'icon' => "/new/images/popular_service/handshake-outline.svg",
-                "title" => "Полный комплекс услуг по сопровождению бизнеса",
-                "cost" => 90000,
-                "tag" => "Legalall",
-                "comment" => "Полный оутсорсинг",
-            ],
-            [
-                'icon' => "/new/images/popular_service/bank-outline.svg",
-                "title" => "Открытие банковского счета",
-                "cost" => 25000,
-                "tag" => "bank",
-                "comment" => "Банковский счет",
-            ],
-            [
-                'icon' => "/new/images/popular_service/scale-balance.svg",
-                "title" => "Юридическое сопровождение",
-                "cost" => 40000,
-                "tag" => "legaloutsourcing",
-                "comment" => "Юридический оутсорсинг",
-            ],
-            [
-                'icon' => "/new/images/popular_service/text-box-multiple-outline.svg",
-                "title" => "Бухгалтерское сопровождение",
-                "cost" => 40000,
-                "tag" => "accountoutsourcing",
-                "comment" => "Бухгалтерский оутсорсинг",
-            ],
-        ];
+            $serviceStepRequiredDocumentList = (new ServiceStepRequiredDocumentDal())->getListByServiceArray($selectedServices, true);
 
-      $serviceContainsList = [
-        [
-          "title" => "Поиск и подготовка документов по требуемой технике и мат.тех.оснащенности",
-          "img" => '/new/images/service_contains/cash.svg'
-        ],
-        [
-          "title" => "Оплата суммы государственной пошлины",
-          "img" => '/new/images/service_contains/bank-transfer.svg'
-        ],
-        [
-          "title" => "Формирование и сбор документов юр.лица",
-          "img" => '/new/images/service_contains/domain.svg'
-        ],
-        [
-          "title" => "Поиск и подготовка необходимого штата специалистов для получения лицензии",
-          "img" => '/new/images/service_contains/account-group-outline.svg'
-        ],
-        [
-          "title" => "Заполнение анкет с прикреплением всех необходимых документов",
-          "img" => '/new/images/service_contains/note-text-outline.svg'
-        ],
-        [
-          "title" => "Подготовка и формирование документов",
-          "img" => '/new/images/service_contains/text-box-check-outline.svg'
-        ],
-      ];
+            $popularServiceList = [
+                [
+                    'icon' => "/new/images/popular_service/handshake-outline.svg",
+                    "title" => "Полный комплекс услуг по сопровождению бизнеса",
+                    "cost" => 90000,
+                    "tag" => "Legalall",
+                    "comment" => "Полный оутсорсинг",
+                ],
+                [
+                    'icon' => "/new/images/popular_service/bank-outline.svg",
+                    "title" => "Открытие банковского счета",
+                    "cost" => 25000,
+                    "tag" => "bank",
+                    "comment" => "Банковский счет",
+                ],
+                [
+                    'icon' => "/new/images/popular_service/scale-balance.svg",
+                    "title" => "Юридическое сопровождение",
+                    "cost" => 40000,
+                    "tag" => "legaloutsourcing",
+                    "comment" => "Юридический оутсорсинг",
+                ],
+                [
+                    'icon' => "/new/images/popular_service/text-box-multiple-outline.svg",
+                    "title" => "Бухгалтерское сопровождение",
+                    "cost" => 40000,
+                    "tag" => "accountoutsourcing",
+                    "comment" => "Бухгалтерский оутсорсинг",
+                ],
+            ];
 
-        return view('new.partials.page.service-compare')
-            ->with('serviceStepList', $serviceStepList)
-            ->with('serviceAdditionalRequirements', $serviceAdditionalRequirements)
-            ->with('serviceTotals', $serviceTotals)
-            ->with('popularServiceList', $popularServiceList)
-            ->with('serviceContainsList', $serviceContainsList)
-            ->with('serviceStepRequiredDocumentList', $serviceStepRequiredDocumentList)
-            ;
+            $serviceContainsList = [
+                [
+                    "title" => "Поиск и подготовка документов по требуемой технике и мат.тех.оснащенности",
+                    "img" => '/new/images/service_contains/cash.svg'
+                ],
+                [
+                    "title" => "Оплата суммы государственной пошлины",
+                    "img" => '/new/images/service_contains/bank-transfer.svg'
+                ],
+                [
+                    "title" => "Формирование и сбор документов юр.лица",
+                    "img" => '/new/images/service_contains/domain.svg'
+                ],
+                [
+                    "title" => "Поиск и подготовка необходимого штата специалистов для получения лицензии",
+                    "img" => '/new/images/service_contains/account-group-outline.svg'
+                ],
+                [
+                    "title" => "Заполнение анкет с прикреплением всех необходимых документов",
+                    "img" => '/new/images/service_contains/note-text-outline.svg'
+                ],
+                [
+                    "title" => "Подготовка и формирование документов",
+                    "img" => '/new/images/service_contains/text-box-check-outline.svg'
+                ],
+            ];
+
+            return view('new.partials.page.service-compare')
+                ->with('serviceStepList', $serviceStepList)
+                ->with('serviceAdditionalRequirements', $serviceAdditionalRequirements)
+                ->with('serviceTotals', $serviceTotals)
+                ->with('popularServiceList', $popularServiceList)
+                ->with('serviceContainsList', $serviceContainsList)
+                ->with('serviceStepRequiredDocumentList', $serviceStepRequiredDocumentList)
+                ;
+        } catch (\Exception $e) {
+            \Log::error('Error in serviceGroupCompareNew: ' . $e->getMessage() . "\n" . $e->getTraceAsString());
+            return response('<div class="alert alert-danger m-3">Ошибка загрузки данных: ' . e($e->getMessage()) . '</div>', 500);
+        }
     }
 
     public function getFreeZonePartial()
@@ -831,9 +840,13 @@ class ServicesController extends Controller
         $serviceCategory = ServiceCategoryDal::getServiceCategoryByService(intval($selectedServices[0]));
 
         $catalogNode = ServiceCatalogDal::getNodeByService(intval($selectedServices[0]));
-        $license = CatalogDal::getParentNodeByType($catalogNode->catalog_id, CatalogTypeList::WHITE_BOX_WITH_ICON);
-
-        $license = CatalogDal::get($license->id, true);
+        $license = null;
+        if ($catalogNode) {
+            $licenseNode = CatalogDal::getParentNodeByType($catalogNode->catalog_id, CatalogTypeList::WHITE_BOX_WITH_ICON);
+            if ($licenseNode) {
+                $license = CatalogDal::get($licenseNode->id, true);
+            }
+        }
 
         $serviceList = ServiceDal::getServiceListByIdArray($selectedServices, true);
         $serviceStepList = (new ServiceStepMapDal())->getListByServiceArray($selectedServices);
@@ -1018,12 +1031,22 @@ class ServicesController extends Controller
 
     public function sendCommercialOffer(Request $request)
     {
-        (new ServiceDal())->sendCommercialOffer($this->prepareParamsForSend($request, 'Запрошенно КП по ', 'license-kz-callback'));
+        try {
+            (new ServiceDal())->sendCommercialOffer($this->prepareParamsForSend($request, 'Запрошенно КП по ', 'license-kz-callback'));
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
+        }
     }
 
     public function sendServiceRequirement(Request $request)
     {
-        (new ServiceDal())->sendServiceRequirement($this->prepareParamsForSend($request, 'Запрошены требования по ', 'license-kz-requierments'));
+        try {
+            (new ServiceDal())->sendServiceRequirement($this->prepareParamsForSend($request, 'Запрошены требования по ', 'license-kz-requierments'));
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
+        }
     }
 
     private function prepareParamsForSend(Request $request, $info, $amoChannel)
@@ -1043,7 +1066,9 @@ class ServicesController extends Controller
             $comment = '';
             foreach ($params['serviceIdList'] as $serviceId) {
                 $service = ServiceDal::getServiceInfo($serviceId);
-                $comment .= $service->name . ' | ';
+                if ($service) {
+                    $comment .= $service->name . ' | ';
+                }
             }
           $roistatVisitId = array_key_exists('roistat_visit', $_COOKIE) ? $_COOKIE['roistat_visit'] : "неизвестно";
             (new AMOCrm())->callMe($amoChannel, $name, $phone, $email, $info . ' ' . $comment, $info, null, $roistatVisitId);

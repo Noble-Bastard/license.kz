@@ -147,34 +147,51 @@ class CommercialOfferController
                 ], 400);
             }
 
+            // Получаем услуги напрямую из таблицы service
+            $serviceList = Service::with(['licenseType', 'serviceThematicGroup.serviceCategory'])
+                ->whereIn('id', $serviceIdList)
+                ->get();
+
+            if ($serviceList->isEmpty()) {
+                return response()->json([
+                    'success' => false,
+                    'error' => 'Услуги с указанными ID не найдены в базе'
+                ], 404);
+            }
+
+            // Название лицензии: пробуем из каталога, иначе из licenseType или названия услуги
+            $licenseName = '';
             $catalogNode = ServiceCatalogDal::getNodeByService(intval($serviceIdList[0]));
-            if (!$catalogNode) {
-                return response()->json([
-                    'success' => false,
-                    'error' => 'Услуга с ID ' . $serviceIdList[0] . ' не найдена в каталоге'
-                ], 404);
+            if ($catalogNode) {
+                $license = CatalogDal::getParentNodeByType($catalogNode->catalog_id, CatalogTypeList::WHITE_BOX_WITH_ICON);
+                if ($license) {
+                    $licenseName = $license->name;
+                }
+            }
+            if (empty($licenseName)) {
+                // Fallback: берём из licenseType или из названия категории услуги
+                $firstService = $serviceList[0];
+                if ($firstService->licenseType) {
+                    $licenseName = $firstService->licenseType->name;
+                } elseif ($firstService->serviceThematicGroup && $firstService->serviceThematicGroup->serviceCategory) {
+                    $licenseName = $firstService->serviceThematicGroup->serviceCategory->name;
+                } else {
+                    $licenseName = $firstService->name;
+                }
             }
 
-            $license = CatalogDal::getParentNodeByType($catalogNode->catalog_id, CatalogTypeList::WHITE_BOX_WITH_ICON);
-            if (!$license) {
-                return response()->json([
-                    'success' => false,
-                    'error' => 'Не найдена лицензия для услуги с ID ' . $serviceIdList[0]
-                ], 404);
-            }
-
-            $serviceList = ServiceDal::getListByIdArray($serviceIdList, true);
-            if (!$serviceList || $serviceList->isEmpty()) {
-                return response()->json([
-                    'success' => false,
-                    'error' => 'Услуги с указанными ID не найдены'
-                ], 404);
-            }
-
+            // Доп. данные по шагам
             $serviceAdditionalRequirementsList = (new ServiceAdditionalRequirementsDal())->getListByServiceArray($serviceIdList, true);
             $serviceStepList = (new ServiceStepMapDal())->getListByServiceArray($serviceIdList);
             $requiredDocumentList = (new ServiceStepRequiredDocumentDal())->getListByServiceArray($serviceIdList, true);
-            $serviceTotals = ServiceDal::getServiceTotals($serviceIdList, null);
+
+            // Стоимость и сроки
+            $serviceTotals = null;
+            try {
+                $serviceTotals = ServiceDal::getServiceTotals($serviceIdList, null);
+            } catch (\Exception $e) {
+                // Если getServiceTotals упадёт — продолжаем с нулями
+            }
 
             $documentList = [];
             if ($serviceStepList && count($serviceStepList) > 0) {
@@ -188,28 +205,28 @@ class CommercialOfferController
             }
             
             $result = new \stdClass();
-            $result->license_name = $license->name;
+            $result->license_name = $licenseName;
             $result->subspecies = $serviceList->unique('name')->implode('name', '; ');
             $result->authorized_body = $serviceList[0]->executive_agency ?? '';
-            $result->state_duty_cost = $serviceTotals->stepTaxMRPTotal ?? 0;
-            $result->service_period = $serviceTotals->executionWorkDayTotal ?? '';
+            $result->state_duty_cost = $serviceTotals ? ($serviceTotals->stepTaxMRPTotal ?? 0) : 0;
+            $result->service_period = $serviceTotals ? ($serviceTotals->executionWorkDayTotal ?? '') : '';
             $result->required_documents = implode('; ', $documentList);
 
             $serviceAdditionalRequirements = [];
-            foreach($serviceAdditionalRequirementsList->groupBy('name') as $type => $valueList){
-                $serviceAdditionalRequirementsItem = '';
-                $serviceAdditionalRequirementsItem .= $type . ": ";
-                $numItems = count($valueList);
-                $j = 0;
-                foreach ($valueList->sortBy('description') as $value) {
-                    $serviceAdditionalRequirementsItem .= $value->description . (++$j === $numItems ? '' : ', ');
+            if ($serviceAdditionalRequirementsList && $serviceAdditionalRequirementsList->count() > 0) {
+                foreach($serviceAdditionalRequirementsList->groupBy('name') as $type => $valueList){
+                    $serviceAdditionalRequirementsItem = $type . ": ";
+                    $numItems = count($valueList);
+                    $j = 0;
+                    foreach ($valueList->sortBy('description') as $value) {
+                        $serviceAdditionalRequirementsItem .= $value->description . (++$j === $numItems ? '' : ', ');
+                    }
+                    array_push($serviceAdditionalRequirements, $serviceAdditionalRequirementsItem);
                 }
-
-                array_push($serviceAdditionalRequirements, $serviceAdditionalRequirementsItem);
             }
 
             $result->additional_requirements = implode(';', $serviceAdditionalRequirements);
-            $result->cost = $serviceTotals->stepCostTotal ?? 0;
+            $result->cost = $serviceTotals ? ($serviceTotals->stepCostTotal ?? 0) : 0;
 
             // Обратная совместимость: старые имена полей для create.blade.php
             $result->serviceName = $result->license_name;

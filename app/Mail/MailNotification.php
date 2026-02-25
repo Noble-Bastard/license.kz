@@ -57,7 +57,7 @@ class MailNotification extends Notification
         $message = (new MailMessage)
             ->greeting($this->greeting)
             ->subject($this->mailSubject)
-            ->line($this->mailBody)
+            ->line(new HtmlString($this->mailBody))
             ->action('Личный кабинет', route('profile'))
             ->line('');
 

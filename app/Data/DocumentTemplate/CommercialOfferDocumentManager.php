@@ -46,14 +46,29 @@ class CommercialOfferDocumentManager extends DocumentManager
         $this->serviceIdList = $serviceIdList;
 
         $catalogNode = ServiceCatalogDal::getNodeByService(intval($serviceIdList[0]));
-        $this->license = CatalogDal::getParentNodeByType($catalogNode->catalog_id, CatalogTypeList::WHITE_BOX_WITH_ICON);
+        if ($catalogNode) {
+            $this->license = CatalogDal::getParentNodeByType($catalogNode->catalog_id, CatalogTypeList::WHITE_BOX_WITH_ICON);
+        }
+        // Fallback: если каталог не найден, создаём объект с именем из licenseType/service
+        if (!$this->license) {
+            $svc = \App\Data\Service\Model\Service::with('licenseType')->find(intval($serviceIdList[0]));
+            $this->license = new \stdClass();
+            $this->license->name = $svc && $svc->licenseType ? $svc->licenseType->name : ($svc ? $svc->name : 'Услуга');
+        }
 
         $service = ServiceDal::get($this->serviceIdList[0]);
+        if (!$service) {
+            throw new \RuntimeException('Услуга с ID ' . $this->serviceIdList[0] . ' не найдена');
+        }
 
         $documentTemplate = DocumentTemplateDal::getByCountryAndTemplateType(
             $service->country_id,
             DocumentTemplateTypeList::CommercialOfferTemplate
         );
+
+        if (!$documentTemplate) {
+            throw new \RuntimeException('Шаблон документа не найден для country_id=' . $service->country_id);
+        }
 
         parent::__construct(
             $documentTemplate,

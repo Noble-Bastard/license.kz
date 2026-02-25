@@ -10,6 +10,7 @@ use App\Data\DocumentTemplate\ServiceRequirementDocumentManager;
 use App\Data\Helper\Assistant;
 use App\Data\Helper\CatalogTypeList;
 use App\Data\Helper\EmailNotifyTypeList;
+use App\Data\Notify\Dal\EmailDal;
 use App\Data\Helper\ServiceStatusList;
 use App\Data\Notify\Model\EmailJournal;
 use App\Data\RegistrationFormTemplate\Dal\ServiceRegistrationFormTemplateDal;
@@ -66,6 +67,30 @@ class ServiceDal
         'service_ext.service_start_date',
         'service_ext.service_end_date',
     ];
+
+    /**
+     * Получение услуги по ID (обёртка над getServiceInfo для обратной совместимости)
+     *
+     * @param $entityId
+     * @param bool $translateData
+     * @return mixed
+     */
+    public static function get($entityId, bool $translateData = false)
+    {
+        return self::getServiceInfo($entityId, $translateData);
+    }
+
+    /**
+     * Получение списка услуг по массиву ID (обёртка над getServiceListByIdArray)
+     *
+     * @param $idList
+     * @param bool $translateData
+     * @return mixed
+     */
+    public static function getListByIdArray($idList, bool $translateData = false)
+    {
+        return self::getServiceListByIdArray($idList, $translateData);
+    }
 
     /**
      * Альтернативный метод получения данных услуги без использования view service_ext
@@ -165,8 +190,8 @@ class ServiceDal
 
         } catch (\Exception $e) {
             Log::error('Error in getServiceInfo: ' . $e->getMessage());
-            // Fallback к обычному методу если что-то пойдет не так
-            return self::get($entityId, $translateData);
+            // Возвращаем null вместо рекурсивного вызова self::get() который вызовет бесконечную рекурсию
+            return null;
         }
     }
 
@@ -411,55 +436,78 @@ class ServiceDal
         $result->stepTaxTotal = 0;
         $result->stepTaxMRPTotal = 0;
         $result->executionWorkDayTotal = 0;
+        $result->stepCostTotalWords = '';
+        $result->stepTaxTotalWords = '';
+        $result->serviceTotalWords = '';
+        $result->executionWorkDayTotalWords = '';
+        $result->currency = null;
 
-        $serviceStepExtQuery = ServiceStepExt::whereIn('service_id', $serviceIdList);
-        if (!is_null($serviceStepIdList)) {
-            $serviceStepExtQuery = $serviceStepExtQuery->whereIn('id', $serviceStepIdList);
+        try {
+            $serviceStepExtQuery = ServiceStepExt::whereIn('service_id', $serviceIdList);
+            if (!is_null($serviceStepIdList)) {
+                $serviceStepExtQuery = $serviceStepExtQuery->whereIn('id', $serviceStepIdList);
+            }
+
+            $serviceStepExtList = $serviceStepExtQuery->select(
+                DB::raw('max(step_cost) as step_cost'),
+                DB::raw('max(step_tax) as step_tax')
+            )
+                ->groupBy('id')
+                ->get();
+
+
+            foreach ($serviceStepExtList as $serviceStepExt) {
+                $result->stepCostTotal += $serviceStepExt->step_cost;
+                $result->stepTaxTotal += $serviceStepExt->step_tax;
+            }
+
+            $serviceStepExtQuery = ServiceStepExt::whereIn('service_id', $serviceIdList);
+            if (!is_null($serviceStepIdList)) {
+                $serviceStepExtQuery = $serviceStepExtQuery->whereIn('id', $serviceStepIdList);
+            }
+            $result->executionWorkDayTotal = $serviceStepExtQuery->groupBy('execution_parallel_no')
+            ->get([
+                'execution_parallel_no',
+                DB::raw('MAX(execution_work_day_cnt) as execution_work_day_cnt')
+            ])
+            ->sum('execution_work_day_cnt');
+        } catch (\Exception $e) {
+            Log::error('Error querying service_step_ext in getServiceTotals: ' . $e->getMessage());
         }
 
-        $serviceStepExtList = $serviceStepExtQuery->select(
-            DB::raw('max(step_cost) as step_cost'),
-            DB::raw('max(step_tax) as step_tax')
-        )
-            ->groupBy('id')
-            ->get();
-
-
-        foreach ($serviceStepExtList as $serviceStepExt) {
-            $result->stepCostTotal += $serviceStepExt->step_cost;
-            $result->stepTaxTotal += $serviceStepExt->step_tax;
+        try {
+            $serviceList = ServiceDal::getListByIdArray($serviceIdList, true);
+            if ($serviceList && $serviceList->count() > 0) {
+                $result->stepCostTotal += self::getServiceCost($serviceList);
+            }
+        } catch (\Exception $e) {
+            Log::error('Error calculating service cost in getServiceTotals: ' . $e->getMessage());
         }
 
-        $serviceStepExtQuery = ServiceStepExt::whereIn('service_id', $serviceIdList);
-        if (!is_null($serviceStepIdList)) {
-            $serviceStepExtQuery = $serviceStepExtQuery->whereIn('id', $serviceStepIdList);
+        try {
+            $numberToWords = new \NumberToWords\NumberToWords();
+            $numberTransformer = $numberToWords->getNumberTransformer(\Illuminate\Support\Facades\App::getLocale());
+
+            $mrp = SettingDal::getMrp();
+
+            $result->stepTaxMRPTotal = $result->stepTaxTotal;
+            $result->stepTaxTotal *= $mrp;
+
+            $result->stepCostTotalWords = $numberTransformer->toWords(intval($result->stepCostTotal));
+            $result->stepTaxTotalWords = $numberTransformer->toWords(intval($result->stepTaxTotal));
+            $result->serviceTotalWords = $numberTransformer->toWords(intval($result->stepCostTotal + $result->stepTaxTotal));
+
+            $result->executionWorkDayTotalWords = $numberTransformer->toWords(intval($result->executionWorkDayTotal));
+        } catch (\Exception $e) {
+            Log::error('Error converting numbers to words in getServiceTotals: ' . $e->getMessage());
         }
-        $result->executionWorkDayTotal = $serviceStepExtQuery->groupBy('execution_parallel_no')
-        ->get([
-            'execution_parallel_no',
-            DB::raw('MAX(execution_work_day_cnt) as execution_work_day_cnt')
-        ])
-        ->sum('execution_work_day_cnt');
 
-        $serviceList = ServiceDal::getListByIdArray($serviceIdList, true);
-        $result->stepCostTotal += self::getServiceCost($serviceList);
-
-        $numberToWords = new \NumberToWords\NumberToWords();
-        $numberTransformer = $numberToWords->getNumberTransformer(\Illuminate\Support\Facades\App::getLocale());
-
-        $mrp = SettingDal::getMrp();
-
-        $result->stepTaxMRPTotal = $result->stepTaxTotal;
-        $result->stepTaxTotal *= $mrp;
-
-        $result->stepCostTotalWords = $numberTransformer->toWords($result->stepCostTotal);
-        $result->stepTaxTotalWords = $numberTransformer->toWords($result->stepTaxTotal);
-        $result->serviceTotalWords = $numberTransformer->toWords($result->stepCostTotal + $result->stepTaxTotal);
-
-        $result->executionWorkDayTotalWords = $numberTransformer->toWords($result->executionWorkDayTotal);
-
-        $serviceList = ServiceStepExt::whereIn('service_id', $serviceIdList)->with('currencyTrans')->first();
-        $result->currency = $serviceList->currencyTrans;
+        try {
+            $serviceStepExtFirst = ServiceStepExt::whereIn('service_id', $serviceIdList)->with('currencyTrans')->first();
+            $result->currency = $serviceStepExtFirst ? $serviceStepExtFirst->currencyTrans : null;
+        } catch (\Exception $e) {
+            Log::error('Error getting currency in getServiceTotals: ' . $e->getMessage());
+        }
 
         return $result;
     }
@@ -482,15 +530,17 @@ class ServiceDal
             $result = [];
             foreach ($services as $service) {
                 $serviceInfo = self::getServiceInfo($service->id, $translateData);
-                $result[] = $serviceInfo;
+                if ($serviceInfo !== null) {
+                    $result[] = $serviceInfo;
+                }
             }
 
             return collect($result);
 
         } catch (\Exception $e) {
             Log::error('Error in getServiceListByIdArray: ' . $e->getMessage());
-            // Fallback к обычному методу если что-то пойдет не так
-            return self::getListByIdArray($idList, $translateData);
+            // Возвращаем пустую коллекцию вместо рекурсивного вызова self::getListByIdArray()
+            return collect([]);
         }
     }
 
@@ -549,6 +599,9 @@ class ServiceDal
         array_push($attachList, $attach);
 
         (new CommercialOfferNotification($emailEntity, $attachList))->setData();
+
+        // Немедленная отправка письма (не ждём cron scheduler)
+        EmailDal::sendNewEmails();
     }
 
     public function sendServiceRequirement($params)
@@ -569,6 +622,9 @@ class ServiceDal
         array_push($attachList, $attach);
 
         (new ServiceRequirementNotification($emailEntity, $attachList))->setData();
+
+        // Немедленная отправка письма (не ждём cron scheduler)
+        EmailDal::sendNewEmails();
     }
 
     public function createCommercialOffer($params, $commercialOfferType)
