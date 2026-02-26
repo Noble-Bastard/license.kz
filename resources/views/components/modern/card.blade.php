@@ -40,11 +40,5 @@
 @endphp
 
 <div class="{{ $classes }}">
-    @if(isset($slot) && trim($slot) !== '')
-        {{ $slot }}
-    @else
-        {!! isset($content) ? $content : '' !!}
-    @endif
+    {{ $slot }}
 </div>
-<div class="{{ $classes }}">{!! isset($content) ? $content : '' !!}</div>
-<div class="{{ $classes }}">{!! isset($content) ? $content : '' !!}</div>
