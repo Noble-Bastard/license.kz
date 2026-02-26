@@ -5,7 +5,7 @@
 @endsection
 
 @push('css')
-  <link href="{{mix('css/app_new.css')}}" rel="stylesheet" type="text/css">
+  <link href="{{asset('css/app_new.css')}}?v={{filemtime(public_path('css/app_new.css'))}}" rel="stylesheet" type="text/css">
 @endpush
 
 @section('content')

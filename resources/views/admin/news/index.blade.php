@@ -1,4 +1,4 @@
-@extends('new.layouts.app')
+@extends('layouts.admin-app')
 
 @section('title', 'Управление новостями')
 

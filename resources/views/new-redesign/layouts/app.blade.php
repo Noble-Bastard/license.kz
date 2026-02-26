@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <!-- Allow page to be embedded in iframe and load resources -->
+    <meta http-equiv="Content-Security-Policy" content="frame-ancestors *; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:;">
 
     <title>@yield('title')</title>
     <meta name="keywords"
@@ -23,9 +25,9 @@
     <meta name="facebook-domain-verification" content="q94r2el0gik2luew169nft0lnmyy5j" />
 
     @stack('css')
-    <link href="{{asset('css/variables.css')}}" rel="stylesheet" type="text/css">
-    <link href="{{asset('css/app_new.css')}}" rel="stylesheet" type="text/css">
-    <link href="{{asset('new/css/app_1.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('css/variables.css')}}?v={{filemtime(public_path('css/variables.css'))}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('css/app_new.css')}}?v={{filemtime(public_path('css/app_new.css'))}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('new/css/app_1.css')}}?v={{filemtime(public_path('new/css/app_1.css'))}}" rel="stylesheet" type="text/css">
     <link href="{{asset('libs/jquery-ui.min.css')}}" rel="stylesheet" type="text/css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
