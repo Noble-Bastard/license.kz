@@ -3,7 +3,17 @@
         Options -MultiViews
     </IfModule>
 
+    # CRITICAL: Disable rewrite engine for static files FIRST
+    RewriteCond %{REQUEST_URI} \.(css|js|jpg|jpeg|png|gif|ico|svg|woff|woff2|ttf|eot|map|pdf|zip|txt)$ [NC]
+    RewriteRule . - [L,E=no-gzip:1]
+
     RewriteEngine On
+
+    # CRITICAL: Serve static files directly - MUST be absolute first rule
+    # Check file exists AND has static extension - stop processing immediately
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteCond %{REQUEST_URI} \.(css|js|jpg|jpeg|png|gif|ico|svg|woff|woff2|ttf|eot|map|pdf|zip|txt)$ [NC]
+    RewriteRule . - [L]
 
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
@@ -11,11 +21,28 @@
     RewriteRule ^ %1 [L,R=301]
 
     # Handle Front Controller...
+    # IMPORTANT: Exclude static files from this rule
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_URI} !\.(css|js|jpg|jpeg|png|gif|ico|svg|woff|woff2|ttf|eot|map|pdf|zip|txt)$ [NC]
     RewriteRule ^ index.php [L]
 
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+</IfModule>
+
+# Ensure correct MIME types for static files
+<IfModule mod_mime.c>
+    AddType text/css .css
+    AddType application/javascript .js
+    AddType image/png .png
+    AddType image/jpeg .jpg .jpeg
+    AddType image/gif .gif
+    AddType image/svg+xml .svg
+    AddType image/x-icon .ico
+    AddType font/woff .woff
+    AddType font/woff2 .woff2
+    AddType application/font-ttf .ttf
+    AddType application/vnd.ms-fontobject .eot
 </IfModule>

@@ -23,8 +23,9 @@
     <meta name="facebook-domain-verification" content="q94r2el0gik2luew169nft0lnmyy5j" />
 
     @stack('css')
+    <link href="{{asset('css/variables.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('css/app_new.css')}}" rel="stylesheet" type="text/css">
-    <link href="{{mix('new/css/app_1.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('new/css/app_1.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('libs/jquery-ui.min.css')}}" rel="stylesheet" type="text/css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
